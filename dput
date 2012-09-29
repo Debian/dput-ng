@@ -1,0 +1,57 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (C) 2012 Arno Töll <arno@debian.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+
+from __future__ import print_function
+
+import rfc822
+import libdput.config
+import libdput.upload_methods
+import argparse
+
+from libdput.config import Stanza as opt
+from libdput.misc import error, debug
+
+
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('--debug', action='store_true', default=False)
+parser.add_argument('--configuration', metavar="FILE", action='store', default=None)
+parser.add_argument('host', metavar="HOST", action='store', default=None)
+parser.add_argument('changes', metavar="CHANGES-FILE", action='store', default=None)
+args = parser.parse_args()
+
+
+
+config = libdput.config.Configurator(args.debug)
+config.load_configuration(args.configuration)
+
+stanza = config.get_upload_target(args.host)
+
+# ftp|http|httpd|scp|rsync|local
+upload_method = stanza[opt.KEY_METHOD].lower()
+upload = None
+
+if upload_method == 'ftp':
+	debug("Using FTP upload method")
+	upload = libdput.upload_methods.FTPUpload(stanza)
+else:
+	error("Unknown upload method: %s" % (upload_method))
+
+upload.initialize()
+upload.shutdown()
