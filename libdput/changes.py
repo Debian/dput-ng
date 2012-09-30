@@ -38,11 +38,15 @@ __copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
 __license__ = 'MIT'
 
 from debian import deb822
-from libdput.misc import debug
+from libdput.misc import debug, error
 
 import os.path
 import hashlib
 import subprocess
+
+
+class ChangesFileException(BaseException):
+	pass
 
 class Changes(object):
 	"""
@@ -76,7 +80,7 @@ class Changes(object):
 			self._data = deb822.Changes(string)
 
 		if len(self._data) == 0:
-			raise Exception('Changes file could not be parsed.')
+			raise ChangesFileException('Changes file could not be parsed.')
 		if filename:
 			self.basename = os.path.basename(filename)
 		else:
@@ -192,30 +196,34 @@ class Changes(object):
 		self.validate_signature(check_signature)
 
 	def validate_signature(self, check_signature=True):
-		gpg_path = "/usr/bin/gpg"
-		if os.access(gpg_path, os.R_OK):
+		#gpg_path = subprocess.check_output(["which", "gpg"]).rstrip()
+		gpg_path = "gpg"
+
+		try:
 			pipe = subprocess.Popen([gpg_path, "--status-fd", "1", "--verify", "--batch", self.get_changes_file()],
-								shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			(gpg_output, gpg_output_stderr) = pipe.communicate()
-			if pipe.returncode != 0:
-				raise Exception("%s returned failure: %s" % (gpg_path, gpg_output_stderr))
+							shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		except OSError as e:
+			error("Could not access %s: %s" % (gpg_path, e))
+		(gpg_output, gpg_output_stderr) = pipe.communicate()
+		if pipe.returncode != 0:
+			raise ChangesFileException("%s returned failure: %s" % (gpg_path, gpg_output_stderr))
 
-			# contains verbose human readable GPG information
-			print(gpg_output_stderr)
+		# contains verbose human readable GPG information
+		print(gpg_output_stderr)
 
-			if gpg_output.count('[GNUPG:] GOODSIG'):
-				pass
-			elif gpg_output.count('[GNUPG:] BADSIG'):
-				raise Exception("Bad signature")
-			elif gpg_output.count('[GNUPG:] ERRSIG'):
-				raise Exception("Error verifying signature")
-			elif gpg_output.count('[GNUPG:] NODATA'):
-				raise Exception("No signature on")
-			else:
-				raise Exception("Unknown problem while verifying signature")
-
+		if gpg_output.count('[GNUPG:] GOODSIG'):
+			pass
+		elif gpg_output.count('[GNUPG:] BADSIG'):
+			raise ChangesFileException("Bad signature")
+		elif gpg_output.count('[GNUPG:] ERRSIG'):
+			raise ChangesFileException("Error verifying signature")
+		elif gpg_output.count('[GNUPG:] NODATA'):
+			raise ChangesFileException("No signature on")
 		else:
-			raise Exception("Could not find /usr/bin/gpg to verify the signature")
+			raise ChangesFileException("Unknown problem while verifying signature")
+
+		#else:
+		#	raise ChangesFileException("Could not find %s to verify the signature" % (gpg_path))
 
 	def validate_checksums(self, check_hash="sha1"):
 		debug("Validate %s checksums" % (check_hash))
@@ -250,6 +258,6 @@ class Changes(object):
 			fc.close()
 
 			if not hash_type.hexdigest() == changed_files[field_name]:
-				raise Exception("Checksum mismatch for file %s: %s != %s" % (filename, hash_type.hexdigest(), changed_files[field_name]))
+				raise ChangesFileException("Checksum mismatch for file %s: %s != %s" % (filename, hash_type.hexdigest(), changed_files[field_name]))
 			else:
 				debug("%s Checksum for file %s matches" % (field_name, filename))
