@@ -140,6 +140,15 @@ if  not args.check_only:
 	if upload_method == 'ftp':
 		debug("Using FTP upload method")
 		upload = libdput.upload_methods.FTPUpload(stanza)
+	elif upload_method == 'http':
+		debug("Using HTTP upload method")
+		upload = libdput.upload_methods.HTTPUpload(stanza)
+	elif upload_method == 'https':
+		debug("Using HTTPS upload method")
+		upload = libdput.upload_methods.HTTPSUpload(stanza)
+	elif upload_method == 'sftp':
+		debug("Using SFTP upload method")
+		upload = libdput.upload_methods.SFTPUpload(stanza)
 	else:
 		error("Unknown upload method: %s" % (upload_method))
 

@@ -50,6 +50,12 @@ class Stanza(object):
 	KEY_PRE_UPLOAD_COMMAND = ("pre_upload_command", TYPE_STRING, None)
 	# 	default_host_main <any string>
 	KEY_DEFAULT_HOST_MAIN = ("default_host_main", TYPE_STRING, None)
+	# sftp_private_key = <any string>
+	KEY_SFTP_PRIVATE_KEY = ("sftp_private_key", TYPE_STRING, None)
+	# sftp_username = <any string>
+	KEY_SFTP_USERNAME = ("sftp_username", TYPE_STRING, None)
+	# sftp_port = <any numeric>
+	KEY_SFTP_PORT = ("sftp_port", TYPE_INTEGER, 22)
 
 	def name(self):
 		return self._stanza
@@ -65,6 +71,8 @@ class Stanza(object):
 			try:
 				if item_object[1] == TYPE_BOOLEAN:
 					self._data[item_object[0]] = config.getboolean(stanza_name, mangled_item)
+				elif item_object[1] == TYPE_INTEGER:
+					self._data[item_object[0]] = int(config.get(stanza_name, mangled_item))
 				else:
 					self._data[item_object[0]] = config.get(stanza_name, mangled_item)
 				#TODO: Validate configuration
