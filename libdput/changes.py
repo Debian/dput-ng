@@ -38,11 +38,10 @@ __copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
 __license__ = 'MIT'
 
 from debian import deb822
-from libdput.misc import debug, error
+from libdput.misc import debug, error, run_command
 
 import os.path
 import hashlib
-import subprocess
 
 
 class ChangesFileException(BaseException):
@@ -193,20 +192,16 @@ class Changes(object):
 
 	def validate(self, check_hash="sha1", check_signature=True):
 		self.validate_checksums(check_hash)
-		self.validate_signature(check_signature)
+		if check_signature:
+			self.validate_signature(check_signature)
+		else:
+			debug("Not checking signature")
 
 	def validate_signature(self, check_signature=True):
 		#gpg_path = subprocess.check_output(["which", "gpg"]).rstrip()
 		gpg_path = "gpg"
 
-		try:
-			pipe = subprocess.Popen([gpg_path, "--status-fd", "1", "--verify", "--batch", self.get_changes_file()],
-							shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		except OSError as e:
-			error("Could not access %s: %s" % (gpg_path, e))
-		(gpg_output, gpg_output_stderr) = pipe.communicate()
-		if pipe.returncode != 0:
-			raise ChangesFileException("%s returned failure: %s" % (gpg_path, gpg_output_stderr))
+		(gpg_output, gpg_output_stderr, _) = run_command([gpg_path, "--status-fd", "1", "--verify", "--batch", self.get_changes_file()])
 
 		# contains verbose human readable GPG information
 		print(gpg_output_stderr)
@@ -221,9 +216,6 @@ class Changes(object):
 			raise ChangesFileException("No signature on")
 		else:
 			raise ChangesFileException("Unknown problem while verifying signature")
-
-		#else:
-		#	raise ChangesFileException("Could not find %s to verify the signature" % (gpg_path))
 
 	def validate_checksums(self, check_hash="sha1"):
 		debug("Validate %s checksums" % (check_hash))

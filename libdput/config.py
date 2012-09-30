@@ -37,7 +37,7 @@ class Stanza(object):
 	# 	check_version <boolean>
 	KEY_CHECK_VERSION = ("check_version", TYPE_BOOLEAN, False)
 	# 	passive_ftp <boolean>
-	KEY_PASSIVE_FTP = ("passive_ftp", TYPE_BOOLEAN, True)
+	KEY_PASSIVE_FTP = ("passive_ftp", TYPE_BOOLEAN, False)
 	# 	progress_indicator 0|1|2
 	KEY_PROGRESS_INDICATOR = ("progress_indicator", TYPE_INTEGER, 0)
 	# 	scp_compress	<boolean>

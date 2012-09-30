@@ -25,24 +25,65 @@ import libdput.upload_methods
 import libdput.changes
 import argparse
 import os
+import shlex
+import time
 
 from libdput.config import Stanza as opt
-from libdput.misc import error, debug
+from libdput.misc import error, debug, run_command
+from libdput.sanitychecks import *
 
+parser = argparse.ArgumentParser(description=' Debian package upload tool')
+# implemented
+parser.add_argument('-d', '--debug', action='store_true', default=False, help='Enable debug messages')
+# implemented
+parser.add_argument('-c', '--config', metavar="FILE", action='store', default=None, help='Configuration file to parse')
+# implemented
+parser.add_argument('-D', '--dinstall', action='store_true', help='Run dinstall after upload')
+# ignored
+parser.add_argument('-e', '--delayed', action='store', metavar="DAYS", help='Upload to a delayed queue. Takes an argument from 0 to 15')
+# ignored
+parser.add_argument('-f', '--force', action='store_true', help='Force an upload')
+# ignored
+parser.add_argument('-H', '--host-list', action='store_true', help='Display a list of hosts from the config file')
+# implemented
+parser.add_argument('-l', '--lintian', action='store_true', help='Run lintian before upload')
+# implemented
+parser.add_argument('-U', '--no-upload-log', action='store_true', help='Do not write a .upload file after uploading')
+# ignored
+parser.add_argument('-o', '--check-only', action='store_true', help='Only check the package')
+# ignored
+parser.add_argument('-p', '--print', action='store_true', help='Print the configuration')
+# implemented
+parser.add_argument('-P', '--passive', action='store_true', help='Use passive mode for ftp uploads')
+# ignored
+parser.add_argument('-s', '--simulate', action='store_true', help='Simulate the upload only')
+# ignored
+parser.add_argument('-u', '--unchecked', action='store_true', help='Don\'t check GnuPG signature')
+# ignored
+parser.add_argument('-v', '--version', action='store_true', help='Display version information')
+# ignored
+parser.add_argument('-V', '--check-version', action='store_true', help='Check the package version and then upload it')
 
-parser = argparse.ArgumentParser(description='Process some integers.')
-parser.add_argument('--debug', action='store_true', default=False)
-parser.add_argument('--configuration', metavar="FILE", action='store', default=None)
+# implemented
 parser.add_argument('host', metavar="HOST", action='store', default=None)
+# implemented
 parser.add_argument('changes', metavar="CHANGES-FILE", action='store', default=None)
 args = parser.parse_args()
 
+print(args)
+
+def error_unless_forced(argument):
+	global args
+	if args.force:
+		func = warning
+	else:
+		func = error
+	func(argument)
 
 config = libdput.config.Configurator(args.debug)
-config.load_configuration(args.configuration)
+config.load_configuration(args.config)
 
 stanza = config.get_upload_target(args.host)
-
 
 if not os.access(args.changes, os.R_OK):
 	error("Changes file %s is not accessible" % (args.changes))
@@ -53,16 +94,47 @@ try:
 except Exception as e:
 	error("Error parsing changes file %s: %s" % (args.changes, e))
 
+
+upload_file = changes.get_changes_file() + "." + args.host + ".upload"
+
+if os.access(upload_file, os.R_OK) and not args.force:
+	error("Package %s was already uploaded to %s: Aborting\nIf you want to upload nonetheless, use --force or remove %s" % (changes.get_filename(), args.host, upload_file))
+
 # check files for their existence in advance
 for filename in changes.get_files():
 	if not os.access(filename, os.R_OK):
 		error("Referenced file %s is not accessible" % (filename))
 
-# check signature and file integrity
 try:
-	changes.validate(stanza[opt.KEY_HASH], not stanza[opt.KEY_ALLOW_UNSIGNED_UPLOADS])
-except Exception as e:
-	error("Changes file %s is invalid: %s" % (changes.get_filename(), e))
+	# check signature and file integrity
+	check_signature = not stanza[opt.KEY_ALLOW_UNSIGNED_UPLOADS] and not args.unchecked
+	changes.validate(stanza[opt.KEY_HASH], check_signature)
+except libdput.changes.ChangesFileException as e:
+	error_unless_forced("Changes file %s is invalid: %s" % (changes.get_filename(), e))
+
+try:
+	# check mismatch between Distribution and Changes in *.changes
+	check_distribution(changes)
+
+	# check whether -sa was missing when building the changes files
+	check_source_needed(changes)
+
+	if stanza[opt.KEY_RUN_LINTIAN] or args.lintian:
+		# run lintian
+		run_lintian(changes.get_changes_file())
+
+	# run piuparts
+	run_piuparts(changes.get_changes_file())
+except SanityException as e:
+	error_unless_forced("Upload fails sanity check: %s" % (e))
+
+# run pre upload commands
+if stanza[opt.KEY_PRE_UPLOAD_COMMAND]:
+	(cmd_out, cmd_err, _) = run_command(shlex.split(stanza[opt.KEY_PRE_UPLOAD_COMMAND]))
+	print(cmd_out)
+	print(cmd_err)
+
+#raise Exception("barrier")
 
 # ftp|http|httpd|scp|rsync|local
 upload_method = stanza[opt.KEY_METHOD].lower()
@@ -74,8 +146,34 @@ if upload_method == 'ftp':
 else:
 	error("Unknown upload method: %s" % (upload_method))
 
-upload.initialize()
+upload.initialize(passive_mode=args.passive)
 for filename in changes.get_files() + [changes.get_changes_file(), ]:
 	print("Uploading %s ..." % (filename))
 	upload.upload_file(filename)
 upload.shutdown()
+
+if stanza[opt.KEY_RUN_DINSTALL] or args.dinstall:
+	# run dinstall
+	run_dinstall()
+
+
+# run post upload commands
+if stanza[opt.KEY_POST_UPLOAD_COMMAND]:
+	(cmd_out, cmd_err, _) = run_command(shlex.split(stanza[opt.KEY_POST_UPLOAD_COMMAND]))
+	print(cmd_out)
+	print(cmd_err)
+
+# write the logfile
+if not args.no_upload_log:
+	if os.access(upload_file, os.F_OK):
+		error("Couldn't write log file %s: File already exists" % (upload_file))
+	try:
+		ufh = open(upload_file, "w")
+		ufh.write("method: %s\nhost: %s\n" % (stanza[opt.KEY_METHOD], stanza[opt.KEY_FQDN]))
+		for filename in changes.get_files() + [changes.get_changes_file(), ]:
+			ufh.write("uploaded: %s\n" % (filename))
+		ufh.write("uploader: %s\n" % (os.getlogin()))
+		ufh.write("timestamp: %s\n" % (time.time()))
+		ufh.close()
+	except OSError as e:
+		error("Couldn't write log file %s: %s" % (upload_file, e))

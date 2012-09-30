@@ -15,7 +15,7 @@ class FTPUpload(BaseUpload):
 			error("Could not establish FTP connection to %s: %s" % (self._config[opt.KEY_FQDN], e))
 
 	def initialize(self, **kwargs):
-		if self._config[opt.KEY_PASSIVE_FTP]:
+		if self._config[opt.KEY_PASSIVE_FTP] or kwargs['passive_mode']:
 			debug("Enable PASV mode")
 			self._ftp.set_pasv(True)
 		if self._config[opt.KEY_INCOMING]:
