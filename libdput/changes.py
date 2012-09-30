@@ -194,11 +194,11 @@ class Changes(object):
 	def validate_signature(self, check_signature=True):
 		gpg_path = "/usr/bin/gpg"
 		if os.access(gpg_path, os.R_OK):
-			pipe = subprocess.Popen("%s --status-fd 1 --verify --batch %s" % (gpg_path, self.get_changes_file()),
-								shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			pipe = subprocess.Popen([gpg_path, "--status-fd", "1", "--verify", "--batch", self.get_changes_file()],
+								shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			(gpg_output, gpg_output_stderr) = pipe.communicate()
 			if pipe.returncode != 0:
-				raise Exception("%s returned failure: %s" % (gpg_output_stderr))
+				raise Exception("%s returned failure: %s" % (gpg_path, gpg_output_stderr))
 
 			# contains verbose human readable GPG information
 			print(gpg_output_stderr)
