@@ -23,8 +23,14 @@ class FTPUpload(BaseUpload):
 			self._ftp.cwd(self._config[opt.KEY_INCOMING])
 
 	def upload_file(self, filename):
-		basename = os.path.basename(filename)
-		self._ftp.storbinary("STOR %s" % basename, filename)
+		try:
+			basename = "STOR %s" % (os.path.basename(filename))
+			self._ftp.storbinary(basename, open(filename, 'rb'))
+		except ftplib.error_perm as e:
+			#TODO: Steal dput's warning here.
+			warning("Could not overwrite file. blah blah blah")
+		except Exception as e:
+			error("Could not upload file %s: %s" % (filename, e))
 
 	def shutdown(self):
 		self._ftp.quit()

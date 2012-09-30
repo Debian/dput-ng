@@ -19,7 +19,7 @@ class Stanza(object):
 	# 	method	ftp|http|httpd|scp|rsync|local
 	KEY_METHOD = ("method", TYPE_STRING, None)
 	# 	hash	md5|sha1|sha256
-	KEY_HASH = ("hash", TYPE_STRING, None)
+	KEY_HASH = ("hash", TYPE_STRING, "sha1")
 	# 	allow_unsigned_uploads <boolean>
 	KEY_ALLOW_UNSIGNED_UPLOADS = ("allow_unsigned_uploads", TYPE_BOOLEAN, False)
 	# 	allow_dcut	<boolean>

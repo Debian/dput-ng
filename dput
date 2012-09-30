@@ -20,10 +20,11 @@
 
 from __future__ import print_function
 
-import rfc822
 import libdput.config
 import libdput.upload_methods
+import libdput.changes
 import argparse
+import os
 
 from libdput.config import Stanza as opt
 from libdput.misc import error, debug
@@ -37,11 +38,31 @@ parser.add_argument('changes', metavar="CHANGES-FILE", action='store', default=N
 args = parser.parse_args()
 
 
-
 config = libdput.config.Configurator(args.debug)
 config.load_configuration(args.configuration)
 
 stanza = config.get_upload_target(args.host)
+
+
+if not os.access(args.changes, os.R_OK):
+	error("Changes file %s is not accessible" % (args.changes))
+try:
+	changes = libdput.changes.Changes(filename=args.changes)
+	changes.set_directory(os.path.dirname(args.changes))
+	debug("Parsing changes file %s" % (args.changes))
+except Exception as e:
+	error("Error parsing changes file %s: %s" % (args.changes, e))
+
+# check files for their existence in advance
+for filename in changes.get_files():
+	if not os.access(filename, os.R_OK):
+		error("Referenced file %s is not accessible" % (filename))
+
+# check signature and file integrity
+try:
+	changes.validate(stanza[opt.KEY_HASH], not stanza[opt.KEY_ALLOW_UNSIGNED_UPLOADS])
+except Exception as e:
+	error("Changes file %s is invalid: %s" % (changes.get_filename(), e))
 
 # ftp|http|httpd|scp|rsync|local
 upload_method = stanza[opt.KEY_METHOD].lower()
@@ -54,4 +75,7 @@ else:
 	error("Unknown upload method: %s" % (upload_method))
 
 upload.initialize()
+for filename in changes.get_files() + [changes.get_changes_file(), ]:
+	print("Uploading %s ..." % (filename))
+	upload.upload_file(filename)
 upload.shutdown()
