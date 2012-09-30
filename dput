@@ -40,7 +40,7 @@ parser.add_argument('-c', '--config', metavar="FILE", action='store', default=No
 # implemented
 parser.add_argument('-D', '--dinstall', action='store_true', help='Run dinstall after upload')
 # ignored
-parser.add_argument('-e', '--delayed', action='store', metavar="DAYS", help='Upload to a delayed queue. Takes an argument from 0 to 15')
+parser.add_argument('-e', '--delayed', action='store', metavar="DAYS", help='Upload to a delayed queue. Takes an argument from 0 to 15', type=int, choices=range(0, 16))
 # ignored
 parser.add_argument('-f', '--force', action='store_true', help='Force an upload')
 # ignored
@@ -69,8 +69,6 @@ parser.add_argument('host', metavar="HOST", action='store', default=None)
 # implemented
 parser.add_argument('changes', metavar="CHANGES-FILE", action='store', default=None)
 args = parser.parse_args()
-
-print(args)
 
 def error_unless_forced(argument):
 	global args
@@ -134,11 +132,20 @@ if stanza[opt.KEY_PRE_UPLOAD_COMMAND]:
 	print(cmd_out)
 	print(cmd_err)
 
+# special care for DELAYED uploads
+if args.delayed:
+	debug("overriding upload directory to respect --delayed")
+	incoming_directory = os.path.join(stanza[opt.KEY_INCOMING], "DELAYED", "%d-day" % (args.delayed))
+	stanza[opt.KEY_INCOMING] = incoming_directory
+
+
 #raise Exception("barrier")
 
 # ftp|http|httpd|scp|rsync|local
 upload_method = stanza[opt.KEY_METHOD].lower()
 upload = None
+
+print("Uploading %s to %s (%s)" % (changes.get_filename(), stanza[opt.KEY_FQDN], stanza[opt.KEY_INCOMING]))
 
 if upload_method == 'ftp':
 	debug("Using FTP upload method")

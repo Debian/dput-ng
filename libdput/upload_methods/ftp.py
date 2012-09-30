@@ -20,7 +20,10 @@ class FTPUpload(BaseUpload):
 			self._ftp.set_pasv(True)
 		if self._config[opt.KEY_INCOMING]:
 			debug("Change directory to %s" % (self._config[opt.KEY_INCOMING]))
+		try:
 			self._ftp.cwd(self._config[opt.KEY_INCOMING])
+		except ftplib.error_perm as e:
+			error("Could not change directory to %s: %s" % (self._config[opt.KEY_INCOMING], e))
 
 	def upload_file(self, filename):
 		try:

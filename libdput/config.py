@@ -74,6 +74,11 @@ class Stanza(object):
 			raise KeyError("Invalid argument")
 		return self._data[index[0]]
 
+	def __setitem__(self, index, value):
+		if not isinstance(index, tuple):
+			raise KeyError("Invalid argument")
+		self._data[index[0]] = value
+
 class Configurator(ConfigParser.ConfigParser):
 
 	def __init__(self, debug_output=False):
