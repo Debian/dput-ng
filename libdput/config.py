@@ -51,8 +51,12 @@ class Stanza(object):
 	# 	default_host_main <any string>
 	KEY_DEFAULT_HOST_MAIN = ("default_host_main", TYPE_STRING, None)
 
+	def name(self):
+		return self._stanza
+
 	def __init__(self, config, stanza_name):
 		self._data = {}
+		self._stanza = stanza_name
 		for item in dir(self):
 			if not item.startswith("KEY_"):
 				continue
@@ -86,6 +90,8 @@ class Configurator(ConfigParser.ConfigParser):
 		set_debug_output(debug_output)
 
 	def get_upload_target(self, hostname):
+		if not hostname:
+			hostname = "ftp-master"
 		for stanza in self.sections():
 			if stanza == hostname or (not hostname and self.get(stanza, "default_host_main")):
 				debug("Picking stanza %s" % (stanza))
