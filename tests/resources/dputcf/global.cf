@@ -1,0 +1,11 @@
+[DEFAULT]
+foo = bar
+bar = baz
+local = false
+
+
+[global-one]
+foo = foo
+
+[global-two]
+bar = bar
