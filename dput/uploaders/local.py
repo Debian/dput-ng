@@ -22,13 +22,23 @@ from dput.uploader import AbstractUploader
 
 
 class LocalUploader(AbstractUploader):
+    """
+    Provides an interface to "upload" files to the local filesystem. This
+    is helpful when you're dputing to the same system you're currently on,
+    and do not wish to use `scp` or `sftp` as the transport (which is totally
+    understandable).
+    """
+
     def initialize(self):
-        # We don't actually need to do anything here, we're doing
-        # a local copy.
+        # handle pre_upload_command (XXX: subclsas it!)
         pass
 
     def upload_file(self, filename):
-        pass
+        # To upload a file, all we really need is to know, well,
+        # where to upload it.
+        whereto = self._config['incoming']
+        # cp filename whereto
 
     def shutdown(self):
+        # handle post_upload_command (XXX: subclsas it!)
         pass
