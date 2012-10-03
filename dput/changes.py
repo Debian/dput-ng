@@ -269,3 +269,15 @@ class Changes(object):
             else:
                 logger.debug("%s Checksum for file %s matches" %
                              (field_name, filename))
+
+
+def parse_changes_file(filename, directory=None):
+    """
+    Parse a .changes file and return a dput.changes.Change instance with
+    parsed changes file data. The optional directory argument refers to the
+    base directory where the referred files from the changes file are expected
+    to be located.
+    """
+    _c = Changes(filename=filename)
+    _c.set_directory(directory)
+    return(_c)

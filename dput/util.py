@@ -87,20 +87,6 @@ def load_config(config_class, config_name):
     raise nsce
 
 
-def load_dput_configs(upload_target):
-    """
-    Load the dput configuration file for the target stanza ```upload_target```.
-    Internally, this checks for each file `dput.core.DPUT_CONFIG_LOCATIONS`
-    for a matching stanza and inherits defaults from deriving parent stanzas.
-
-    Returns a Stanza object with stanza settings.
-    """
-    logger.debug("Loading dput configs")
-    # TODO: Where/How to handle exceptions?
-    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
-    ret = get_upload_target(_conf, upload_target)
-    return ret
-
 def cp(source, dest):
     """
     copy a file / folder from src --> dest
@@ -134,14 +120,3 @@ def run_command(command):
     #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
     return (output, stderr, pipe.returncode)
 
-
-def parse_changes_file(filename, directory=None):
-    """
-    Parse a .changes file and return a dput.changes.Change instance with
-    parsed changes file data. The optional directory argument refers to the
-    base directory where the referred files from the changes file are expected
-    to be located.
-    """
-    _c = dput.changes.Changes(filename=filename)
-    _c.set_directory(directory)
-    return(_c)

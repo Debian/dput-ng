@@ -21,7 +21,7 @@
 import ConfigParser
 import os
 
-from dput.core import logger
+import dput.core
 from dput.exceptions import DputConfigurationError
 
 (TYPE_STRING, TYPE_BOOLEAN, TYPE_HOSTNAME, TYPE_INTEGER) = range(0, 4)
@@ -115,7 +115,7 @@ class Opt(object):
             except ConfigParser.NoOptionError:
                 self._data[item_object[0]] = item_object[2]
             except ValueError:
-                logger.error(
+                dput.core.logger.error(
                     "invalid value in stanza %s for setting %s: `%s'" % (
                         stanza_name,
                         item_object[0],
@@ -162,7 +162,7 @@ def get_upload_target(conf, hostname):
         selected_stanza = fallback_stanza
 
     if selected_stanza:
-        logger.debug("Picking stanza %s" % (selected_stanza))
+        dput.core.logger.debug("Picking stanza %s" % (selected_stanza))
         return Opt(conf, selected_stanza)
     else:
         raise DputConfigurationError("Upload target `%s' was not found"
@@ -184,16 +184,16 @@ def load_configuration(configuration_files):
     parser = ConfigParser.ConfigParser()
     for config_file in configuration_files:
         if not os.access(config_file, os.R_OK):
-            logger.warning("Skipping file %s: Not accessible" % (config_file))
+            dput.core.logger.warning("Skipping file %s: Not accessible" % (config_file))
             continue
         try:
             _f = open(config_file)
-            logger.debug("Parsing %s" % (config_file))
+            dput.core.logger.debug("Parsing %s" % (config_file))
             parser.readfp(_f)
             _f.close()
             files_parsed += 1
         except IOError as e:
-            logger.warning("Skipping file %s: %s" % (config_file, e))
+            dput.core.logger.warning("Skipping file %s: %s" % (config_file, e))
             continue
         except ConfigParser.ParsingError as e:
             raise DputConfigurationError(
@@ -204,3 +204,18 @@ def load_configuration(configuration_files):
                     "Could not parse any configuration file: Tried %s" %
                     (', '.join(configuration_files)))
     return parser
+
+
+def load_dput_configs(upload_target):
+    """
+    Load the dput configuration file for the target stanza ```upload_target```.
+    Internally, this checks for each file `dput.core.DPUT_CONFIG_LOCATIONS`
+    for a matching stanza and inherits defaults from deriving parent stanzas.
+
+    Returns a Stanza object with stanza settings.
+    """
+    dput.core.logger.debug("Loading dput configs")
+    # TODO: Where/How to handle exceptions?
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
+    ret = get_upload_target(_conf, upload_target)
+    return ret
