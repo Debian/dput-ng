@@ -30,3 +30,9 @@ class NoSuchConfigError(DputError):
 
 class ChangesFileException(DputError):
         pass
+
+class UploadException(DputError):
+    pass
+
+class FtpUploadException(UploadException):
+    pass

@@ -31,7 +31,7 @@ class LocalUploader(AbstractUploader):
     understandable).
     """
 
-    def initialize(self):
+    def initialize(self, **kwargs):
         pass
 
     def upload_file(self, filename):
