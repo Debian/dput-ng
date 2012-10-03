@@ -63,7 +63,7 @@ def get_uploader(uploader_method):
     logger.debug("Attempting to resolve %s" % (uploader_method))
     try:
         config = load_config('uploaders', uploader_method)
-    except NoSuchConfigError as e:
+    except NoSuchConfigError:
         logger.debug("failed to resolve %s" % (uploader_method))
         return None
     path = config['plugin']
