@@ -27,3 +27,6 @@ class DputConfigurationError(DputError):
 
 class NoSuchConfigError(DputError):
     pass
+
+class ChangesFileException(DputError):
+        pass

@@ -21,9 +21,9 @@
 
 import logging
 import argparse
+import sys
 
 # A little temporary hack for those of us not using virtualenv
-import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -79,9 +79,14 @@ if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS += [args.config]
 
 if args.debug:
+    # TODO: this does not work by the way.
+    # We need to override the handler instead
     dput.core.logger.setLevel(logging.DEBUG)
 
 conf = dput.util.load_dput_configs(args.host)
+changes = dput.util.parse_changes_file(
+                                args.changes, os.path.dirname(args.changes))
 
 print(conf)
 print(conf[Opt.KEY_FQDN])
+print(changes.get_files())

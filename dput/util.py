@@ -22,10 +22,12 @@ import os
 import json
 import shutil
 import importlib
+import subprocess
 
 import dput.core
+import dput.changes
 from dput.core import logger
-from dput.exceptions import NoSuchConfigError, DputConfigurationError
+from dput.exceptions import NoSuchConfigError
 from dput.conf import get_upload_target, load_configuration
 
 def load_obj(obj_path):
@@ -107,3 +109,38 @@ def cp(source, dest):
         return shutil.copytree(source, "%s/%s" % (dest, new_name))
     else:
         return shutil.copy2(source, dest)
+
+
+def run_command(command):
+    """
+    Run a synchronized command. The argument must be a list of arguments.
+    Returns a triple (stdout, stderr, exit_status)
+
+    If there was a problem to start the supplied command, (None, None, -1) is
+    returned
+    """
+
+    assert(isinstance(command, list))
+    try:
+        pipe = subprocess.Popen(command,
+                            shell=False, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    except OSError as e:
+        logger.error("Could not execute %s: %s" % (" ".join(command), e))
+        return (None, None, -1)
+    (output, stderr) = pipe.communicate()
+    #if pipe.returncode != 0:
+    #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
+    return (output, stderr, pipe.returncode)
+
+
+def parse_changes_file(filename, directory=None):
+    """
+    Parse a .changes file and return a dput.changes.Change instance with
+    parsed changes file data. The optional directory argument refers to the
+    base directory where the referred files from the changes file are expected
+    to be located.
+    """
+    _c = dput.changes.Changes(filename=filename)
+    _c.set_directory(directory)
+    return(_c)
