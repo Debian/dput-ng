@@ -38,7 +38,7 @@ logger.setLevel(logging.WARNING)
 
 # basic config
 _ch = logging.StreamHandler()
-_ch.setLevel(logging.DEBUG)
+_ch.setLevel(logging.WARN)
 _formatter = logging.Formatter(
     '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 _ch.setFormatter(_formatter)
