@@ -33,6 +33,12 @@ parser.add_argument('-c', '--config', type=str, default=None,
 parser.add_argument('-d', '--debug', action='store_true', default=False,
                     help='activate debugging mode, helpful if bugs occur')
 
+parser.add_argument('-D', '--dinstall', action='store_true', default=False,
+                    help='do a dry run of dinstall after the upload')
+
+parser.add_argument('-f', '--force', action='store_true', default=False,
+                    help='force an upload of an already uploaded package')
+
 args = parser.parse_args()
 
 
