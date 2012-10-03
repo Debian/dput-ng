@@ -19,6 +19,7 @@
 # 02110-1301, USA.
 
 from dput.uploader import AbstractUploader
+import os
 
 
 class LocalUploader(AbstractUploader):
@@ -30,7 +31,6 @@ class LocalUploader(AbstractUploader):
     """
 
     def initialize(self):
-        # handle pre_upload_command (XXX: subclsas it!)
         pass
 
     def upload_file(self, filename):
@@ -39,6 +39,8 @@ class LocalUploader(AbstractUploader):
         whereto = self._config['incoming']
         # cp filename whereto
 
+    def run_command(self, command):
+        os.system(command)
+
     def shutdown(self):
-        # handle post_upload_command (XXX: subclsas it!)
         pass

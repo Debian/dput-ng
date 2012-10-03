@@ -19,6 +19,7 @@
 # 02110-1301, USA.
 
 import abc
+from contextlib import contextmanager
 
 from dput.util import (load_config, load_obj)
 from dput.core import logger
@@ -31,12 +32,26 @@ class AbstractUploader(object):
     def __init__(self, config):
         self._config = config
 
+    def _pre_hook(self):
+        self._run_hook("pre_upload_command")
+
+    def _post_hook(self):
+        self._run_hook("post_upload_command")
+
+    def _run_hook(self, hook):
+        if hook in self._config and self._config[hook] != "":
+            self.run_command(self._config[hook])
+
     @abc.abstractmethod
     def initialize(self, **kwargs):
         pass
 
     @abc.abstractmethod
     def upload_file(self, filename):
+        pass
+
+    @abc.abstractmethod
+    def run_command(self, command):
         pass
 
     @abc.abstractmethod
@@ -58,3 +73,19 @@ def get_uploader(uploader_method):
     except ImportError:
         logger.debug("failed to resolve %s" % (path))
         return None
+
+
+@contextmanager
+def uploader(uploader_method, config):
+    """
+    Rent-a-uploader :)
+    """
+    klass = get_uploader(uploader_method)
+    obj = klass(config)
+    obj.initialize()
+    obj._pre_hook()
+    try:
+        yield obj
+    finally:
+        obj._post_hook()
+        obj.shutdown()
