@@ -28,6 +28,7 @@ from dput.core import logger
 from dput.exceptions import NoSuchConfigError
 from dput.conf import get_upload_target, load_configuration
 
+
 def load_obj(obj_path):
     """
     Dynamically load an object (class, method, etc) by name (such as
