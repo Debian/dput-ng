@@ -23,7 +23,7 @@ import logging
 import argparse
 
 import dput.core
-from dput.util import load_dput_configs
+
 
 parser = argparse.ArgumentParser(description='Package upload tool for Debian')
 
