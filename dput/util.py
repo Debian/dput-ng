@@ -26,7 +26,7 @@ import importlib
 import dput.core
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError
-
+from dput.conf import get_upload_target, load_configuration
 
 def load_obj(obj_path):
     """
@@ -84,67 +84,17 @@ def load_config(config_class, config_name):
     raise nsce
 
 
-def load_dput_config(config_file, base_config=None):
+def load_dput_configs(upload_target):
     """
-    Process and load a dput ini-style config file.
-    Remember to set your defaults later, kids
-    """
-    logger.debug("Loading dput config - %s" % (config_file))
+    Load the dput configuration file for the target stanza ```upload_target```.
+    Internally, this checks for each file `dput.core.DPUT_CONFIG_LOCATIONS`
+    for a matching stanza and inherits defaults from deriving parent stanzas.
 
-    segment = None
-    ret = {None: {}}  # catchall for malformated files.
-    if base_config:
-        ret.update(base_config)
-
-    for line in open(config_file, 'r').readlines():
-        line = line.strip()
-        if line == '' or line[0] == '#':
-            continue  # don't bother with comments at all, or blank lines.
-
-        if line[0] == '[' and line[len(line) - 1] == ']':  # segment
-            segment = line[1:-1]
-            ret[segment] = {}
-            continue
-
-        key, value = [x.strip() for x in line.split("=", 1)]  # key/val line
-        ret[segment][key] = value
-
-    ret.pop(None)  # pop the catchall off
-    return ret
-
-
-def load_dput_configs():
-    """
-    Load all the dput config files to take action in a sane way. Internally,
-    this checks for each file `dput.core.DPUT_CONFIG_LOCATIONS`, and if found,
-    attempts to parse the key/value pairs. Each subsequent file may override
-    the last.
-
-    Special-cased handling on the blocked labeled "DEFAULT" allows that to
-    serve as an underlay for missing keys.
+    Returns a Stanza object with stanza settings.
     """
     logger.debug("Loading dput configs")
-    ret = {}
-    for config in dput.core.DPUT_CONFIG_LOCATIONS:
-        if os.path.exists(config):
-            ret = load_dput_config(config, base_config=ret)
-    ret = set_dput_config_defaults(ret)
-    return ret
-
-
-def set_dput_config_defaults(ret):
-    """
-    Pop the `DEFAULT` key off the dict and use it to set any unset keys.
-
-    Should be called on objects returned by `load_dput_config` at some point.
-    """
-    if "DEFAULT" in ret:
-        logger.debug("        dput config - setting DEFAULTs")
-        ddict = ret.pop("DEFAULT")
-        for key in ddict:  # for each default
-            for segment in ret:  # go over every other block
-                if not key in ret[segment]:  # and set the val if its not there
-                    ret[segment][key] = ddict[key]
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
+    ret = get_upload_target(_conf, upload_target)
     return ret
 
 

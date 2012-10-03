@@ -28,21 +28,49 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
+import dput.util
 
+from dput.conf import Opt
 
-parser = argparse.ArgumentParser(description='Package upload tool for Debian')
-
-parser.add_argument('-c', '--config', type=str, default=None,
-                    help='define a config file to use')
-
+parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-d', '--debug', action='store_true', default=False,
-                    help='activate debugging mode, helpful if bugs occur')
+                    help='Enable debug messages')
+parser.add_argument('-c', '--config', metavar="FILE", action='store',
+                    default=None, help='Configuration file to parse')
+parser.add_argument('-D', '--dinstall', action='store_true',
+                    help='Run dinstall after upload')
+parser.add_argument('-e', '--delayed', action='store', metavar="DAYS",
+            help='Upload to a delayed queue. Takes an argument from 0 to 15',
+            type=int, choices=range(0, 16))
+parser.add_argument('-f', '--force', action='store_true',
+                    help='Force an upload')
+parser.add_argument('-H', '--host-list', action='store_true',
+                    help='(ignored)')
+parser.add_argument('-l', '--lintian', action='store_true',
+                    help='Run lintian before upload')
+parser.add_argument('-U', '--no-upload-log', action='store_true',
+                    help='Do not write a .upload file after uploading')
+parser.add_argument('-o', '--check-only', action='store_true',
+                    help='Only check the package')
+parser.add_argument('-p', '--print', action='store_true',
+                    help='(ignored)')
+parser.add_argument('-P', '--passive', action='store_true',
+                    help='Use passive mode for ftp uploads')
+parser.add_argument('-s', '--simulate', action='store_true',
+                    help='Simulate the upload only')
+parser.add_argument('-u', '--unchecked', action='store_true',
+                    help='Don\'t check GnuPG signature')
+parser.add_argument('-v', '--version', action='store_true',
+                    help='(ignored)')
+parser.add_argument('-V', '--check-version', action='store_true',
+                    help='(ignored)')
 
-parser.add_argument('-D', '--dinstall', action='store_true', default=False,
-                    help='do a dry run of dinstall after the upload')
+parser.add_argument('host', metavar="HOST", action='store', default=None,
+                    help="Target host to upload a package", nargs="?")
+parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
+                    default=None, help="A Debian .changes file")
+args = parser.parse_args()
 
-parser.add_argument('-f', '--force', action='store_true', default=False,
-                    help='force an upload of an already uploaded package')
 
 args = parser.parse_args()
 
@@ -52,3 +80,8 @@ if args.config:
 
 if args.debug:
     dput.core.logger.setLevel(logging.DEBUG)
+
+conf = dput.util.load_dput_configs(args.host)
+
+print(conf)
+print(conf[Opt.KEY_FQDN])
