@@ -86,6 +86,11 @@ conf = dput.conf.load_dput_configs(args.host)
 changes = dput.changes.parse_changes_file(
                                 args.changes, os.path.dirname(args.changes))
 
+# some examples how to use classes
 print(conf)
 print(conf[Opt.KEY_FQDN])
+conf[Opt.KEY_FQDN] = "foo.bar"
+print(conf[Opt.KEY_FQDN])
 print(changes.get_files())
+print(changes.validate())
+print(changes.get_filename(), changes.get_changes_file())
