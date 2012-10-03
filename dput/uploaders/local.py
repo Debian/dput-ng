@@ -19,6 +19,7 @@
 # 02110-1301, USA.
 
 from dput.uploader import AbstractUploader
+from dput.util import cp
 import os
 
 
@@ -37,7 +38,7 @@ class LocalUploader(AbstractUploader):
         # To upload a file, all we really need is to know, well,
         # where to upload it.
         whereto = self._config['incoming']
-        # cp filename whereto
+        cp(filename, whereto)
 
     def run_command(self, command):
         os.system(command)

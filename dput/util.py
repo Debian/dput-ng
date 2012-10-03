@@ -20,6 +20,7 @@
 
 import os
 import json
+import shutil
 import importlib
 
 import dput.core
@@ -145,3 +146,14 @@ def set_dput_config_defaults(ret):
                 if not key in ret[segment]:  # and set the val if its not there
                     ret[segment][key] = ddict[key]
     return ret
+
+
+def cp(source, dest):
+    """
+    copy a file / folder from src --> dest
+    """
+    if os.path.isdir(source):
+        new_name = os.path.basename(source)
+        return shutil.copytree(source, "%s/%s" % (dest, new_name))
+    else:
+        return shutil.copy2(source, dest)
