@@ -34,11 +34,11 @@ DPUT_CONFIG_LOCATIONS = [
 
 # logging routines.
 logger = logging.getLogger("dput")
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.DEBUG)
 
 # basic config
 _ch = logging.StreamHandler()
-_ch.setLevel(logging.WARN)
+_ch.setLevel(logging.DEBUG)
 _formatter = logging.Formatter(
     '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 _ch.setFormatter(_formatter)
