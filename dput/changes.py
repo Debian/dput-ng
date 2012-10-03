@@ -46,6 +46,7 @@ from debian import deb822
 from dput.core import logger
 from dput.exceptions import ChangesFileException
 
+
 class Changes(object):
     """
     Helper class to parse *changes* files nicely.
@@ -251,7 +252,6 @@ class Changes(object):
             else:
                 assert(
                     "get_files() returns different files than Files: knows?!")
-
 
             with open(filename, "r") as fc:
                 while True:

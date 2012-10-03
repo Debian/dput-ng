@@ -69,6 +69,5 @@ class FtpUploader(AbstractUploader):
     def run_command(self, command):
         raise NotImplementedError("Not implemented for the FTP uploader")
 
-
     def shutdown(self):
         self._ftp.quit()

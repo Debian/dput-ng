@@ -22,20 +22,26 @@
 class DputError(BaseException):
     pass
 
+
 class DputConfigurationError(DputError):
     pass
+
 
 class NoSuchConfigError(DputError):
     pass
 
+
 class ChangesFileException(DputError):
         pass
+
 
 class UploadException(DputError):
     pass
 
+
 class FtpUploadException(UploadException):
     pass
+
 
 class SftpUploadException(UploadException):
     pass

@@ -28,7 +28,6 @@ import dput.core
 import dput.changes
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError
-from dput.conf import get_upload_target, load_configuration
 
 
 def load_obj(obj_path):
@@ -119,4 +118,3 @@ def run_command(command):
     #if pipe.returncode != 0:
     #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
     return (output, stderr, pipe.returncode)
-

@@ -28,8 +28,8 @@ import os.path
 
 #paramiko.util.log_to_file('/tmp/paramiko.log')
 
-class SFTPUpload(AbstractUploader):
 
+class SFTPUpload(AbstractUploader):
     def initialize(self, **kwargs):
         self._transport = paramiko.Transport((self._config[Opt.KEY_FQDN],
                                               self._config[Opt.KEY_SFTP_PORT]))
@@ -64,7 +64,6 @@ class SFTPUpload(AbstractUploader):
             raise SftpUploadException(
                                 "Failed to authenticate with server %s: %s" %
                                 (self._config[Opt.KEY_FQDN], e))
-
 
         try:
             self._sftp.chdir(self._config[Opt.KEY_INCOMING])

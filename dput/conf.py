@@ -184,7 +184,8 @@ def load_configuration(configuration_files):
     parser = ConfigParser.ConfigParser()
     for config_file in configuration_files:
         if not os.access(config_file, os.R_OK):
-            dput.core.logger.warning("Skipping file %s: Not accessible" % (config_file))
+            dput.core.logger.warning("Skipping file %s: Not accessible" % (
+                config_file))
             continue
         try:
             _f = open(config_file)

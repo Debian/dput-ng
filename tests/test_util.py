@@ -8,8 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dput.core
 from dput.exceptions import NoSuchConfigError
 from dput.util import (load_obj, load_config)
-from dput.conf import load_dput_configs, load_configuration, get_upload_target
-from dput.changes import parse_changes_file
+from dput.conf import load_configuration
 
 import logging
 import json
@@ -48,25 +47,31 @@ def test_dput_cf_loader():
     assert config.get('global-two', 'local') == 'false'
     assert config.get('local-one', 'local') == 'true'
 
+
 def test_load_configuration():
     # TODO: write me
     pass
+
 
 def test_get_upload_target():
     # TODO: write me
     pass
 
+
 def test_run_command():
     # TODO: write me
     pass
+
 
 def test_changes_class():
     # TODO: write me
     pass
 
+
 def test_cp():
     # TODO: write me
     pass
+
 
 def test_config_loader():
     """ Ensure loaded configs are sane """

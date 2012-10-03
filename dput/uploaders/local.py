@@ -20,7 +20,6 @@
 
 from dput.uploader import AbstractUploader
 import dput.util
-import os
 
 
 class LocalUploader(AbstractUploader):
@@ -39,10 +38,10 @@ class LocalUploader(AbstractUploader):
         # where to upload it.
         whereto = self._config['incoming']
         dput.util.cp(filename, whereto)
+        # XXX: really use install ...
 
     def run_command(self, command):
         dput.util.run_command(command)
-
 
     def shutdown(self):
         pass
