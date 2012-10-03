@@ -86,3 +86,6 @@ class SFTPUpload(AbstractUploader):
     def shutdown(self):
         self._sftp.close()
         self._transport.close()
+
+    def run_command(self, command):
+        raise NotImplementedError("Not implemented for the SFTP uploader")

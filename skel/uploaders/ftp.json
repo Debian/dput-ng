@@ -1,0 +1,4 @@
+{
+    "plugin": "dput.uploaders.scp.FtpUploader",
+    "name": "ftp uploader"
+}
