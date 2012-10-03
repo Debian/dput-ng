@@ -22,6 +22,11 @@
 import logging
 import argparse
 
+# A little temporary hack for those of us not using virtualenv
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 import dput.core
 
 
@@ -43,7 +48,7 @@ args = parser.parse_args()
 
 
 if args.config:
-    dput.core.DPUT_CONFIG_LOCATIONS = [args.config]
+    dput.core.DPUT_CONFIG_LOCATIONS += [args.config]
 
 if args.debug:
     dput.core.logger.setLevel(logging.DEBUG)
