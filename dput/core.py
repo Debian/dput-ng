@@ -34,7 +34,7 @@ DPUT_CONFIG_LOCATIONS = [
 
 # logging routines.
 logger = logging.getLogger("dput")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 # basic config
 _ch = logging.StreamHandler()
