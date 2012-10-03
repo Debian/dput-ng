@@ -19,7 +19,7 @@
 # 02110-1301, USA.
 
 
-class DputError(Exception):
+class DputError(BaseException):
     pass
 
 
