@@ -26,6 +26,7 @@ from dput.exceptions import DputConfigurationError
 
 (TYPE_STRING, TYPE_BOOLEAN, TYPE_HOSTNAME, TYPE_INTEGER) = range(0, 4)
 
+
 class Opt(object):
     """
     Hold parsed and validated configuration data for a particular dput.cf
@@ -114,8 +115,13 @@ class Opt(object):
             except ConfigParser.NoOptionError:
                 self._data[item_object[0]] = item_object[2]
             except ValueError:
-                raise DputConfigurationError("Invalid configuration value in stanza %s for setting %s: `%s'"
-                             % (stanza_name, item_object[0], config.get(stanza_name, mangled_item)))
+                logger.error(
+                    "invalid value in stanza %s for setting %s: `%s'" % (
+                        stanza_name,
+                        item_object[0],
+                        config.get(stanza_name, mangled_item)
+                    )
+                )
 
     def __getitem__(self, index):
         """
@@ -135,6 +141,7 @@ class Opt(object):
 
     def __repr__(self):
         return self._data.__repr__()
+
 
 def get_upload_target(conf, hostname):
     """
@@ -160,6 +167,7 @@ def get_upload_target(conf, hostname):
     else:
         raise DputConfigurationError("Upload target `%s' was not found"
                                      % (hostname))
+
 
 def load_configuration(configuration_files):
     """
