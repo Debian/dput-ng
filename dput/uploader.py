@@ -60,6 +60,8 @@ class AbstractUploader(object):
 
 
 def get_uploader(uploader_method):
+    # XXX: return (defn, obj), so we can use the stored .json file for more.
+    # XXX: refactor this and dput.checker.get_checker
     logger.debug("Attempting to resolve %s" % (uploader_method))
     try:
         config = load_config('uploaders', uploader_method)
@@ -81,6 +83,7 @@ def uploader(uploader_method, config):
     Rent-a-uploader :)
     """
     klass = get_uploader(uploader_method)
+    # throw error on klass == None
     obj = klass(config)
     obj.initialize()
     obj._pre_hook()
