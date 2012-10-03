@@ -22,6 +22,7 @@ import ConfigParser
 import os
 
 from dput.core import logger
+from dput.exceptions import DputConfigurationError
 
 (TYPE_STRING, TYPE_BOOLEAN, TYPE_HOSTNAME, TYPE_INTEGER) = range(0, 4)
 
@@ -113,7 +114,7 @@ class Opt(object):
             except ConfigParser.NoOptionError:
                 self._data[item_object[0]] = item_object[2]
             except ValueError:
-                logger.error("Invalid configuration value in stanza %s for setting %s: `%s'"
+                raise DputConfigurationError("Invalid configuration value in stanza %s for setting %s: `%s'"
                              % (stanza_name, item_object[0], config.get(stanza_name, mangled_item)))
 
     def __getitem__(self, index):
@@ -140,17 +141,25 @@ def get_upload_target(conf, hostname):
     Pick up the configuration associated with the upload target where we are
     supposed to upload. Falls back to "ftp-master" if no target was given.
     """
+    selected_stanza = None
+    fallback_stanza = "ftp-master"
 
-    if not hostname:
-        hostname = "ftp-master"
     for stanza in conf.sections():
-        if stanza == hostname or (
-                    not hostname and conf.get(stanza, "default_host_main")
-                    ):
-            logger.debug("Picking stanza %s" % (stanza))
-            return Opt(conf, hostname)
+        if stanza == hostname:
+            selected_stanza = stanza
+            break
+        if not hostname and conf.get(stanza, "default_host_main"):
+            selected_stanza = stanza
+            break
+    if not hostname and conf.has_section(fallback_stanza):
+        selected_stanza = fallback_stanza
+
+    if selected_stanza:
+        logger.debug("Picking stanza %s" % (selected_stanza))
+        return Opt(conf, selected_stanza)
     else:
-        logger.error("Upload target `%s' was not found" % (hostname))
+        raise DputConfigurationError("Upload target `%s' was not found"
+                                     % (hostname))
 
 def load_configuration(configuration_files):
     """
@@ -179,9 +188,11 @@ def load_configuration(configuration_files):
             logger.warning("Skipping file %s: %s" % (config_file, e))
             continue
         except ConfigParser.ParsingError as e:
-            logger.error("Error parsing file %s: %s" % (config_file, e))
+            raise DputConfigurationError(
+                            "Error parsing file %s: %s" % (config_file, e))
 
     if files_parsed == 0:
-        logger.error("Could not parse any configuration file: Tried %s" %
-                     (', '.join(configuration_files)))
+        raise DputConfigurationError(
+                    "Could not parse any configuration file: Tried %s" %
+                    (', '.join(configuration_files)))
     return parser

@@ -25,7 +25,7 @@ import importlib
 
 import dput.core
 from dput.core import logger
-from dput.exceptions import NoSuchConfigError
+from dput.exceptions import NoSuchConfigError, DputConfigurationError
 from dput.conf import get_upload_target, load_configuration
 
 def load_obj(obj_path):
@@ -93,10 +93,10 @@ def load_dput_configs(upload_target):
     Returns a Stanza object with stanza settings.
     """
     logger.debug("Loading dput configs")
+    # TODO: Where/How to handle exceptions?
     _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
     ret = get_upload_target(_conf, upload_target)
     return ret
-
 
 def cp(source, dest):
     """

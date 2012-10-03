@@ -22,6 +22,8 @@
 class DputError(BaseException):
     pass
 
+class DputConfigurationError(DputError):
+    pass
 
 class NoSuchConfigError(DputError):
     pass
