@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import argparse
+
+
+parser = argparse.ArgumentParser(
+    description='Package upload tool for Debian'
+)
+
+
+parser.add_argument(
+    '-c',
+    '--config',
+    type=str,
+    default=None,
+    help='define a config file to use'
+)
+
+
+parser.add_argument(
+    '-d',
+    '--debug',
+    action='store_true',
+    default=False,
+    dest='boolean_switch',
+    help='activate debugging mode, helpful if bugs occur'
+)
+
+
+args = parser.parse_args()
