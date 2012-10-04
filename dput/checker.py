@@ -46,7 +46,9 @@ def run_checker(checker, path, dput_config):
     obj = get_checker(checker)
     # XXX: throw error if obj == None
     ch = Changes(filename=path)
+    profile = {}  # XXX: add in real profile stuff from host thinger
     return obj(
         ch,
-        dput_config
+        dput_config,
+        profile
     )

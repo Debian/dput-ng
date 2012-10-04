@@ -80,15 +80,17 @@ def lint(path, pedantic=False, info=False, experimental=False):
     return process(output)
 
 
-def lintian(changes, dputcf):
+def lintian(changes, dputcf, profile):
     if not dputcf['run_lintian']:
         logger.info("skipping lintian checking")
         return
 
-    obj = lint(
+    tags = lint(
         changes._absfile,
         pedantic=True,
         info=True,
         experimental=True
     )
     # XXX: build out the rest of this
+    #for tag in tags:
+    #    print tag
