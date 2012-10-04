@@ -48,31 +48,6 @@ def test_dput_cf_loader():
     assert config.get('local-one', 'local') == 'true'
 
 
-def test_load_configuration():
-    # TODO: write me
-    pass
-
-
-def test_get_upload_target():
-    # TODO: write me
-    pass
-
-
-def test_run_command():
-    # TODO: write me
-    pass
-
-
-def test_changes_class():
-    # TODO: write me
-    pass
-
-
-def test_cp():
-    # TODO: write me
-    pass
-
-
 def test_config_loader():
     """ Ensure loaded configs are sane """
     test = "test"
