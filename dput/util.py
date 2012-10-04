@@ -59,6 +59,7 @@ def load_config(config_class, config_name):
     """
     logger.debug("Loading config: %s %s" % (config_class,
                                             config_name))
+    ret = {}
     template_path = "%s/%s/%s.json"
     for config in dput.core.CONFIG_LOCATIONS:
         logger.debug("Checking for config: %s" % (config))
@@ -70,7 +71,10 @@ def load_config(config_class, config_name):
         logger.debug("Checking - %s" % (path))
         if os.path.exists(path):
             logger.debug("Loaded config.")
-            return json.load(open(path, 'r'))
+            ret.update(json.load(open(path, 'r')))
+
+    if ret != {}:
+        return ret
 
     logger.debug("Failed to load config.")
 

@@ -39,6 +39,7 @@ class AbstractUploader(object):
         self._run_hook("post_upload_command")
 
     def _run_hook(self, hook):
+        print hook
         if hook in self._config and self._config[hook] != "":
             self.run_command(self._config[hook])
 

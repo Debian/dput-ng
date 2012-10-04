@@ -23,8 +23,8 @@ import logging
 
 # used for searching for config files. place in order of precedence
 CONFIG_LOCATIONS = [
-    os.path.expanduser("~/.dput.d"),
-    "/etc/dput.d/"
+    "/etc/dput.d/",
+    os.path.expanduser("~/.dput.d")
 ]
 
 DPUT_CONFIG_LOCATIONS = [

@@ -21,8 +21,8 @@ dput.core.DPUT_CONFIG_LOCATIONS = [
 ]
 
 dput.core.CONFIG_LOCATIONS = [
-    "tests/resources/config/local.d",
-    "tests/resources/config/global.d"
+    "tests/resources/config/global.d",
+    "tests/resources/config/local.d"
 ]
 
 
