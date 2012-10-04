@@ -25,7 +25,6 @@ import importlib
 import subprocess
 
 import dput.core
-import dput.changes
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError
 

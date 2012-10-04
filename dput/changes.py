@@ -44,6 +44,7 @@ import hashlib
 from debian import deb822
 
 from dput.core import logger
+from dput.util import run_command
 from dput.exceptions import ChangesFileException
 
 
@@ -203,7 +204,6 @@ class Changes(object):
 
     def validate_signature(self, check_signature=True):
         #Import run_command here, so that we can avoid cyclic import loops
-        from dput.util import run_command
         gpg_path = "gpg"
 
         (gpg_output, gpg_output_stderr, exit_status) = run_command([
