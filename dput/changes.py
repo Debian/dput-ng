@@ -203,7 +203,6 @@ class Changes(object):
             logger.debug("Not checking signature")
 
     def validate_signature(self, check_signature=True):
-        #Import run_command here, so that we can avoid cyclic import loops
         gpg_path = "gpg"
 
         (gpg_output, gpg_output_stderr, exit_status) = run_command([
