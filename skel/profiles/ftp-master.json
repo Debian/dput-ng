@@ -1,0 +1,13 @@
+{
+    "checkers": [
+        "lintian"
+    ],
+    "lintian": {
+        "never_allow": [
+            "file-in-usr-marked-as-conffile"
+        ],
+        "always_allow": [
+            "hyphen-used-as-minus-sign"
+        ]
+    }
+}
