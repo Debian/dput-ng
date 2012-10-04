@@ -39,13 +39,5 @@ class UploadException(DputError):
     pass
 
 
-class FtpUploadException(UploadException):
-    pass
-
-
-class SftpUploadException(UploadException):
-    pass
-
-
 class CheckerException(DputError):
     pass

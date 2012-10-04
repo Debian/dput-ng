@@ -18,13 +18,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-from dput.core import logger
-from dput.exceptions import FtpUploadException
-from dput.uploader import AbstractUploader
-from dput.conf import Opt
-
 import ftplib
 import os.path
+
+from dput.conf import Opt
+from dput.core import logger
+from dput.uploader import AbstractUploader
+
+
+class FtpUploadException(UploadException):
+    pass
 
 
 class FtpUploader(AbstractUploader):

@@ -18,15 +18,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-from dput.core import logger
-from dput.exceptions import SftpUploadException
-from dput.uploader import AbstractUploader
-from dput.conf import Opt
-
 import paramiko
 import os.path
 
+from dput.conf import Opt
+from dput.core import logger
+from dput.uploader import AbstractUploader
+
 #paramiko.util.log_to_file('/tmp/paramiko.log')
+
+
+class SftpUploadException(UploadException):
+    pass
 
 
 class SFTPUpload(AbstractUploader):
