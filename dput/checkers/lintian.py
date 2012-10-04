@@ -19,6 +19,7 @@
 # 02110-1301, USA.
 
 import subprocess
+from collections import defaultdict
 
 from dput.core import logger
 from dput.exceptions import CheckerException
@@ -69,13 +70,11 @@ def lint(path, pedantic=False, info=False, experimental=False):
         args.append("-E")
 
     args.append(path)
-    big_error = False
 
     try:
         output = subprocess.check_output(args)
     except subprocess.CalledProcessError as e:
         output = e.output
-        big_error = True
 
     return process(output)
 
@@ -91,6 +90,13 @@ def lintian(changes, dputcf, profile):
         info=True,
         experimental=True
     )
-    # XXX: build out the rest of this
-    #for tag in tags:
-    #    print tag
+
+    counts = defaultdict(int)
+    tcounts = [x['severity'] for x in tags]
+    for entry in tcounts:
+        counts[entry] += 1
+
+    if counts['W'] > 0:
+        raise LintianCheckerException("Too many warnings (%s)" % (
+            counts['W']
+        ))

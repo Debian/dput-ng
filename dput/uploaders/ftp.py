@@ -24,6 +24,7 @@ import os.path
 from dput.conf import Opt
 from dput.core import logger
 from dput.uploader import AbstractUploader
+from dput.exceptions import UploadException
 
 
 class FtpUploadException(UploadException):
