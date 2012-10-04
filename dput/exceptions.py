@@ -45,3 +45,7 @@ class FtpUploadException(UploadException):
 
 class SftpUploadException(UploadException):
     pass
+
+
+class CheckerException(DputError):
+    pass

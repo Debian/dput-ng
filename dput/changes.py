@@ -75,6 +75,7 @@ class Changes(object):
             raise TypeError
 
         if filename:
+            self._absfile = os.path.abspath(filename)
             self._data = deb822.Changes(file(filename))
         else:
             self._data = deb822.Changes(string)

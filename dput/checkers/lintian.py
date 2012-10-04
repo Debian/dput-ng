@@ -20,6 +20,13 @@
 
 import subprocess
 
+from dput.core import logger
+from dput.exceptions import CheckerException
+
+
+class LintianCheckerException(CheckerException):
+    pass
+
 
 def process(output):
     ret = []
@@ -73,5 +80,15 @@ def lint(path, pedantic=False, info=False, experimental=False):
     return process(output)
 
 
-def lintian():
-    pass
+def lintian(changes, dputcf):
+    if not dputcf['run_lintian']:
+        logger.info("skipping lintian checking")
+        return
+
+    obj = lint(
+        changes._absfile,
+        pedantic=True,
+        info=True,
+        experimental=True
+    )
+    # XXX: build out the rest of this

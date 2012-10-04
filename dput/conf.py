@@ -127,9 +127,7 @@ class Opt(object):
         """
         Provide easy read access to option values.
         """
-        if not isinstance(index, tuple):
-            raise KeyError("Invalid argument")
-        return self._data[index[0]]
+        return self._data[index]
 
     def __setitem__(self, index, value):
         """

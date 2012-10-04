@@ -20,6 +20,7 @@
 
 from dput.core import logger
 from dput.util import (load_config, load_obj)
+from dput.changes import Changes
 from dput.exceptions import NoSuchConfigError
 
 
@@ -42,12 +43,10 @@ def get_checker(checker_method):
 
 
 def run_checker(checker, path, dput_config):
-    # XXX: process the changes, etc.
-    # obj = get_checker(checker)
+    obj = get_checker(checker)
     # XXX: throw error if obj == None
-    #return obj(
-    #    config_obj,
-    #    changes_obj,
-    #    dput_config
-    #)
-    pass
+    ch = Changes(filename=path)
+    return obj(
+        ch,
+        dput_config
+    )
