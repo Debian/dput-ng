@@ -43,6 +43,7 @@ def get_checker(checker_method):
 
 
 def run_checker(checker, path, dput_config):
+    logger.debug("running checker: %s" % (checker))
     obj = get_checker(checker)
     # XXX: throw error if obj == None
     ch = Changes(filename=path)
