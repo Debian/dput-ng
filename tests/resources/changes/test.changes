@@ -10,3 +10,7 @@ Maintainer: Paul Tagliamonte <paultag@debian.org>
 Changed-By: Paul Tagliamonte <paultag@ubuntu.com>
 Description:
  srcpkg    - this is the short description or whatever.
+Files:
+ hashsumhashsumhashsumhashsumhash size sec priority fileone
+ hashsumhashsumhashsumhashsumhash size sec priority filetwo
+ hashsumhashsumhashsumhashsumhash size sec priority filethree
