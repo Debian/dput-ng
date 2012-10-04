@@ -47,7 +47,7 @@ def load_obj(obj_path):
     return fltr
 
 
-def load_config(config_class, config_name):
+def load_config(config_class, config_name, default=None):
     """
     Load a config by abstract name. Interally, this searches the
     `dput.core.CONFIG_LOCATIONS` for a subfolder (with the name of
@@ -75,6 +75,9 @@ def load_config(config_class, config_name):
 
     if ret != {}:
         return ret
+
+    if default is not None:
+        return default
 
     logger.debug("Failed to load config.")
 
