@@ -70,6 +70,8 @@ class SFTPUpload(AbstractUploader):
                                 (self._config[Opt.KEY_FQDN], e))
 
         try:
+            logger.debug("Change directory to %s" %
+                         (self._config[Opt.KEY_INCOMING]))
             self._sftp.chdir(self._config[Opt.KEY_INCOMING])
         except IOError as e:
             raise SftpUploadException("Could not change directory to %s: %s" %
@@ -78,7 +80,7 @@ class SFTPUpload(AbstractUploader):
     def upload_file(self, filename):
         basename = os.path.basename(filename)
         try:
-            self._sftp.put(basename, filename)
+            self._sftp.put(filename, basename)
         except IOError as e:
             if e.errno == 13:
                 logger.warning("Could not overwrite file. blah blah blah")

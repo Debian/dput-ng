@@ -26,7 +26,7 @@ import dput.conf
 from dput.core import logger
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
-from dput.exceptions import NoSuchConfigError
+from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
 class AbstractUploader(object):
@@ -87,7 +87,14 @@ def uploader(uploader_method, config, profile):  # XXX: name sucks.
     Rent-a-uploader :)
     """
     klass = get_uploader(uploader_method)
-    # throw error on klass == None
+
+    if not klass:
+        logger.error("Failed to resolve method %s to an uploader class" %
+                    (uploader_method))
+        raise DputConfigurationError(
+                        "Failed to resolve method %s to an uploader class" %
+                    (uploader_method))
+
     obj = klass(config, profile)
     obj.initialize()
     obj._pre_hook()
@@ -114,7 +121,7 @@ def invoke_dput(changes, host):  # XXX: Name sucks, used under a different name
     else:
         logger.debug("No checkers defined in the profile....")
 
-    with uploader(conf['method'], conf, profile) as obj:
+    with uploader(conf[dput.conf.Opt.KEY_METHOD], conf, profile) as obj:
         for path in changes.get_files():
             logger.info("Uploading %s => %s" % (
                 os.path.basename(path),
