@@ -29,7 +29,7 @@ from dput.core import logger
 from dput.exceptions import NoSuchConfigError
 
 
-def load_obj(obj_path):
+def load_obj(obj_path):  # XXX: Name sucks.
     """
     Dynamically load an object (class, method, etc) by name (such as
     `dput.core.ClassName`), and return that object to work with. This is
@@ -47,7 +47,7 @@ def load_obj(obj_path):
     return fltr
 
 
-def cp(source, dest):
+def cp(source, dest):  # XXX: Needed?
     """
     copy a file / folder from src --> dest
     """
@@ -81,7 +81,8 @@ def run_command(command):
     return (output, stderr, pipe.returncode)
 
 
-def load_config(config_class, config_name, default=None):
+def load_config(config_class, config_name, default=None):  # XXX: Name sucks,
+#                                                                 try again.
     """
     Load a config by abstract name. Interally, this searches the
     `dput.core.CONFIG_LOCATIONS` for a subfolder (with the name of
@@ -91,6 +92,13 @@ def load_config(config_class, config_name, default=None):
     If there is no such file, this will throw a
     `dput.exceptions.NoSuchConfigError`.
     """
+
+    master = {}
+    if config_name != 'DEFAULT':
+        # we should fetch the master
+        logger.debug("Loading the DEFAULT configurator for this class.")
+        master = load_config(config_class, 'DEFAULT', default={})
+
     logger.debug("Loading config: %s %s" % (config_class,
                                             config_name))
     ret = {}
@@ -108,7 +116,8 @@ def load_config(config_class, config_name, default=None):
             ret.update(json.load(open(path, 'r')))
 
     if ret != {}:
-        return ret
+        master.update(ret)
+        return master
 
     if default is not None:
         return default

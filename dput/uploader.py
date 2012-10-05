@@ -82,7 +82,7 @@ def get_uploader(uploader_method):
 
 
 @contextmanager
-def uploader(uploader_method, config, profile):
+def uploader(uploader_method, config, profile):  # XXX: name sucks.
     """
     Rent-a-uploader :)
     """
@@ -98,7 +98,8 @@ def uploader(uploader_method, config, profile):
         obj.shutdown()
 
 
-def invoke_dput(changes, host):
+def invoke_dput(changes, host):  # XXX: Name sucks, used under a different name
+#                                       elsewhere, try again.
     conf = dput.conf.load_dput_configs(host)
     profile = dput.util.load_config(
         'profiles',
@@ -109,13 +110,13 @@ def invoke_dput(changes, host):
     if 'checkers' in profile:
         for checker in profile['checkers']:
             logger.debug("Running checker %s" % (checker))
-            ch = run_checker(checker, changes, conf, profile)
+            run_checker(checker, changes, conf, profile)
     else:
         logger.debug("No checkers defined in the profile....")
 
     with uploader(conf['method'], conf, profile) as obj:
         for path in changes.get_files():
-            logger.debug("Uploading %s => %s" % (
+            logger.info("Uploading %s => %s" % (
                 os.path.basename(path),
                 host
             ))

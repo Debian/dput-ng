@@ -1,4 +1,0 @@
-{
-    "plugin": "dput.uploaders.scp.SCPUploader",
-    "name": "scp uploader"
-}

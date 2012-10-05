@@ -7,8 +7,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
 from dput.exceptions import NoSuchConfigError
-from dput.util import load_obj
-from dput.conf import (load_configuration, load_conf)
+from dput.util import (load_obj, load_config)
+from dput.conf import load_configuration
 
 import logging
 import json
