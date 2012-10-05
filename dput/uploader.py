@@ -26,7 +26,7 @@ import dput.conf
 from dput.core import logger
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
-from dput.exceptions import NoSuchConfigError
+from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
 class AbstractUploader(object):
@@ -87,7 +87,14 @@ def uploader(uploader_method, config, profile):
     Rent-a-uploader :)
     """
     klass = get_uploader(uploader_method)
-    # throw error on klass == None
+
+    if not klass:
+        logger.error("Failed to resolve method %s to an uploader class" %
+                    (uploader_method))
+        raise DputConfigurationError(
+                        "Failed to resolve method %s to an uploader class" %
+                    (uploader_method))
+
     obj = klass(config, profile)
     obj.initialize()
     obj._pre_hook()
