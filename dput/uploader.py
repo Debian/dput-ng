@@ -120,7 +120,7 @@ def invoke_dput(changes, host):
     else:
         logger.debug("No checkers defined in the profile....")
 
-    with uploader(conf['method'], conf, profile) as obj:
+    with uploader(conf[dput.conf.Opt.KEY_METHOD], conf, profile) as obj:
         for path in changes.get_files():
             logger.debug("Uploading %s => %s" % (
                 os.path.basename(path),

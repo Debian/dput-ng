@@ -24,7 +24,8 @@ import logging
 # used for searching for config files. place in order of precedence
 CONFIG_LOCATIONS = [
     "/etc/dput.d/",
-    os.path.expanduser("~/.dput.d")
+    os.path.expanduser("~/.dput.d"),
+    "skel/",
 ]
 
 DPUT_CONFIG_LOCATIONS = [
