@@ -130,9 +130,18 @@ class Opt(object):
         """
         Provide easy read access to option values.
         """
-        if not isinstance(index, tuple):
-            index = (index,)
-        return self._data[index[0]]
+
+        # Convenience hack for Mr. Tag who prefers to use strings
+        # This could also be cached to improve runtime performance
+        if isinstance(index, tuple):
+            return self._data[index[0]]
+        else:
+            for item in dir(self):
+                if not item.startswith("KEY_") or (
+                    item != "KEY_%s" % (index.upper())):
+                        continue
+                item_object = getattr(self, item)
+                return self._data[item_object[0]]
 
     def __setitem__(self, index, value):
         """
