@@ -24,6 +24,7 @@ from contextlib import contextmanager
 
 import dput.conf
 from dput.core import logger
+from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
 from dput.exceptions import NoSuchConfigError
 
@@ -104,6 +105,13 @@ def invoke_dput(changes, host):
         host,
         default={}
     )
+
+    if 'checkers' in profile:
+        for checker in profile['checkers']:
+            logger.debug("Running checker %s" % (checker))
+            ch = run_checker(checker, changes, conf, profile)
+    else:
+        logger.debug("No checkers defined in the profile....")
 
     with uploader(conf['method'], conf, profile) as obj:
         for path in changes.get_files():

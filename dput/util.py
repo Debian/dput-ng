@@ -81,8 +81,6 @@ def run_command(command):
     return (output, stderr, pipe.returncode)
 
 
-
-
 def load_config(config_class, config_name, default=None):
     """
     Load a config by abstract name. Interally, this searches the

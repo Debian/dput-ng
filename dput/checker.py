@@ -19,8 +19,7 @@
 # 02110-1301, USA.
 
 from dput.core import logger
-from dput.util import load_obj
-from dput.conf import load_config
+from dput.util import (load_obj, load_config)
 from dput.changes import Changes
 from dput.exceptions import NoSuchConfigError
 
@@ -43,14 +42,13 @@ def get_checker(checker_method):
         return None
 
 
-def run_checker(checker, path, dput_config):
+def run_checker(checker, changes, dput_config, profile):
     logger.debug("running checker: %s" % (checker))
     obj = get_checker(checker)
     # XXX: throw error if obj == None
-    ch = Changes(filename=path)
     profile = {}  # XXX: add in real profile stuff from host thinger
     return obj(
-        ch,
+        changes,
         dput_config,
         profile
     )
