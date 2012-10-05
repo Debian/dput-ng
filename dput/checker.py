@@ -19,7 +19,8 @@
 # 02110-1301, USA.
 
 from dput.core import logger
-from dput.util import (load_config, load_obj)
+from dput.util import load_obj
+from dput.conf import load_config
 from dput.changes import Changes
 from dput.exceptions import NoSuchConfigError
 

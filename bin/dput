@@ -28,8 +28,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
-import dput.changes
 import dput.conf
+import dput.changes
+from dput import upload
 
 from dput.conf import Opt
 
@@ -73,22 +74,17 @@ parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
 args = parser.parse_args()
 
 
-
 if args.config:
-    dput.core.DPUT_CONFIG_LOCATIONS += [args.config]
+    dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
 
 if args.debug:
     # TODO: this does not work by the way.
     # We need to override the handler instead
     dput.core.logger.setLevel(logging.DEBUG)
 
-
-profile = dput.util.load_config('profiles', args.host, default={})
-conf = dput.conf.load_dput_configs(args.host)
-
 changes = dput.changes.parse_changes_file(
     args.changes,
     os.path.dirname(args.changes)
 )
 
-
+upload(changes, args.host)

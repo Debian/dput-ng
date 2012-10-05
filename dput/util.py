@@ -47,6 +47,42 @@ def load_obj(obj_path):
     return fltr
 
 
+def cp(source, dest):
+    """
+    copy a file / folder from src --> dest
+    """
+    if os.path.isdir(source):
+        new_name = os.path.basename(source)
+        return shutil.copytree(source, "%s/%s" % (dest, new_name))
+    else:
+        return shutil.copy2(source, dest)
+
+
+def run_command(command):
+    """
+    Run a synchronized command. The argument must be a list of arguments.
+    Returns a triple (stdout, stderr, exit_status)
+
+    If there was a problem to start the supplied command, (None, None, -1) is
+    returned
+    """
+
+    assert(isinstance(command, list))
+    try:
+        pipe = subprocess.Popen(command,
+                            shell=False, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    except OSError as e:
+        logger.error("Could not execute %s: %s" % (" ".join(command), e))
+        return (None, None, -1)
+    (output, stderr) = pipe.communicate()
+    #if pipe.returncode != 0:
+    #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
+    return (output, stderr, pipe.returncode)
+
+
+
+
 def load_config(config_class, config_name, default=None):
     """
     Load a config by abstract name. Interally, this searches the
@@ -90,37 +126,3 @@ def load_config(config_class, config_name, default=None):
     nsce.config_name = config_name
     nsce.checked = dput.core.CONFIG_LOCATIONS
     raise nsce
-
-
-def cp(source, dest):
-    """
-    copy a file / folder from src --> dest
-    """
-    if os.path.isdir(source):
-        new_name = os.path.basename(source)
-        return shutil.copytree(source, "%s/%s" % (dest, new_name))
-    else:
-        return shutil.copy2(source, dest)
-
-
-def run_command(command):
-    """
-    Run a synchronized command. The argument must be a list of arguments.
-    Returns a triple (stdout, stderr, exit_status)
-
-    If there was a problem to start the supplied command, (None, None, -1) is
-    returned
-    """
-
-    assert(isinstance(command, list))
-    try:
-        pipe = subprocess.Popen(command,
-                            shell=False, stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE)
-    except OSError as e:
-        logger.error("Could not execute %s: %s" % (" ".join(command), e))
-        return (None, None, -1)
-    (output, stderr) = pipe.communicate()
-    #if pipe.returncode != 0:
-    #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
-    return (output, stderr, pipe.returncode)

@@ -18,19 +18,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import os
 import abc
 from contextlib import contextmanager
 
-from dput.util import (load_config, load_obj)
+import dput.conf
 from dput.core import logger
+from dput.util import (load_obj, load_config)
 from dput.exceptions import NoSuchConfigError
 
 
 class AbstractUploader(object):
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, config):
+    def __init__(self, config, profile):
         self._config = config
+        self._profile = profile
 
     def _pre_hook(self):
         self._run_hook("pre_upload_command")
@@ -78,13 +81,13 @@ def get_uploader(uploader_method):
 
 
 @contextmanager
-def uploader(uploader_method, config):
+def uploader(uploader_method, config, profile):
     """
     Rent-a-uploader :)
     """
     klass = get_uploader(uploader_method)
     # throw error on klass == None
-    obj = klass(config)
+    obj = klass(config, profile)
     obj.initialize()
     obj._pre_hook()
     try:
@@ -92,3 +95,20 @@ def uploader(uploader_method, config):
     finally:
         obj._post_hook()
         obj.shutdown()
+
+
+def invoke_dput(changes, host):
+    conf = dput.conf.load_dput_configs(host)
+    profile = dput.util.load_config(
+        'profiles',
+        host,
+        default={}
+    )
+
+    with uploader(conf['method'], conf, profile) as obj:
+        for path in changes.get_files():
+            logger.debug("Uploading %s => %s" % (
+                os.path.basename(path),
+                host
+            ))
+            obj.upload_file(path)

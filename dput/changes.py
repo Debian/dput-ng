@@ -215,7 +215,7 @@ class Changes(object):
                                 "Unknown problem while verifying signature")
 
         # contains verbose human readable GPG information
-        print(gpg_output_stderr)
+        print(gpg_output_stderr)  # XXX: Don't depend on stdout
 
         if gpg_output.count('[GNUPG:] GOODSIG'):
             pass

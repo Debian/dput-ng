@@ -32,7 +32,7 @@ class NoSuchConfigError(DputError):
 
 
 class ChangesFileException(DputError):
-        pass
+    pass
 
 
 class UploadException(DputError):
@@ -40,4 +40,8 @@ class UploadException(DputError):
 
 
 class CheckerException(DputError):
+    pass
+
+
+class NoSuchHostError(DputError):
     pass
