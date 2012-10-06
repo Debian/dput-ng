@@ -19,14 +19,13 @@
 # 02110-1301, USA.
 
 import paramiko
+
 import os.path
 
 from dput.conf import Opt
 from dput.core import logger
 from dput.uploader import AbstractUploader
 from dput.exceptions import UploadException
-
-#paramiko.util.log_to_file('/tmp/paramiko.log')
 
 
 class SftpUploadException(UploadException):
@@ -35,47 +34,22 @@ class SftpUploadException(UploadException):
 
 class SFTPUpload(AbstractUploader):
     def initialize(self, **kwargs):
-        self._transport = paramiko.Transport((self._config[Opt.KEY_FQDN],
-                                              self._config[Opt.KEY_SFTP_PORT]))
+        fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
 
-        try:
-            private_key = None
-            if self._config[Opt.KEY_SFTP_PRIVATE_KEY]:
-                if self._config[Opt.KEY_SFTP_PRIVATE_KEY].startswith("~"):
-                    private_key_file = os.path.expanduser(
-                                    self._config[Opt.KEY_SFTP_PRIVATE_KEY])
-                else:
-                    private_key_file = self._config[Opt.KEY_SFTP_PRIVATE_KEY]
-                logger.debug("Authenticate using private key %s" %
-                              (private_key_file))
+        config = paramiko.SSHConfig()
+        config.parse(open(os.path.expanduser('~/.ssh/config')))
+        o = config.lookup(fqdn)
 
-                if not os.access(private_key_file, os.R_OK):
-                    raise SftpUploadException("Key file %s is not accessible" %
-                                               (private_key_file))
-                private_key = paramiko.RSAKey.from_private_key_file(
-                                                            private_key_file)
+        ssh_kwargs = {
+            "username": o['user'],
+            "key_filename": os.path.expanduser(o['identityfile'])
+        }
 
-            user = self._config[Opt.KEY_SFTP_USERNAME]
-            password = None
-
-            logger.debug("SFTP user: %s; password: %s" %
-                         (user, "YES" if password else "NO"))
-
-            self._transport.connect(username=user, password=password,
-                                    pkey=private_key)
-            self._sftp = paramiko.SFTPClient.from_transport(self._transport)
-        except paramiko.AuthenticationException as e:
-            raise SftpUploadException(
-                                "Failed to authenticate with server %s: %s" %
-                                (self._config[Opt.KEY_FQDN], e))
-
-        try:
-            logger.debug("Change directory to %s" %
-                         (self._config[Opt.KEY_INCOMING]))
-            self._sftp.chdir(self._config[Opt.KEY_INCOMING])
-        except IOError as e:
-            raise SftpUploadException("Could not change directory to %s: %s" %
-                                       (self._config[Opt.KEY_INCOMING], e))
+        self._sshclient = paramiko.SSHClient()
+        self._sshclient.load_system_host_keys()
+        self._sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self._sshclient.connect(fqdn, **ssh_kwargs)
+        self._sftp = self._sshclient.open_sftp()
 
     def upload_file(self, filename):
         basename = os.path.basename(filename)
@@ -89,8 +63,8 @@ class SFTPUpload(AbstractUploader):
                                           (filename, e))
 
     def shutdown(self):
+        self._sshclient.close()
         self._sftp.close()
-        self._transport.close()
 
     def run_command(self, command):
         raise NotImplementedError("Not implemented for the SFTP uploader")

@@ -20,7 +20,6 @@
 
 from dput.core import logger
 from dput.util import (load_obj, load_config)
-from dput.changes import Changes
 from dput.exceptions import NoSuchConfigError
 
 

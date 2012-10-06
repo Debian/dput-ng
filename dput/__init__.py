@@ -26,4 +26,4 @@ __authors__ = [
     "Paul Tagliamonte <paultag@debian.org>"
 ]
 
-from dput.uploader import invoke_dput as upload  # for external use.
+from dput.uploader import invoke_dput as upload  # NOQA

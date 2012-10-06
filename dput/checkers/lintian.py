@@ -80,9 +80,11 @@ def lint(path, pedantic=False, info=False, experimental=False):
 
 
 def lintian(changes, dputcf, profile):
-    if not dputcf['run_lintian']:
-        logger.info("skipping lintian checking")
-        return
+    if "run_lintian" in dputcf:
+        if not dputcf['run_lintian']:
+            logger.info("skipping lintian checking, enable with "
+                        "run_lintian = 1 in your dput.cf")
+            return
 
     tags = lint(
         changes._absfile,

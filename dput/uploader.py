@@ -107,7 +107,9 @@ def uploader(uploader_method, config, profile):
         obj.shutdown()
 
 
-def invoke_dput(changes, args):
+def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
+#                                        elsewhere, try again.
+
     conf = dput.conf.load_dput_configs(args.host)
     profile = dput.util.load_config(
         'profiles',
