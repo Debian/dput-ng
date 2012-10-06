@@ -26,7 +26,7 @@ from contextlib import contextmanager
 import dput.conf
 from dput.conf import Opt
 from dput.core import logger
-from dput.overrides import *
+from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
 from dput.exceptions import NoSuchConfigError, DputConfigurationError
@@ -138,7 +138,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     if 'checkers' in profile:
         for checker in profile['checkers']:
             logger.info("Running checker %s" % (checker))
-            ch = run_checker(checker, changes, conf, profile)
+            run_checker(checker, changes, conf, profile)
     else:
         logger.debug(profile)
         logger.warning("No checkers defined in the profile. "
