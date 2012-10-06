@@ -181,7 +181,7 @@ def get_upload_target(conf, hostname):
                                      % (hostname))
 
 
-def load_configuration(configuration_files):
+def load_configuration(configuration_files, replacements):
     """
     Load all the dput config files to take action in a sane way. The argument
     ```configuration_files``` is a list of files to search, and if found,
@@ -216,6 +216,10 @@ def load_configuration(configuration_files):
         raise DputConfigurationError(
                     "Could not parse any configuration file: Tried %s" %
                     (', '.join(configuration_files)))
+
+    for replacement in replacements:
+        parser.set(replacement, replacement, replacements[replacement])
+
     return parser
 
 
@@ -227,8 +231,14 @@ def load_dput_configs(upload_target):
 
     Returns a Stanza object with stanza settings.
     """
+
+    repls = {}
+    if ":" in upload_target:
+        upload_target, arg = upload_target.split(":", 1)
+        repls[upload_target] = arg
+
     dput.core.logger.debug("Loading dput configs")
     # TODO: Where/How to handle exceptions?
-    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, repls)
     ret = get_upload_target(_conf, upload_target)
     return ret

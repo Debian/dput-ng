@@ -144,6 +144,8 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         logger.warning("No checkers defined in the profile. "
                        "Not checking upload.")
 
+    logger.debug("Uploading to %s" % (conf[Opt.KEY_INCOMING]))
+
     logger.debug("Uploading %s to %s (%s)" % (changes.get_filename(),
                                               conf[Opt.KEY_FQDN],
                                               conf[Opt.KEY_INCOMING]))

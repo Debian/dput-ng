@@ -20,6 +20,7 @@
 
 from dput.uploader import AbstractUploader
 import dput.util
+import os.path
 
 
 class LocalUploader(AbstractUploader):
@@ -35,6 +36,7 @@ class LocalUploader(AbstractUploader):
 
     def upload_file(self, filename):
         whereto = self._config['incoming']
+        whereto = os.path.expanduser(whereto)
         dput.util.run_command([
             "install",
             filename,
