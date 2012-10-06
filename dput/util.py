@@ -110,6 +110,8 @@ def load_config(config_class, config_name, default=None):  # XXX: Name sucks,
 
     if default is not None:
         return default
+    elif master != {}:
+        return master
 
     logger.debug("Failed to load config.")
 

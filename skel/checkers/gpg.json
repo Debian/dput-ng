@@ -1,0 +1,4 @@
+{
+    "name": "gpg signature checker",
+    "plugin": "dput.checkers.basics.check_gpg_signature"
+}

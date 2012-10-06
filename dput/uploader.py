@@ -123,8 +123,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     conf = dput.conf.load_dput_configs(args.host)
     profile = dput.util.load_config(
         'profiles',
-        conf.name(),
-        default={}
+        conf.name()
     )
 
     if args.simulate:
@@ -138,10 +137,12 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 
     if 'checkers' in profile:
         for checker in profile['checkers']:
-            logger.debug("Running checker %s" % (checker))
+            logger.info("Running checker %s" % (checker))
             ch = run_checker(checker, changes, conf, profile)
     else:
-        logger.debug("No checkers defined in the profile....")
+        logger.debug(profile)
+        logger.warning("No checkers defined in the profile. "
+                       "Not checking upload.")
 
     logger.debug("Uploading %s to %s (%s)" % (changes.get_filename(),
                                               conf[Opt.KEY_FQDN],
