@@ -24,6 +24,11 @@ dput/uploader.py
   - change invoke_dput to a less worse name
   - same with uploader
 
+ppa support
+-----------
+
+  - and make it not suck
+
 sftp
 ----
 
