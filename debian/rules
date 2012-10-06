@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python2
+
+override_dh_auto_install:
+	dh_auto_install
+	rm -vf ./debian/dput/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	set -e; for x in $(shell pyversions -r); do \
+		$$x $(shell which nosetests); \
+	done
+endif
