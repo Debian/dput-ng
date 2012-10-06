@@ -7,7 +7,12 @@ bin/dput
 --------
 
   - revisit debugging
-
+  - make a file logger?
+  - implement pre/post upload commands
+  - implement dinstall switch (*sigh*)
+  - implement --force switch (bypass all checker, ignore .upload file?)
+  - write an .upload file
+  - 
 
 tests/*
 -------
@@ -19,7 +24,7 @@ tests/*
 dput/uploader.py
 ----------------
 
-  - fix shtty names
+  - fix shitty names
   - other misc refactors
   - change invoke_dput to a less worse name
   - same with uploader
@@ -41,10 +46,13 @@ scp
 
   - implement
 
-http(s)
--------
+uploader
+--------
 
-  - implement
+  - All uploaders lack manual authentication support, e.g. for password prompts
+  - We /really/ should avoid that every upload does its own prompting. Instead
+    we should consolidate user prompting through a callback. That allows to 
+    implement, say, a dput GUI.
 
 rsync
 -----
@@ -78,3 +86,9 @@ profiles
 
   - find a sane way to allow base checks without always having to copy the
     full list in each profile.
+
+package
+-------
+
+  - Yep, make a native Debian package out of it
+  - file an ITP (and hope they shitstorm may pass by)  
