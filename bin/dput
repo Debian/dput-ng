@@ -76,8 +76,7 @@ if args.config:
 
 dput.core.logger.setLevel(logging.INFO)
 if args.debug:
-    # TODO: this does not work by the way.
-    # We need to override the handler instead
+    # XXX: Not ideal, but worksish. Revist debugging.
     dput.core.logger.setLevel(logging.DEBUG)
 
 changes = dput.changes.parse_changes_file(
