@@ -47,17 +47,6 @@ def load_obj(obj_path):  # XXX: Name sucks.
     return fltr
 
 
-def cp(source, dest):  # XXX: Needed?
-    """
-    copy a file / folder from src --> dest
-    """
-    if os.path.isdir(source):
-        new_name = os.path.basename(source)
-        return shutil.copytree(source, "%s/%s" % (dest, new_name))
-    else:
-        return shutil.copy2(source, dest)
-
-
 def run_command(command):
     """
     Run a synchronized command. The argument must be a list of arguments.
