@@ -34,9 +34,12 @@ class SftpUploadException(UploadException):
     pass
 
 
-def query_for_creds():
-    sys.stdout.write("Username: ")
-    user = sys.stdin.readline().strip()
+def query_for_creds(qfu=False):
+    user = None
+    if qfu:
+        sys.stdout.write("Username: ")
+        user = sys.stdin.readline().strip()
+
     pw = getpass.getpass()
     return (user, pw)
 
@@ -52,7 +55,10 @@ class SFTPUpload(AbstractUploader):
             raise SftpUploadException("SFTP doesn't support ~path or ~/path. "
                                       "if you need $HOME paths, use SCP.")
 
-        ssh_kwargs = {}
+        ssh_kwargs = {
+            "port": 22,  # XXX: Allow overrides
+            "compress": True
+        }
 
         config = paramiko.SSHConfig()
         config.parse(open(os.path.expanduser('~/.ssh/config')))
@@ -81,16 +87,18 @@ class SFTPUpload(AbstractUploader):
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
 
-    def _auth(self, fqdn, ssh_kwargs):
+    def _auth(self, fqdn, ssh_kwargs, _first=True):
         try:
             self._sshclient.connect(fqdn, **ssh_kwargs)
             logger.info("Logged in!")
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
-            user, pw = query_for_creds()
-            ssh_kwargs['username'] = user
+            qfu = not _first
+            user, pw = query_for_creds(qfu=qfu)
+            if user is not None:
+                ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
-            self._auth(fqdn, ssh_kwargs)
+            self._auth(fqdn, ssh_kwargs, _first=False)
 
     def upload_file(self, filename):
         basename = os.path.basename(filename)
