@@ -143,7 +143,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
                                               conf[Opt.KEY_INCOMING]))
     with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
         for path in changes.get_files() + [changes.get_changes_file(), ]:
-            logger.debug("Uploading %s => %s" % (
+            logger.info("Uploading %s => %s" % (
                 os.path.basename(path),
                 conf.name()
             ))
