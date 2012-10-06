@@ -62,6 +62,7 @@ class SFTPUpload(AbstractUploader):
         self._sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self._sshclient.connect(fqdn, **ssh_kwargs)
         self._sftp = self._sshclient.open_sftp()
+        self._sftp.chdir(self._config[Opt.KEY_INCOMING])
 
     def upload_file(self, filename):
         basename = os.path.basename(filename)
