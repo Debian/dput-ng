@@ -89,6 +89,9 @@ try:
     upload(changes, args)
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
+    sys.exit(2)
+except dput.exceptions.CheckerException as e:
+    dput.core.logger.critical(str(e))
     sys.exit(1)
 except KeyboardInterrupt:
     sys.exit(0)
