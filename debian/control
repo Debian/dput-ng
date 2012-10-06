@@ -7,7 +7,10 @@ Build-Depends: debhelper (>= 9),
  python-all (>= 2.6.6-3~),
  python-setuptools,
  python-coverage,
- python-nose
+ python-nose,
+ python-argparse | python (>= 2.7~),
+ python-paramiko,
+ python-debian,
 Standards-Version: 3.9.3
 X-Python-Version: >= 2.6
 
