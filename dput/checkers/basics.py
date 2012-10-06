@@ -18,8 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+from dput.core import logger
 from dput.exceptions import ChangesFileException, CheckerException
-
 
 class GPGCheckerError(CheckerException):
     pass
@@ -30,6 +30,12 @@ class HashValidationError(CheckerException):
 
 
 def check_gpg_signature(changes, dputcf, profile):
+    if "allow_unsigned_uploads" in dputcf:
+        if dputcf['allow_unsigned_uploads']:
+            logger.info("Not checking GPG signature due to "
+                        "allow_unsigned_uploads being set.")
+            return
+
     try:
         changes.validate_signature()
     except ChangesFileException:
