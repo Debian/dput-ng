@@ -32,7 +32,7 @@ class HashValidationError(CheckerException):
 def check_gpg_signature(changes, dputcf, profile):
     try:
         changes.validate_signature()
-    except ChangesFileException as e:
+    except ChangesFileException:
         raise GPGCheckerError(
             "No signature on %s" % (changes.get_filename())
         )
@@ -41,7 +41,7 @@ def check_gpg_signature(changes, dputcf, profile):
 def validate_checksums(changes, dputcf, profile):
     try:
         changes.validate_checksums()
-    except ChangesFileException as e:
+    except ChangesFileException:
         raise GPGCheckerError(
             "Bad checksums on %s" % (changes.get_filename())
         )
