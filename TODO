@@ -46,6 +46,7 @@ uploader
   - We /really/ should avoid that every upload does its own prompting. Instead
     we should consolidate user prompting through a callback. That allows to
     implement, say, a dput GUI.
+  - A progress bar
 
 rsync
 -----
