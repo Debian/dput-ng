@@ -36,6 +36,16 @@ scp
 
   - implement
 
+http(s)
+-------
+
+  - implement
+
+rsync
+-----
+
+  - implement
+
 dput/checker.py
 ---------------
 
@@ -47,7 +57,19 @@ dput/checker.py
   - catch errors in checkers and output sane warnings
 
 
+dput/checkers/basiscs.py
+------------------------
+
+  - add better handing of dput.cf overrides to the checks
+
 dput/util.py
 ------------
 
   - refactor, look at naming things like a sane person
+
+
+profiles
+--------
+
+  - find a sane way to allow base checks without always having to copy the
+    full list in each profile.
