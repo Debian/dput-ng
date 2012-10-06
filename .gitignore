@@ -2,4 +2,6 @@
 *.swp
 *dput*egg*
 .coverage
-debian/dput.debhelper.log
+debian/*debhelper*
+debian/dput/
+build/
