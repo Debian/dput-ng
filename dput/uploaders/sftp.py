@@ -32,6 +32,7 @@ class SftpUploadException(UploadException):
     pass
 
 
+# XXX: Document this more :)
 class SFTPUpload(AbstractUploader):
     def initialize(self, **kwargs):
         fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
@@ -58,10 +59,12 @@ class SFTPUpload(AbstractUploader):
             pkey = os.path.expanduser(o['identityfile'])
             ssh_kwargs['key_filename'] = pkey
 
+        logger.info("Logging into host %s as %s" % (fqdn, user))
         self._sshclient = paramiko.SSHClient()
         self._sshclient.load_system_host_keys()
         self._sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self._sshclient.connect(fqdn, **ssh_kwargs)
+        logger.info("Logged in!")
         self._sftp = self._sshclient.open_sftp()
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
