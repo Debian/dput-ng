@@ -23,9 +23,11 @@ import abc
 from contextlib import contextmanager
 
 import dput.conf
+from dput.conf import Opt
 from dput.core import logger
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
+from dput.overrides import *
 from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
@@ -105,13 +107,22 @@ def uploader(uploader_method, config, profile):
         obj.shutdown()
 
 
-def invoke_dput(changes, host):
-    conf = dput.conf.load_dput_configs(host)
+def invoke_dput(changes, args):
+    conf = dput.conf.load_dput_configs(args.host)
     profile = dput.util.load_config(
         'profiles',
-        host,
+        conf.name(),
         default={}
     )
+
+    if args.simulate:
+        logger.warning("Not uploading for real - dry run")
+
+    if args.delayed:
+        make_delayed_upload(conf, args.delayed)
+
+    if args.passive:
+        force_passive_ftp_upload(conf)
 
     if 'checkers' in profile:
         for checker in profile['checkers']:
@@ -120,10 +131,14 @@ def invoke_dput(changes, host):
     else:
         logger.debug("No checkers defined in the profile....")
 
-    with uploader(conf[dput.conf.Opt.KEY_METHOD], conf, profile) as obj:
-        for path in changes.get_files():
+    logger.debug("Uploading %s to %s (%s)" % (changes.get_filename(),
+                                              conf[Opt.KEY_FQDN],
+                                              conf[Opt.KEY_INCOMING]))
+    with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
+        for path in changes.get_files() + [changes.get_changes_file(), ]:
             logger.debug("Uploading %s => %s" % (
                 os.path.basename(path),
-                host
+                conf.name()
             ))
-            obj.upload_file(path)
+            if not args.simulate:
+                obj.upload_file(path)

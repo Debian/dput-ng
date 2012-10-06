@@ -28,11 +28,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
-import dput.conf
 import dput.changes
 from dput import upload
-
-from dput.conf import Opt
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-d', '--debug', action='store_true', default=False,
@@ -87,4 +84,4 @@ changes = dput.changes.parse_changes_file(
     os.path.dirname(args.changes)
 )
 
-upload(changes, args.host)
+upload(changes, args)
