@@ -73,10 +73,6 @@ No file was uploaded, however.""")
         pass
 
     @abc.abstractmethod
-    def run_remote_command(self, command):
-        pass
-
-    @abc.abstractmethod
     def shutdown(self):
         pass
 
