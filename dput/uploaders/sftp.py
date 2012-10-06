@@ -18,8 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import getpass
 import paramiko
 
+import sys
 import os.path
 
 from dput.conf import Opt
@@ -30,6 +32,13 @@ from dput.exceptions import UploadException
 
 class SftpUploadException(UploadException):
     pass
+
+
+def query_for_creds():
+    sys.stdout.write("Username: ")
+    user = sys.stdin.readline().strip()
+    pw = getpass.getpass()
+    return (user, pw)
 
 
 # XXX: Document this more :)
@@ -63,11 +72,21 @@ class SFTPUpload(AbstractUploader):
         self._sshclient = paramiko.SSHClient()
         self._sshclient.load_system_host_keys()
         self._sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        self._sshclient.connect(fqdn, **ssh_kwargs)
-        logger.info("Logged in!")
+        self._auth(fqdn, ssh_kwargs)
         self._sftp = self._sshclient.open_sftp()
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
+
+    def _auth(self, fqdn, ssh_kwargs):
+        try:
+            self._sshclient.connect(fqdn, **ssh_kwargs)
+            logger.info("Logged in!")
+        except paramiko.AuthenticationException:
+            logger.warning("Failed to auth. Prompting for a login pair.")
+            user, pw = query_for_creds()
+            ssh_kwargs['username'] = user
+            ssh_kwargs['password'] = pw
+            self._auth(fqdn, ssh_kwargs)
 
     def upload_file(self, filename):
         basename = os.path.basename(filename)
