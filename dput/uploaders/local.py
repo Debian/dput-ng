@@ -44,8 +44,5 @@ class LocalUploader(AbstractUploader):
         ])  # XXX: Is this the best we can do?
         # dput.util.cp(filename, whereto)  # XXX: Is util.cp needed?
 
-    def run_command(self, command):
-        dput.util.run_command(command)
-
     def shutdown(self):
         pass

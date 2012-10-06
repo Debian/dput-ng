@@ -35,15 +35,27 @@ class SftpUploadException(UploadException):
 class SFTPUpload(AbstractUploader):
     def initialize(self, **kwargs):
         fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
+        user = os.getlogin()  # XXX: This needs a controlling terminal
+
+        ssh_kwargs = {}
 
         config = paramiko.SSHConfig()
         config.parse(open(os.path.expanduser('~/.ssh/config')))
         o = config.lookup(fqdn)
 
-        ssh_kwargs = {
-            "username": o['user'],
-            "key_filename": os.path.expanduser(o['identityfile'])
-        }
+        if "user" in o:
+            user = o['user']
+
+        if 'login' in self._config:
+            new_user = self._config[Opt.KEY_LOGIN]
+            if new_user != "*":
+                user = new_user
+
+        ssh_kwargs['username'] = user
+
+        if 'identityfile' in o:
+            pkey = os.path.expanduser(o['identityfile'])
+            ssh_kwargs['key_filename'] = pkey
 
         self._sshclient = paramiko.SSHClient()
         self._sshclient.load_system_host_keys()
@@ -65,6 +77,3 @@ class SFTPUpload(AbstractUploader):
     def shutdown(self):
         self._sshclient.close()
         self._sftp.close()
-
-    def run_command(self, command):
-        raise NotImplementedError("Not implemented for the SFTP uploader")

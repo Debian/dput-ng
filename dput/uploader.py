@@ -20,6 +20,7 @@
 
 import os
 import abc
+import sys
 from contextlib import contextmanager
 
 import dput.conf
@@ -46,7 +47,12 @@ class AbstractUploader(object):
 
     def _run_hook(self, hook):
         if hook in self._config and self._config[hook] != "":
-            self.run_command(self._config[hook])
+            (output, stderr, ret) = self.run_command([
+                'sh',
+                '-c',
+                self._config[hook]
+            ])
+            sys.stdout.write(output)  # XXX: Fixme
 
     @abc.abstractmethod
     def initialize(self, **kwargs):
@@ -56,9 +62,8 @@ class AbstractUploader(object):
     def upload_file(self, filename):
         pass
 
-    @abc.abstractmethod
     def run_command(self, command):
-        pass
+        return dput.util.run_command(command)
 
     @abc.abstractmethod
     def shutdown(self):
