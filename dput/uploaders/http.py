@@ -29,13 +29,14 @@ import mimetypes
 import os.path
 import urlparse
 
+
 class HttpUploadException(UploadException):
     pass
+
 
 class HTTPUpload(AbstractUploader):
     def initialize(self, **kwargs):
         mimetypes.init()
-
 
         # code below is fugly. Dear god, please write a mutable
         # urlparse library. Pretty please. Hopefully the mangling below is
@@ -43,7 +44,6 @@ class HTTPUpload(AbstractUploader):
         if not self._config[Opt.KEY_FQDN].lower().startswith("http"):
             self._config[Opt.KEY_FQDN] = "http://" + self._config[Opt.KEY_FQDN]
         self._baseurl = urlparse.urlparse(self._config[Opt.KEY_FQDN])
-
 
         _incoming = self._config[Opt.KEY_INCOMING]
         if not _incoming.startswith("/"):
@@ -67,9 +67,7 @@ class HTTPUpload(AbstractUploader):
                                              self._password
                                              ))
 
-
     def upload_file(self, filename):
-
         upload_filename = self._baseurl + os.path.basename(filename)
         logger.debug("Upload to %s" % (upload_filename))
 
@@ -89,8 +87,6 @@ class HTTPUpload(AbstractUploader):
                 raise HttpUploadException(e)
         mmaped_fh.close()
         fh.close()
-
-
 
     def shutdown(self):
         pass

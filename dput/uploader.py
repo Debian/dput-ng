@@ -51,8 +51,11 @@ class AbstractUploader(object):
             (output, stderr, ret) = run_command(self._config[hook])
             sys.stdout.write(output)  # XXX: Fixme
             if ret != 0:
-                raise DputError("Command `%s' returned an error: %s [err=%d]" % (
-                                self._config[hook], stderr, ret))
+                raise DputError(
+                    "Command `%s' returned an error: %s [err=%d]" % (
+                                self._config[hook], stderr, ret
+                    )
+                )
 
     def upload_write_error(self, e):
         logger.warning("""Upload permissions error
@@ -62,7 +65,6 @@ ftp-master, you may have tried to overwrite a file already on the server.
 
 Continuing anyway in case you want to recover from an incomplete upload.
 No file was uploaded, however.""")
-
 
     @abc.abstractmethod
     def initialize(self, **kwargs):
@@ -162,4 +164,3 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
             ))
             if not args.simulate:
                 obj.upload_file(path)
-

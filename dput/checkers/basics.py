@@ -18,10 +18,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+from dput.exceptions import ChangesFileException, CheckerException
+
+
+class GPGCheckerError(CheckerException):
+    pass
+
+
+class HashValidationError(CheckerException):
+    pass
+
 
 def check_gpg_signature(changes, dputcf, profile):
-    changes.validate_signature()
+    try:
+        changes.validate_signature()
+    except ChangesFileException:
+        raise GPGCheckerError(
+            "No signature on %s" % (changes.get_filename())
+        )
 
 
 def validate_checksums(changes, dputcf, profile):
-    changes.validate_checksums()
+    try:
+        changes.validate_checksums()
+    except ChangesFileException:
+        raise GPGCheckerError(
+            "Bad checksums on %s" % (changes.get_filename())
+        )
