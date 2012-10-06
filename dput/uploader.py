@@ -28,8 +28,9 @@ from dput.conf import Opt
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
-from dput.util import (load_obj, load_config)
-from dput.exceptions import NoSuchConfigError, DputConfigurationError
+from dput.util import (load_obj, load_config, run_command)
+from dput.exceptions import (NoSuchConfigError, DputConfigurationError,
+                             DputError)
 
 
 class AbstractUploader(object):
@@ -47,12 +48,11 @@ class AbstractUploader(object):
 
     def _run_hook(self, hook):
         if hook in self._config and self._config[hook] != "":
-            (output, stderr, ret) = self.run_command([
-                'sh',
-                '-c',
-                self._config[hook]
-            ])
+            (output, stderr, ret) = run_command(self._config[hook])
             sys.stdout.write(output)  # XXX: Fixme
+            if ret != 0:
+                raise DputError("Command `%s' returned an error: %s [err=%d]" % (
+                                self._config[hook], stderr, ret))
 
     def upload_write_error(self, e):
         logger.warning("""Upload permissions error
@@ -72,8 +72,9 @@ No file was uploaded, however.""")
     def upload_file(self, filename):
         pass
 
-    def run_command(self, command):
-        return dput.util.run_command(command)
+    @abc.abstractmethod
+    def run_remote_command(self, command):
+        pass
 
     @abc.abstractmethod
     def shutdown(self):
@@ -165,3 +166,4 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
             ))
             if not args.simulate:
                 obj.upload_file(path)
+

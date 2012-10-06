@@ -69,7 +69,7 @@ class FtpUploader(AbstractUploader):
             raise FtpUploadException("Could not upload file %s: %s" %
                                      (filename, e))
 
-    def run_command(self, command):
+    def run_remote_command(self, command):
         raise NotImplementedError("Not implemented for the FTP uploader")
 
     def shutdown(self):

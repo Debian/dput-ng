@@ -22,6 +22,7 @@ import os
 import json
 import importlib
 import subprocess
+import shlex
 
 import dput.core
 from dput.core import logger
@@ -55,7 +56,8 @@ def run_command(command):
     returned
     """
 
-    assert(isinstance(command, list))
+    if not isinstance(command, list):
+        command = shlex.split(command)
     try:
         pipe = subprocess.Popen(command,
                             shell=False, stdout=subprocess.PIPE,

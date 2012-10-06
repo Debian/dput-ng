@@ -8,7 +8,6 @@ bin/dput
 
   - revisit debugging
   - make a file logger?
-  - implement pre/post upload commands
   - implement dinstall switch (*sigh*)
   - implement --force switch (bypass all checker, ignore .upload file?)
   - write an .upload file
