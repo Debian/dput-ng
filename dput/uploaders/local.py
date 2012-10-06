@@ -34,15 +34,12 @@ class LocalUploader(AbstractUploader):
         pass
 
     def upload_file(self, filename):
-        # To upload a file, all we really need is to know, well,
-        # where to upload it.
         whereto = self._config['incoming']
         dput.util.run_command([
             "install",
             filename,
             whereto
-        ])  # XXX: Is this the best we can do?
-        # dput.util.cp(filename, whereto)  # XXX: Is util.cp needed?
+        ])
 
     def shutdown(self):
         pass
