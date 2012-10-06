@@ -48,6 +48,9 @@ class SFTPUpload(AbstractUploader):
         incoming = self._config[Opt.KEY_INCOMING]
         user = os.getlogin()  # XXX: This needs a controlling terminal
 
+        if incoming[0] == '~':
+            raise SftpUploadException("SFTP doesn't support ~path or ~/path")
+
         ssh_kwargs = {}
 
         config = paramiko.SSHConfig()
