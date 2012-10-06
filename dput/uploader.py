@@ -26,9 +26,9 @@ from contextlib import contextmanager
 import dput.conf
 from dput.conf import Opt
 from dput.core import logger
+from dput.overrides import *
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config)
-from dput.overrides import *
 from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
@@ -96,11 +96,16 @@ def uploader(uploader_method, config, profile):
     klass = get_uploader(uploader_method)
 
     if not klass:
-        logger.error("Failed to resolve method %s to an uploader class" %
-                    (uploader_method))
+        logger.error(
+            "Failed to resolve method %s to an uploader class" % (
+                uploader_method
+            )
+        )
         raise DputConfigurationError(
-                        "Failed to resolve method %s to an uploader class" %
-                    (uploader_method))
+            "Failed to resolve method %s to an uploader class" % (
+                uploader_method
+            )
+        )
 
     obj = klass(config, profile)
     obj.initialize()
