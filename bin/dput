@@ -90,6 +90,9 @@ try:
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
     sys.exit(2)
+except dput.exceptions.UploadException as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(3)
 except dput.exceptions.CheckerException as e:
     dput.core.logger.critical(str(e))
     sys.exit(1)

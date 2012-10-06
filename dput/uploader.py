@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import re
 import os
 import abc
 import sys
@@ -30,7 +31,7 @@ from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
 from dput.util import (load_obj, load_config, run_command)
 from dput.exceptions import (NoSuchConfigError, DputConfigurationError,
-                             DputError)
+                             DputError, UploadException)
 
 
 class AbstractUploader(object):
@@ -126,6 +127,10 @@ def uploader(uploader_method, config, profile):
         obj.shutdown()
 
 
+class BadDistributionError(UploadException):
+    pass
+
+
 def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 #                                        elsewhere, try again.
 
@@ -134,6 +139,14 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         'profiles',
         conf.name()
     )
+
+    suite = changes['Distribution']
+    srgx = conf['allowed_distributions']
+    if re.match(srgx, suite) is None:
+        raise BadDistributionError("'%s' doesn't match '%s'" % (
+            suite,
+            srgx
+        ))
 
     if args.simulate:
         logger.warning("Not uploading for real - dry run")
