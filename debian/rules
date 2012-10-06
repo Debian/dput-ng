@@ -9,7 +9,5 @@ override_dh_auto_install:
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	set -e; for x in $(shell pyversions -r); do \
-		$$x $(shell which nosetests); \
-	done
+	nosetests
 endif
