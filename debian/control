@@ -1,0 +1,25 @@
+Source: dput-ng
+Section: devel
+Priority: optional
+Maintainer: Arno Töll <arno@debian.org>
+Uploaders: Paul Tagliamonte <paultag@debian.org>
+Build-Depends: debhelper (>= 9),
+ python-all (>= 2.6.6-3~),
+ python-setuptools,
+ python-coverage,
+ python-nose
+Standards-Version: 3.9.3
+X-Python-Version: >= 2.6
+
+Package: dput-ng
+Architecture: all
+Multi-Arch: foreign
+Breaks: dput
+Replaces: dput
+Provides: dput
+Depends: ${misc:Depends}, ${python:Depends}
+Description: package upload tool
+ long
+ description
+ goes
+ here

@@ -33,7 +33,7 @@ def test_importer():
 
 
 def test_dput_cf_loader():
-    config = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS)
+    config = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
     assert config.sections() == ['global-one', 'global-two', 'local-one']
 
     assert config.items('global-one') == [

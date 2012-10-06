@@ -2,3 +2,10 @@
 *.swp
 *dput*egg*
 .coverage
+build/
+debian/dput-ng.substvars
+debian/dput-ng/
+debian/dput.substvars
+debian/files
+debian/*debhelper*
+debian/dput/
