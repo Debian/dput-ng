@@ -49,7 +49,8 @@ class SFTPUpload(AbstractUploader):
         user = os.getlogin()  # XXX: This needs a controlling terminal
 
         if incoming[0] == '~':
-            raise SftpUploadException("SFTP doesn't support ~path or ~/path")
+            raise SftpUploadException("SFTP doesn't support ~path or ~/path "
+                                      "if you need $HOME paths, use SCP.")
 
         ssh_kwargs = {}
 
