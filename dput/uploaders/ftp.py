@@ -64,15 +64,7 @@ class FtpUploader(AbstractUploader):
             basename = "STOR %s" % (os.path.basename(filename))
             self._ftp.storbinary(basename, open(filename, 'rb'))
         except ftplib.error_perm as e:
-            #TODO: Steal dput's warning here.
-            logger.critical("""FTP Permissions error
-
-You either don't have the rights to upload a file, or, if this is on
-ftp-master, you may have tried to overwrite a file already on the server.""")
-            raise FtpUploadException("Permissions error on file %s: %s" % (
-                filename,
-                e
-            ))
+            self.upload_write_error(e)
         except Exception as e:
             raise FtpUploadException("Could not upload file %s: %s" %
                                      (filename, e))

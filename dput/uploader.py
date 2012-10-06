@@ -54,6 +54,16 @@ class AbstractUploader(object):
             ])
             sys.stdout.write(output)  # XXX: Fixme
 
+    def upload_write_error(self, e):
+        logger.warning("""Upload permissions error
+
+You either don't have the rights to upload a file, or, if this is on
+ftp-master, you may have tried to overwrite a file already on the server.
+
+Continuing anyway in case you want to recover from an incomplete upload.
+No file was uploaded, however.""")
+
+
     @abc.abstractmethod
     def initialize(self, **kwargs):
         pass

@@ -84,7 +84,7 @@ class HTTPUpload(AbstractUploader):
             urllib2.urlopen(req)
         except urllib2.HTTPError as e:
             if e.code == 403:
-                logger.warning("Could not overwrite file. blah blah blah")
+                self.upload_write_error(e)
             else:
                 raise HttpUploadException(e)
         mmaped_fh.close()
