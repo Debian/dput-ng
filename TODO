@@ -1,0 +1,53 @@
+TODO list for dput-ng
+=====================
+
+prime hacks neededing to be done
+
+bin/dput
+--------
+
+  - revisit debugging
+
+
+tests/*
+-------
+
+  - get 100% coverage
+  - test ftp / sftp w/mockers (pyftpdlib)
+
+
+dput/uploader.py
+----------------
+
+  - fix shtty names
+  - other misc refactors
+  - change invoke_dput to a less worse name
+  - same with uploader
+
+sftp
+----
+
+  - finish impl
+  - ports
+  - behave better w/ overrides
+
+scp
+---
+
+  - implement
+
+dput/checker.py
+---------------
+
+  - refactor some crap, combine dput.uploader.get_uploader and
+    dput.checker.get_checker.
+
+  - add better None checks
+
+  - catch errors in checkers and output sane warnings
+
+
+dput/util.py
+------------
+
+  - refactor, look at naming things like a sane person
