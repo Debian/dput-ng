@@ -1,0 +1,4 @@
+{
+    "name": "http(s) uploader",
+    "plugin": "dput.uploaders.http.HTTPUpload"
+}
