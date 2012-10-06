@@ -1,6 +1,9 @@
 Source: dput-ng
 Section: devel
 Priority: optional
+Breaks: dput
+Replaces: dput
+Provides: dput
 Maintainer: Arno Töll <arno@debian.org>
 Uploaders: Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 9),
