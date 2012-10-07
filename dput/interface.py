@@ -19,3 +19,22 @@
 # 02110-1301, USA.
 
 
+import abc
+
+
+class AbstractInterface(object):
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def initialize(self, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def query(self, title, questions):
+        # [{'msg': 'username', 'show': true},
+        #  {'msg': 'password', 'show': false'}]
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self):
+        pass
