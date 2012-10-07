@@ -78,3 +78,11 @@
 
     You can read more about profiles, and the config files in the
     documentation.
+
+6) Hey, I can't run dput -H -p or dput -p -H they way I think it should!
+
+    well, try it with plain ole' dput :)
+
+    Anyway, those arguments are a bit of a special case & for debugging. All
+    the "short" flags can't be used together -- flags like "-v", "-H", or "-p"
+    shouldn't be used together anyway.
