@@ -31,7 +31,7 @@ class CLInterface(AbstractInterface):
     def query(self, title, questions):
         ret = []
         for question in questions:
-            msg = "%s: "% (question['msg'])
+            msg = "%s: " % (question['msg'])
             if question['show']:
                 sys.stdout.write(msg)
                 ret.append(sys.stdin.readline().strip())
