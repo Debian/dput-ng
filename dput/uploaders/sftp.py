@@ -78,7 +78,9 @@ class SFTPUploader(AbstractUploader):
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
 
-    def _auth(self, fqdn, ssh_kwargs, _first=True):
+    def _auth(self, fqdn, ssh_kwargs, _first=0):
+        if _first == 3:
+            raise SftpUploadException("Failed to authenticate")
         try:
             self._sshclient.connect(fqdn, **ssh_kwargs)
             logger.info("Logged in!")
@@ -91,7 +93,7 @@ class SFTPUploader(AbstractUploader):
             if user is not None:
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
-            self._auth(fqdn, ssh_kwargs, _first=False)
+            self._auth(fqdn, ssh_kwargs, _first=_first + 1)
 
     def upload_file(self, filename):
         basename = os.path.basename(filename)
