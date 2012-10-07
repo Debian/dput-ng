@@ -33,3 +33,12 @@
    We think this will result in cool new checkers (since uploaders are a bit of
    work) being written to better check packages to be uploaded before they go
    too far :)
+
+3) Is dput-ng compatible with dput configuration files?
+
+4) Where does dput compatibility end?
+
+5) How to make my own profile?
+
+
+
