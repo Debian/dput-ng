@@ -142,6 +142,22 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         conf.name()
     )
 
+    fqdn = conf[Opt.KEY_FQDN]
+    host = args.host
+
+    # XXX: Correct --force behavior
+    logfile = changes.get_changes_file()  # XXX: Check for existing one
+    xtn = ".changes"
+    if logfile.endswith(xtn):
+        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], host)
+    else:
+        # XXX: WTF WTF WTF WTF SHIT
+        raise UploadException("The christ is a %s file???" % (
+            logfile
+        ))
+
+    # XXX: This function is huge, let's break this up!
+
     suite = changes['Distribution']
     srgx = conf['allowed_distributions']
     if re.match(srgx, suite) is None:
@@ -168,14 +184,26 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         logger.warning("No checkers defined in the profile. "
                        "Not checking upload.")
 
-    logger.info("Uploading %s to %s (%s)" % (changes.get_filename(),
-                                              conf[Opt.KEY_FQDN],
-                                              conf[Opt.KEY_INCOMING]))
-    with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
-        for path in changes.get_files() + [changes.get_changes_file(), ]:
-            logger.info("Uploading %s => %s" % (
-                os.path.basename(path),
-                conf.name()
-            ))
-            if not args.simulate:
-                obj.upload_file(path)
+    logger.info("Uploading %s to %s (%s)" % (
+        changes.get_filename(),
+         fqdn,
+         conf[Opt.KEY_INCOMING]
+    ))
+
+    with open(logfile, 'w') as log:
+        logger.debug("Writing log to %s" % (logfile))
+        with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
+            for path in changes.get_files() + [changes.get_changes_file(), ]:
+                logger.info("Uploading %s => %s" % (
+                    os.path.basename(path),
+                    conf.name()
+                ))
+                if not args.simulate:
+                    obj.upload_file(path)
+                log.write(
+                    "Successfully uploaded %s to %s for %s.\n" % (
+                        os.path.basename(path),
+                        conf[Opt.KEY_FQDN] or host,
+                        host
+                    )
+                )
