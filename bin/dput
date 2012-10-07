@@ -86,7 +86,7 @@ changes = dput.changes.parse_changes_file(
 )
 
 if args.host is None:
-    args.host = 'ftp-master'
+    args.host = 'ftp-master'  # XXX: Let's be nicer to our Ubuntu friends.
 
 try:
     upload(changes, args)
