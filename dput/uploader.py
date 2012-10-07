@@ -40,6 +40,13 @@ class AbstractUploader(object):
     def __init__(self, config, profile):
         self._config = config
         self._profile = profile
+        self._interface = get_obj('interfaces', 'cli')()  # XXX: Check for None
+
+    def prompt_ui(self, *args, **kwargs):
+        self._interface.initialize()
+        ret = self._interface.query(*args, **kwargs)
+        self._interface.shutdown()
+        return ret
 
     def _pre_hook(self):
         self._run_hook("pre_upload_command")

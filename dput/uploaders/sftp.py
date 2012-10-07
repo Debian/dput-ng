@@ -34,16 +34,6 @@ class SftpUploadException(UploadException):
     pass
 
 
-def query_for_creds(qfu=False):
-    user = None
-    if qfu:
-        sys.stdout.write("Username: ")
-        user = sys.stdin.readline().strip()
-
-    pw = getpass.getpass()
-    return (user, pw)
-
-
 def find_username(conf):
         user = os.getlogin()  # XXX: This needs a controlling terminal
         if 'login' in conf:
@@ -97,8 +87,10 @@ class SFTPUploader(AbstractUploader):
             logger.info("Logged in!")
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
-            qfu = not _first
-            user, pw = query_for_creds(qfu=qfu)
+            user, pw = self.prompt_ui('please login', [
+                {'msg': 'Username', 'show': True},  # XXX: Ask for pw only
+                {'msg': 'Password', 'show': False}  #      4 first error
+            ])
             if user is not None:
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw

@@ -31,11 +31,12 @@ class CLInterface(AbstractInterface):
     def query(self, title, questions):
         ret = []
         for question in questions:
+            msg = "%s: "% (question['msg'])
             if question['show']:
-                sys.stdout.write("%s ", question['msg'])
+                sys.stdout.write(msg)
                 ret.append(sys.stdin.readline().strip())
             else:
-                ret.append(getpass.getpass(question['msg']))
+                ret.append(getpass.getpass(msg))
         return ret
 
     def shutdown(self):
