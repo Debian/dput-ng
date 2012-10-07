@@ -1,4 +1,4 @@
 {
     "name": "suite mismatch checker",
-    "plugin": "dput.checkers.basics.check_distribution_matches_changelog"
+    "plugin": "dput.checkers.basics.check_distribution_matches"
 }

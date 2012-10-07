@@ -57,7 +57,7 @@ def validate_checksums(changes, dputcf, profile):
         )
 
 
-def check_distribution_matches_changelog(changes, dputcf, profile):
+def check_distribution_matches(changes, dputcf, profile):
     changelog_distribution = changes.get("Changes").split()[2].strip(';')
     intent = changelog_distribution.strip()
     actual = changes.get("Distribution").strip()
