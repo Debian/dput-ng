@@ -1,4 +1,4 @@
 {
     "name": "lintian checker",
-    "plugin": "dput.checkers.lintian.lintian"
+    "path": "dput.checkers.lintian.lintian"
 }

@@ -1,4 +1,4 @@
 {
-    "plugin": "dput.uploaders.ftp.FtpUploader",
-    "name": "ftp uploader"
+    "name": "ftp uploader",
+    "path": "dput.uploaders.ftp.FtpUploader"
 }

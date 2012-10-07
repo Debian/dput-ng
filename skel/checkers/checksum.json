@@ -1,4 +1,4 @@
 {
     "name": "checksum checker",
-    "plugin": "dput.checkers.basics.validate_checksums"
+    "path": "dput.checkers.basics.validate_checksums"
 }

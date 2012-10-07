@@ -1,4 +1,4 @@
 {
     "name": "local file uploader",
-    "plugin": "dput.uploaders.local.LocalUploader"
+    "path": "dput.uploaders.local.LocalUploader"
 }

@@ -1,4 +1,4 @@
 {
     "name": "source package missing checker",
-    "plugin": "dput.checkers.basics.check_source_needed"
+    "path": "dput.checkers.basics.check_source_needed"
 }
