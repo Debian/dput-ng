@@ -180,7 +180,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         make_delayed_upload(profile, args.delayed)
 
     if args.passive:
-        force_passive_ftp_upload(profil)
+        force_passive_ftp_upload(profile)
 
     if 'checkers' in profile:
         for checker in profile['checkers']:

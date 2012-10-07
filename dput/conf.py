@@ -179,8 +179,9 @@ def get_upload_target(conf, hostname):
         dput.core.logger.debug("Picking stanza %s" % (selected_stanza))
         return Opt(conf, selected_stanza)
     else:
-        raise DputConfigurationError("Upload target `%s' was not found"
-                                     % (hostname))
+        raise DputConfigurationError("Upload target `%s' was not found" % (
+            hostname
+        ))
 
 
 def load_configuration(configuration_files, replacements):
