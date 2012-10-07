@@ -37,7 +37,7 @@ cancel
 dm
 
 
-Syntax of command files
+Syntax of command files:
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Archive: ftp.debian.org
@@ -51,3 +51,7 @@ Fingerprint: < DM fingerprint >
 Allow: < source_package >
 Deny: < source_package >
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Filename is:
+
+# $login-$timestamp.dak[.-]commands
