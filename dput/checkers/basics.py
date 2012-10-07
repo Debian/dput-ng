@@ -58,4 +58,19 @@ def validate_checksums(changes, dputcf, profile):
 
 
 def check_distribution_matches_changelog(changes, dputcf, profile):
-    pass
+    changelog_distribution = changes.get("Changes").split()[2].strip(';')
+    intent = changelog_distribution.strip()
+    actual = changes.get("Distribution").strip()
+    if intent != actual:
+        logger.debug("Oh shit, %s != %s" % (intent, actual))
+        err = "Upload is targeting `%s', but the changes will hit `%s'." % (
+            intent,
+            actual
+        )
+        if intent == 'experimental' and (
+            actual == 'unstable' or
+            actual == 'sid'
+        ):
+            err += \
+              "\nLooks like you forgot -d experimental when invoking sbuild."
+        raise SuiteMismatchError(err)

@@ -1,5 +1,6 @@
 {
     "checkers": [
+        "suite-mismatch",
         "checksum",
         "gpg",
         "lintian"
