@@ -44,12 +44,19 @@ def query_for_creds(qfu=False):
     return (user, pw)
 
 
+def find_username(conf):
+        user = os.getlogin()  # XXX: This needs a controlling terminal
+        if 'login' in conf:
+            new_user = conf[Opt.KEY_LOGIN]
+            if new_user != "*":
+                user = new_user
+        return user
+
 # XXX: Document this more :)
 class SFTPUploader(AbstractUploader):
     def initialize(self, **kwargs):
         fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
         incoming = self._config[Opt.KEY_INCOMING]
-        user = os.getlogin()  # XXX: This needs a controlling terminal
 
         if incoming[0] == '~':
             raise SftpUploadException("SFTP doesn't support ~path or ~/path. "
@@ -64,13 +71,10 @@ class SFTPUploader(AbstractUploader):
         config.parse(open(os.path.expanduser('~/.ssh/config')))
         o = config.lookup(fqdn)
 
+        user = find_username(self._config)
         if "user" in o:
             user = o['user']
 
-        if 'login' in self._config:
-            new_user = self._config[Opt.KEY_LOGIN]
-            if new_user != "*":
-                user = new_user
 
         ssh_kwargs['username'] = user
 
