@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 
-from dput import __appname__, __version__
+import subprocess
+from dput import __appname__
 from setuptools import setup
 
 long_description = open('README.md').read()
 
+v_cmd = "dpkg-parsechangelog | grep '^Version' | sed 's/.*: //g'"  # Hack
+version = subprocess.check_output(["sh", "-c", v_cmd]).strip()
+# XXX: This hack above is bad, mmkay? Please don't use this widly.
+#      we just really need to tie the version to the package module.
+
 setup(
     name=__appname__,
-    version=__version__,
+    version=version,
     packages=[
         'dput',
         'dput.checkers',

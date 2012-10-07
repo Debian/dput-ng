@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-__version__ = "0.1~pre0"
 __license__ = "GPL-2+"
 __appname__ = "dput"
 __authors__ = [
