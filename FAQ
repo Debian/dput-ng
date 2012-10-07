@@ -24,7 +24,7 @@
 
    All uploaders (stuff like sftp, scp, local, ftp, http) are implemented as
    "uploaders". They're registered via .json files, which declare the import
-   path to the class -- such as `dput.uploaders.sftp.SFTPUpload`. This allows
+   path to the class -- such as `dput.uploaders.sftp.SFTPUploader`. This allows
    uploaders, checkers (they work just like uploaders!) to be run from dput-ng
    even if they're outside dput-ng's package (so, nothing stops you from
    writing `foopackage.barmodule.BazUploader` or `kruft.fooChecker` and using
