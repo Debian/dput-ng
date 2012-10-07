@@ -18,9 +18,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-
+import os
+import dput.core
 import dput.conf
 import dput.util
+from dput.conf import load_configuration
 from dput.exceptions import DputConfigurationError
 
 
@@ -52,3 +54,18 @@ def load_profile(profile_name):
             profile['name'] = profile_name
 
     return profile
+
+
+def profiles():
+    cf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
+    profiles = set(cf.sections())
+    for path in dput.core.CONFIG_LOCATIONS:
+        path = "%s/profiles" % (path)
+        if os.path.exists(path):
+            for fil in os.listdir(path):
+                xtn = ".json"
+                if fil.endswith(xtn):
+                    profiles.add(fil[:-len(xtn)])
+
+    for profile in profiles:
+        yield load_profile(profile)
