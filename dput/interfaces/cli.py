@@ -18,4 +18,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import sys
+import getpass
 
+from dput.interface import AbstractInterface
+
+
+class CLInterface(AbstractInterface):
+    def initialize(self, **kwargs):
+        pass  # nothing here.
+
+    def query(self, title, questions):
+        ret = []
+        for question in questions:
+            if question['show']:
+                sys.stdout.write("%s ", question['msg'])
+                ret.append(sys.stdin.readline().strip())
+            else:
+                ret.append(getpass.getpass(question['msg']))
+        return ret
+
+    def shutdown(self):
+        pass  # nothing here.
