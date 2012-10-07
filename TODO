@@ -11,7 +11,6 @@ bin/dput
   - implement dinstall switch (*sigh*)
   - implement --force switch (bypass all checker, ignore .upload file?)
   - write an .upload file
-  - 
 
 tests/*
 -------
@@ -42,16 +41,17 @@ scp
 uploader
 --------
 
-  - All uploaders lack manual authentication support, e.g. for password prompts
+  - uploaders lack generic manual authentication support, e.g. for password
+    prompts. base work in sftp. refactor needed.
   - We /really/ should avoid that every upload does its own prompting. Instead
     we should consolidate user prompting through a callback. That allows to
-    implement, say, a dput GUI.
+    implement, say, a dput GUI. (refactor sftp)
   - A progress bar
 
 rsync
 -----
 
-  - implement
+  - implement (do people *really* use this??)
 
 dput/checker.py
 ---------------
@@ -79,10 +79,10 @@ profiles
 --------
 
   - find a sane way to allow base checks without always having to copy the
-    full list in each profile.
+    full list in each profile. (global_checkers?)
 
 package
 -------
 
-  - Yep, make a native Debian package out of it
+  - Yep, make a native Debian package out of it (that's right)
   - file an ITP (and hope they shitstorm may pass by)
