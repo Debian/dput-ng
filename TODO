@@ -10,9 +10,8 @@ bin/dput
 
   - revisit debugging
   - make a file logger?
-  - implement dinstall switch (*sigh*)
+  - implement dinstall switch (*sigh*) (PRT - calling a punt)
   - implement --force switch (bypass all checker, ignore .upload file?)
-  - write an .upload file
   - Implement various switches (-H/-U/-o/-p/-v/-V)
 
 tests/*
@@ -36,19 +35,9 @@ sftp
   - ports
   - behave better w/ overrides
 
-scp
----
-
-  - implement
-
 uploader
 --------
 
-  - uploaders lack generic manual authentication support, e.g. for password
-    prompts. base work in sftp. refactor needed.
-  - We /really/ should avoid that every upload does its own prompting. Instead
-    we should consolidate user prompting through a callback. That allows to
-    implement, say, a dput GUI. (refactor sftp)
   - A progress bar
 
 rsync
@@ -59,13 +48,7 @@ rsync
 dput/checker.py
 ---------------
 
-  - refactor some crap, combine dput.uploader.get_uploader and
-    dput.checker.get_checker.
-
-  - add better None checks
-
   - catch errors in checkers and output sane warnings
-
 
 dput/checkers/basiscs.py
 ------------------------
@@ -76,7 +59,6 @@ dput/util.py
 ------------
 
   - refactor, look at naming things like a sane person
-
 
 profiles
 --------
@@ -89,7 +71,6 @@ package
 
   - Yep, make a native Debian package out of it (that's right)
   - file an ITP (and hope they shitstorm may pass by)
-
 
 python2.6
 ---------
