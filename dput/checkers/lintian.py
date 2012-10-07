@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-import sys
 import subprocess
 from collections import defaultdict
 
@@ -80,7 +79,7 @@ def lint(path, pedantic=False, info=False, experimental=False):
     return process(output)
 
 
-def lintian(changes, dputcf, profile):
+def lintian(changes, dputcf, profile, interface):
     if "run_lintian" in dputcf:
         if not dputcf['run_lintian']:
             logger.info("skipping lintian checking, enable with "
@@ -103,10 +102,15 @@ def lintian(changes, dputcf, profile):
         for tag in set([x['tag'] for x in tags]):
             print "  - %s" % (tag)
 
-        sys.stdout.write("Do you consent to these lintian tags? [Ny] ")
-        inp = sys.stdin.readline().strip()
-        inp = inp.lower()
-        if inp == "" or inp == "n":
+        inp = interface.query('Lintian Checker', [
+            {'msg': 'Do you consent to these lintian tags? [Ny]',
+             'show': True}
+        ])
+        inp = [x.strip().lower() for x in inp]
+        query = inp[0]
+        if query == "":
+            query = 'n'
+        if query != 'y':
             raise LintianCheckerException("User didn't own up to the "
                                           "lintian issues")
         else:
