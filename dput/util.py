@@ -20,9 +20,9 @@
 
 import os
 import json
+import shlex
 import importlib
 import subprocess
-import shlex
 
 import dput.core
 from dput.core import logger

@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import sys
 import subprocess
 from collections import defaultdict
 
@@ -98,7 +99,15 @@ def lintian(changes, dputcf, profile):
     for entry in tcounts:
         counts[entry] += 1
 
-    if counts['W'] > 0:
-        raise LintianCheckerException("Too many warnings (%s)" % (
-            counts['W']
-        ))
+    if len(tags) > 0:
+        for tag in set([x['tag'] for x in tags]):
+            print "  - %s" % (tag)
+
+        sys.stdout.write("Do you consent to these lintian tags? [Ny] ")
+        inp = sys.stdin.readline().strip()
+        inp = inp.lower()
+        if inp == "" or inp == "n":
+            raise LintianCheckerException("User didn't own up to the "
+                                          "lintian issues")
+        else:
+            logger.warning("Uploading w/ outstanding lintian issues.")

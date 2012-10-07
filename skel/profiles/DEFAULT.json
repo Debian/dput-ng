@@ -1,6 +1,7 @@
 {
     "checkers": [
         "checksum",
-        "gpg"
+        "gpg",
+        "lintian"
     ]
 }
