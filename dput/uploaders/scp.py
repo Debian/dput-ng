@@ -20,7 +20,6 @@
 
 import os.path
 
-from dput.conf import Opt
 from dput.core import logger
 from dput.uploader import AbstractUploader
 from dput.exceptions import UploadException
@@ -42,13 +41,13 @@ class ScpUploader(AbstractUploader):
 
         login = find_username(self._config)
         self._scp_base = ["scp", "-p", "-C"]
-        self._scp_host = "%s@%s" % (login, self._config[Opt.KEY_FQDN])
+        self._scp_host = "%s@%s" % (login, self._config['fqdn'])
         logger.debug("Using scp to upload to %s" % (self._scp_host))
         logger.warning("SCP is deprecated. Please consider upgrading to SFTP.")
 
     def upload_file(self, filename):
         basefile = os.path.basename(filename)
-        incoming = self._config[Opt.KEY_INCOMING]
+        incoming = self._config['incoming']
         targetfile = "%s:%s" % (self._scp_host, os.path.join(incoming,
                                                              basefile))
         scp = self._scp_base + [filename, targetfile]

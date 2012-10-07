@@ -21,7 +21,6 @@
 from dput.exceptions import UploadException
 from dput.uploader import AbstractUploader
 from dput.core import logger
-from dput.conf import Opt
 
 import urllib2
 import mmap
@@ -41,11 +40,11 @@ class HTTPUploader(AbstractUploader):
         # code below is fugly. Dear god, please write a mutable
         # urlparse library. Pretty please. Hopefully the mangling below is
         # reasonably sane
-        if not self._config[Opt.KEY_FQDN].lower().startswith("http"):
-            self._config[Opt.KEY_FQDN] = "http://" + self._config[Opt.KEY_FQDN]
-        self._baseurl = urlparse.urlparse(self._config[Opt.KEY_FQDN])
+        if not self._config['fqdn'].lower().startswith("http"):
+            self._config['fqdn'] = "http://" + self._config['fqdn']
+        self._baseurl = urlparse.urlparse(self._config['fqdn'])
 
-        _incoming = self._config[Opt.KEY_INCOMING]
+        _incoming = self._config['incoming']
         if not _incoming.startswith("/"):
             _incoming = "/" + _incoming
         if not _incoming.endswith("/"):

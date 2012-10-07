@@ -25,7 +25,6 @@ import sys
 from contextlib import contextmanager
 
 import dput.conf
-from dput.conf import Opt
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
@@ -37,9 +36,8 @@ from dput.exceptions import (DputConfigurationError, DputError,
 class AbstractUploader(object):
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, config, profile):
-        self._config = config
-        self._profile = profile
+    def __init__(self, profile):
+        self._config = profile
         interface = 'cli'
         if 'interface' in profile:
             interface = profile['interface']
@@ -99,7 +97,7 @@ No file was uploaded, however.""")
 
 
 @contextmanager
-def uploader(uploader_method, config, profile):
+def uploader(uploader_method, profile):
     """
     Rent-a-uploader :)
     """
@@ -117,7 +115,7 @@ def uploader(uploader_method, config, profile):
             )
         )
 
-    obj = klass(config, profile)
+    obj = klass(profile)
     obj.initialize()
     obj._pre_hook()
     try:
@@ -138,7 +136,7 @@ def determine_logfile(changes, conf, args):
     logfile = changes.get_changes_file()  # XXX: Check for existing one
     xtn = ".changes"
     if logfile.endswith(xtn):
-        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], conf.name())
+        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], conf['name'])
     else:
         raise UploadException("File %s does not look like a .changes file" % (
             changes.get_filename()
@@ -148,7 +146,7 @@ def determine_logfile(changes, conf, args):
     if os.access(logfile, os.R_OK) and not args.force:
         raise UploadException("""Package %s was already uploaded to %s
 If you want to upload nonetheless, use --force or remove %s""" %
-    (changes.get_package_name(), conf.name(), logfile))
+    (changes.get_package_name(), conf['name'], logfile))
 
     logger.debug("Writing log to %s" % (logfile))
     return logfile
@@ -162,9 +160,12 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         'profiles',
         conf.name()
     )
+    for key in conf._data:
+        profile[key] = conf._data[key]  # XXX: GAHHHH, MY EYES ಥ_ಥ
+    profile['name'] = conf.name()
 
-    fqdn = conf[Opt.KEY_FQDN]
-    logfile = determine_logfile(changes, conf, args)
+    fqdn = profile['fqdn']
+    logfile = determine_logfile(changes, profile, args)
 
     # XXX: This function is huge, let's break this up!
 
@@ -172,7 +173,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     #       which is different to allowed_distributions. Moreover, this should
     #       be a checker instead.
     suite = changes['Distribution']
-    srgx = conf['allowed_distributions']
+    srgx = profile['allowed_distributions']
     if re.match(srgx, suite) is None:
         raise BadDistributionError("'%s' doesn't match '%s'" % (
             suite,
@@ -183,15 +184,15 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
         logger.warning("Not uploading for real - dry run")
 
     if args.delayed:
-        make_delayed_upload(conf, args.delayed)
+        make_delayed_upload(profile, args.delayed)
 
     if args.passive:
-        force_passive_ftp_upload(conf)
+        force_passive_ftp_upload(profil)
 
     if 'checkers' in profile:
         for checker in profile['checkers']:
             logger.info("Running checker %s" % (checker))
-            run_checker(checker, changes, conf, profile)
+            run_checker(checker, changes, profile)
     else:
         logger.debug(profile)
         logger.warning("No checkers defined in the profile. "
@@ -199,8 +200,8 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 
     logger.info("Uploading %s to %s (%s)" % (
         changes.get_package_name(),
-        fqdn or conf.name(),
-        conf[Opt.KEY_INCOMING]
+        fqdn or profile['name'],
+        profile['incoming']
     ))
 
     # XXX: This does not work together with --check-only and --simulate
@@ -208,18 +209,18 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     # Also, the _contents_ of the log-file maybe should contain the logger
     # output?
     with open(logfile, 'w') as log:
-        with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
+        with uploader(profile['method'], profile) as obj:
             for path in changes.get_files() + [changes.get_changes_file(), ]:
                 logger.info("Uploading %s => %s" % (
                     os.path.basename(path),
-                    conf.name()
+                    profile['name']
                 ))
                 if not args.simulate:
                     obj.upload_file(path)
                 log.write(
                     "Successfully uploaded %s to %s for %s.\n" % (
                         os.path.basename(path),
-                        conf[Opt.KEY_FQDN] or conf.name(),
-                        conf.name()
+                        profile['fqdn'] or profile['name'],
+                        profile['name']
                     )
                 )

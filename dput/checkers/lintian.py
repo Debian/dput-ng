@@ -79,9 +79,9 @@ def lint(path, pedantic=False, info=False, experimental=False):
     return process(output)
 
 
-def lintian(changes, dputcf, profile, interface):
-    if "run_lintian" in dputcf:
-        if not dputcf['run_lintian']:
+def lintian(changes, profile, interface):
+    if "run_lintian" in profile:
+        if not profile['run_lintian']:
             logger.info("skipping lintian checking, enable with "
                         "run_lintian = 1 in your dput.cf")
             return

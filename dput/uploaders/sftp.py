@@ -21,7 +21,6 @@
 import paramiko
 import os.path
 
-from dput.conf import Opt
 from dput.core import logger
 from dput.uploader import AbstractUploader
 from dput.exceptions import UploadException
@@ -34,7 +33,7 @@ class SftpUploadException(UploadException):
 def find_username(conf):
         user = os.getlogin()  # XXX: This needs a controlling terminal
         if 'login' in conf:
-            new_user = conf[Opt.KEY_LOGIN]
+            new_user = conf['login']
             if new_user != "*":
                 user = new_user
         return user
@@ -43,8 +42,8 @@ def find_username(conf):
 # XXX: Document this more :)
 class SFTPUploader(AbstractUploader):
     def initialize(self, **kwargs):
-        fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
-        incoming = self._config[Opt.KEY_INCOMING]
+        fqdn = self._config['fqdn']
+        incoming = self._config['incoming']
 
         if incoming[0] == '~':
             raise SftpUploadException("SFTP doesn't support ~path or ~/path. "

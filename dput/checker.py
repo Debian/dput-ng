@@ -23,7 +23,7 @@ from dput.util import get_obj
 from dput.exceptions import DputConfigurationError
 
 
-def run_checker(checker, changes, dput_config, profile):
+def run_checker(checker, changes, profile):
     logger.debug("running checker: %s" % (checker))
     obj = get_obj('checkers', checker)
     if obj is None:
@@ -45,7 +45,6 @@ def run_checker(checker, changes, dput_config, profile):
 
     ret = obj(
         changes,
-        dput_config,
         profile,
         interface
     )

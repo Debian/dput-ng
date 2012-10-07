@@ -21,7 +21,6 @@
 import ftplib
 import os.path
 
-from dput.conf import Opt
 from dput.core import logger
 from dput.uploader import AbstractUploader
 from dput.exceptions import UploadException
@@ -39,25 +38,36 @@ class FtpUploader(AbstractUploader):
 
     def initialize(self, **kwargs):
         try:
-            self._ftp = ftplib.FTP(self._config[Opt.KEY_FQDN],
-                                self._config[Opt.KEY_LOGIN], None, timeout=10)
+            self._ftp = ftplib.FTP(
+                self._config["fqdn"],
+                self._config["login"],
+                None,
+                timeout=10
+            )
         except Exception as e:
             raise FtpUploadException(
-                            "Could not establish FTP connection to %s: %s" %
-                            (self._config[Opt.KEY_FQDN], e))
+                "Could not establish FTP connection to %s: %s" % (
+                    self._config['fqdn'],
+                    e
+                )
+            )
 
-        if self._config[Opt.KEY_PASSIVE_FTP] or kwargs['passive_mode']:
+        if self._config["passive_ftp"] or kwargs['passive_mode']:
             logger.debug("Enable PASV mode")
             self._ftp.set_pasv(True)
-        if self._config[Opt.KEY_INCOMING]:
-            logger.debug("Change directory to %s"
-                         % (self._config[Opt.KEY_INCOMING]))
+        if self._config["incoming"]:
+            logger.debug("Change directory to %s" % (
+                self._config["incoming"]
+            ))
             try:
-                self._ftp.cwd(self._config[Opt.KEY_INCOMING])
+                self._ftp.cwd(self._config["incoming"])
             except ftplib.error_perm as e:
                 raise FtpUploadException(
-                                   "Could not change directory to %s: %s" %
-                                   (self._config[Opt.KEY_INCOMING], e))
+                   "Could not change directory to %s: %s" % (
+                       self._config["incoming"],
+                       e
+                   )
+                )
 
     def upload_file(self, filename):
         try:
@@ -66,8 +76,10 @@ class FtpUploader(AbstractUploader):
         except ftplib.error_perm as e:
             self.upload_write_error(e)
         except Exception as e:
-            raise FtpUploadException("Could not upload file %s: %s" %
-                                     (filename, e))
+            raise FtpUploadException("Could not upload file %s: %s" % (
+                filename,
+                e
+            ))
 
     def shutdown(self):
         self._ftp.quit()

@@ -21,7 +21,6 @@
 import os
 
 from dput.core import logger
-from dput.conf import Opt
 
 
 def make_delayed_upload(conf, delayed_days):
@@ -31,10 +30,10 @@ def make_delayed_upload(conf, delayed_days):
 
     Mangles the supplied configuration object
     """
-    incoming_directory = os.path.join(conf[Opt.KEY_INCOMING],
+    incoming_directory = os.path.join(conf['incoming'],
                                     "DELAYED", "%d-day" % (delayed_days))
     logger.debug("overriding upload directory to %s" % (incoming_directory))
-    conf[Opt.KEY_INCOMING] = incoming_directory
+    conf['incoming'] = incoming_directory
 
 
 def force_passive_ftp_upload(conf):
@@ -44,4 +43,4 @@ def force_passive_ftp_upload(conf):
     Mangles the supplied configuration object
     """
     logger.debug("overriding configuration to force FTP passive mode")
-    conf[Opt.KEY_PASSIVE_FTP] = True
+    conf['passive_ftp'] = True
