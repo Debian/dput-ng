@@ -3,6 +3,8 @@ TODO list for dput-ng
 
 prime hacks neededing to be done
 
+  $ grep XXX . -r
+
 bin/dput
 --------
 
