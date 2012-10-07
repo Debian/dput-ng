@@ -186,7 +186,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 
     logger.info("Uploading %s to %s (%s)" % (
         changes.get_filename(),
-         fqdn,
+         fqdn or host,
          conf[Opt.KEY_INCOMING]
     ))
 
