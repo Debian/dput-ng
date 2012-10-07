@@ -54,7 +54,9 @@ class AbstractUploader(object):
             if ret != 0:
                 raise DputError(
                     "Command `%s' returned an error: %s [err=%d]" % (
-                                self._config[hook], stderr, ret
+                        self._config[hook],
+                        stderr,
+                        ret
                     )
                 )
 
