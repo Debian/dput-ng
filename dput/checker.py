@@ -28,7 +28,7 @@ def run_checker(checker, changes, dput_config, profile):
     obj = get_obj('checkers', checker)
     if obj is None:
         raise DputConfigurationError("No such checker: `%s'" % (
-            interface
+            checker
         ))
 
     interface = 'cli'

@@ -27,6 +27,7 @@ from dput.exceptions import UploadException
 from dput.uploaders.sftp import find_username
 from dput.util import run_command
 
+
 class ScpUploadException(UploadException):
     pass
 
