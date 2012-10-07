@@ -39,7 +39,7 @@ parser.add_argument('-d', '--debug', action='store_true', default=False,
 parser.add_argument('-c', '--config', metavar="FILE", action='store',
                     default=None, help='Configuration file to parse')
 parser.add_argument('-D', '--dinstall', action='store_true',
-                    help='Run dinstall after upload')
+                    help='(ignored silently)')
 parser.add_argument('-e', '--delayed', action='store', metavar="DAYS",
             help='Upload to a delayed queue. Takes an argument from 0 to 15',
             type=int, choices=range(0, 16))
