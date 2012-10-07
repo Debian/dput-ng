@@ -235,7 +235,7 @@ def load_dput_configs(upload_target):
     """
 
     repls = {}
-    if ":" in upload_target:
+    if upload_target and ":" in upload_target:
         upload_target, arg = upload_target.split(":", 1)
         repls[upload_target] = arg
 
