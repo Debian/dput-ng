@@ -4,5 +4,6 @@
         "checksum",
         "gpg",
         "lintian"
-    ]
+    ],
+    "interface": "cli"
 }

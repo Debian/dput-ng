@@ -18,10 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-import getpass
 import paramiko
-
-import sys
 import os.path
 
 from dput.conf import Opt
@@ -34,16 +31,6 @@ class SftpUploadException(UploadException):
     pass
 
 
-def query_for_creds(qfu=False):
-    user = None
-    if qfu:
-        sys.stdout.write("Username: ")
-        user = sys.stdin.readline().strip()
-
-    pw = getpass.getpass()
-    return (user, pw)
-
-
 def find_username(conf):
         user = os.getlogin()  # XXX: This needs a controlling terminal
         if 'login' in conf:
@@ -51,6 +38,7 @@ def find_username(conf):
             if new_user != "*":
                 user = new_user
         return user
+
 
 # XXX: Document this more :)
 class SFTPUploader(AbstractUploader):
@@ -75,7 +63,6 @@ class SFTPUploader(AbstractUploader):
         if "user" in o:
             user = o['user']
 
-
         ssh_kwargs['username'] = user
 
         if 'identityfile' in o:
@@ -97,8 +84,10 @@ class SFTPUploader(AbstractUploader):
             logger.info("Logged in!")
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
-            qfu = not _first
-            user, pw = query_for_creds(qfu=qfu)
+            user, pw = self.prompt_ui('please login', [
+                {'msg': 'Username', 'show': True},  # XXX: Ask for pw only
+                {'msg': 'Password', 'show': False}         # 4 first error
+            ])
             if user is not None:
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
