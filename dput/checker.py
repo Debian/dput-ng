@@ -27,7 +27,6 @@ def run_checker(checker, changes, dput_config, profile):
     logger.debug("running checker: %s" % (checker))
     obj = get_obj('checkers', checker)
     # XXX: throw error if obj == None
-    profile = {}  # XXX: add in real profile stuff from host thinger
     return obj(
         changes,
         dput_config,
