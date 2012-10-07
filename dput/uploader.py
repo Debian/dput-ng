@@ -162,8 +162,8 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     srgx = conf['allowed_distributions']
     if re.match(srgx, suite) is None:
         raise BadDistributionError("'%s' doesn't match '%s'" % (
-            suite,
-            srgx
+            suite,  # XXX: On second thought, this makes me feel gross
+            srgx  #        move this to it's own checker.
         ))
 
     if args.simulate:
