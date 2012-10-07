@@ -39,10 +39,14 @@ def load_profile(profile_name):
         default={}
     )
     for thing in profile:
-        if thing in repls:
-            val = profile[thing]
-            val = val.replace("%(%s)s" % (thing), repls[thing])
-            profile[thing] = val
+        val = profile[thing]
+        if not isinstance(val, basestring):
+            continue
+
+        for repl in repls:
+            if repl in val:
+                val = val.replace("%%(%s)s" % (repl), repls[repl])
+        profile[thing] = val
 
     try:
         conf = dput.conf.load_dput_configs(profile_name, repls)
