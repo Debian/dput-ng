@@ -20,6 +20,7 @@
 
 import ConfigParser
 import os
+import sys
 
 import dput.core
 from dput.exceptions import DputConfigurationError
@@ -243,3 +244,36 @@ def load_dput_configs(upload_target):
     _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, repls)
     ret = get_upload_target(_conf, upload_target)
     return ret
+
+
+def print_configuration():
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, [])
+    print
+    print _conf.write(sys.stdout)
+    # XXX: WTF? Does this always print a "None" on the end of the output?
+    print
+
+
+def print_host_list():
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, [])
+
+    default_target = get_upload_target(_conf, None)
+
+    print("Default upload target: %s" % (default_target.name()))
+    print("Default upload target: %s" % (default_target[Opt.KEY_METHOD]))
+    print
+
+    for section in _conf.sections():
+        if _conf.has_option(section, Opt.KEY_FQDN[0]):
+            target = _conf.get(section, Opt.KEY_FQDN[0])
+        else:
+            target = "(none)"
+        if _conf.has_option(section, Opt.KEY_METHOD[0]):
+            method = _conf.get(section, Opt.KEY_METHOD[0])
+        else:
+            method = "(none)"
+        print "%s => target: %s, method: %s" % (
+                                        section,
+                                        target,
+                                        method
+                                        )

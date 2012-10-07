@@ -30,6 +30,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dput.core
 import dput.changes
 import dput.exceptions
+import dput.conf
 from dput import upload
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
@@ -45,15 +46,15 @@ parser.add_argument('-e', '--delayed', action='store', metavar="DAYS",
 parser.add_argument('-f', '--force', action='store_true',
                     help='Force an upload')
 parser.add_argument('-H', '--host-list', action='store_true',
-                    help='(ignored)')
+                    help='print the lists of hosts that dput knows about')
 parser.add_argument('-l', '--lintian', action='store_true',
                     help='Run lintian before upload')
 parser.add_argument('-U', '--no-upload-log', action='store_true',
                     help='Do not write a .upload file after uploading')
 parser.add_argument('-o', '--check-only', action='store_true',
                     help='Only check the package')
-parser.add_argument('-p', '--print', action='store_true',
-                    help='(ignored)')
+parser.add_argument('-p', '--print', action='store_true', dest='print_conf',
+                    help='print the configuration that dput is using')
 parser.add_argument('-P', '--passive', action='store_true',
                     help='Use passive mode for ftp uploads')
 parser.add_argument('-s', '--simulate', action='store_true',
@@ -79,6 +80,18 @@ dput.core.logger.setLevel(logging.INFO)
 if args.debug:
     # XXX: Not ideal, but worksish. Revist debugging.
     dput.core.logger.setLevel(logging.DEBUG)
+
+# XXX: This does not (really) work. argparse requires the positionals
+#      Hence, one cannot just call dput -p/-H, but one needs a changes file
+#      as well. That's suboptimal
+if args.host_list:
+    dput.conf.print_host_list()
+    sys.exit(0)
+if args.print_conf:
+    dput.conf.print_configuration()
+    sys.exit(0)
+
+
 
 changes = dput.changes.parse_changes_file(
     args.changes,
