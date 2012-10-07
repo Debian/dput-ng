@@ -36,9 +36,45 @@
 
 3) Is dput-ng compatible with dput configuration files?
 
+    Short answer: Yes!
+    Long answer: Well, mostly. We've chosen to re-define deprecated / outdated
+                 things. You shouldn't notice any changes, except for users
+                 of `run_dinstall'. You should also be aware that there are
+                 some *new* configuration files, by default, in /etc/dput.d/
+                 and ~/.dput.d/. These config files help define new features
+                 and checker behavior.
+
 4) Where does dput compatibility end?
+
+    We attempted to make the binary look and feel as close to the original as
+    we could muster -- as well as files it produces (.upload files, etc).
+
+    Any issues with the interface's arguments are taken very seriously, and
+    (with minor and documented exception) should be fixed very quickly.
 
 5) How to make my own profile?
 
+    Cool! So, profiles are not unlike dput.cf blocks, but the define the
+    behavior of dput-ng a bit more exactly & in a fragmented way.
 
+    All new config files are in JSON, and have similar override behavior to
+    global / local dput.cf files.
 
+    All you have to do is place a new profile in ~/.dput.d/profiles/ (or,
+    for more the one user / distributing it -- /etc/dput.d/profiles) which
+    looks similar to:
+
+    $ cat ~/.dput.d/profiles/personal-archive.json
+    {
+        "name": "My Personal Archive",
+        "checkers": [
+            "suite-mismatch",
+            "checksum",
+            "gpg",
+            "lintian"
+        ],
+        "interface": "cli"
+    }
+
+    You can read more about profiles, and the config files in the
+    documentation.
