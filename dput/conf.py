@@ -221,7 +221,8 @@ def load_configuration(configuration_files, replacements):
                     (', '.join(configuration_files)))
 
     for replacement in replacements:
-        parser.set(replacement, replacement, replacements[replacement])
+        if parser.has_section(replacement):
+            parser.set(replacement, replacement, replacements[replacement])
 
     return parser
 
