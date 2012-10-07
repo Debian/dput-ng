@@ -40,7 +40,7 @@ class SourceMissingError(CheckerException):
     pass
 
 
-def check_gpg_signature(changes, dputcf, profile):
+def check_gpg_signature(changes, dputcf, profile, interface):
     if "allow_unsigned_uploads" in dputcf:
         if dputcf['allow_unsigned_uploads']:
             logger.info("Not checking GPG signature due to "
@@ -56,7 +56,7 @@ def check_gpg_signature(changes, dputcf, profile):
         )
 
 
-def validate_checksums(changes, dputcf, profile):
+def validate_checksums(changes, dputcf, profile, interface):
     try:
         changes.validate_checksums(check_hash=dputcf["hash"])
     except ChangesFileException as e:
@@ -65,7 +65,7 @@ def validate_checksums(changes, dputcf, profile):
         )
 
 
-def check_distribution_matches(changes, dputcf, profile):
+def check_distribution_matches(changes, dputcf, profile, interface):
     changelog_distribution = changes.get("Changes").split()[2].strip(';')
     intent = changelog_distribution.strip()
     actual = changes.get("Distribution").strip()
@@ -84,7 +84,7 @@ def check_distribution_matches(changes, dputcf, profile):
         raise SuiteMismatchError(err)
 
 
-def check_source_needed(changes, dputcf, profile):
+def check_source_needed(changes, dputcf, profile, interface):
 
     debian_revision = changes.get("Version")
     if debian_revision.find("-") == -1:
