@@ -2,7 +2,6 @@
     "checkers": [
         "suite-mismatch",
         "checksum",
-        "source",
         "gpg",
         "lintian"
     ]

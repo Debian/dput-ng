@@ -47,6 +47,23 @@ def load_obj(obj_path):  # XXX: Name sucks.
     return fltr
 
 
+def get_obj(klass, checker_method):
+    # XXX: return (defn, obj), so we can use the stored .json file for more.
+    logger.debug("Attempting to resolve %s %s" % (klass, checker_method))
+    try:
+        config = load_config(klass, checker_method)
+    except NoSuchConfigError:
+        logger.debug("failed to resolve %s" % (checker_method))
+        return None
+    path = config['path']
+    logger.debug("loading checker %s" % (path))
+    try:
+        return load_obj(path)
+    except ImportError:
+        logger.debug("failed to resolve %s" % (path))
+        return None
+
+
 def run_command(command):
     """
     Run a synchronized command. The argument must be a list of arguments.

@@ -19,31 +19,13 @@
 # 02110-1301, USA.
 
 from dput.core import logger
-from dput.util import (load_obj, load_config)
+from dput.util import (load_config, get_obj)
 from dput.exceptions import NoSuchConfigError
-
-
-def get_checker(checker_method):
-    # XXX: return (defn, obj), so we can use the stored .json file for more.
-    # XXX: refactor this and dput.uploader.get_uploader
-    logger.debug("Attempting to resolve checker %s" % (checker_method))
-    try:
-        config = load_config('checkers', checker_method)
-    except NoSuchConfigError:
-        logger.debug("failed to resolve %s" % (checker_method))
-        return None
-    path = config['plugin']
-    logger.debug("loading checker %s" % (path))
-    try:
-        return load_obj(path)
-    except ImportError:
-        logger.debug("failed to resolve %s" % (path))
-        return None
 
 
 def run_checker(checker, changes, dput_config, profile):
     logger.debug("running checker: %s" % (checker))
-    obj = get_checker(checker)
+    obj = get_obj('checkers', checker)
     # XXX: throw error if obj == None
     profile = {}  # XXX: add in real profile stuff from host thinger
     return obj(

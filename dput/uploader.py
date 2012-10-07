@@ -29,7 +29,7 @@ from dput.conf import Opt
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
-from dput.util import (load_obj, load_config, run_command)
+from dput.util import (load_config, run_command, get_obj)
 from dput.exceptions import (NoSuchConfigError, DputConfigurationError,
                              DputError, UploadException)
 
@@ -82,30 +82,12 @@ No file was uploaded, however.""")
         pass
 
 
-def get_uploader(uploader_method):
-    # XXX: return (defn, obj), so we can use the stored .json file for more.
-    # XXX: refactor this and dput.checker.get_checker
-    logger.debug("Attempting to resolve %s" % (uploader_method))
-    try:
-        config = load_config('uploaders', uploader_method)
-    except NoSuchConfigError:
-        logger.debug("failed to resolve %s" % (uploader_method))
-        return None
-    path = config['plugin']
-    logger.debug("loading %s" % (path))
-    try:
-        return load_obj(path)
-    except ImportError:
-        logger.debug("failed to resolve %s" % (path))
-        return None
-
-
 @contextmanager
 def uploader(uploader_method, config, profile):
     """
     Rent-a-uploader :)
     """
-    klass = get_uploader(uploader_method)
+    klass = get_obj('uploaders', uploader_method)
 
     if not klass:
         logger.error(
