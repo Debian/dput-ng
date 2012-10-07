@@ -85,9 +85,6 @@ changes = dput.changes.parse_changes_file(
     os.path.dirname(args.changes)
 )
 
-if args.host is None:
-    args.host = 'ftp-master'  # XXX: Let's be nicer to our Ubuntu friends.
-
 try:
     upload(changes, args)
 except dput.exceptions.DputConfigurationError as e:
