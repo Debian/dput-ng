@@ -133,6 +133,28 @@ class BadDistributionError(UploadException):
     pass
 
 
+def determine_logfile(changes, conf, args):
+    # dak requires '<package>_<version>_<[a-zA-Z0-9+-]+>.changes'
+
+    # XXX: Correct --force behavior
+    logfile = changes.get_changes_file()  # XXX: Check for existing one
+    xtn = ".changes"
+    if logfile.endswith(xtn):
+        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], conf.name())
+    else:
+        raise UploadException("File %s does not look like a .changes file" % (
+            changes.get_filename()
+        ))
+
+    # XXX: ugh. I really hope nobody every tries to localize dput.
+    if os.access(logfile, os.R_OK) and not args.force:
+        raise UploadException("""Package %s was already uploaded to %s
+If you want to upload nonetheless, use --force or remove %s""" %
+    (changes.get_package_name(), conf.name(), logfile))
+
+    logger.debug("Writing log to %s" % (logfile))
+    return logfile
+
 def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 #                                        elsewhere, try again.
 
@@ -143,27 +165,19 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     )
 
     fqdn = conf[Opt.KEY_FQDN]
-    host = args.host
-
-    # XXX: Correct --force behavior
-    logfile = changes.get_changes_file()  # XXX: Check for existing one
-    xtn = ".changes"
-    if logfile.endswith(xtn):
-        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], host)
-    else:
-        # XXX: WTF WTF WTF WTF SHIT
-        raise UploadException("The christ is a %s file???" % (
-            logfile
-        ))
+    logfile = determine_logfile(changes, conf, args)
 
     # XXX: This function is huge, let's break this up!
 
+    # TODO: This function does not correctly handles distributions
+    #       which is different to allowed_distributions. Moreover, this should
+    #       be a checker instead.
     suite = changes['Distribution']
     srgx = conf['allowed_distributions']
     if re.match(srgx, suite) is None:
         raise BadDistributionError("'%s' doesn't match '%s'" % (
-            suite,  # XXX: On second thought, this makes me feel gross
-            srgx  #        move this to it's own checker.
+            suite,
+            srgx
         ))
 
     if args.simulate:
@@ -185,13 +199,16 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
                        "Not checking upload.")
 
     logger.info("Uploading %s to %s (%s)" % (
-        changes.get_filename(),
-         fqdn or host,
-         conf[Opt.KEY_INCOMING]
+        changes.get_package_name(),
+        fqdn or conf.name(),
+        conf[Opt.KEY_INCOMING]
     ))
 
+    # XXX: This does not work together with --check-only and --simulate
+    # We cannot use with(the_logfile) as an outermost condition
+    # Also, the _contents_ of the log-file maybe should contain the logger 
+    # output?
     with open(logfile, 'w') as log:
-        logger.debug("Writing log to %s" % (logfile))
         with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
             for path in changes.get_files() + [changes.get_changes_file(), ]:
                 logger.info("Uploading %s => %s" % (
@@ -203,7 +220,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
                 log.write(
                     "Successfully uploaded %s to %s for %s.\n" % (
                         os.path.basename(path),
-                        conf[Opt.KEY_FQDN] or host,
-                        host
+                        conf[Opt.KEY_FQDN] or conf.name(),
+                        conf.name()
                     )
                 )

@@ -3,7 +3,7 @@ TODO list for dput-ng
 
 prime hacks neededing to be done
 
-  $ grep XXX . -r
+  $ grep -E "(TODO|XXX)" . -r
 
 bin/dput
 --------
@@ -13,6 +13,7 @@ bin/dput
   - implement dinstall switch (*sigh*)
   - implement --force switch (bypass all checker, ignore .upload file?)
   - write an .upload file
+  - Implement various switches (-H/-U/-o/-p/-v/-V)
 
 tests/*
 -------

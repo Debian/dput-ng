@@ -171,6 +171,12 @@ class Changes(object):
         """
         return self._data.get_pool_path()
 
+    def get_package_name(self):
+        """
+        Returns the source package name
+        """
+        return self.get("Source")
+
     def _parse_section(self, section):
         """
         Works out the component and section from the "Section" field.
