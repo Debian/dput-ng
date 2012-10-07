@@ -23,6 +23,7 @@ import re
 from dput.core import logger
 from dput.exceptions import ChangesFileException, CheckerException
 
+
 class GPGCheckerError(CheckerException):
     pass
 
@@ -34,8 +35,10 @@ class HashValidationError(CheckerException):
 class SuiteMismatchError(CheckerException):
     pass
 
+
 class SourceMissingError(CheckerException):
     pass
+
 
 def check_gpg_signature(changes, dputcf, profile):
     if "allow_unsigned_uploads" in dputcf:
@@ -93,9 +96,10 @@ def check_source_needed(changes, dputcf, profile):
     debian_revision = int(debian_revision)
     # policy 5.6.12:
     # debian_revision --
-    # It is optional; if it isn't present then the upstream_version may not contain a hyphen.
-    # This format represents the case where a piece of software was written specifically to be a
-    # Debian package, where the Debian package source must always be identical to the pristine source
+    # It is optional; if it isn't present then the upstream_version may not
+    # contain a hyphen. This format represents the case where a piece of
+    # software was written specifically to be a Debian package, where the
+    # Debian package source must always be identical to the pristine source
     # and therefore no revision indication is required.
 
     orig_tarball_found = False

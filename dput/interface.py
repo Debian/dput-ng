@@ -18,16 +18,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-from dput.core import logger
-from dput.util import get_obj
+
+import abc
 
 
-def run_checker(checker, changes, dput_config, profile):
-    logger.debug("running checker: %s" % (checker))
-    obj = get_obj('checkers', checker)
-    # XXX: throw error if obj == None
-    return obj(
-        changes,
-        dput_config,
-        profile
-    )
+class AbstractInterface(object):
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def initialize(self, **kwargs):
+        pass
+
+    @abc.abstractmethod
+    def query(self, title, questions):
+        # [{'msg': 'username', 'show': true},
+        #  {'msg': 'password', 'show': false'}]
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self):
+        pass

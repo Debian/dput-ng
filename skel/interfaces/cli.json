@@ -1,0 +1,4 @@
+{
+    "name": "cli interface",
+    "path": "dput.interfaces.cli.CLInterface"
+}

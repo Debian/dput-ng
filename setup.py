@@ -11,7 +11,8 @@ setup(
     packages=[
         'dput',
         'dput.checkers',
-        'dput.uploaders'
+        'dput.uploaders',
+        'dput.interfaces'
     ],
     author="dput authors",
     author_email="paultag@debian.org",

@@ -29,9 +29,9 @@ from dput.conf import Opt
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
-from dput.util import (load_config, run_command, get_obj)
-from dput.exceptions import (NoSuchConfigError, DputConfigurationError,
-                             DputError, UploadException)
+from dput.util import (run_command, get_obj)
+from dput.exceptions import (DputConfigurationError, DputError,
+                             UploadException)
 
 
 class AbstractUploader(object):
@@ -137,6 +137,7 @@ If you want to upload nonetheless, use --force or remove %s""" %
     logger.debug("Writing log to %s" % (logfile))
     return logfile
 
+
 def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 #                                        elsewhere, try again.
 
@@ -188,7 +189,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 
     # XXX: This does not work together with --check-only and --simulate
     # We cannot use with(the_logfile) as an outermost condition
-    # Also, the _contents_ of the log-file maybe should contain the logger 
+    # Also, the _contents_ of the log-file maybe should contain the logger
     # output?
     with open(logfile, 'w') as log:
         with uploader(conf[Opt.KEY_METHOD], conf, profile) as obj:
