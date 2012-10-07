@@ -21,8 +21,15 @@ Breaks: dput
 Replaces: dput
 Provides: dput
 Depends: ${misc:Depends}, ${python:Depends}
-Description: package upload tool
- long
- description
- goes
- here
+Description: Debian package upload tool
+ dput-ng is a package upload tool, inspired by the original dput project.
+ dput aims to allow anyone who works with Debian packages to upload their
+ work to a remote service, such as mentors.debian.net, or ftp-master for
+ Debian maintainers or Debian Developers.
+ .
+ dput-ng features many enhancements over dput, such as more comprehensive
+ checks, an easy to use plugin system, and code designed to handle the numerous
+ archives that any Debian package hacker will interact with.
+ .
+ dput-ng aims to be backwards compatable with dput in command-line flags,
+ configuration files, and expected behavior.
