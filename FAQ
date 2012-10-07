@@ -1,0 +1,35 @@
+    ____  ____  _   _ _____     _   _  ____            _____ _    ___
+   |  _ \|  _ \| | | |_   _|   | \ | |/ ___|          |  ___/ \  / _ \ ___
+   | | | | |_) | | | | | |_____|  \| | |  _           | |_ / _ \| | | / __|
+   | |_| |  __/| |_| | | |_____| |\  | |_| |          |  _/ ___ \ |_| \__ \
+   |____/|_|    \___/  |_|     |_| \_|\____|          |_|/_/   \_\__\_\___/
+
+
+ 1) So, what's the big deal, anyway?
+
+   Well, yeah, good question. dput works great, and all the authors of
+   dput-ng really love dput a lot. So much, in fact, that we've decided
+   to maintain 100% compatibility with the flags, config files and expected
+   behavior of the tool.
+
+   The whole idea here is that dput is starting to get a bit too subject
+   to bitrot, and new features are hard to implement. Moreover, adding new
+   stuff has to happen at the dput level, which is a pain for people
+   who support non-standard stuff.
+
+   We have a spiffy new "plugin" system, where plugins can be in their own
+   package (very far away from dput's) and still work famously.
+
+ 2) So, what's all this plugin nonsense about?
+
+   All uploaders (stuff like sftp, scp, local, ftp, http) are implemented as
+   "uploaders". They're registered via .json files, which declare the import
+   path to the class -- such as `dput.uploaders.sftp.SFTPUpload`. This allows
+   uploaders, checkers (they work just like uploaders!) to be run from dput-ng
+   even if they're outside dput-ng's package (so, nothing stops you from
+   writing `foopackage.barmodule.BazUploader` or `kruft.fooChecker` and using
+   them when you need to).
+
+   We think this will result in cool new checkers (since uploaders are a bit of
+   work) being written to better check packages to be uploaded before they go
+   too far :)
