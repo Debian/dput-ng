@@ -40,7 +40,16 @@ class AbstractUploader(object):
     def __init__(self, config, profile):
         self._config = config
         self._profile = profile
-        self._interface = get_obj('interfaces', 'cli')()  # XXX: Check for None
+        interface = 'cli'
+        if 'interface' in profile:
+            interface = profile['interface']
+        logger.debug("Using interface %s" % (interface))
+        interface = get_obj('interfaces', interface)
+        if interface is None:
+            raise DputConfigurationError("No such interface: `%s'" % (
+                interface
+            ))
+        self._interface = interface()
 
     def prompt_ui(self, *args, **kwargs):
         self._interface.initialize()
