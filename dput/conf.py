@@ -170,7 +170,8 @@ def get_upload_target(conf, hostname):
         if not hostname and conf.get(stanza, "default_host_main"):
             selected_stanza = stanza
             break
-    if not hostname and conf.has_section(fallback_stanza):
+    if not hostname and not selected_stanza and (
+                                            conf.has_section(fallback_stanza)):
         selected_stanza = fallback_stanza
 
     if selected_stanza:
