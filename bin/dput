@@ -32,6 +32,10 @@ import dput.changes
 import dput.exceptions
 import dput.conf
 from dput import upload
+import dput.profile
+
+print dput.profile.get_upload_target("ppa")
+sys.exit(0)
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-d', '--debug', action='store_true', default=False,

@@ -42,7 +42,6 @@ def load_profile(profile_name):
         val = profile[thing]
         if not isinstance(val, basestring):
             continue
-
         for repl in repls:
             if repl in val:
                 val = val.replace("%%(%s)s" % (repl), repls[repl])
@@ -60,7 +59,7 @@ def load_profile(profile_name):
     return profile
 
 
-def profiles():
+def get_sections():
     cf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
     profiles = set(cf.sections())
     for path in dput.core.CONFIG_LOCATIONS:
@@ -70,6 +69,10 @@ def profiles():
                 xtn = ".json"
                 if fil.endswith(xtn):
                     profiles.add(fil[:-len(xtn)])
+    return profiles
 
+
+def profiles():
+    profiles = get_sections()
     for profile in profiles:
         yield load_profile(profile)
