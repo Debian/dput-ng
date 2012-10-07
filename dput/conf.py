@@ -244,8 +244,7 @@ def load_dput_configs(upload_target, repls):
 def print_configuration():
     _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, [])
     print
-    print _conf.write(sys.stdout)
-    # XXX: WTF? Does this always print a "None" on the end of the output?
+    _conf.write(sys.stdout)
     print
 
 
