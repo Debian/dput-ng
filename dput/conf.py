@@ -243,14 +243,14 @@ def load_dput_configs(upload_target, repls):
 
 
 def print_configuration():
-    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, [])
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
     print
     _conf.write(sys.stdout)
     print
 
 
 def print_host_list():
-    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, [])
+    _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
 
     default_target = get_upload_target(_conf, None)
 
