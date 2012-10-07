@@ -29,6 +29,10 @@ class HashValidationError(CheckerException):
     pass
 
 
+class SuiteMismatchError(CheckerException):
+    pass
+
+
 def check_gpg_signature(changes, dputcf, profile):
     if "allow_unsigned_uploads" in dputcf:
         if dputcf['allow_unsigned_uploads']:
@@ -51,3 +55,7 @@ def validate_checksums(changes, dputcf, profile):
         raise GPGCheckerError(
             "Bad checksums on %s" % (changes.get_filename())
         )
+
+
+def check_distribution_matches_changelog(changes, dputcf, profile):
+    pass

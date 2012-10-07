@@ -45,7 +45,7 @@ def query_for_creds(qfu=False):
 
 
 # XXX: Document this more :)
-class SFTPUpload(AbstractUploader):
+class SFTPUploader(AbstractUploader):
     def initialize(self, **kwargs):
         fqdn = self._config[Opt.KEY_FQDN]  # XXX: This is ugly.
         incoming = self._config[Opt.KEY_INCOMING]

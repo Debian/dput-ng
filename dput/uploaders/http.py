@@ -34,7 +34,7 @@ class HttpUploadException(UploadException):
     pass
 
 
-class HTTPUpload(AbstractUploader):
+class HTTPUploader(AbstractUploader):
     def initialize(self, **kwargs):
         mimetypes.init()
 
