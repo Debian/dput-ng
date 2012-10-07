@@ -225,7 +225,7 @@ def load_configuration(configuration_files, replacements):
     return parser
 
 
-def load_dput_configs(upload_target):
+def load_dput_configs(upload_target, repls):
     """
     Load the dput configuration file for the target stanza ```upload_target```.
     Internally, this checks for each file `dput.core.DPUT_CONFIG_LOCATIONS`
@@ -233,12 +233,6 @@ def load_dput_configs(upload_target):
 
     Returns a Stanza object with stanza settings.
     """
-
-    repls = {}
-    if upload_target and ":" in upload_target:
-        upload_target, arg = upload_target.split(":", 1)
-        repls[upload_target] = arg
-
     dput.core.logger.debug("Loading dput configs")
     # TODO: Where/How to handle exceptions?
     _conf = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, repls)

@@ -25,6 +25,7 @@ import sys
 from contextlib import contextmanager
 
 import dput.conf
+import dput.profile
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
@@ -154,15 +155,7 @@ If you want to upload nonetheless, use --force or remove %s""" %
 
 def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 #                                        elsewhere, try again.
-
-    conf = dput.conf.load_dput_configs(args.host)
-    profile = dput.util.load_config(
-        'profiles',
-        conf.name()
-    )
-    for key in conf._data:
-        profile[key] = conf._data[key]  # XXX: GAHHHH, MY EYES ಥ_ಥ
-    profile['name'] = conf.name()
+    profile = dput.profile.load_profile(args.host)
 
     fqdn = profile['fqdn']
     logfile = determine_logfile(changes, profile, args)
