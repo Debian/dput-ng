@@ -1,0 +1,4 @@
+{
+    "path": "dput.uploaders.scp.ScpUploader",
+    "name": "scp uploader"
+}
