@@ -1,6 +1,3 @@
 {
-    "name": "Debian Main Archive",
-    "checkers": [
-        "gpg"
-    ]
+    "name": "Debian Main Archive"
 }
