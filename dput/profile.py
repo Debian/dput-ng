@@ -88,4 +88,7 @@ def load_profile(host):
 
 def profiles():
     config = MultiConfig({})
-    return config.get_config_blocks()
+    configs = config.get_config_blocks()
+    if "DEFAULT" in configs:
+        configs.remove("DEFAULT")
+    return configs
