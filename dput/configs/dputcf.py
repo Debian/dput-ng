@@ -66,7 +66,10 @@ class DputCfConfig(AbstractConfig):
 
     def get_config(self, name):
         ret = {}
-        items = self.parser.items(name)
+        try:
+            items = self.parser.items(name)
+        except ConfigParser.NoSectionError:
+            return {}
         for key, val in items:
             ret[key] = val
         return ret
