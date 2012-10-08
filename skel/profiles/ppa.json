@@ -1,0 +1,6 @@
+{
+    "fqdn": "ppa.launchpad.net",
+    "incoming": "~%(ppa)s/ubuntu",
+    "login": "anonymous",
+    "method": "ftp"
+}
