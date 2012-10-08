@@ -39,3 +39,8 @@ def load_profile(host):
            obj['default_host_main'] != "":
             return obj
     return config.get_config("ftp-master")
+
+
+def profiles():
+    config = MultiConfig({})
+    return config.get_config_blocks()
