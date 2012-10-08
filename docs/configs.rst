@@ -16,3 +16,9 @@ configuration file. The biggest change is that dput-ng will prefer it's own,
 `JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded format over dput.cf.
 
 
+.. XXX: more here.
+
+Detailed changes
+================
+
+.. XXX: more here
