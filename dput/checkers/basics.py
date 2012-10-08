@@ -44,6 +44,10 @@ class BadDistributionError(CheckerException):
     pass
 
 
+class BinaryUploadError(CheckerException):
+    pass
+
+
 def check_gpg_signature(changes, profile, interface):
     if "allow_unsigned_uploads" in profile:
         if profile['allow_unsigned_uploads'] and \
@@ -79,6 +83,35 @@ def check_gpg_signature(changes, profile, interface):
         raise GPGCheckerError(
             "No valid signature on %s: %s" % (changes.get_filename(),
                                               e)
+        )
+
+
+def check_debs_in_upload(changes, profile, interface):
+    debs = {}
+    if 'check-debs' in profile:
+        debs = profile['check-debs']
+
+    if 'skip' in debs and debs['skip']:
+        logger.debug("Skipping deb checker.")
+        return
+
+    enforce_debs = True
+    if 'enforce_debs' in debs:
+        enforce_debs = debs['enforce_debs']
+
+    has_debs = False
+    for fil in changes.get_files():
+        xtn = '.deb'
+        if fil.endswith(xtn):
+            has_debs = True
+
+    if enforce_debs and not has_debs:
+        raise BinaryUploadError(
+            "There are no .debs in this upload, and we're enforcing them."
+        )
+    if not enforce_debs and has_debs:
+        raise BinaryUploadError(
+            "There are .debs in this upload, and enforcing they don't exist."
         )
 
 

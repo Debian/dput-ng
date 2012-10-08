@@ -3,6 +3,7 @@
         "allowed-distribution",
         "suite-mismatch",
         "checksum",
+        "check-debs",
         "gpg",
         "lintian"
     ],
