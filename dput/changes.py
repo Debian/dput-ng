@@ -235,6 +235,13 @@ class Changes(object):
             raise ChangesFileException(
                                 "Unknown problem while verifying signature")
 
+        key = None
+        for line in gpg_output.split("\n"):
+            if line.startswith('[GNUPG:] VALIDSIG'):
+                key = line.split()[2]
+        return key
+
+
     def validate_checksums(self, check_hash="sha1"):
         logger.debug("Validate %s checksums" % (check_hash))
 

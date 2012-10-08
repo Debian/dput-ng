@@ -46,13 +46,35 @@ class BadDistributionError(CheckerException):
 
 def check_gpg_signature(changes, profile, interface):
     if "allow_unsigned_uploads" in profile:
-        if profile['allow_unsigned_uploads']:
+        if profile['allow_unsigned_uploads'] and \
+           profile['allow_unsigned_uploads'] != '0':
             logger.info("Not checking GPG signature due to "
                         "allow_unsigned_uploads being set.")
             return
 
+    gpg = {}
+    if 'gpg' in profile:
+        gpg = profile['gpg']
+
     try:
-        changes.validate_signature()
+        key = changes.validate_signature()
+        if 'allowed_keys' in gpg:
+            allowed_keys = gpg['allowed_keys']
+
+            found = False
+            for k in allowed_keys:
+                if k == key[-len(k):]:
+                    logger.info("Key %s is trusted to upload to this host." % (
+                        k
+                    ))
+                    found = True
+
+            if not found:
+                raise GPGCheckerError("Key %s is not in %s" % (
+                    key,
+                    allowed_keys
+                ))
+
     except ChangesFileException as e:
         raise GPGCheckerError(
             "No valid signature on %s: %s" % (changes.get_filename(),
