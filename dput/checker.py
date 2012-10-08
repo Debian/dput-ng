@@ -35,12 +35,12 @@ def run_checker(checker, changes, profile):
     if 'interface' in profile:
         interface = profile['interface']
     logger.debug("Using interface %s" % (interface))
-    interface = get_obj('interfaces', interface)
-    if interface is None:
+    interface_obj = get_obj('interfaces', interface)
+    if interface_obj is None:
         raise DputConfigurationError("No such interface: `%s'" % (
             interface
         ))
-    interface = interface()
+    interface = interface_obj()
     interface.initialize()
 
     ret = obj(

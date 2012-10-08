@@ -41,12 +41,12 @@ class AbstractUploader(object):
         if 'interface' in profile:
             interface = profile['interface']
         logger.debug("Using interface %s" % (interface))
-        interface = get_obj('interfaces', interface)
-        if interface is None:
+        interface_obj = get_obj('interfaces', interface)
+        if interface_obj is None:
             raise DputConfigurationError("No such interface: `%s'" % (
                 interface
             ))
-        self._interface = interface()
+        self._interface = interface_obj()
 
     def prompt_ui(self, *args, **kwargs):
         self._interface.initialize()
