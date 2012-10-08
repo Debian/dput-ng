@@ -23,6 +23,7 @@ import os
 from dput.util import load_config
 from dput.core import (CONFIG_LOCATIONS)
 from dput.config import AbstractConfig
+from dput.exceptions import DputConfigurationError
 
 
 def get_sections():
@@ -58,6 +59,15 @@ class DputProfileConfig(AbstractConfig):
         if name in self.configs:
             default.update(self.configs[name])
             default['name'] = name
+            for key in default:
+                val = default[key]
+                if "%(" in val and ")s" in val:
+                    raise DputConfigurationError(
+                        "Unconverted values in key `%s' - %s" % (
+                            key,
+                            val
+                        )
+                    )
             return default
         return {}
 
