@@ -23,6 +23,7 @@ import logging
 
 # used for searching for config files. place in order of precedence
 CONFIG_LOCATIONS = [
+    "/usr/share/dput-ng/",
     "/etc/dput.d/",
     os.path.expanduser("~/.dput.d"),
     "skel/",
