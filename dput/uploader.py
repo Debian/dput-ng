@@ -151,7 +151,9 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 #                                        elsewhere, try again.
     profile = dput.profile.load_profile(args.host)
 
-    fqdn = profile['fqdn']
+    fqdn = None
+    if 'fqdn' in profile:
+        fqdn = profile['fqdn']
     logfile = determine_logfile(changes, profile, args)
 
     logger.info("Uploading to: %s" % (fqdn))

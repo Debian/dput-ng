@@ -27,8 +27,8 @@ from dput.exceptions import DputConfigurationError
 class MultiConfig(AbstractConfig):
     def preload(self, replacements):
         configs = [
-            DputProfileConfig(replacements),
-            DputCfConfig(replacements)
+            DputCfConfig(replacements),
+            DputProfileConfig(replacements)
         ]
         self.configs = configs
 

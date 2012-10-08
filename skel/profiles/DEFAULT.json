@@ -1,5 +1,4 @@
 {
-    "meta": "debian",
     "checkers": [
         "allowed-distribution",
         "suite-mismatch",
@@ -8,5 +7,6 @@
         "gpg",
         "lintian"
     ],
-    "interface": "cli"
+    "interface": "cli",
+    "meta": "debian"
 }
