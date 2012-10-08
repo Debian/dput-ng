@@ -18,7 +18,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-from dput.config import MultiConfig
+from dput.config import AbstractConfig
+from dput.configs.dputcf import DputCfConfig
+from dput.configs.dputng import DputProfileConfig
+
+
+class MultiConfig(AbstractConfig):
+    def preload(self, replacements):
+        configs = [DputProfileConfig(replacements), DputCfConfig(replacements)]
+        defaults = {}
+        for config in configs:
+            defaults.update(config.get_defaults())
+        for config in configs:
+            config.set_defaults(defaults)
+
+        self.configs = configs
+
+    def set_defaults(self, defaults):
+        for config in self.configs:
+            config.set_defaults(defaults)
+
+    def get_defaults(self):
+        return self.get_config("DEFAULT")
+
+    def get_config(self, name):
+        ret = {}
+        for config in self.configs:
+            obj = config.get_config(name)
+            ret.update(obj)
+        return ret
+
+    def get_config_blocks(self):
+        ret = set()
+        for config in self.configs:
+            for block in config.get_config_blocks():
+                ret.add(block)
+        return ret
 
 
 def load_profile(host):
