@@ -54,8 +54,7 @@ if "-H" in sys.argv or '--host-list' in sys.argv:
     sys.exit(0)
 
 if "-p" in sys.argv or '--print' in sys.argv:
-    print "Print things"
-    # dput.conf.print_configuration()
+    print "Unimplemented."
     sys.exit(0)
 
 
