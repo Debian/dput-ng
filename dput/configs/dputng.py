@@ -43,7 +43,7 @@ class DputProfileConfig(AbstractConfig):
         self.configs = {}
         self.replacements = replacements
         for section in get_sections():
-            self.configs[section] = self.get_config(section)
+            self.configs[section] = self.load_config(section)
 
     def get_config_blocks(self):
         return self.configs.keys()
@@ -55,6 +55,13 @@ class DputProfileConfig(AbstractConfig):
         self.configs['DEFAULT'] = defaults
 
     def get_config(self, name):
+        default = self.configs['DEFAULT']
+        if name in self.configs:
+            default.update(self.configs[name])
+            return default
+        return {}
+
+    def load_config(self, name):
         profile = load_config(
             'profiles',
             name,
