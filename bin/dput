@@ -30,7 +30,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dput.core
 import dput.changes
 import dput.exceptions
-import dput.conf
 from dput import upload
 import dput.profile
 
@@ -86,10 +85,10 @@ if args.debug:
 #      Hence, one cannot just call dput -p/-H, but one needs a changes file
 #      as well. That's suboptimal
 if args.host_list:
-    dput.conf.print_host_list()
+    # dput.conf.print_host_list()
     sys.exit(0)
 if args.print_conf:
-    dput.conf.print_configuration()
+    # dput.conf.print_configuration()
     sys.exit(0)
 
 

@@ -72,4 +72,5 @@ class DputCfConfig(AbstractConfig):
             return {}
         for key, val in items:
             ret[key] = val
+        ret['name'] = name
         return ret

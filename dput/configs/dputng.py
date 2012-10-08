@@ -58,6 +58,7 @@ class DputProfileConfig(AbstractConfig):
         default = self.configs['DEFAULT']
         if name in self.configs:
             default.update(self.configs[name])
+            default['name'] = name
             return default
         return {}
 

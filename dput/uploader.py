@@ -24,6 +24,7 @@ import abc
 import sys
 from contextlib import contextmanager
 
+import dput.profile
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
@@ -157,6 +158,8 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
 
     fqdn = profile['fqdn']
     logfile = determine_logfile(changes, profile, args)
+
+    logger.info("Uploading to: %s" % (fqdn))
 
     # XXX: This function is huge, let's break this up!
 
