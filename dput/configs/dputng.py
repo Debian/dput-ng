@@ -21,13 +21,14 @@
 import os
 
 from dput.util import load_config
-from dput.core import (CONFIG_LOCATIONS)
+from dput.core import (CONFIG_LOCATIONS, logger)
 from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
 
 def get_sections():
     profiles = set()
+    logger.debug("Profiles: %s" % (str(profiles)))
     for path in CONFIG_LOCATIONS:
         path = "%s/profiles" % (path)
         if os.path.exists(path):
@@ -55,13 +56,18 @@ class DputProfileConfig(AbstractConfig):
         self.configs['DEFAULT'] = defaults
 
     def get_config(self, name):
-        default = self.configs['DEFAULT']
+        logger.debug("Getting %s" % (name))
+        default = self.configs['DEFAULT'].copy()
         if name in self.configs:
             default.update(self.configs[name])
             default['name'] = name
             for key in default:
                 val = default[key]
                 if "%(" in val and ")s" in val:
+                    logger.debug("error with %s -> %s" % (
+                        key,
+                        val
+                    ))
                     raise DputConfigurationError(
                         "Unconverted values in key `%s' - %s" % (
                             key,

@@ -29,9 +29,35 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
 import dput.changes
+import dput.profile
 import dput.exceptions
 from dput import upload
-import dput.profile
+dput.core.logger.setLevel(logging.INFO)
+
+
+# XXX: This is a hack.
+if "-H" in sys.argv or '--host-list' in sys.argv:
+    default = dput.profile.load_profile(None)
+    print
+    print "Default method: %s" % (default['method'])
+    print
+    for config in dput.profile.profiles():
+        obj = dput.profile.load_profile("%s:%s" % (config, config))
+        #                               ^^^^^^ fake arg for others
+        if not "fqdn" in obj:  # likely localhost
+            obj['fqdn'] = 'localhost'
+
+        string = "{name} => {fqdn}  (Upload method: {method})".format(**obj)
+        print string
+    print
+
+    sys.exit(0)
+
+if "-p" in sys.argv or '--print' in sys.argv:
+    print "Print things"
+    # dput.conf.print_configuration()
+    sys.exit(0)
+
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-d', '--debug', action='store_true', default=False,
@@ -65,7 +91,6 @@ parser.add_argument('-v', '--version', action='store_true',
                     help='(ignored)')
 parser.add_argument('-V', '--check-version', action='store_true',
                     help='(ignored)')
-
 parser.add_argument('host', metavar="HOST", action='store', default=None,
                     help="Target host to upload a package", nargs="?")
 parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
@@ -76,22 +101,9 @@ args = parser.parse_args()
 if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
 
-dput.core.logger.setLevel(logging.INFO)
 if args.debug:
     # XXX: Not ideal, but worksish. Revist debugging.
     dput.core.logger.setLevel(logging.DEBUG)
-
-# XXX: This does not (really) work. argparse requires the positionals
-#      Hence, one cannot just call dput -p/-H, but one needs a changes file
-#      as well. That's suboptimal
-if args.host_list:
-    # dput.conf.print_host_list()
-    sys.exit(0)
-if args.print_conf:
-    # dput.conf.print_configuration()
-    sys.exit(0)
-
-
 
 changes = dput.changes.parse_changes_file(
     args.changes,

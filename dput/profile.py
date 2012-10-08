@@ -18,23 +18,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+from dput.core import logger
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig
 from dput.configs.dputng import DputProfileConfig
-
+from dput.exceptions import DputConfigurationError
 
 class MultiConfig(AbstractConfig):
     def preload(self, replacements):
-        configs = [DputProfileConfig(replacements), DputCfConfig(replacements)]
+        configs = [
+            DputProfileConfig(replacements),
+            DputCfConfig(replacements)
+        ]
+        self.configs = configs
+
         defaults = {}
         for config in configs:
             defaults.update(config.get_defaults())
-        for config in configs:
-            config.set_defaults(defaults)
 
-        self.configs = configs
+        self.set_defaults(defaults)
 
     def set_defaults(self, defaults):
+        logger.debug("Default set: %s" % (defaults))
         for config in self.configs:
             config.set_defaults(defaults)
 
@@ -46,6 +51,7 @@ class MultiConfig(AbstractConfig):
         for config in self.configs:
             obj = config.get_config(name)
             ret.update(obj)
+        logger.debug("Got config %s, %s" % (name, ret))
         return ret
 
     def get_config_blocks(self):
@@ -69,7 +75,11 @@ def load_profile(host):
         return config.get_config(host)
 
     for block in configs:
-        obj = config.get_config(block)
+        try:
+            obj = config.get_config(block)
+        except DputConfigurationError:
+            continue  # We don't have fully converted blocks.
+
         if "default_host_main" in obj and \
            obj['default_host_main'] != "":
             return obj
