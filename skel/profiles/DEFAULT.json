@@ -1,5 +1,6 @@
 {
     "checkers": [
+        "allowed-distribution",
         "suite-mismatch",
         "checksum",
         "gpg",

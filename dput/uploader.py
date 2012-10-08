@@ -125,10 +125,6 @@ def uploader(uploader_method, profile):
         obj.shutdown()
 
 
-class BadDistributionError(UploadException):
-    pass
-
-
 def determine_logfile(changes, conf, args):
     # dak requires '<package>_<version>_<[a-zA-Z0-9+-]+>.changes'
 
@@ -162,17 +158,6 @@ def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
     logger.info("Uploading to: %s" % (fqdn))
 
     # XXX: This function is huge, let's break this up!
-
-    # TODO: This function does not correctly handles distributions
-    #       which is different to allowed_distributions. Moreover, this should
-    #       be a checker instead.
-    suite = changes['Distribution']
-    srgx = profile['allowed_distributions']
-    if re.match(srgx, suite) is None:
-        raise BadDistributionError("'%s' doesn't match '%s'" % (
-            suite,
-            srgx
-        ))
 
     if args.simulate:
         logger.warning("Not uploading for real - dry run")

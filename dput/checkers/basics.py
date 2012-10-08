@@ -40,6 +40,10 @@ class SourceMissingError(CheckerException):
     pass
 
 
+class BadDistributionError(CheckerException):
+    pass
+
+
 def check_gpg_signature(changes, profile, interface):
     if "allow_unsigned_uploads" in profile:
         if profile['allow_unsigned_uploads']:
@@ -82,6 +86,18 @@ def check_distribution_matches(changes, profile, interface):
             err += \
               "\nLooks like you forgot -d experimental when invoking sbuild."
         raise SuiteMismatchError(err)
+
+
+def check_allowed_distribution(changes, profile, interface):
+    # TODO: This function does not correctly handles distributions
+    #       which is different to allowed_distributions.
+    suite = changes['Distribution']
+    srgx = profile['allowed_distributions']
+    if re.match(srgx, suite) is None:
+        raise BadDistributionError("'%s' doesn't match '%s'" % (
+            suite,
+            srgx
+        ))
 
 
 def check_source_needed(changes, profile, interface):
