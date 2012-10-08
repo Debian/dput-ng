@@ -88,24 +88,7 @@ def run_command(command):
     return (output, stderr, pipe.returncode)
 
 
-def load_config(config_class, config_name, default=None):  # XXX: Name sucks,
-#                                                                 try again.
-    """
-    Load a config by abstract name. Interally, this searches the
-    `dput.core.CONFIG_LOCATIONS` for a subfolder (with the name of
-    config_class) with a file by the name of `config_name`.json. If it finds
-    it, it returns the object representation of the JSON file.
-
-    If there is no such file, this will throw a
-    `dput.exceptions.NoSuchConfigError`.
-    """
-
-    master = {}
-    if config_name != 'DEFAULT':
-        # we should fetch the master
-        logger.debug("Loading the DEFAULT configurator for this class.")
-        master = load_config(config_class, 'DEFAULT', default={})
-
+def load_config(config_class, config_name, default=None):
     logger.debug("Loading config: %s %s" % (config_class,
                                             config_name))
     ret = {}
@@ -123,13 +106,10 @@ def load_config(config_class, config_name, default=None):  # XXX: Name sucks,
             ret.update(json.load(open(path, 'r')))
 
     if ret != {}:
-        master.update(ret)
-        return master
+        return ret
 
     if default is not None:
         return default
-    elif master != {}:
-        return master
 
     logger.debug("Failed to load config.")
 

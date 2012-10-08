@@ -24,8 +24,6 @@ import abc
 import sys
 from contextlib import contextmanager
 
-import dput.conf
-import dput.profile
 from dput.core import logger
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
