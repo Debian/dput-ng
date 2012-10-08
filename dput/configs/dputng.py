@@ -19,10 +19,9 @@
 # 02110-1301, USA.
 
 import os
-import json
 
 from dput.util import load_config
-from dput.core import (CONFIG_LOCATIONS, logger)
+from dput.core import (CONFIG_LOCATIONS)
 from dput.config import AbstractConfig
 
 

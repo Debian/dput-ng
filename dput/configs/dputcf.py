@@ -21,8 +21,9 @@
 import os
 import ConfigParser
 
-from dput.core import (DPUT_CONFIG_LOCATIONS, logger)
 from dput.config import AbstractConfig
+from dput.core import (DPUT_CONFIG_LOCATIONS, logger)
+from dput.exceptions import DputConfigurationError
 
 
 class DputCfConfig(AbstractConfig):
@@ -30,7 +31,7 @@ class DputCfConfig(AbstractConfig):
         parser = ConfigParser.ConfigParser()
         for config in DPUT_CONFIG_LOCATIONS:
             if not os.access(config, os.R_OK):
-                dput.core.logger.warning("Skipping file %s: Not accessible" % (
+                logger.warning("Skipping file %s: Not accessible" % (
                     config
                 ))
                 continue
@@ -38,7 +39,7 @@ class DputCfConfig(AbstractConfig):
                 logger.debug("Parsing %s" % (config))
                 parser.readfp(open(config, 'r'))
             except IOError as e:
-                dput.core.logger.warning("Skipping file %s: %s" % (
+                logger.warning("Skipping file %s: %s" % (
                     config,
                     e
                 ))
