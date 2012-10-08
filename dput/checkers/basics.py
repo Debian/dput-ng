@@ -99,6 +99,8 @@ def check_debs_in_upload(changes, profile, interface):
     if 'enforce_debs' in debs:
         enforce_debs = debs['enforce_debs']
 
+    # XXX: Look at all this again.
+
     has_debs = False
     for fil in changes.get_files():
         xtn = '.deb'
