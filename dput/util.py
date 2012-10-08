@@ -106,6 +106,10 @@ def load_config(config_class, config_name, default=None):
             ret.update(json.load(open(path, 'r')))
 
     if ret != {}:
+        if 'meta' in ret:
+            metainfo = load_config("metas", ret['meta'], default={})
+            metainfo.update(ret)
+            ret = metainfo
         return ret
 
     if default is not None:

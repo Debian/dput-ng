@@ -1,4 +1,5 @@
 {
+    "meta": "debian",
     "checkers": [
         "allowed-distribution",
         "suite-mismatch",

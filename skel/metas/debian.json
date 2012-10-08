@@ -1,0 +1,5 @@
+{
+    "check-debs": {
+        "enforce_debs": true
+    }
+}
