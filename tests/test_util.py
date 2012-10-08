@@ -8,7 +8,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dput.core
 from dput.exceptions import NoSuchConfigError
 from dput.util import (load_obj, load_config)
-from dput.conf import load_configuration
 
 import logging
 import json
@@ -30,22 +29,6 @@ def test_importer():
     """ Ensure loaded objects are sane """
     jl = load_obj("json.load")
     assert jl == json.load
-
-
-def test_dput_cf_loader():
-    config = load_configuration(dput.core.DPUT_CONFIG_LOCATIONS, {})
-    assert config.sections() == ['global-one', 'global-two', 'local-one']
-
-    assert config.items('global-one') == [
-                        ('foo', 'foo'), ('bar', 'baz'), ('local', 'false')]
-    assert config.items('global-two') == [
-                        ('foo', 'bar'), ('bar', 'bar'), ('local', 'false')]
-    assert config.items('local-one') == [
-                        ('foo', 'bar'), ('bar', 'baz'), ('local', 'true')]
-
-    assert config.get('global-one', 'local') == 'false'
-    assert config.get('global-two', 'local') == 'false'
-    assert config.get('local-one', 'local') == 'true'
 
 
 def test_config_loader():
