@@ -43,22 +43,12 @@ uploader
 rsync
 -----
 
-  - implement (do people *really* use this??)
-
-dput/checker.py
----------------
-
-  - catch errors in checkers and output sane warnings
+  - implement (do people *really* use this??) - (PRT: calling a punt)
 
 dput/checkers/basiscs.py
 ------------------------
 
   - add better handing of dput.cf overrides to the checks
-
-dput/util.py
-------------
-
-  - refactor, look at naming things like a sane person
 
 profiles
 --------
