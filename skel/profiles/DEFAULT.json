@@ -1,5 +1,6 @@
 {
     "checkers": [
+        "unblock",
         "allowed-distribution",
         "suite-mismatch",
         "checksum",
