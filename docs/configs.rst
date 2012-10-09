@@ -39,4 +39,41 @@ is the ``metas`` class. Any config may define a ``meta`` key, and it will also
 inherit from the corresponding ``metas`` json file. Meta configuration files
 may also declare a meta key.
 
+Phew, that was a lot. I know that's a bit overwhelming, but basically, this
+means you can ship a profile "default" group, such as ``ubuntu`` or ``debian``.
+Since Ubuntu and Debian have different requirements on what to upload
+(source-only vs binary-included), you will now be able to declare upload targets
+as Ubuntu or Debian, which tell the file-checker different things.
 
+Basically, this means, without changing the configuration, that you can set
+dput to give you an error when you attempt to upload .debs to a PPA, and then
+turn around, and get a warning that you've forgotten .debs on a push to
+ftp-master.
+
+Nice, right?
+
+Practice
+--------
+
+OK, let's look at some real config files.
+
+I've implemented PPAs as a pure-JSON upload target. This file lives in
+profiles/ppa.json. It looks something like::
+
+    {
+        "meta": "ubuntu",
+        "fqdn": "ppa.launchpad.net",
+        "incoming": "~%(ppa)s/ubuntu",
+        "login": "anonymous",
+        "method": "ftp"
+    }
+
+
+You'll notice the old-style substring replacement is the same. While looking
+a bit deeper, you'll also notice that we inherit from the Ubuntu meta-class.
+
+
+Overriding default checker behavior
+-----------------------------------
+
+.. XXX: TODO

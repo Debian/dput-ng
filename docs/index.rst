@@ -22,6 +22,7 @@ As far as what features, the biggest improvements in our mind are:
   * Fragmented configuration, to allow external packages to include checks.
   * Real SFTP support
   * Dynamic checker behavior depending on host / profile
+  * SHA support
 
 We're both really big fans of dput, so we've decided to maintain 100%
 compatibility with dput in dput-ng, as well as automagically reading from the
