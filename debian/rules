@@ -14,7 +14,7 @@ endif
 
 override_dh_auto_clean:
 	dh_auto_clean
-	rm -rvf ./docs/build ./*.egg-info ./build
+	rm -rvf ./docs/_build ./*.egg-info ./build
 
 override_dh_auto_build:
 	dh_auto_build
