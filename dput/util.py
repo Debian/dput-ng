@@ -106,15 +106,7 @@ def load_config(config_class, config_name, default=None):
             ret.update(json.load(open(path, 'r')))
 
     if ret != {}:
-        if 'meta' in ret:
-            if ret['meta'] == config_name:
-                logger.debug(
-                    "Skipping meta loading in %s due to wiseass user." % (
-                        config_name
-                    )
-                )
-                continue  # wiseass users.
-
+        if 'meta' in ret and ret['meta'] == config_name:
             metainfo = load_config("metas", ret['meta'], default={})
             metainfo.update(ret)
             ret = metainfo
