@@ -107,6 +107,14 @@ def load_config(config_class, config_name, default=None):
 
     if ret != {}:
         if 'meta' in ret:
+            if ret['meta'] == config_name:
+                logger.debug(
+                    "Skipping meta loading in %s due to wiseass user." % (
+                        config_name
+                    )
+                )
+                continue  # wiseass users.
+
             metainfo = load_config("metas", ret['meta'], default={})
             metainfo.update(ret)
             ret = metainfo
