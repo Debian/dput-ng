@@ -24,6 +24,7 @@ from dput.configs.dputcf import DputCfConfig
 from dput.configs.dputng import DputProfileConfig
 from dput.exceptions import DputConfigurationError
 
+
 class MultiConfig(AbstractConfig):
     def preload(self, replacements):
         configs = [

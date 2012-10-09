@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import re
-import subprocess
 from dput import __appname__
 from setuptools import setup
 

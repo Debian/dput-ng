@@ -241,7 +241,6 @@ class Changes(object):
                 key = line.split()[2]
         return key
 
-
     def validate_checksums(self, check_hash="sha1"):
         logger.debug("Validate %s checksums" % (check_hash))
 

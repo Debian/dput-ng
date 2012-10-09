@@ -30,6 +30,7 @@ please unblock package {srcpkg}
 unblock {srcpkg}/{version}
 """
 
+
 def unblock(changes, profile, interface):
     info = {
         'srcpkg': changes['Source'],
