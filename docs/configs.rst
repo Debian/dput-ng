@@ -53,7 +53,7 @@ ftp-master.
 Nice, right?
 
 Practice
---------
+========
 
 OK, let's look at some real config files.
 
@@ -74,6 +74,6 @@ a bit deeper, you'll also notice that we inherit from the Ubuntu meta-class.
 
 
 Overriding default checker behavior
------------------------------------
+===================================
 
 .. XXX: TODO

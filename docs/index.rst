@@ -51,8 +51,8 @@ Contents:
    checkers
 
 Authors
--------
+=======
 
 The bulk of the work was done by `Arno <http://daemonkeeper.net/>`_ and
-`Paul <http://paultag.com/>`_ For a full list of contributors, please check
+`Paul <http://pault.ag/>`_ For a full list of contributors, please check
 the AUTHORS file shipped with your copy of dput-ng.
