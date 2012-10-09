@@ -12,6 +12,7 @@ pobj = re.findall(
     cur
 )[0]
 src, version, suite = pobj
+# Yes, I'm sorry, world. I'm sorry.
 
 setup(
     name=__appname__,
