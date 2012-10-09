@@ -1,0 +1,9 @@
+Document: dput-ng
+Title: dput-ng documentation
+Author: Paul Tagliamonte
+Abstract: This manual describes dput-ng's features
+Section: Debian
+
+Format: HTML
+Index: /usr/share/doc/dput-ng/html/index.html
+Files: /usr/share/doc/dput-ng/html/*

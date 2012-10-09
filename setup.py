@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 
+import re
 import subprocess
 from dput import __appname__
 from setuptools import setup
 
 long_description = open('README.md').read()
-
-v_cmd = "dpkg-parsechangelog | grep '^Version' | sed 's/.*: //g'"  # Hack
-version = subprocess.check_output(["sh", "-c", v_cmd]).strip()
-# XXX: This hack above is bad, mmkay? Please don't use this widly.
-#      we just really need to tie the version to the package module.
+cur = open('debian/changelog', 'r').readlines()[0].strip()
+rgx = r"(?<src>.+) \((?<version>.+)\) (?<suite>.*); .*"
+pobj = re.findall(
+    r'(?P<src>.*) \((?P<version>.*)\) (?P<suite>.*); .*',
+    cur
+)[0]
+src, version, suite = pobj
 
 setup(
     name=__appname__,
