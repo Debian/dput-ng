@@ -22,12 +22,20 @@ Implementation regarding configuration files & their internal representation
 to the dput profile code.
 """
 
-# XXX: Finish documenting
-
 import abc
 
 
 class AbstractConfig(object):
+    """
+    Abstract Configuration Object. All concrete configuration implementations
+    must subclass this object.
+
+    Basically, all subclasses are bootstrapped in the same-ish way:
+
+        * preload
+        * get_defaults
+        * set defaults
+    """
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, replacements):
@@ -35,20 +43,35 @@ class AbstractConfig(object):
 
     @abc.abstractmethod
     def set_defaults(self, defaults):
+        """
+        Set the defaults to overlay concrete configs on top of.
+        """
         pass
 
     @abc.abstractmethod
     def get_defaults(self):
+        """
+        Get the defaults that concrete configs get overlayed ontop of.
+        """
         pass
 
     @abc.abstractmethod
     def get_config(self, name):
+        """
+        Get a configuration block.
+        """
         pass
 
     @abc.abstractmethod
     def get_config_blocks(self):
+        """
+        Get a list of all configuration blocks.
+        """
         pass
 
     @abc.abstractmethod
     def preload(self, replacements):
+        """
+        Load all configuration blocks.
+        """
         pass

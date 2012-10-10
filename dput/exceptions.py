@@ -22,6 +22,7 @@ Base exceptions. All checkers and internal modules should subclass
 Exceptions listed here.
 """
 
+
 class DputError(BaseException):
     """
     Most basic dput error. All other Exceptions must inherit from this
