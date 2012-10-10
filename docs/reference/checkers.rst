@@ -1,5 +1,3 @@
-.. checkers:
-
 Writing checker plugins
 =======================
 
@@ -91,16 +89,22 @@ override a checker's failure except by disabling the checker.
 
 Don't make people disable you. Be nice.
 
-How to enable the checker
--------------------------
+Let's take a look at our reference implementation again::
 
-.. XXX: Add it to checkers, dummy (but really, this is actually compelx.
-        let's figure that out, first.)
+    def validate_checksums(changes, profile, interface):
+        try:
+            changes.validate_checksums(check_hash=profile["hash"])
+        except ChangesFileException as e:
+            raise HashValidationError(
+                "Bad checksums on %s: %s" % (changes.get_filename(), e)
+            )
 
-Writing an idiomatic checker
-----------------------------
+As you can see, the checker verifies the hashsums, catches any Exceptions
+thrown by the code it uses, and rasies sane error text. The Exception
+raised (:class:`dput.checkers.basics.HashValidationError`) is a subclass
+of the expected :class:`dput.exceptions.CheckerException`.
 
-Please stick to your own namespace, and don't depend on other checkers
-being active. In general, you should only use values from the profile when
-they're under your checker's name (e.g. for the GPG checker, the key would be
-``gpg``).
+
+.. Idiomatic Checkers
+   ------------------
+   XXX: implement me.
