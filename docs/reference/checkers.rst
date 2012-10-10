@@ -7,7 +7,7 @@ Writing checker plugins
 Writing checkers is fun and easy for the whole family.
 
 Theory of Operation
-===================
+-------------------
 
 .. XXX: Overview
 

@@ -1,6 +1,3 @@
-.. configs:
-
-===========================
 Configuration File Overview
 ===========================
 
@@ -9,7 +6,7 @@ files. The changes can be a bit overwhelming, but stick to what's in here
 and it should all make great sense.
 
 High level changes
-==================
+------------------
 
 Firstly, you should know dput-ng fully supports the old dput.cf style
 configuration file. The biggest change is that dput-ng will prefer it's own,
@@ -30,7 +27,7 @@ target, regardless of how it's defined. In the case of two defaults conflicting,
 the new-style configuration is chosen.
 
 Theory
-======
+------
 
 New-style config files have two core attributes -- ``class`` and ``name``.
 For a upload target, that's known as a ``profile``. Technically speaking, any
@@ -53,7 +50,7 @@ ftp-master.
 Nice, right?
 
 Practice
-========
+--------
 
 OK, let's look at some real config files.
 
@@ -74,6 +71,6 @@ a bit deeper, you'll also notice that we inherit from the Ubuntu meta-class.
 
 
 Overriding default checker behavior
-===================================
+-----------------------------------
 
-.. XXX: TODO
+.. XXX TODO

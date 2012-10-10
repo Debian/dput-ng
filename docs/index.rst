@@ -5,6 +5,17 @@ dput-ng is a brand-new retake of the classic Debian tool, dput. We've made
 some important changes, which are documented here. Please get acquainted with
 the documentation, in order to fully understand the changes.
 
+Documentation Index
+===================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 1
+
+   reference/index
+   library/index
+
 Motiviation
 ===========
 
@@ -38,17 +49,6 @@ to Debian derivatives, such as the ability to add a new upload target
 (now called profiles) and unique checks, without having to fork dput.
 Changes which make extending dput downstream will likely be accepted
 in dput main. Please consider contributing.
-
-Documentation Index
-===================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-   configs
-   checkers
 
 Authors
 =======
