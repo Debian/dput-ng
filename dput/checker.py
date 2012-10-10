@@ -18,9 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 """
-.. module:: dput.checker
-    :synopsis: dput checker runner implementation
-
 Implementation of the interface to run a checker.
 """
 

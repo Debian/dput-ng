@@ -31,9 +31,6 @@
 #   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #   OTHER DEALINGS IN THE SOFTWARE.
 """
-.. module:: dput.changes
-    :synopsis: dput implementation regarding changes files.
-
 This code deals with the reading and processing of Debian .changes files. This
 code is copyright (c) Jonny Lamb, and is used by dput, rather then created as
 a result of it. Thank you Jonny.

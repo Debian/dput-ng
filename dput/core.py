@@ -18,9 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 """
-.. module:: dput.core
-    :synopsis: core objects & data structures
-
 Stuff that everything uses and shouldn't keep pulling on their own.
 """
 

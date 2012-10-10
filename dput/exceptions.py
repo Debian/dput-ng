@@ -18,9 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 """
-.. module:: dput.exceptions
-    :synopsis: dput exceptions and errors
-
 Base exceptions. All checkers and internal modules should subclass
 Exceptions listed here.
 """
