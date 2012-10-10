@@ -17,25 +17,48 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
-
-# XXX: document.
+"""
+Interface implementation.
+"""
 
 import abc
 
 
 class AbstractInterface(object):
+    """
+    Abstract base class for Concrete implementations of user interfaces.
+
+    The invoking process will instantiate the process, call initialize,
+    query (any number of times), and shutdown.
+    """
+
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def initialize(self, **kwargs):
+        """
+        Set up the interface state.
+        """
         pass
 
     @abc.abstractmethod
     def query(self, title, questions):
-        # [{'msg': 'username', 'show': true},
-        #  {'msg': 'password', 'show': false'}]
+        """
+        Query the user for information.
+
+        ``title`` is the "title" of what to show to the user, like the titlebar
+                  of a user interface.
+
+        ``questions`` is an array of dicts, that looks like the following::
+
+            [{'msg': 'username', 'show': true},
+             {'msg': 'password', 'show': false'}]
+        """
         pass
 
     @abc.abstractmethod
     def shutdown(self):
+        """
+        Get rid of everything, close out.
+        """
         pass
