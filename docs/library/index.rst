@@ -5,7 +5,16 @@ Internal Documentation
 Documentation Index
 -------------------
 
-Contents:
+Sub-packages:
+
+.. toctree::
+   :maxdepth: 2
+
+   interfaces/index
+   uploaders/index
+   configs/index
+
+Top-level modules:
 
 .. toctree::
    :maxdepth: 2
@@ -13,12 +22,9 @@ Contents:
    exceptions
    changes
    overrides
-   interfaces/index
    core
    checker
    uploader
-   uploaders/index
    util
-   configs/index
    profile
    interface
