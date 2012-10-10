@@ -44,28 +44,32 @@ class AbstractConfig(object):
     @abc.abstractmethod
     def set_defaults(self, defaults):
         """
-        Set the defaults to overlay concrete configs on top of.
+        Set the defaults to overlay concrete configs on top of. In theory, this
+        is called to help bootstrapping a series of configuration objects.
         """
         pass
 
     @abc.abstractmethod
     def get_defaults(self):
         """
-        Get the defaults that concrete configs get overlayed ontop of.
+        Get the defaults that concrete configs get overlayed ontop of. In
+        theory, this is set during the bootstrapping process.
         """
         pass
 
     @abc.abstractmethod
     def get_config(self, name):
         """
-        Get a configuration block.
+        Get a configuration block. What this means is generally up to the
+        implementation. However, please keep things sane and only return
+        senable upload target blocks.
         """
         pass
 
     @abc.abstractmethod
     def get_config_blocks(self):
         """
-        Get a list of all configuration blocks.
+        Get a list of all configuration blocks. Strings in a list.
         """
         pass
 

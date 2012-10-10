@@ -32,7 +32,6 @@ import dput.changes
 import dput.profile
 import dput.exceptions
 from dput import upload
-dput.core.logger.setLevel(logging.INFO)
 
 
 # XXX: This is a hack.
@@ -101,8 +100,7 @@ if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
 
 if args.debug:
-    # XXX: Not ideal, but worksish. Revist debugging.
-    dput.core.logger.setLevel(logging.DEBUG)
+    dput.core._enable_debugging()
 
 changes = dput.changes.parse_changes_file(
     args.changes,

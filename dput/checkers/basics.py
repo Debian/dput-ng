@@ -121,7 +121,7 @@ def validate_checksums(changes, profile, interface):
     try:
         changes.validate_checksums(check_hash=profile["hash"])
     except ChangesFileException as e:
-        raise GPGCheckerError(
+        raise HashValidationError(
             "Bad checksums on %s: %s" % (changes.get_filename(), e)
         )
 

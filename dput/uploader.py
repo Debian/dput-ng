@@ -17,8 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
-
-# XXX: document.
+"""
+Uploader implementation. The code in here surrounds the uploaders'
+implementations, and properly invokes the uploader with correct
+arguments, etc.
+"""
 
 import os
 import abc
@@ -35,6 +38,10 @@ from dput.exceptions import (DputConfigurationError, DputError,
 
 
 class AbstractUploader(object):
+    """
+    Abstract base class for all concrete uploader implementations.
+    """
+
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, profile):
@@ -51,6 +58,12 @@ class AbstractUploader(object):
         self._interface = interface_obj()
 
     def prompt_ui(self, *args, **kwargs):
+        """
+        Prompt the user for some information. All arguments get passed through
+        to a subclass of the :class:`dput.interface.AbstractInterface`'s
+        :meth:`dput.interface.AbstractInterface.query` method.
+        """
+
         self._interface.initialize()
         ret = self._interface.query(*args, **kwargs)
         self._interface.shutdown()
@@ -76,6 +89,7 @@ class AbstractUploader(object):
                 )
 
     def upload_write_error(self, e):
+        # XXX: Refactor this, please god, refactor this.
         logger.warning("""Upload permissions error
 
 You either don't have the rights to upload a file, or, if this is on
@@ -86,22 +100,33 @@ No file was uploaded, however.""")
 
     @abc.abstractmethod
     def initialize(self, **kwargs):
+        """
+        Setup the things needed to upload a file. Usually this means creating
+        a network connection & authenticating.
+        """
         pass
 
     @abc.abstractmethod
     def upload_file(self, filename):
+        """
+        Upload a single file (``filename``) to the server.
+        """
         pass
 
     @abc.abstractmethod
     def shutdown(self):
+        """
+        Disconnect and shutdown.
+        """
         pass
 
 
 @contextmanager
 def uploader(uploader_method, profile):
     """
-    Rent-a-uploader :)
+    Context-managed uploader implementation.
     """
+    # XXX: Document me
     klass = get_obj('uploaders', uploader_method)
 
     if not klass:

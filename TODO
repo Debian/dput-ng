@@ -8,11 +8,15 @@ prime hacks neededing to be done
 bin/dput
 --------
 
-  - revisit debugging
   - make a file logger?
   - implement dinstall switch (*sigh*) (PRT - calling a punt)
   - implement --force switch (bypass all checker, ignore .upload file?)
   - Implement various switches (-H/-U/-o/-p/-v/-V)
+
+logging
+-------
+
+  - fix it, it sucks
 
 tests/*
 -------
@@ -66,3 +70,14 @@ python2.6
 ---------
 
   - support it? we're close to wheezy, do we haveta?
+
+feature requests
+----------------
+
+  - real upload progress
+     (also ensure local buffer checks for ftp don't throw it off)
+  - ftp control connections die without a keepalive, ensure that's right
+  - check for ppa for uploads to !(ppa)
+  - lack of ppa pockets, etc
+  - upload to more then one ppa
+  - sftp upload bar

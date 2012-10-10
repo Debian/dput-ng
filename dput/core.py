@@ -56,9 +56,17 @@ logger.setLevel(logging.DEBUG)
 
 # basic config
 _ch = logging.StreamHandler()
-_ch.setLevel(logging.DEBUG)
+_ch.setLevel(logging.INFO)
 _formatter = logging.Formatter(
-    '%(levelname)s %(funcName)s: %(message)s')
+    '%(message)s')
 _ch.setFormatter(_formatter)
+
+def _enable_debugging():
+    _ch = logging.StreamHandler()
+    _ch.setLevel(logging.DEBUG)
+    _formatter = logging.Formatter(
+        '[%(levelname)s] %(created)f: (%(funcName)s) %(message)s')
+    _ch.setFormatter(_formatter)
+    logger.addHandler(_ch)
 
 logger.addHandler(_ch)
