@@ -1,6 +1,11 @@
 Internal Documentation
 ======================
 
+The documentation here is to document the internal implementation of dput,
+for use by new contributors, old contributors, bus-factor reasons, checker
+hackers, and interested persons.
+
+
 
 Documentation Index
 -------------------
