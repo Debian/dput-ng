@@ -8,6 +8,7 @@
 #   Copyright © 2008 Jonny Lamb <jonny@debian.org>
 #   Copyright © 2010 Jan Dittberner <jandd@debian.org>
 #   Copyright © 2012 Arno Töll <arno@debian.org>
+#   Copyright © 2012 Paul Tagliamonte <paultag@debian.org>
 #
 #   Permission is hereby granted, free of charge, to any person
 #   obtaining a copy of this software and associated documentation
@@ -29,15 +30,20 @@
 #   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #   OTHER DEALINGS IN THE SOFTWARE.
-
 """
-Holds *changes* file handling class.
+.. module:: dput.changes
+    :synopsis: dput implementation regarding changes files.
+
+This code deals with the reading and processing of Debian .changes files. This
+code is copyright (c) Jonny Lamb, and is used by dput, rather then created as
+a result of it. Thank you Jonny.
 """
 
 __author__ = 'Jonny Lamb'
 __copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
 __license__ = 'MIT'
 
+# XXX: Finish documenting this.
 
 import os.path
 import hashlib
@@ -50,7 +56,8 @@ from dput.exceptions import ChangesFileException
 
 class Changes(object):
     """
-    Helper class to parse *changes* files nicely.
+    Changes object to help process and store information regarding Debian
+    .changes files, used in the upload process.
     """
 
     def __init__(self, filename=None, string=None):
@@ -90,16 +97,25 @@ class Changes(object):
 
     def get_filename(self):
         """
-        Returns the filename from which the changes file was generated from
+        Returns the filename from which the changes file was generated from.
+        Please do note this is just the basename, not the entire full path, or
+        even a relitive path. For the absolute path to the changes file, please
+        see :meth:`get_changes_file`.
         """
         return self.basename
 
     def get_changes_file(self):
+        """
+        Return the full, absolute path to the changes file. For just the
+        filename, please see :meth:`get_filename`.
+        """
         return os.path.join(self._directory, self.get_filename())
 
     def get_files(self):
         """
-        Returns a list of files in the *changes* file.
+        Returns a list of files referenced in the changes file, such as
+        the .dsc, .deb(s), .orig.tar.gz, and .diff.gz or .debian.tar.gz.
+        All strings in the array will be absolute paths to the files.
         """
         return [os.path.join(self._directory, z['name'])
                 for z in self._data['Files']]

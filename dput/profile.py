@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+# XXX: document.
+
 from dput.core import logger
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig

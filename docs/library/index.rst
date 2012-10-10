@@ -13,7 +13,7 @@ Documentation Index
 Sub-packages:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    interfaces/index
    uploaders/index
