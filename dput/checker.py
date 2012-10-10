@@ -17,6 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+.. module:: dput.checker
+    :synopsis: dput checker runner implementation
+
+Implementation of the interface to run a checker.
+"""
 
 from dput.core import logger
 from dput.util import get_obj
@@ -24,6 +30,20 @@ from dput.exceptions import DputConfigurationError
 
 
 def run_checker(checker, changes, profile):
+    """
+    Run a checker (by the name of ``checker``) against the changes file (by
+    the name of ``changes``), with the upload profile (named ``profile``).
+
+    args:
+        ``checker`` (str) string of the checker (which is the name of the
+            the JSON file which contains the checker def)
+
+        ``changes`` (:class:`dput.changes.Changes`) changes file that the
+            check should be run against.
+
+        ``profile`` (dict) dictonary of the profile that will help guide
+            the checker's runtime.
+    """
     logger.debug("running checker: %s" % (checker))
     obj = get_obj('checkers', checker)
     if obj is None:

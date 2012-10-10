@@ -17,31 +17,64 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+.. module:: dput.exceptions
+    :synopsis: dput exceptions and errors
 
+Base exceptions. All checkers and internal modules should subclass
+Exceptions listed here.
+"""
 
 class DputError(BaseException):
+    """
+    Most basic dput error. All other Exceptions must inherit from this
+    when it is sensable to do so.
+    """
     pass
 
 
 class DputConfigurationError(DputError):
+    """
+    Errors in the parsing or retrieving of configuration files should raise
+    an instance of this, or a subclass thereof.
+    """
     pass
 
 
 class NoSuchConfigError(DputError):
+    """
+    Thrown when dput can not find a Configuration file or block that is
+    requested.
+    """
     pass
 
 
 class ChangesFileException(DputError):
+    """
+    Thrown when there's an error processing / verifying a .changes file
+    (most often via the :class:`dput.changes.Changes` object)
+    """
     pass
 
 
 class UploadException(DputError):
+    """
+    Thrown when there's an error uploading, or creating an uploader. Usually
+    thrown by a subclass of the :class:`dput.uploader.AbstractUploader`
+    """
     pass
 
 
 class CheckerException(DputError):
+    """
+    Thrown when there's an error checking, or creating a checker. Usually
+    thrown by a checker invoked by :class:`dput.checker.run_checker`.
+    """
     pass
 
 
 class NoSuchHostError(DputError):
+    """
+    Thrown when the network doesn't allow us to connect to a host.
+    """
     pass

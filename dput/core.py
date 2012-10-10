@@ -17,9 +17,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+.. module:: dput.core
+    :synopsis: core objects & data structures
+
+Stuff that everything uses and shouldn't keep pulling on their own.
+"""
 
 import os.path
 import logging
+
 
 # used for searching for config files. place in order of precedence
 CONFIG_LOCATIONS = [
@@ -28,14 +35,26 @@ CONFIG_LOCATIONS = [
     os.path.expanduser("~/.dput.d"),
     "skel/",
 ]
+"""
+Locations to look for JSON-ey config files. Under each directory may exist
+a ``class``, which is a folder full of json files, which may be loaded.
+The order dicates which has the most precedence.
+"""
 
 DPUT_CONFIG_LOCATIONS = [
     "/etc/dput.cf",
     os.path.expanduser("~/.dput.cf")
 ]
+"""
+Locations to look for old-style dput.cf configuration files.
+"""
 
 # logging routines.
 logger = logging.getLogger("dput")
+"""
+Logger, for general output and stuff.
+"""
+
 logger.setLevel(logging.DEBUG)
 
 # basic config
