@@ -21,8 +21,7 @@
 SCP Uploader implementation.
 
 .. warning::
-    This is deprecated. Please use :module:`dput.uploaders.sftp`
-
+    This is deprecated. Please use SFTP
 """
 
 import os.path
