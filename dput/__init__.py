@@ -26,3 +26,6 @@ __authors__ = [
 ]
 
 from dput.uploader import invoke_dput as upload  # NOQA
+"""
+See :func:`dput.uploader.invoke_dput`.
+"""

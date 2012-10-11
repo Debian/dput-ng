@@ -89,6 +89,12 @@ class AbstractUploader(object):
                 )
 
     def upload_write_error(self, e):
+        """
+        .. warning::
+           don't call this.
+
+        please don't call this
+        """
         # XXX: Refactor this, please god, refactor this.
         logger.warning("""Upload permissions error
 
@@ -125,8 +131,17 @@ No file was uploaded, however.""")
 def uploader(uploader_method, profile):
     """
     Context-managed uploader implementation.
+
+    Invoke sorta like::
+
+        with uploader() as obj:
+            obj.upload_file('filename')
+
+    This will automatically call that object's
+    :meth:`dput.uploader.AbstractUploader.initialize`,
+    pre-hook, yield the object, call the post hook and invoke it's
+    :meth:`dput.uploader.AbstractUploader.shutdown`.
     """
-    # XXX: Document me
     klass = get_obj('uploaders', uploader_method)
 
     if not klass:
@@ -152,6 +167,11 @@ def uploader(uploader_method, profile):
 
 
 def determine_logfile(changes, conf, args):
+    """
+    Figure out what logfile to write to. This is mostly an internal
+    implementaiton. Returns the file to log to, given a changes and
+    profile.
+    """
     # dak requires '<package>_<version>_<[a-zA-Z0-9+-]+>.changes'
 
     # XXX: Correct --force behavior
@@ -174,8 +194,16 @@ If you want to upload nonetheless, use --force or remove %s""" %
     return logfile
 
 
-def invoke_dput(changes, args):  # XXX: Name sucks, used under a different name
-#                                        elsewhere, try again.
+def invoke_dput(changes, args):  # XXX: Name sucks
+    """
+    .. warning::
+       This method may change names. Please use it via :func:`dput.upload`.
+       also, please don't depend on args, that's likely to change shortly.
+
+    Given a changes file ``changes``, and arguments to dput ``args``,
+    upload a package to the archive that makes sense.
+
+    """
     profile = dput.profile.load_profile(args.host)
 
     fqdn = None

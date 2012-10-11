@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+CLI User Interface Implementation
+"""
 
 import sys
 import getpass
@@ -25,10 +28,20 @@ from dput.interface import AbstractInterface
 
 
 class CLInterface(AbstractInterface):
+    """
+    Concrete implementation of the command line user interface.
+    """
+
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.interface.AbstractInterface.initialize`
+        """
         pass  # nothing here.
 
     def query(self, title, questions):
+        """
+        See :meth:`dput.interface.AbstractInterface.query`
+        """
         ret = []
         for question in questions:
             msg = "%s: " % (question['msg'])
@@ -40,4 +53,7 @@ class CLInterface(AbstractInterface):
         return ret
 
     def shutdown(self):
+        """
+        See :meth:`dput.interface.AbstractInterface.shutdown`
+        """
         pass  # nothing here.
