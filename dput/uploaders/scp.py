@@ -34,6 +34,9 @@ from dput.util import run_command
 
 
 class ScpUploadException(UploadException):
+    """
+    Problems with the SCP upload process.
+    """
     pass
 
 
@@ -44,7 +47,6 @@ class ScpUploader(AbstractUploader):
     """
 
     def initialize(self, **kwargs):
-
         login = find_username(self._config)
         self._scp_base = ["scp", "-p", "-C"]
         self._scp_host = "%s@%s" % (login, self._config['fqdn'])
