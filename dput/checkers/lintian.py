@@ -112,6 +112,6 @@ def lintian(changes, profile, interface):
             query = 'n'
         if query != 'y':
             raise LintianCheckerException("User didn't own up to the "
-                                          "lintian issues")
+                                          "Lintian issues")
         else:
-            logger.warning("Uploading w/ outstanding lintian issues.")
+            logger.warning("Uploading with outstanding Lintian issues.")

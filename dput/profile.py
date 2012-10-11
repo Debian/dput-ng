@@ -20,6 +20,8 @@
 
 # XXX: document.
 
+import logging
+
 from dput.core import logger
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig
@@ -42,7 +44,10 @@ class MultiConfig(AbstractConfig):
         self.set_defaults(defaults)
 
     def set_defaults(self, defaults):
-        logger.debug("Default set: %s" % (defaults))
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("Default set:")
+            for default in defaults:
+                logger.debug("\t%s: %s" % (default, defaults[default]))
         for config in self.configs:
             config.set_defaults(defaults)
 
@@ -54,7 +59,10 @@ class MultiConfig(AbstractConfig):
         for config in self.configs:
             obj = config.get_config(name)
             ret.update(obj)
-        logger.debug("Got config %s, %s" % (name, ret))
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug("Got configuration: %s" % (name))
+            for key in ret:
+                logger.debug("\t%s: %s" % (key, ret[key]))
         return ret
 
     def get_config_blocks(self):

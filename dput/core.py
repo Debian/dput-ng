@@ -23,6 +23,7 @@ Stuff that everything uses and shouldn't keep pulling on their own.
 
 import os.path
 import logging
+import dput.logger
 
 
 # used for searching for config files. place in order of precedence
@@ -46,13 +47,14 @@ DPUT_CONFIG_LOCATIONS = [
 Locations to look for old-style dput.cf configuration files.
 """
 
-# logging routines.
+# logging routines
+logging.setLoggerClass(dput.logger.DputLogger)
 logger = logging.getLogger("dput")
 """
 Logger, for general output and stuff.
 """
 
-logger.setLevel(logging.DEBUG)
+logger.setLevel(dput.logger.TRACE)
 
 # basic config
 _ch = logging.StreamHandler()
@@ -61,9 +63,12 @@ _formatter = logging.Formatter(
     '%(message)s')
 _ch.setFormatter(_formatter)
 
-def _enable_debugging():
+def _enable_debugging(level):
     _ch = logging.StreamHandler()
-    _ch.setLevel(logging.DEBUG)
+    if level == 1:
+        _ch.setLevel(logging.DEBUG)
+    if level >= 2:
+        _ch.setLevel(dput.logger.TRACE)
     _formatter = logging.Formatter(
         '[%(levelname)s] %(created)f: (%(funcName)s) %(message)s')
     _ch.setFormatter(_formatter)

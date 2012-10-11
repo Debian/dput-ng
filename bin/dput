@@ -58,8 +58,9 @@ if "-p" in sys.argv or '--print' in sys.argv:
 
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
-parser.add_argument('-d', '--debug', action='store_true', default=False,
-                    help='Enable debug messages')
+parser.add_argument('-d', '--debug', action='count', default=False,
+                    help="Enable debug messages. Repeat twice to increase the"
+                    "verbosity level")
 parser.add_argument('-c', '--config', metavar="FILE", action='store',
                     default=None, help='Configuration file to parse')
 parser.add_argument('-D', '--dinstall', action='store_true',
@@ -100,7 +101,7 @@ if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
 
 if args.debug:
-    dput.core._enable_debugging()
+    dput.core._enable_debugging(args.debug)
 
 changes = dput.changes.parse_changes_file(
     args.changes,

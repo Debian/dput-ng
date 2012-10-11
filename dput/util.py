@@ -42,7 +42,7 @@ def load_obj(obj_path):  # XXX: Name sucks.
     module (such as dput.core) and use getattr to load the thing - similar to
     how `from` works.
     """
-    logger.debug("Loading object: %s" % (obj_path))
+    logger.trace("Loading object: %s" % (obj_path))
     module, obj = obj_path.rsplit(".", 1)
     mod = importlib.import_module(module)
     fltr = getattr(mod, obj)
@@ -51,18 +51,18 @@ def load_obj(obj_path):  # XXX: Name sucks.
 
 def get_obj(klass, checker_method):
     # XXX: return (defn, obj), so we can use the stored .json file for more.
-    logger.debug("Attempting to resolve %s %s" % (klass, checker_method))
+    logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
         config = load_config(klass, checker_method)
     except NoSuchConfigError:
         logger.debug("failed to resolve %s" % (checker_method))
         return None
     path = config['path']
-    logger.debug("loading checker %s" % (path))
+    logger.trace("loading checker %s" % (path))
     try:
         return load_obj(path)
     except ImportError:
-        logger.debug("failed to resolve %s" % (path))
+        logger.warning("failed to resolve %s" % (path))
         return None
 
 
@@ -91,20 +91,19 @@ def run_command(command):
 
 
 def load_config(config_class, config_name, default=None):
-    logger.debug("Loading config: %s %s" % (config_class,
+    logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
     ret = {}
     template_path = "%s/%s/%s.json"
     for config in dput.core.CONFIG_LOCATIONS:
-        logger.debug("Checking for config: %s" % (config))
+        logger.trace("Checking for configuration: %s" % (config))
         path = template_path % (
             config,
             config_class,
             config_name
         )
-        logger.debug("Checking - %s" % (path))
+        logger.trace("Checking - %s" % (path))
         if os.path.exists(path):
-            logger.debug("Loaded config.")
             ret.update(json.load(open(path, 'r')))
 
     if ret != {}:
@@ -117,9 +116,9 @@ def load_config(config_class, config_name, default=None):
     if default is not None:
         return default
 
-    logger.debug("Failed to load config.")
+    logger.warning("Failed to load configuration")
 
-    nsce = NoSuchConfigError("No such config: '%s' in class '%s'" % (
+    nsce = NoSuchConfigError("No such configuration: '%s' in class '%s'" % (
         config_name,
         config_class
     ))

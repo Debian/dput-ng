@@ -49,7 +49,7 @@ class AbstractUploader(object):
         interface = 'cli'
         if 'interface' in profile:
             interface = profile['interface']
-        logger.debug("Using interface %s" % (interface))
+        logger.trace("Using interface %s" % (interface))
         interface_obj = get_obj('interfaces', interface)
         if interface_obj is None:
             raise DputConfigurationError("No such interface: `%s'" % (
@@ -211,7 +211,11 @@ def invoke_dput(changes, args):  # XXX: Name sucks
         fqdn = profile['fqdn']
     logfile = determine_logfile(changes, profile, args)
 
-    logger.info("Uploading to: %s" % (fqdn))
+    logger.info("Uploading %s to %s (incoming: %s)" % (
+        changes.get_package_name(),
+        fqdn or profile['name'],
+        profile['incoming']
+    ))
 
     # XXX: This function is huge, let's break this up!
 
@@ -226,18 +230,13 @@ def invoke_dput(changes, args):  # XXX: Name sucks
 
     if 'checkers' in profile:
         for checker in profile['checkers']:
-            logger.info("Running checker %s" % (checker))
+            logger.trace("Running check: %s" % (checker))
             run_checker(checker, changes, profile)
     else:
-        logger.debug(profile)
+        logger.trace(profile)
         logger.warning("No checkers defined in the profile. "
                        "Not checking upload.")
 
-    logger.info("Uploading %s to %s (%s)" % (
-        changes.get_package_name(),
-        fqdn or profile['name'],
-        profile['incoming']
-    ))
 
     # XXX: This does not work together with --check-only and --simulate
     # We cannot use with(the_logfile) as an outermost condition
@@ -246,7 +245,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks
     with open(logfile, 'w') as log:
         with uploader(profile['method'], profile) as obj:
             for path in changes.get_files() + [changes.get_changes_file(), ]:
-                logger.info("Uploading %s => %s" % (
+                logger.info("Uploading %s to %s" % (
                     os.path.basename(path),
                     profile['name']
                 ))

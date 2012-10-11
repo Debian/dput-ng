@@ -41,7 +41,7 @@ def run_checker(checker, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the checker's runtime.
     """
-    logger.debug("running checker: %s" % (checker))
+    logger.debug("running check: %s" % (checker))
     obj = get_obj('checkers', checker)
     if obj is None:
         raise DputConfigurationError("No such checker: `%s'" % (
@@ -51,7 +51,7 @@ def run_checker(checker, changes, profile):
     interface = 'cli'
     if 'interface' in profile:
         interface = profile['interface']
-    logger.debug("Using interface %s" % (interface))
+    logger.trace("Using interface %s" % (interface))
     interface_obj = get_obj('interfaces', interface)
     if interface_obj is None:
         raise DputConfigurationError("No such interface: `%s'" % (

@@ -131,7 +131,8 @@ def check_distribution_matches(changes, profile, interface):
     intent = changelog_distribution.strip()
     actual = changes.get("Distribution").strip()
     if intent != actual:
-        logger.debug("Oh shit, %s != %s" % (intent, actual))
+        logger.info("Upload is targeting %s but the changes will hit %s" % (
+            intent, actual))
         err = "Upload is targeting `%s', but the changes will hit `%s'." % (
             intent,
             actual
@@ -161,9 +162,9 @@ def check_source_needed(changes, profile, interface):
 
     debian_revision = changes.get("Version")
     if debian_revision.find("-") == -1:
-        logger.debug("Package appears to be native")
+        logger.trace("Package appears to be native")
         return
-    logger.debug("Package appears to be non-native")
+    logger.trace("Package appears to be non-native")
 
     debian_revision = debian_revision[debian_revision.rfind("-") + 1:]
     debian_revision = int(debian_revision)

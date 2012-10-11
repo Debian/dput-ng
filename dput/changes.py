@@ -220,7 +220,7 @@ class Changes(object):
         if check_signature:
             self.validate_signature(check_signature)
         else:
-            logger.debug("Not checking signature")
+            logger.info("Not checking signature")
 
     def validate_signature(self, check_signature=True):
         gpg_path = "gpg"
@@ -255,7 +255,7 @@ class Changes(object):
         return key
 
     def validate_checksums(self, check_hash="sha1"):
-        logger.debug("Validate %s checksums" % (check_hash))
+        logger.info("Validate %s checksums" % (check_hash))
 
         for filename in self.get_files():
             if check_hash == "sha1":
@@ -292,7 +292,7 @@ class Changes(object):
                             (filename, hash_type.hexdigest(),
                              changed_files[field_name]))
             else:
-                logger.debug("%s Checksum for file %s matches" %
+                logger.trace("%s Checksum for file %s matches" %
                              (field_name, filename))
 
 

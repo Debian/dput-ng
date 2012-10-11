@@ -36,7 +36,7 @@ class DputCfConfig(AbstractConfig):
                 ))
                 continue
             try:
-                logger.debug("Parsing %s" % (config))
+                logger.trace("Parsing %s" % (config))
                 parser.readfp(open(config, 'r'))
             except IOError as e:
                 logger.warning("Skipping file %s: %s" % (

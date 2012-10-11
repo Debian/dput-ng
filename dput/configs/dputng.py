@@ -28,7 +28,7 @@ from dput.exceptions import DputConfigurationError
 
 def get_sections():
     profiles = set()
-    logger.debug("Profiles: %s" % (str(profiles)))
+    logger.trace("Profiles: %s" % (str(profiles)))
     for path in CONFIG_LOCATIONS:
         path = "%s/profiles" % (path)
         if os.path.exists(path):
@@ -64,12 +64,12 @@ class DputProfileConfig(AbstractConfig):
             for key in default:
                 val = default[key]
                 if "%(" in val and ")s" in val:
-                    logger.debug("error with %s -> %s" % (
+                    logger.warning("error with %s -> %s" % (
                         key,
                         val
                     ))
                     raise DputConfigurationError(
-                        "Unconverted values in key `%s' - %s" % (
+                        "Not converted values in key `%s' - %s" % (
                             key,
                             val
                         )
