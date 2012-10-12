@@ -1,0 +1,4 @@
+{
+    "name": "rm command",
+    "path": "dcut.commands.rm.RmCommand"
+}

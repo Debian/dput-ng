@@ -20,6 +20,7 @@
 # 02110-1301, USA.
 
 
+"""
 blackhole for a dcut concept:
 
 - use the dput concept, in particular uploaders can be used as is for dcut
@@ -55,3 +56,41 @@ Deny: < source_package >
 Filename is:
 
 # $login-$timestamp.dak[.-]commands
+"""
+
+
+import sys
+import argparse
+
+# A little temporary hack for those of us not using virtualenv
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+import dput.core
+import dput.profile
+import dput.exceptions
+from dcut import upload
+
+
+parser = argparse.ArgumentParser(description=' Debian archive command file'
+                                 'upload tool')
+parser.add_argument('-d', '--debug', action='count', default=False,
+                    help="Enable debug messages. Repeat twice to increase the"
+                    "verbosity level")
+parser.add_argument('-c', '--config', metavar="FILE", action='store',
+                    default=None, help='Configuration file to parse')
+parser.add_argument('host', metavar="HOST", action='store', default=None,
+                    help="Target host to upload a package", nargs="?")
+parser.add_argument('command', metavar="COMMAND", action='store',
+                    default=None, help="XXX: fill me")
+args = parser.parse_args()
+
+
+if args.config:
+    dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
+
+if args.debug:
+    dput.core._enable_debugging(args.debug)
+
+
+upload(args)
