@@ -26,6 +26,15 @@ from dput.util import get_obj
 from dput.exceptions import DputConfigurationError
 
 
+def checker_docs(checker):
+    obj = get_obj('checkers', checker)
+    if obj is None:
+        raise DputConfigurationError("No such checker: `%s'" % (
+            checker
+        ))
+    return obj.__doc__
+
+
 def run_checker(checker, changes, profile):
     """
     Run a checker (by the name of ``checker``) against the changes file (by

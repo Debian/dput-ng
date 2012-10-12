@@ -32,3 +32,35 @@ If you decide to contribute, please stick to the following rules:
   * Please add your name to AUTHORS, on the first commit.
 
   * Ask for feedback *early*
+
+Documentation
+-------------
+
+Documentation is another huge effort that's been going on. Working to better
+document dput is something that's really important. Working on tutorials,
+reviewing old & outdated docs, or expanding on existing documentation is
+something that's sorely needed.
+
+If you're also technical, documenting the internals is an ongoing effort,
+so any help there would be amazing.
+
+Some rules here, too:
+
+  * Be sure to write in complete and clear English.
+
+  * Cross-reference as much as you can. It really helps.
+
+  * Include lots of examples.
+
+  * As for feedback as you go along. Also be sure to have a technical person
+    on the dput team review your work for slight errors as you go along.
+
+  * Be explicit about licensing
+
+  * Please add yourself to AUTHORS on your first commit.
+
+
+Checkers
+--------
+
+Writing checkers
