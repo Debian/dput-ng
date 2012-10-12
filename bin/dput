@@ -20,7 +20,6 @@
 # 02110-1301, USA.
 
 import sys
-import logging
 import argparse
 
 # A little temporary hack for those of us not using virtualenv
