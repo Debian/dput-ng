@@ -63,4 +63,20 @@ Some rules here, too:
 Checkers
 --------
 
-Writing checkers
+Checkers are hugely important as well. Writing new checkers is insanely cool,
+and sharing them back with the dput-ng community & friends is an awesome thing
+to do on it's own.
+
+Some other random guidelines we thought up:
+
+  * In general, treat your checkers as self-contained and independent.
+
+  * If you feel your checker should be in the dput main, please ensure it's
+    properly clean, follows the code guidelines above, and finds a nice home
+    somewhere in the dput codebase. Make sure it's below ``dput.checkers``,
+    though.
+
+  * It must be distributable under the terms of the GPL-2+ license. Permissive
+    licenses such as Expat or BSD-3 should be fine. When in doubt, ask!
+
+.. XXX: Link to a tutorial about writing a checker, etc. MORE!
