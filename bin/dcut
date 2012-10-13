@@ -69,7 +69,6 @@ import dput.exceptions
 import dput.command
 
 from dput import upload_command
-from dput.commands.upload import UploadCommand
 
 parser = argparse.ArgumentParser(description=' Debian archive command file'
                                  'upload tool')
