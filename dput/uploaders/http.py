@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+HTTP Uploader implementation
+"""
 
 from dput.exceptions import UploadException
 from dput.uploader import AbstractUploader
@@ -30,11 +33,26 @@ import urlparse
 
 
 class HttpUploadException(UploadException):
+    """
+    Thrown in the event of a problem connecting, uploading to or
+    terminating the connection with the remote server. This is
+    a subclass of :class:`dput.exceptions.UploadException`.
+    """
     pass
 
 
 class HTTPUploader(AbstractUploader):
+    """
+    Provides an interface to upload files through HTTP. Supports anonymous
+    uploads only for the time being.
+
+    This is a subclass of :class:`dput.uploader.AbstractUploader`
+    """
+
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.uploader.AbstractUploader.initialize`
+        """
         mimetypes.init()
 
         # code below is fugly. Dear god, please write a mutable
@@ -67,6 +85,9 @@ class HTTPUploader(AbstractUploader):
                                              ))
 
     def upload_file(self, filename):
+        """
+        See :meth:`dput.uploader.AbstractUploader.upload_file`
+        """
         upload_filename = self._baseurl + os.path.basename(filename)
         logger.debug("Upload to %s" % (upload_filename))
 
@@ -88,4 +109,7 @@ class HTTPUploader(AbstractUploader):
         fh.close()
 
     def shutdown(self):
+        """
+        See :meth:`dput.uploader.AbstractUploader.shutdown`
+        """
         pass

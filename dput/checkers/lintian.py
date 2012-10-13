@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+Lintian checker implementation
+"""
 
 import subprocess
 from collections import defaultdict
@@ -80,8 +83,26 @@ def lint(path, pedantic=False, info=False, experimental=False):
 
 
 def lintian(changes, profile, interface):
+    """
+    The ``lintian`` checker is a stock dput checker that checks packages
+    intended for upload for common mistakes, using the static checking
+    tool, `lintian <http://lintian.debian.org/>`.
+
+    Profile key: ``lintian``
+
+    Example profile::
+
+        {
+            "run_lintian": true
+            "lintian": {
+            }
+        }
+
+    No keys are current supported, but there are plans to set custom
+    ignore lists, etc.
+    """
     if "run_lintian" in profile:
-        if not profile['run_lintian']:
+        if not profile['run_lintian']:  # XXX: Broken. Fixme.
             logger.info("skipping lintian checking, enable with "
                         "run_lintian = 1 in your dput.cf")
             return

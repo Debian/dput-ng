@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+Local Uploader implementation
+"""
 
 from dput.uploader import AbstractUploader
 import dput.util
@@ -32,9 +35,15 @@ class LocalUploader(AbstractUploader):
     """
 
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.uploader.AbstractUploader.initialize`
+        """
         pass
 
     def upload_file(self, filename):
+        """
+        See :meth:`dput.uploader.AbstractUploader.upload_file`
+        """
         whereto = self._config['incoming']
         whereto = os.path.expanduser(whereto)
         dput.util.run_command([
@@ -44,4 +53,7 @@ class LocalUploader(AbstractUploader):
         ])
 
     def shutdown(self):
+        """
+        See :meth:`dput.uploader.AbstractUploader.shutdown`
+        """
         pass

@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+FTP Uploader implementation.
+"""
 
 import ftplib
 import os.path
@@ -27,16 +30,26 @@ from dput.exceptions import UploadException
 
 
 class FtpUploadException(UploadException):
+    """
+    Thrown in the event of a problem connecting, uploading to or
+    terminating the connection with the remote server. This is
+    a subclass of :class:`dput.exceptions.UploadException`.
+    """
     pass
 
 
 class FtpUploader(AbstractUploader):
     """
     Provides an interface to upload files through FTP. Supports anonymous
-    uploads only for the time being
+    uploads only for the time being.
+
+    This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
 
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.uploader.AbstractUploader.initialize`
+        """
         try:
             self._ftp = ftplib.FTP(
                 self._config["fqdn"],
@@ -70,6 +83,9 @@ class FtpUploader(AbstractUploader):
                 )
 
     def upload_file(self, filename):
+        """
+        See :meth:`dput.uploader.AbstractUploader.upload_file`
+        """
         try:
             basename = "STOR %s" % (os.path.basename(filename))
             self._ftp.storbinary(basename, open(filename, 'rb'))
@@ -82,4 +98,7 @@ class FtpUploader(AbstractUploader):
             ))
 
     def shutdown(self):
+        """
+        See :meth:`dput.uploader.AbstractUploader.shutdown`
+        """
         self._ftp.quit()

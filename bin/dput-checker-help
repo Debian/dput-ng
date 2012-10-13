@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+from dput.checker import checker_docs
+from dput.exceptions import DputConfigurationError
+import sys
+
+if len(sys.argv) <= 1:
+    print "Error in usage."
+
+checker = sys.argv[1]
+try:
+    docs = checker_docs(checker)
+    if docs is None:
+        print "Sorry, the author of that module didn't provide documentation."
+    else:
+        print docs
+except DputConfigurationError as e:
+    print e

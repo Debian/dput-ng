@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+Basic and core package checkers.
+"""
 
 import re
 
@@ -25,30 +28,81 @@ from dput.exceptions import ChangesFileException, CheckerException
 
 
 class GPGCheckerError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``gpg`` checker encounters an issue.
+    """
     pass
 
 
 class HashValidationError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``checksum`` checker encounters an issue.
+    """
     pass
 
 
 class SuiteMismatchError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``suite-mismatch`` checker encounters an issue.
+    """
     pass
 
 
 class SourceMissingError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``source`` checker encounters an issue.
+    """
     pass
 
 
 class BadDistributionError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``allowed-distribution`` checker encounters an issue.
+    """
     pass
 
 
 class BinaryUploadError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``check-debs`` checker encounters an issue.
+    """
     pass
 
 
 def check_gpg_signature(changes, profile, interface):
+    """
+    The ``gpg`` checker is a stock dput checker that checks packages
+    intended for upload for a GPG signature.
+
+    Profile key: ``gpg``
+
+    Example profile::
+
+        {
+            "allowed_keys": [
+                "8F049AD82C92066C7352D28A7B585B30807C2A87",
+                "B7982329"
+            ]
+        }
+
+    ``allowed_keys`` is an optional entry which contains all the keys that
+    may upload to this host. This can come in handy if you use more then one
+    key to upload to more then one host. Use any length of the last N chars
+    of the fingerprint.
+    """
+
     if "allow_unsigned_uploads" in profile:
         if profile['allow_unsigned_uploads'] and \
            profile['allow_unsigned_uploads'] != '0':
@@ -87,6 +141,26 @@ def check_gpg_signature(changes, profile, interface):
 
 
 def check_debs_in_upload(changes, profile, interface):
+    """
+    The ``check-debs`` checker is a stock dput checker that checks packages
+    intended for upload for .deb packages.
+
+    Profile key: ``foo``
+
+    Example profile::
+
+        {
+            "skip": false,
+            "enforce_debs": false
+        }
+
+    ``skip``         controls if the checker should drop out without checking
+                     for anything at all.
+
+    ``enforce_debs`` When true, this asserts the package has at least one
+                     .deb file. When false, this asserts the package does
+                     *not* have *any* .debs.
+    """
     debs = {}
     if 'check-debs' in profile:
         debs = profile['check-debs']
@@ -118,6 +192,23 @@ def check_debs_in_upload(changes, profile, interface):
 
 
 def validate_checksums(changes, profile, interface):
+    """
+    The ``checksum`` checker is a stock dput checker that checks packages
+    intended for upload for correct checksums. This is actually the most
+    simple checker that exists.
+
+    Profile key: none.
+
+    Example profile::
+
+        {
+            ...
+            "hash": "md5"
+            ...
+        }
+
+    The hash may be one of md5, sha1, sha256.
+    """
     try:
         changes.validate_checksums(check_hash=profile["hash"])
     except ChangesFileException as e:
@@ -127,6 +218,17 @@ def validate_checksums(changes, profile, interface):
 
 
 def check_distribution_matches(changes, profile, interface):
+    """
+    The ``suite-mismatch` checker is a stock dput checker that checks packages
+    intended for upload for matching Distribution and last Changelog target.
+
+    Profile key: none
+
+    This checker simply verified that the Changes' Distribution key matches
+    the last changelog target. If the mixup is between experimental and
+    unstable, it'll remind you to pass ``-c unstable -d experimental``
+    to sbuild.
+    """
     changelog_distribution = changes.get("Changes").split()[2].strip(';')
     intent = changelog_distribution.strip()
     actual = changes.get("Distribution").strip()
@@ -147,6 +249,22 @@ def check_distribution_matches(changes, profile, interface):
 
 
 def check_allowed_distribution(changes, profile, interface):
+    """
+    The ``allowed-distribution`` checker is a stock dput checker that checks
+    packages intended for upload for a valid upload distribution.
+
+    Profile key: none
+
+    Example profile::
+
+        {
+            ...
+            "allowed_distributions": "(?!UNRELEASED)"
+            ...
+        }
+
+    The allowed_distributions key is in Python ``re`` syntax.
+    """
     # TODO: This function does not correctly handles distributions
     #       which is different to allowed_distributions.
     suite = changes['Distribution']
@@ -159,6 +277,18 @@ def check_allowed_distribution(changes, profile, interface):
 
 
 def check_source_needed(changes, profile, interface):
+    """
+    The ``source`` checker is a stock dput checker that checks packages
+    intended for upload for source attached.
+
+    Profile key: none
+
+    .. warning::
+        This is all magic and pre-beta. Please don't rely on it.
+
+    This simply checks, based on Debian policy rules, if the upload aught to
+    have source attached.
+    """
 
     debian_revision = changes.get("Version")
     if debian_revision.find("-") == -1:
