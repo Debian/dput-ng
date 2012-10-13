@@ -22,11 +22,10 @@
 import logging
 
 TRACE = 5
-
 logging.addLevelName(TRACE, 'TRACE')
 
-class DputLogger(logging.getLoggerClass()):
 
+class DputLogger(logging.getLoggerClass()):
     def trace(self, msg, *args, **kwargs):
         if self.isEnabledFor(TRACE):
             self._log(TRACE, msg, args, **kwargs)

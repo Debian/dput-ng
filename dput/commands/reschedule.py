@@ -21,8 +21,10 @@
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 
+
 class RescheduleCommandError(DcutError):
     pass
+
 
 class RescheduleCommand(AbstractCommand):
     def __init__(self):

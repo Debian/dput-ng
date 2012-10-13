@@ -21,8 +21,10 @@
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 
+
 class DmCommandError(DcutError):
     pass
+
 
 class DmCommand(AbstractCommand):
     def __init__(self):

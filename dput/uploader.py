@@ -237,7 +237,6 @@ def invoke_dput(changes, args):  # XXX: Name sucks
         logger.warning("No checkers defined in the profile. "
                        "Not checking upload.")
 
-
     # XXX: This does not work together with --check-only and --simulate
     # We cannot use with(the_logfile) as an outermost condition
     # Also, the _contents_ of the log-file maybe should contain the logger

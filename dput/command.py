@@ -22,11 +22,11 @@ import abc
 import os
 import tempfile
 
-
 import dput.profile
-from dput.exceptions import UploadException, DputConfigurationError, DcutError
-from dput.core import (CONFIG_LOCATIONS, logger)
 from dput.util import get_obj
+from dput.core import (CONFIG_LOCATIONS, logger)
+from dput.exceptions import UploadException, DputConfigurationError, DcutError
+
 
 class AbstractCommand(object):
     """
@@ -54,6 +54,7 @@ class AbstractCommand(object):
     def name_and_purpose(self):
         pass
 
+
 def find_commands():
     profiles = set()
     logger.trace("Profiles: %s" % (str(profiles)))
@@ -65,6 +66,7 @@ def find_commands():
                 if fil.endswith(xtn):
                     profiles.add(fil[:-len(xtn)])
     return profiles
+
 
 # XXX: This function could be refactored over to dput. There a *very*
 # similar function exists.
@@ -96,6 +98,7 @@ def write_header(fh, profile, args):
     fh.write("Archive: %s\n" % (profile['fqdn']))
     fh.write("Uploader: %s <%s>\n\n" % (name, email))
 
+
 def invoke_dcut(args):
     profile = dput.profile.load_profile(args.host)
 
@@ -116,11 +119,9 @@ def invoke_dcut(args):
     assert(issubclass(type(command), AbstractCommand))
     command.validate(args)
 
-
     with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
         write_header(fh, profile, args)
         command.produce(fh, args)
         print fh.name
         fh.flush()
         raw_input()
-

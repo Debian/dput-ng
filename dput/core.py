@@ -63,6 +63,7 @@ _formatter = logging.Formatter(
     '%(message)s')
 _ch.setFormatter(_formatter)
 
+
 def _enable_debugging(level):
     _ch = logging.StreamHandler()
     if level == 1:
