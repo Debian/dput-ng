@@ -15,6 +15,7 @@ Sub-packages:
 .. toctree::
    :maxdepth: 1
 
+   checkers/index
    interfaces/index
    uploaders/index
    configs/index
