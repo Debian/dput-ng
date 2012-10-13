@@ -60,7 +60,7 @@ class SFTPUploader(AbstractUploader):
 
     def initialize(self, **kwargs):
         """
-        See :meth:`dput.uploader.AbstractUploader.initialize
+        See :meth:`dput.uploader.AbstractUploader.initialize`
         """
         fqdn = self._config['fqdn']
         incoming = self._config['incoming']

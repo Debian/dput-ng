@@ -219,17 +219,15 @@ def validate_checksums(changes, profile, interface):
 
 def check_distribution_matches(changes, profile, interface):
     """
-    The ``foo`` checker is a stock dput checker that checks packages
-    intended for upload for
+    The ``suite-mismatch` checker is a stock dput checker that checks packages
+    intended for upload for matching Distribution and last Changelog target.
 
-    Profile key: ``foo``
+    Profile key: none
 
-    Example profile::
-
-        {
-        }
-
-    foo
+    This checker simply verified that the Changes' Distribution key matches
+    the last changelog target. If the mixup is between experimental and
+    unstable, it'll remind you to pass ``-c unstable -d experimental``
+    to sbuild.
     """
     changelog_distribution = changes.get("Changes").split()[2].strip(';')
     intent = changelog_distribution.strip()
@@ -252,17 +250,20 @@ def check_distribution_matches(changes, profile, interface):
 
 def check_allowed_distribution(changes, profile, interface):
     """
-    The ``foo`` checker is a stock dput checker that checks packages
-    intended for upload for
+    The ``allowed-distribution`` checker is a stock dput checker that checks
+    packages intended for upload for a valid upload distribution.
 
-    Profile key: ``foo``
+    Profile key: none
 
     Example profile::
 
         {
+            ...
+            "allowed_distributions": "(?!UNRELEASED)"
+            ...
         }
 
-    foo
+    The allowed_distributions key is in Python ``re`` syntax.
     """
     # TODO: This function does not correctly handles distributions
     #       which is different to allowed_distributions.
@@ -277,17 +278,16 @@ def check_allowed_distribution(changes, profile, interface):
 
 def check_source_needed(changes, profile, interface):
     """
-    The ``foo`` checker is a stock dput checker that checks packages
-    intended for upload for
+    The ``source`` checker is a stock dput checker that checks packages
+    intended for upload for source attached.
 
-    Profile key: ``foo``
+    Profile key: none
 
-    Example profile::
+    .. warning::
+        This is all magic and pre-beta. Please don't rely on it.
 
-        {
-        }
-
-    foo
+    This simply checks, based on Debian policy rules, if the upload aught to
+    have source attached.
     """
 
     debian_revision = changes.get("Version")
