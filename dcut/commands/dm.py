@@ -44,8 +44,7 @@ class DmCommand(AbstractCommand):
                             "upload should be denied", nargs="*")
 
     def produce(self, fh, args):
-        print(args)
-        fh.write("Action: dm\n")
+        fh.write("Action: %s\n" % (self.cmd_name))
         fh.write("Fingerprint: %s\n" % (args.dm))
         if args.allow:
             for allowed_packages in args.allow:

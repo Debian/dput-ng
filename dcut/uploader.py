@@ -81,7 +81,7 @@ def load_commands():
     return commands
 
 
-def write_header(fh, args):
+def write_header(fh, profile, args):
     email = os.environ["DEBEMAIL"]
     if not email:
         os.environ["EMAIL"]
@@ -93,7 +93,7 @@ def write_header(fh, args):
         raise DcutError("Your name or email could not be retrieved."
                         "Please set DEBEMAIL and DEBFULLNAME.")
 
-    fh.write("Archive: ftp.debian.org\n")
+    fh.write("Archive: %s\n" % (profile['fqdn']))
     fh.write("Uploader: %s <%s>\n\n" % (name, email))
 
 def invoke_dcut(args):
@@ -118,7 +118,7 @@ def invoke_dcut(args):
 
 
     with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
-        write_header(fh, args)
+        write_header(fh, profile, args)
         command.produce(fh, args)
         print fh.name
         fh.flush()
