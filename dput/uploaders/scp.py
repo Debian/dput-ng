@@ -51,6 +51,9 @@ class ScpUploader(AbstractUploader):
     """
 
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.uploader.AbstractUploader.initialize`
+        """
         login = find_username(self._config)
         self._scp_base = ["scp", "-p", "-C"]
         self._scp_host = "%s@%s" % (login, self._config['fqdn'])
@@ -58,6 +61,9 @@ class ScpUploader(AbstractUploader):
         logger.warning("SCP is deprecated. Please consider upgrading to SFTP.")
 
     def upload_file(self, filename):
+        """
+        See :meth:`dput.uploader.AbstractUploader.upload_file`
+        """
         basefile = os.path.basename(filename)
         incoming = self._config['incoming']
         targetfile = "%s:%s" % (self._scp_host, os.path.join(incoming,
@@ -70,4 +76,7 @@ class ScpUploader(AbstractUploader):
                                             basefile, self._config.name(), e))
 
     def shutdown(self):
+        """
+        See :meth:`dput.uploader.AbstractUploader.shutdown`
+        """
         pass
