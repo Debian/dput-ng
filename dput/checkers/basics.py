@@ -79,6 +79,27 @@ class BinaryUploadError(CheckerException):
 
 
 def check_gpg_signature(changes, profile, interface):
+    """
+    The ``gpg`` checker is a stock dput checker that checks packages
+    intended for upload for a GPG signature.
+
+    Profile key: ``gpg``
+
+    Example profile::
+
+        {
+            "allowed_keys": [
+                "8F049AD82C92066C7352D28A7B585B30807C2A87",
+                "B7982329"
+            ]
+        }
+
+    ``allowed_keys`` is an optional entry which contains all the keys that
+    may upload to this host. This can come in handy if you use more then one
+    key to upload to more then one host. Use any length of the last N chars
+    of the fingerprint.
+    """
+
     if "allow_unsigned_uploads" in profile:
         if profile['allow_unsigned_uploads'] and \
            profile['allow_unsigned_uploads'] != '0':
