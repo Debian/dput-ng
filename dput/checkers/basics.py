@@ -219,7 +219,7 @@ def validate_checksums(changes, profile, interface):
 
 def check_distribution_matches(changes, profile, interface):
     """
-    The ``suite-mismatch` checker is a stock dput checker that checks packages
+    The ``suite-mismatch`` checker is a stock dput checker that checks packages
     intended for upload for matching Distribution and last Changelog target.
 
     Profile key: none

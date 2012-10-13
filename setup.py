@@ -21,7 +21,9 @@ setup(
         'dput',
         'dput.checkers',
         'dput.uploaders',
-        'dput.interfaces'
+        'dput.interfaces',
+        'dcut',
+        'dcut.commands',
     ],
     author="dput authors",
     author_email="paultag@debian.org",
