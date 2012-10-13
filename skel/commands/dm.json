@@ -1,0 +1,4 @@
+{
+    "name": "dm command",
+    "path": "dcut.commands.dm.DmCommand"
+}

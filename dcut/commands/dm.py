@@ -21,27 +21,30 @@
 from dcut.uploader import AbstractCommand
 from dput.exceptions import DcutError
 
-class RmCommandError(DcutError):
+class DmCommandError(DcutError):
     pass
 
-class RmCommand(AbstractCommand):
+class DmCommand(AbstractCommand):
     def __init__(self):
-        super(RmCommand, self).__init__()
-        self.cmd_name = "rm"
-        self.cmd_purpose = "remove a file from the upload queue"
+        super(DmCommand, self).__init__()
+        self.cmd_name = "dm"
+        self.cmd_purpose = "manage Debian Mantainer (DM) permissions"
 
     def register(self, parser):
-        parser.add_argument('file', metavar="FILENAME", action='store',
-                            default=None, help="file name to be removed",
-                            nargs="+")
-        parser.add_argument('--searchdirs', action='store_true', default=None,
-                            help="Search in all directories for the given"
-                            " file. Only supported for files in the DELAYED"
-                            " queue.")
+        parser.add_argument('--dm', action='store', default=None,
+                            help="Name, e-mail or fingerprint of an existing "
+                            "Debian Maintainer", nargs=1)
+        parser.add_argument('--allow', metavar="PACKAGES",
+                            action='append', default=None,
+                            help="Source package(s) where permissions to "
+                            "upload should be granted", nargs="+")
+        parser.add_argument('--deny', metavar="PACKAGES",
+                            action='append', default=None,
+                            help="Source package(s) where permissions to "
+                            "upload should be denied", nargs="+")
 
     def produce(self, fh):
         print("produce")
-        fh.write("produce")
 
     def validate(self, **kwargs):
         print("validate")

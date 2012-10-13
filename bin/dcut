@@ -67,10 +67,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
-import dput.profile
 import dput.exceptions
+import dcut.uploader
 from dcut import upload
-
 
 parser = argparse.ArgumentParser(description=' Debian archive command file'
                                  'upload tool')
@@ -81,8 +80,16 @@ parser.add_argument('-c', '--config', metavar="FILE", action='store',
                     default=None, help='Configuration file to parse')
 parser.add_argument('host', metavar="HOST", action='store', default=None,
                     help="Target host to upload a package", nargs="?")
-parser.add_argument('command', metavar="COMMAND", action='store',
-                    default=None, help="XXX: fill me")
+subparsers = parser.add_subparsers(help='Supported commands')
+
+command_registry = dcut.uploader.load_commands()
+
+for command in command_registry:
+    (cmd_name, cmd_purpose) = command.name_and_purpose()
+    command_parser = subparsers.add_parser(cmd_name, help=cmd_purpose)
+    command_parser.set_defaults(command=command)
+    command.register(command_parser)
+
 args = parser.parse_args()
 
 

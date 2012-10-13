@@ -1,0 +1,4 @@
+{
+    "name": "reschedule command",
+    "path": "dcut.commands.reschedule.RescheduleCommand"
+}

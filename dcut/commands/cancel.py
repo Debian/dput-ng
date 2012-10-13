@@ -21,27 +21,22 @@
 from dcut.uploader import AbstractCommand
 from dput.exceptions import DcutError
 
-class RmCommandError(DcutError):
+class CancelCommandError(DcutError):
     pass
 
-class RmCommand(AbstractCommand):
+class CancelCommand(AbstractCommand):
     def __init__(self):
-        super(RmCommand, self).__init__()
-        self.cmd_name = "rm"
-        self.cmd_purpose = "remove a file from the upload queue"
+        super(CancelCommand, self).__init__()
+        self.cmd_name = "cancel"
+        self.cmd_purpose = "cancel a deferred upload"
 
     def register(self, parser):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
                             nargs="+")
-        parser.add_argument('--searchdirs', action='store_true', default=None,
-                            help="Search in all directories for the given"
-                            " file. Only supported for files in the DELAYED"
-                            " queue.")
 
     def produce(self, fh):
         print("produce")
-        fh.write("produce")
 
     def validate(self, **kwargs):
         print("validate")

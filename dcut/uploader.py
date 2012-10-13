@@ -20,9 +20,11 @@
 
 import abc
 import os
+import tempfile
+
 
 import dput.profile
-from dput.exceptions import UploadException, DputConfigurationError
+from dput.exceptions import UploadException, DputConfigurationError, DcutError
 from dput.core import (CONFIG_LOCATIONS, logger)
 from dput.util import get_obj
 
@@ -33,21 +35,24 @@ class AbstractCommand(object):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, profile):
-        self._config = profile
+    def __init__(self):
+        pass
 
     @abc.abstractmethod
     def register(self, **kwargs):
         pass
 
     @abc.abstractmethod
-    def produce(self, filename):
+    def produce(self, fh):
         pass
 
     @abc.abstractmethod
     def validate(self, **kwargs):
         pass
 
+    @abc.abstractmethod
+    def name_and_purpose(self):
+        pass
 
 def find_commands():
     profiles = set()
@@ -61,7 +66,10 @@ def find_commands():
                     profiles.add(fil[:-len(xtn)])
     return profiles
 
+# XXX: This function could be refactored over to dput. There a *very*
+# similar function exists.
 def load_commands():
+    commands = []
     for command in find_commands():
         logger.debug("importing command: %s" % (command))
         obj = get_obj('commands', command)
@@ -69,7 +77,24 @@ def load_commands():
             raise DputConfigurationError("No such checker: `%s'" % (
                 command
             ))
-        print(obj)
+        commands.append(obj())
+    return commands
+
+
+def write_header(fh, args):
+    email = os.environ["DEBEMAIL"]
+    if not email:
+        os.environ["EMAIL"]
+    name = os.environ["DEBFULLNAME"]
+
+    # TODO: parse gecos?
+
+    if not name or not email:
+        raise DcutError("Your name or email could not be retrieved."
+                        "Please set DEBEMAIL and DEBFULLNAME.")
+
+    fh.write("Archive: ftp.debian.org\n")
+    fh.write("Uploader: %s <%s>\n\n" % (name, email))
 
 def invoke_dcut(args):
     profile = dput.profile.load_profile(args.host)
@@ -87,5 +112,15 @@ def invoke_dcut(args):
         profile['incoming']
     ))
 
-    print(profile)
-    print(load_commands())
+    command = args.command
+    assert(issubclass(type(command), AbstractCommand))
+    command.validate(args=args)
+
+
+    with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
+        write_header(fh, args)
+        command.produce(fh)
+        print fh.name
+        fh.flush()
+        raw_input()
+

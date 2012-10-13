@@ -31,6 +31,9 @@ class DputError(BaseException):
     pass
 
 
+class DcutError(BaseException):
+    pass
+
 class DputConfigurationError(DputError):
     """
     Errors in the parsing or retrieving of configuration files should raise

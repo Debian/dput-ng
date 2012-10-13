@@ -21,27 +21,26 @@
 from dcut.uploader import AbstractCommand
 from dput.exceptions import DcutError
 
-class RmCommandError(DcutError):
+class RescheduleCommandError(DcutError):
     pass
 
-class RmCommand(AbstractCommand):
+class RescheduleCommand(AbstractCommand):
     def __init__(self):
-        super(RmCommand, self).__init__()
-        self.cmd_name = "rm"
-        self.cmd_purpose = "remove a file from the upload queue"
+        super(RescheduleCommand, self).__init__()
+        self.cmd_name = "reschedule"
+        self.cmd_purpose = "reschedule a deferred upload"
 
     def register(self, parser):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
-                            nargs="+")
-        parser.add_argument('--searchdirs', action='store_true', default=None,
-                            help="Search in all directories for the given"
-                            " file. Only supported for files in the DELAYED"
-                            " queue.")
+                            nargs=1)
+        parser.add_argument('days', metavar="DAYS", action='store',
+                            default=None, help="reschedule for DAYS days."
+                            " Takes an argument from 0 to 15", type=int,
+                            choices=range(0, 16))
 
     def produce(self, fh):
         print("produce")
-        fh.write("produce")
 
     def validate(self, **kwargs):
         print("validate")
