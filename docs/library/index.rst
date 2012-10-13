@@ -16,6 +16,7 @@ Sub-packages:
    :maxdepth: 1
 
    checkers/index
+   processors/index
    interfaces/index
    uploaders/index
    configs/index

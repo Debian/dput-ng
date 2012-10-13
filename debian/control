@@ -21,7 +21,7 @@ Multi-Arch: foreign
 Breaks: dput
 Replaces: dput
 Provides: dput
-Depends: ${misc:Depends}, ${python:Depends}
+Depends: ${misc:Depends}, ${python:Depends}, python-dput
 Description: Debian package upload tool
  dput-ng is a package upload tool, inspired by the original dput project.
  dput aims to allow anyone who works with Debian packages to upload their
@@ -32,5 +32,25 @@ Description: Debian package upload tool
  checks, an easy to use plugin system, and code designed to handle the numerous
  archives that any Debian package hacker will interact with.
  .
- dput-ng aims to be backwards compatable with dput in command-line flags,
+ dput-ng aims to be backwards compatible with dput in command-line flags,
  configuration files, and expected behavior.
+
+Package: python-dput
+Architecture: all
+Section: python
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${python:Depends}, python-debian, python-paramiko
+Description: set of Python backings to the dput tool
+ foo
+ .
+ bar
+
+Package: dput-ng-doc
+Architecture: all
+Section: doc
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: documentation for dput-ng
+ foo
+ .
+ bar
