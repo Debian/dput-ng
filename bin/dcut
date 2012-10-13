@@ -80,6 +80,36 @@ parser.add_argument('-c', '--config', metavar="FILE", action='store',
                     default=None, help='Configuration file to parse')
 parser.add_argument('host', metavar="HOST", action='store', default=None,
                     help="Target host to upload a package", nargs="?")
+parser.add_argument('-m', '--maintainer', metavar="MAINTAINER",
+                    help="Use MAINTAINER (full email) for the uploader field "
+                    "and gpg key selection.  This has no effect when "
+                    "--upload is used", action='store')
+parser.add_argument('-k', '--keyid', metavar="KEYID",
+                    help="Use KEYID for signing. Default is to let debsign "
+                    "choose a keyid.  This has no effect when "
+                    "--upload is used", action='store')
+parser.add_argument('-O', '--output', metavar="FILENAME",
+                    help="Write  commands  file to FILENAME  instead of "
+                    "uploading.  You sould not specify a host when using "
+                    "this option.  Also, this option should not be used with "
+                    "--upload.  Both filename and filename.asc will be "
+                    "overwritten", action='store')
+parser.add_argument('-P', '--passive',
+                    help="Use passive ftp instead of active",
+                    action='store_true')
+parser.add_argument('-s', '--simulate',
+                    help="Simulate an upload only", action='store_true')
+parser.add_argument('-U', '--upload', metavar="FILENAME",
+                    help="Upload FILENAME as commands file. "
+                    "Note: No checks (syntax or presence/validity of "
+                    "signature) are currently performed", action='store')
+parser.add_argument('-i', '--input', metavar="FILENAME",
+                    help="(ignored)", action='store')
+parser.add_argument('-v', '--version',
+                    help="Print version information and exit",
+                    action='store_true')
+
+
 subparsers = parser.add_subparsers(help='Supported commands')
 
 command_registry = dcut.uploader.load_commands()
