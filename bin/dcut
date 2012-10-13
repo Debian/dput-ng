@@ -67,7 +67,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dput.core
 import dput.exceptions
 import dput.command
+
 from dput import upload_command
+from dput.commands.upload import UploadCommand
 
 parser = argparse.ArgumentParser(description=' Debian archive command file'
                                  'upload tool')
@@ -88,10 +90,11 @@ parser.add_argument('-k', '--keyid', metavar="KEYID",
                     "--upload is used", action='store')
 parser.add_argument('-O', '--output', metavar="FILENAME",
                     help="Write  commands  file to FILENAME  instead of "
-                    "uploading.  You sould not specify a host when using "
+                    "uploading.  You should not specify a host when using "
                     "this option.  Also, this option should not be used with "
                     "--upload.  Both filename and filename.asc will be "
-                    "overwritten", action='store')
+                    "overwritten", action='store_const', const="output",
+                    dest="command_action")
 parser.add_argument('-P', '--passive',
                     help="Use passive ftp instead of active",
                     action='store_true')
@@ -100,7 +103,8 @@ parser.add_argument('-s', '--simulate',
 parser.add_argument('-U', '--upload', metavar="FILENAME",
                     help="Upload FILENAME as commands file. "
                     "Note: No checks (syntax or presence/validity of "
-                    "signature) are currently performed", action='store')
+                    "signature) are currently performed", action='store_const',
+                     const="output", dest="command_action")
 parser.add_argument('-i', '--input', metavar="FILENAME",
                     help="(ignored)", action='store')
 parser.add_argument('-v', '--version',
@@ -111,6 +115,8 @@ parser.add_argument('-v', '--version',
 subparsers = parser.add_subparsers(help='Supported commands')
 
 command_registry = dput.command.load_commands()
+# special fugly hack
+command_registry.append(UploadCommand())
 
 for command in command_registry:
     (cmd_name, cmd_purpose) = command.name_and_purpose()
@@ -120,6 +126,7 @@ for command in command_registry:
 
 args = parser.parse_args()
 
+print(args.command_action)
 
 if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)

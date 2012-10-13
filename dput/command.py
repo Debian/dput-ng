@@ -36,7 +36,8 @@ class AbstractCommand(object):
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):
-        pass
+        self.cmd_name = None
+        self.cmd_purpose = None
 
     @abc.abstractmethod
     def register(self, parser, **kwargs):
@@ -118,6 +119,9 @@ def invoke_dcut(args):
     command = args.command
     assert(issubclass(type(command), AbstractCommand))
     command.validate(args)
+
+    if command.cmd_name == "upload":
+        raise DcutError("Cry! Cry! Cry! Such a fugly hack")
 
     with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
         write_header(fh, profile, args)
