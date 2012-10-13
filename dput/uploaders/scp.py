@@ -73,7 +73,7 @@ class ScpUploader(AbstractUploader):
         (_, e, x) = run_command(scp)
         if x != 0:
             raise ScpUploadException("Failed to upload %s to %s: %s" % (
-                                            basefile, self._config.name(), e))
+                                            basefile, self._config['name'], e))
 
     def shutdown(self):
         """
