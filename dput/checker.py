@@ -22,17 +22,12 @@ Implementation of the interface to run a checker.
 """
 
 from dput.core import logger
-from dput.util import get_obj
+from dput.util import get_obj, obj_docs
 from dput.exceptions import DputConfigurationError
 
 
 def checker_docs(checker):
-    obj = get_obj('checkers', checker)
-    if obj is None:
-        raise DputConfigurationError("No such checker: `%s'" % (
-            checker
-        ))
-    return obj.__doc__
+    return obj_docs('checkers', checker)
 
 
 def run_checker(checker, changes, profile):

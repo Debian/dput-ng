@@ -140,3 +140,15 @@ def load_config(config_class, config_name, default=None):
     nsce.config_name = config_name
     nsce.checked = dput.core.CONFIG_LOCATIONS
     raise nsce
+
+
+def obj_docs(klass, ostr):
+    """
+    Get an object's docstring by name / class.
+    """
+    obj = get_obj(klass, ostr)
+    if obj is None:
+        raise DputConfigurationError("No such object: `%s'" % (
+            ostr
+        ))
+    return obj.__doc__
