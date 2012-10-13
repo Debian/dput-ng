@@ -30,7 +30,7 @@ class RescheduleCommand(AbstractCommand):
         self.cmd_name = "reschedule"
         self.cmd_purpose = "reschedule a deferred upload"
 
-    def register(self, parser):
+    def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
                             nargs=1)
@@ -39,10 +39,15 @@ class RescheduleCommand(AbstractCommand):
                             " Takes an argument from 0 to 15", type=int,
                             choices=range(0, 16))
 
-    def produce(self, fh):
-        print("produce")
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        for rm_file in args.file:
+            fh.write("  %s %s %s-day\n" % (
+                                     self.cmd_name,
+                                     rm_file,
+                                     args.days))
 
-    def validate(self, **kwargs):
+    def validate(self, args):
         print("validate")
 
     def name_and_purpose(self):

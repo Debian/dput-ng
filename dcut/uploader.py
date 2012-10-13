@@ -39,15 +39,15 @@ class AbstractCommand(object):
         pass
 
     @abc.abstractmethod
-    def register(self, **kwargs):
+    def register(self, parser, **kwargs):
         pass
 
     @abc.abstractmethod
-    def produce(self, fh):
+    def produce(self, fh, args):
         pass
 
     @abc.abstractmethod
-    def validate(self, **kwargs):
+    def validate(self, args):
         pass
 
     @abc.abstractmethod
@@ -114,12 +114,12 @@ def invoke_dcut(args):
 
     command = args.command
     assert(issubclass(type(command), AbstractCommand))
-    command.validate(args=args)
+    command.validate(args)
 
 
     with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
         write_header(fh, args)
-        command.produce(fh)
+        command.produce(fh, args)
         print fh.name
         fh.flush()
         raw_input()

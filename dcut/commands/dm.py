@@ -30,23 +30,35 @@ class DmCommand(AbstractCommand):
         self.cmd_name = "dm"
         self.cmd_purpose = "manage Debian Mantainer (DM) permissions"
 
-    def register(self, parser):
+    def register(self, parser, **kwargs):
         parser.add_argument('--dm', action='store', default=None,
                             help="Name, e-mail or fingerprint of an existing "
-                            "Debian Maintainer", nargs=1)
+                            "Debian Maintainer", required=True)
         parser.add_argument('--allow', metavar="PACKAGES",
-                            action='append', default=None,
+                            action='store', default=None,
                             help="Source package(s) where permissions to "
-                            "upload should be granted", nargs="+")
+                            "upload should be granted", nargs="*")
         parser.add_argument('--deny', metavar="PACKAGES",
-                            action='append', default=None,
+                            action='store', default=None,
                             help="Source package(s) where permissions to "
-                            "upload should be denied", nargs="+")
+                            "upload should be denied", nargs="*")
 
-    def produce(self, fh):
-        print("produce")
+    def produce(self, fh, args):
+        print(args)
+        fh.write("Action: dm\n")
+        fh.write("Fingerprint: %s\n" % (args.dm))
+        if args.allow:
+            for allowed_packages in args.allow:
+                fh.write("Allow: %s %s\n" % (
+                                             self.cmd_name,
+                                             allowed_packages))
+        if args.deny:
+            for denied_packages in args.deny:
+                fh.write("Deny: %s %s\n" % (
+                                            self.cmd_name,
+                                            denied_packages))
 
-    def validate(self, **kwargs):
+    def validate(self, args):
         print("validate")
 
     def name_and_purpose(self):

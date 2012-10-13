@@ -30,15 +30,19 @@ class CancelCommand(AbstractCommand):
         self.cmd_name = "cancel"
         self.cmd_purpose = "cancel a deferred upload"
 
-    def register(self, parser):
+    def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
                             nargs="+")
 
-    def produce(self, fh):
-        print("produce")
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        for rm_file in args.file:
+            fh.write("  %s %s\n" % (
+                                     self.cmd_name,
+                                     rm_file))
 
-    def validate(self, **kwargs):
+    def validate(self, args):
         print("validate")
 
     def name_and_purpose(self):

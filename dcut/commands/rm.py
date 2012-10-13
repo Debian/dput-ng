@@ -30,7 +30,7 @@ class RmCommand(AbstractCommand):
         self.cmd_name = "rm"
         self.cmd_purpose = "remove a file from the upload queue"
 
-    def register(self, parser):
+    def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
                             nargs="+")
@@ -39,11 +39,15 @@ class RmCommand(AbstractCommand):
                             " file. Only supported for files in the DELAYED"
                             " queue.")
 
-    def produce(self, fh):
-        print("produce")
-        fh.write("produce")
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        for rm_file in args.file:
+            fh.write("  %s %s %s\n" % (
+                                     self.cmd_name,
+                                     "--searchdirs" if args.searchdirs else "",
+                                     rm_file))
 
-    def validate(self, **kwargs):
+    def validate(self, args):
         print("validate")
 
     def name_and_purpose(self):
