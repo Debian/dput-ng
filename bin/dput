@@ -30,7 +30,7 @@ import dput.core
 import dput.changes
 import dput.profile
 import dput.exceptions
-from dput import upload
+from dput import upload_package
 
 
 # XXX: This is a hack.
@@ -108,7 +108,7 @@ changes = dput.changes.parse_changes_file(
 )
 
 try:
-    upload(changes, args)
+    upload_package(changes, args)
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
     sys.exit(2)
