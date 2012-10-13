@@ -1,4 +1,5 @@
 {
+    "meta": "debian",
     "allow_dcut": true,
     "fqdn": "ssh.upload.debian.org",
     "incoming": "/srv/upload.debian.org/UploadQueue/",

@@ -1,15 +1,8 @@
 {
     "checkers": [
-        "allowed-distribution",
-        "suite-mismatch",
-        "checksum",
-        "check-debs",
-        "gpg",
-        "lintian"
     ],
     "interface": "cli",
     "meta": "debian",
     "processors": [
-        "unblock"
     ]
 }
