@@ -23,7 +23,7 @@ import os
 import tempfile
 
 import dput.profile
-from dput.util import get_obj
+from dput.util import get_obj, get_configs
 from dput.core import (CONFIG_LOCATIONS, logger)
 from dput.exceptions import UploadException, DputConfigurationError, DcutError
 
