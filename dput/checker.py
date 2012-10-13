@@ -22,7 +22,7 @@ Implementation of the interface to run a checker.
 """
 
 from dput.core import logger
-from dput.util import get_obj, obj_docs
+from dput.util import get_obj, obj_docs, run_func_by_name
 from dput.exceptions import DputConfigurationError
 
 
@@ -45,30 +45,4 @@ def run_checker(checker, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the checker's runtime.
     """
-    logger.debug("running check: %s" % (checker))
-    obj = get_obj('checkers', checker)
-    if obj is None:
-        raise DputConfigurationError("No such checker: `%s'" % (
-            checker
-        ))
-
-    interface = 'cli'
-    if 'interface' in profile:
-        interface = profile['interface']
-    logger.trace("Using interface %s" % (interface))
-    interface_obj = get_obj('interfaces', interface)
-    if interface_obj is None:
-        raise DputConfigurationError("No such interface: `%s'" % (
-            interface
-        ))
-    interface = interface_obj()
-    interface.initialize()
-
-    ret = obj(
-        changes,
-        profile,
-        interface
-    )
-
-    interface.shutdown()
-    return ret
+    return run_func_by_name('checkers', checker, changes, profile)

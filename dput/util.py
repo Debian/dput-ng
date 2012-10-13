@@ -152,3 +152,33 @@ def obj_docs(klass, ostr):
             ostr
         ))
     return obj.__doc__
+
+
+def run_func_by_name(klass, name, changes, profile):
+    logger.debug("running check: %s" % (name))
+    obj = get_obj(klass, name)
+    if obj is None:
+        raise DputConfigurationError("No such obj: `%s'" % (
+            name
+        ))
+
+    interface = 'cli'
+    if 'interface' in profile:
+        interface = profile['interface']
+    logger.trace("Using interface %s" % (interface))
+    interface_obj = get_obj('interfaces', interface)
+    if interface_obj is None:
+        raise DputConfigurationError("No such interface: `%s'" % (
+            interface
+        ))
+    interface = interface_obj()
+    interface.initialize()
+
+    ret = obj(
+        changes,
+        profile,
+        interface
+    )
+
+    interface.shutdown()
+    return ret
