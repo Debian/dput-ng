@@ -57,16 +57,7 @@ class AbstractCommand(object):
 
 
 def find_commands():
-    profiles = set()
-    logger.trace("Profiles: %s" % (str(profiles)))
-    for path in CONFIG_LOCATIONS:
-        path = "%s/commands" % (path)
-        if os.path.exists(path):
-            for fil in os.listdir(path):
-                xtn = ".json"
-                if fil.endswith(xtn):
-                    profiles.add(fil[:-len(xtn)])
-    return profiles
+    return get_configs('commands')
 
 
 # XXX: This function could be refactored over to dput. There a *very*

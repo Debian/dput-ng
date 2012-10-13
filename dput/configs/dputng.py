@@ -20,23 +20,14 @@
 
 import os
 
-from dput.util import load_config
+from dput.util import load_config, get_configs
 from dput.core import (CONFIG_LOCATIONS, logger)
 from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
 
 def get_sections():
-    profiles = set()
-    logger.trace("Profiles: %s" % (str(profiles)))
-    for path in CONFIG_LOCATIONS:
-        path = "%s/profiles" % (path)
-        if os.path.exists(path):
-            for fil in os.listdir(path):
-                xtn = ".json"
-                if fil.endswith(xtn):
-                    profiles.add(fil[:-len(xtn)])
-    return profiles
+    return get_configs('profiles')
 
 
 class DputProfileConfig(AbstractConfig):
