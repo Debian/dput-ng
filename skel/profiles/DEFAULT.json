@@ -1,6 +1,5 @@
 {
     "checkers": [
-        "unblock",
         "allowed-distribution",
         "suite-mismatch",
         "checksum",
@@ -9,5 +8,8 @@
         "lintian"
     ],
     "interface": "cli",
-    "meta": "debian"
+    "meta": "debian",
+    "processors": [
+        "unblock"
+    ]
 }

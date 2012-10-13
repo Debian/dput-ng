@@ -45,4 +45,4 @@ def run_processor(processor, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the checker's runtime.
     """
-    return run_func_by_name('processors', checker, changes, profile)
+    return run_func_by_name('processors', processor, changes, profile)
