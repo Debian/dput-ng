@@ -1,6 +1,0 @@
-{
-    "fqdn": "hp.debian.or.jp",
-    "incoming": "/pub/Incoming/upload",
-    "login": "anonymous",
-    "method": "ftp"
-}
