@@ -29,7 +29,7 @@ import subprocess
 import dput.core
 from dput.core import CONFIG_LOCATIONS
 from dput.core import logger
-from dput.exceptions import NoSuchConfigError
+from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
 def load_obj(obj_path):  # XXX: Name sucks.

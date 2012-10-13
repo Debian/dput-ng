@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 
-from dput.checker import checker_docs
+from dput.util import obj_docs
 from dput.exceptions import DputConfigurationError
 import sys
 
-if len(sys.argv) <= 1:
+if len(sys.argv) <= 2:
     print "Error in usage."
+    print " dput-help checkers lintian"
+    print " dput-help processor unblock"
+    sys.exit(1)
 
-checker = sys.argv[1]
+klass = sys.argv[1]
+thing = sys.argv[2]
+
 try:
-    docs = checker_docs(checker)
+    docs = obj_docs(klass, thing)
     if docs is None:
         print "Sorry, the author of that module didn't provide documentation."
     else:
