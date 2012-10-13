@@ -27,6 +27,7 @@ import importlib
 import subprocess
 
 import dput.core
+from dput.core import CONFIG_LOCATIONS
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError
 
