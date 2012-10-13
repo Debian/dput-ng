@@ -1,4 +1,4 @@
 {
     "name": "reschedule command",
-    "path": "dcut.commands.reschedule.RescheduleCommand"
+    "path": "dput.commands.reschedule.RescheduleCommand"
 }

@@ -19,11 +19,10 @@ setup(
     version=version,
     packages=[
         'dput',
+        'dput.commands',
         'dput.checkers',
         'dput.uploaders',
         'dput.interfaces',
-        'dcut',
-        'dcut.commands',
     ],
     author="dput authors",
     author_email="paultag@debian.org",

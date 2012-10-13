@@ -18,28 +18,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-from dcut.uploader import AbstractCommand
+from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 
-class CancelCommandError(DcutError):
+class RmCommandError(DcutError):
     pass
 
-class CancelCommand(AbstractCommand):
+class RmCommand(AbstractCommand):
     def __init__(self):
-        super(CancelCommand, self).__init__()
-        self.cmd_name = "cancel"
-        self.cmd_purpose = "cancel a deferred upload"
+        super(RmCommand, self).__init__()
+        self.cmd_name = "rm"
+        self.cmd_purpose = "remove a file from the upload queue"
 
     def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
                             nargs="+")
+        parser.add_argument('--searchdirs', action='store_true', default=None,
+                            help="Search in all directories for the given"
+                            " file. Only supported for files in the DELAYED"
+                            " queue.")
 
     def produce(self, fh, args):
         fh.write("Commands:\n")
         for rm_file in args.file:
-            fh.write("  %s %s\n" % (
+            fh.write("  %s %s %s\n" % (
                                      self.cmd_name,
+                                     "--searchdirs" if args.searchdirs else "",
                                      rm_file))
 
     def validate(self, args):

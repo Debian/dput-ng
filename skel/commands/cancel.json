@@ -1,4 +1,4 @@
 {
     "name": "cancel command",
-    "path": "dcut.commands.cancel.CancelCommand"
+    "path": "dput.commands.cancel.CancelCommand"
 }

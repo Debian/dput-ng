@@ -68,8 +68,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
 import dput.exceptions
-import dcut.uploader
-from dcut import upload
+import dput.command
+from dput import upload_command
 
 parser = argparse.ArgumentParser(description=' Debian archive command file'
                                  'upload tool')
@@ -112,7 +112,7 @@ parser.add_argument('-v', '--version',
 
 subparsers = parser.add_subparsers(help='Supported commands')
 
-command_registry = dcut.uploader.load_commands()
+command_registry = dput.command.load_commands()
 
 for command in command_registry:
     (cmd_name, cmd_purpose) = command.name_and_purpose()
@@ -130,4 +130,4 @@ if args.debug:
     dput.core._enable_debugging(args.debug)
 
 
-upload(args)
+upload_commands(args)

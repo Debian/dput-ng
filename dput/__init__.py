@@ -29,3 +29,5 @@ from dput.uploader import invoke_dput as upload  # NOQA
 """
 See :func:`dput.uploader.invoke_dput`.
 """
+
+from dput.command import invoke_dcut as upload_command  # NOQA
