@@ -25,26 +25,56 @@ from dput.exceptions import ChangesFileException, CheckerException
 
 
 class GPGCheckerError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``gpg`` checker encounters an issue.
+    """
     pass
 
 
 class HashValidationError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``checksum`` checker encounters an issue.
+    """
     pass
 
 
 class SuiteMismatchError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``suite-mismatch`` checker encounters an issue.
+    """
     pass
 
 
 class SourceMissingError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``source`` checker encounters an issue.
+    """
     pass
 
 
 class BadDistributionError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``allowed-distribution`` checker encounters an issue.
+    """
     pass
 
 
 class BinaryUploadError(CheckerException):
+    """
+    Subclass of the :class:`dput.exceptions.CheckerException`.
+
+    Thrown if the ``check-debs`` checker encounters an issue.
+    """
     pass
 
 
