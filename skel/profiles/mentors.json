@@ -1,0 +1,6 @@
+{
+    "fqdn": "mentors.debian.net",
+    "incoming": ".",
+    "login": "anonymous",
+    "method": "ftp"
+}

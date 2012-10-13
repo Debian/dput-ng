@@ -1,0 +1,7 @@
+{
+    "fqdn": "ftp.eu.upload.debian.org",
+    "method": "ftp",
+    "incoming": "/pub/UploadQueue/",
+    "login": "anonymous",
+    "allow_dcut": true
+}

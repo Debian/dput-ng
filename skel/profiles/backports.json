@@ -1,0 +1,7 @@
+{
+    "allow_dcut": true,
+    "fqdn": "backports-master.debian.org",
+    "incoming": "/pub/UploadQueue/",
+    "login": "anonymous",
+    "method": "ftp"
+}
