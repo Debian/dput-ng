@@ -30,10 +30,22 @@ import urlparse
 
 
 class HttpUploadException(UploadException):
+    """
+    Thrown in the event of a problem connecting, uploading to or
+    terminating the connection with the remote server. This is
+    a subclass of :class:`dput.exceptions.UploadException`.
+    """
     pass
 
 
 class HTTPUploader(AbstractUploader):
+    """
+    Provides an interface to upload files through HTTP. Supports anonymous
+    uploads only for the time being.
+
+    This is a subclass of :class:`dput.uploader.AbstractUploader`
+    """
+
     def initialize(self, **kwargs):
         mimetypes.init()
 

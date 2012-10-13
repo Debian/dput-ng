@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+SFTP Uploader implementation
+"""
 
 import paramiko
 import os.path
@@ -27,21 +30,38 @@ from dput.exceptions import UploadException
 
 
 class SftpUploadException(UploadException):
+    """
+    Thrown in the event of a problem connecting, uploading to or
+    terminating the connection with the remote server. This is
+    a subclass of :class:`dput.exceptions.UploadException`.
+    """
     pass
 
 
 def find_username(conf):
-        user = os.getlogin()  # XXX: This needs a controlling terminal
-        if 'login' in conf:
-            new_user = conf['login']
-            if new_user != "*":
-                user = new_user
-        return user
+    """
+    Given a profile (``conf``), return the prefered username to login
+    with. It falls back to getting the logged in user's name.
+    """
+    user = os.getlogin()  # XXX: This needs a controlling terminal
+    if 'login' in conf:
+        new_user = conf['login']
+        if new_user != "*":
+            user = new_user
+    return user
 
 
-# XXX: Document this more :)
 class SFTPUploader(AbstractUploader):
+    """
+    Provides an interface to upload files through SFTP.
+
+    This is a subclass of :class:`dput.uploader.AbstractUploader`
+    """
+
     def initialize(self, **kwargs):
+        """
+        See :meth:`dput.uploader.AbstractUploader.initialize
+        """
         fqdn = self._config['fqdn']
         incoming = self._config['incoming']
 
@@ -95,6 +115,9 @@ class SFTPUploader(AbstractUploader):
             self._auth(fqdn, ssh_kwargs, _first=_first + 1)
 
     def upload_file(self, filename):
+        """
+        See :meth:`dput.uploader.AbstractUploader.upload_file`
+        """
         basename = os.path.basename(filename)
         try:
             self._sftp.put(filename, basename)
@@ -106,5 +129,8 @@ class SFTPUploader(AbstractUploader):
                                           (filename, e))
 
     def shutdown(self):
+        """
+        See :meth:`dput.uploader.AbstractUploader.shutdown`
+        """
         self._sshclient.close()
         self._sftp.close()

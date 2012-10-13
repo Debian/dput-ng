@@ -35,15 +35,19 @@ from dput.util import run_command
 
 class ScpUploadException(UploadException):
     """
-    Problems with the SCP upload process.
+    Thrown in the event of a problem connecting, uploading to or
+    terminating the connection with the remote server. This is
+    a subclass of :class:`dput.exceptions.UploadException`.
     """
     pass
 
 
 class ScpUploader(AbstractUploader):
     """
-    Provides an interface to upload files through FTP. Supports anonymous
-    uploads only for the time being
+    Provides an interface to upload files through SCP. Supports anonymous
+    uploads only for the time being.
+
+    This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
 
     def initialize(self, **kwargs):
