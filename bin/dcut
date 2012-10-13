@@ -115,8 +115,6 @@ parser.add_argument('-v', '--version',
 subparsers = parser.add_subparsers(help='Supported commands')
 
 command_registry = dput.command.load_commands()
-# special fugly hack
-command_registry.append(UploadCommand())
 
 for command in command_registry:
     (cmd_name, cmd_purpose) = command.name_and_purpose()
