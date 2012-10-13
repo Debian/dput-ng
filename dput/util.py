@@ -90,6 +90,18 @@ def run_command(command):
     return (output, stderr, pipe.returncode)
 
 
+def get_configs(klass):
+    configs = set()
+    for path in CONFIG_LOCATIONS:
+        path = "%s/%s" % (path, klass)
+        if os.path.exists(path):
+            for fil in os.listdir(path):
+                xtn = ".json"
+                if fil.endswith(xtn):
+                    configs.add(fil[:-len(xtn)])
+    return configs
+
+
 def load_config(config_class, config_name, default=None):
     logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
