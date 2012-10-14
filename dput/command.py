@@ -83,7 +83,7 @@ def write_header(fh, profile, args):
 
     email_address = os.environ["DEBEMAIL"]
     if not email_address:
-        os.environ["EMAIL"]
+        email_address = os.environ["EMAIL"]
     name = os.environ["DEBFULLNAME"]
 
     # TODO: parse gecos?
