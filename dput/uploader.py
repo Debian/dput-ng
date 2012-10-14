@@ -195,6 +195,9 @@ If you want to upload nonetheless, use --force or remove %s""" %
     return logfile
 
 
+def should_write_logfile(args):
+    return not args.simulate and not args.check_only and not args.no_upload_log
+
 def invoke_dput(changes, args):  # XXX: Name sucks
     """
     .. warning::
@@ -242,28 +245,35 @@ def invoke_dput(changes, args):  # XXX: Name sucks
     # We cannot use with(the_logfile) as an outermost condition
     # Also, the _contents_ of the log-file maybe should contain the logger
     # output?
-    with open(logfile, 'w') as log:
-        with uploader(profile['method'], profile) as obj:
-            for path in changes.get_files() + [changes.get_changes_file(), ]:
-                logger.info("Uploading %s to %s" % (
-                    os.path.basename(path),
-                    profile['name']
-                ))
-                if not args.simulate:
-                    obj.upload_file(path)
+    if should_write_logfile(args):
+        log = open(logfile, 'w')
+    with uploader(profile['method'], profile) as obj:
+        if args.check_only:
+            logger.info("Package %s passes all checks" % (
+                                                changes.get_package_name()))
+            return
+        if args.no_upload_log:
+            logger.info("Not writing upload log upon request")
+        for path in changes.get_files() + [changes.get_changes_file(), ]:
+            logger.info("Uploading %s to %s" % (
+                                                os.path.basename(path),
+                                                profile['name']
+                                                ))
+            if not args.simulate:
+                obj.upload_file(path)
+            if should_write_logfile(args):
                 log.write(
-                    "Successfully uploaded %s to %s for %s.\n" % (
-                        os.path.basename(path),
-                        profile['fqdn'] or profile['name'],
-                        profile['name']
-                    )
-                )
+                      "Successfully uploaded %s to %s for %s.\n" % (
+                            os.path.basename(path),
+                            profile['fqdn'] or profile['name'],
+                            profile['name']
+                    ))
 
-    if 'processors' in profile:
-        for proc in profile['processors']:
-            logger.trace("Running check: %s" % (proc))
-            run_processor(proc, changes, profile)
-    else:
-        logger.trace(profile)
-        logger.warning("No processors defined in the profile. "
-                       "Not processing upload.")
+        if 'processors' in profile:
+            for proc in profile['processors']:
+                logger.trace("Running check: %s" % (proc))
+                run_processor(proc, changes, profile)
+        else:
+            logger.trace(profile)
+            logger.warning("No processors defined in the profile. "
+                           "Not processing upload.")
