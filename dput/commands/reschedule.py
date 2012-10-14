@@ -20,6 +20,7 @@
 
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
+from dput.commands.cancel import generate_commands_name
 
 
 class RescheduleCommandError(DcutError):
@@ -31,6 +32,9 @@ class RescheduleCommand(AbstractCommand):
         super(RescheduleCommand, self).__init__()
         self.cmd_name = "reschedule"
         self.cmd_purpose = "reschedule a deferred upload"
+
+    def generate_commands_name(self, profile):
+        return generate_commands_name(profile)
 
     def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',

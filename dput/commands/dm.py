@@ -18,12 +18,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import time
+import os
+
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
+from dput.core import logger
 
 
 class DmCommandError(DcutError):
     pass
+
+def generate_commands_name(profile):
+    # for debianqueued: $login-$timestamp.commands
+    # for dak: $login-$timestamp.dak-commands
+    the_file = "%s-%s.dak-commands" % (os.getlogin(), int(time.time()))
+    logger.trace("Commands file will be named %s" % (the_file))
+    return the_file
 
 
 class DmCommand(AbstractCommand):
@@ -31,6 +42,10 @@ class DmCommand(AbstractCommand):
         super(DmCommand, self).__init__()
         self.cmd_name = "dm"
         self.cmd_purpose = "manage Debian Mantainer (DM) permissions"
+
+    def generate_commands_name(self, profile):
+        return generate_commands_name(profile)
+
 
     def register(self, parser, **kwargs):
         parser.add_argument('--dm', action='store', default=None,

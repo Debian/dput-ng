@@ -27,6 +27,9 @@ class UploadCommand(AbstractCommand):
         self.cmd_name = "upload"
         self.cmd_purpose = "Upload an existing file as is"
 
+    def generate_commands_name(self, profile):
+        pass
+
     def register(self, parser, **kwargs):
         parser.add_argument('upload_file', metavar="FILENAME", action='store',
                             default=None, help="file name to be uploaded")
