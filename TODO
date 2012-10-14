@@ -14,10 +14,6 @@ CRITICAL BUGS
   - fix some shitty issue with dput.core's config location not working
     exactly right.
 
-  - "1" --> true, "0" --> false; on the fly. fucking dput.cf barfs when we
-    set dputcf's default to values that aren't basestring. convert on the fly
-    in dputcf, remove hacks in skel
-
 =================
 END CRITICAL BUGS
 =================
