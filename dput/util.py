@@ -103,6 +103,52 @@ def get_configs(klass):
     return configs
 
 
+def _config_cleanup(obj):
+    def do_add(new, old):
+        if not isinstance(new, list) and not isinstance(old, list):
+            raise Exception("WTF NOT LIST")  # XXX: better exception
+
+        nset = set(new)
+        oset = set(old)
+        nobj = oset | nset
+        return list(nobj)
+
+    def do_sub(new, old):
+        if not isinstance(new, list) and not isinstance(old, list):
+            raise Exception("WTF NOT LIST")  # XXX: better exception
+        nset = set(new)
+        oset = set(old)
+        nobj = oset - nset
+        return list(nobj)
+
+    def do_eql(new, old):
+        return new
+
+    operators = {
+        "+": do_add,
+        "-": do_sub,
+        "=": do_eql
+    }
+
+    trm = []
+    for key in obj:
+        operator = key[0]
+        if operator not in operators:
+            continue
+
+        kname = key[1:]
+        op = operators[operator]
+
+        if kname in obj:
+            obj[kname] = op(obj[key], obj[kname])
+            trm.append(key)
+
+    for t in trm:
+        obj.pop(t)
+
+    return obj
+
+
 def load_config(config_class, config_name, default=None):
     logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
@@ -124,7 +170,7 @@ def load_config(config_class, config_name, default=None):
         metainfo.update(ret)
         ret = metainfo
 
-    return ret
+    return _config_cleanup(ret)
 
     if default is not None:
         return default

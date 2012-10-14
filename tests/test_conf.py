@@ -3,8 +3,6 @@
 import dput.core
 import dput.profile
 
-import logging
-import json
 
 dput.core._enable_debugging(2)
 

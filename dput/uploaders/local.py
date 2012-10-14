@@ -46,7 +46,7 @@ class LocalUploader(AbstractUploader):
         """
 
         #TODO: Fix me later. install does not support renaming
-        assert(upload_filename == None)
+        assert(upload_filename is None)
 
         whereto = self._config['incoming']
         whereto = os.path.expanduser(whereto)

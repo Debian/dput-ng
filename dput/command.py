@@ -32,6 +32,7 @@ from dput.exceptions import UploadException, DputConfigurationError, DcutError
 from dput.overrides import force_passive_ftp_upload
 from dput.uploader import uploader
 
+
 class AbstractCommand(object):
     """
     Abstract base class for all concrete dcut command implementations.
@@ -108,6 +109,7 @@ def generate_commands_name(profile):
     the_file = "%s-%s.dak.commands" % (os.getlogin(), int(time.time()))
     logger.trace("Commands file will be named %s" % (the_file))
     return the_file
+
 
 def sign_file(filename, keyid=None, name=None, email=None):
     logger.debug("Signing file %s - signature hints are key: %s, "
@@ -212,7 +214,6 @@ def invoke_dcut(args):
             sign_file(fh.name, args.keyid, name, email)
             upload_path = fh.name
 
-
         if not args.simulate and not args.output:
             upload_commands_file(upload_path, upload_filename, profile)
         elif args.output and not args.simulate:
@@ -228,7 +229,6 @@ def invoke_dcut(args):
         else:
             # we should *never* come here
             assert(False)
-
 
     finally:
         if fh and os.access(fh.name, os.R_OK):
