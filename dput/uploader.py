@@ -129,7 +129,7 @@ No file was uploaded, however.""")
 
 
 @contextmanager
-def uploader(uploader_method, profile):
+def uploader(uploader_method, profile, run_hooks=True):
     """
     Context-managed uploader implementation.
 
@@ -159,11 +159,13 @@ def uploader(uploader_method, profile):
 
     obj = klass(profile)
     obj.initialize()
-    obj._pre_hook()
+    if run_hooks:
+        obj._pre_hook()
     try:
         yield obj
     finally:
-        obj._post_hook()
+        if run_hooks:
+            obj._post_hook()
         obj.shutdown()
 
 
@@ -247,27 +249,39 @@ def invoke_dput(changes, args):  # XXX: Name sucks
     # output?
     if should_write_logfile(args):
         log = open(logfile, 'w')
-    with uploader(profile['method'], profile) as obj:
+    else:
+        log = open("/dev/null", 'w')
+
+    with uploader(profile['method'], profile,
+                  run_hooks=(not args.simulate)) as obj:
+
         if args.check_only:
             logger.info("Package %s passes all checks" % (
-                                                changes.get_package_name()))
+                changes.get_package_name()
+            ))
             return
+
         if args.no_upload_log:
             logger.info("Not writing upload log upon request")
-        for path in changes.get_files() + [changes.get_changes_file(), ]:
+
+        files = changes.get_files() + [changes.get_changes_file()]
+        for path in files:
             logger.info("Uploading %s to %s" % (
-                                                os.path.basename(path),
-                                                profile['name']
-                                                ))
+                os.path.basename(path),
+                profile['name']
+            ))
+
             if not args.simulate:
                 obj.upload_file(path)
-            if should_write_logfile(args):
-                log.write(
-                      "Successfully uploaded %s to %s for %s.\n" % (
-                            os.path.basename(path),
-                            profile['fqdn'] or profile['name'],
-                            profile['name']
-                    ))
+
+            log.write("Successfully uploaded %s to %s for %s.\n" % (
+                os.path.basename(path),
+                profile['fqdn'] or profile['name'],
+                profile['name']
+            ))
+
+        if args.simulate:
+            return
 
         if 'processors' in profile:
             for proc in profile['processors']:
