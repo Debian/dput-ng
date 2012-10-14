@@ -62,8 +62,35 @@ class DputCfConfig(AbstractConfig):
         return self.get_config("DEFAULT")
 
     def set_defaults(self, defaults):
+        defaults = self._translate_bools(defaults)
         for key in defaults:
             self.parser.set("DEFAULT", key, defaults[key])
+
+    def _translate_strs(self, ret):
+        trans = {
+            "1": True,
+            "0": False
+        }
+        return self._translate_dict(ret, trans)
+
+    def _translate_dict(self, ret, trans):
+        for key in ret:
+            val = ret[key]
+            if isinstance(val, dict) or isinstance(val, list):
+                ret[key] = self._translate_dict(val, trans)
+                continue
+
+            if ret[key] in trans:
+                val = trans[val]
+                ret[key] = val
+        return ret
+
+    def _translate_bools(self, ret):
+        trans = {
+            True: "1",
+            False: "0"
+        }
+        return self._translate_dict(ret, trans)
 
     def get_config(self, name):
         ret = {}
@@ -74,4 +101,5 @@ class DputCfConfig(AbstractConfig):
         for key, val in items:
             ret[key] = val
         ret['name'] = name
+        ret = self._translate_strs(ret)
         return ret
