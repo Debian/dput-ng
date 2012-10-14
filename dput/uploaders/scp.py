@@ -60,20 +60,23 @@ class ScpUploader(AbstractUploader):
         logger.debug("Using scp to upload to %s" % (self._scp_host))
         logger.warning("SCP is deprecated. Please consider upgrading to SFTP.")
 
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         See :meth:`dput.uploader.AbstractUploader.upload_file`
         """
-        basefile = os.path.basename(filename)
+
+        if not upload_filename:
+            upload_filename = os.path.basename(filename)
+
         incoming = self._config['incoming']
         targetfile = "%s:%s" % (self._scp_host, os.path.join(incoming,
-                                                             basefile))
+                                                             upload_filename))
         scp = self._scp_base + [filename, targetfile]
         #logger.debug("run: %s" % (scp))
         (_, e, x) = run_command(scp)
         if x != 0:
             raise ScpUploadException("Failed to upload %s to %s: %s" % (
-                                            basefile, self._config.name(), e))
+                                    upload_filename, self._config.name(), e))
 
     def shutdown(self):
         """

@@ -114,13 +114,16 @@ class SFTPUploader(AbstractUploader):
             ssh_kwargs['password'] = pw
             self._auth(fqdn, ssh_kwargs, _first=_first + 1)
 
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         See :meth:`dput.uploader.AbstractUploader.upload_file`
         """
-        basename = os.path.basename(filename)
+
+        if not upload_filename:
+            upload_filename = os.path.basename(filename)
+
         try:
-            self._sftp.put(filename, basename)
+            self._sftp.put(filename, upload_filename)
         except IOError as e:
             if e.errno == 13:
                 self.upload_write_error(e)

@@ -82,18 +82,22 @@ class FtpUploader(AbstractUploader):
                    )
                 )
 
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         See :meth:`dput.uploader.AbstractUploader.upload_file`
         """
+
+        if not upload_filename:
+            upload_filename = os.path.basename(filename)
+
         try:
-            basename = "STOR %s" % (os.path.basename(filename))
+            basename = "STOR %s" % (upload_filename)
             self._ftp.storbinary(basename, open(filename, 'rb'))
         except ftplib.error_perm as e:
             self.upload_write_error(e)
         except Exception as e:
             raise FtpUploadException("Could not upload file %s: %s" % (
-                filename,
+                upload_filename,
                 e
             ))
 

@@ -84,7 +84,7 @@ class HTTPUploader(AbstractUploader):
                                              self._password
                                              ))
 
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         See :meth:`dput.uploader.AbstractUploader.upload_file`
         """

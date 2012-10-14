@@ -113,7 +113,7 @@ No file was uploaded, however.""")
         pass
 
     @abc.abstractmethod
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         Upload a single file (``filename``) to the server.
         """

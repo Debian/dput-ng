@@ -40,10 +40,14 @@ class LocalUploader(AbstractUploader):
         """
         pass
 
-    def upload_file(self, filename):
+    def upload_file(self, filename, upload_filename=None):
         """
         See :meth:`dput.uploader.AbstractUploader.upload_file`
         """
+
+        #TODO: Fix me later. install does not support renaming
+        assert(upload_filename == None)
+
         whereto = self._config['incoming']
         whereto = os.path.expanduser(whereto)
         dput.util.run_command([
