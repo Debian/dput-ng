@@ -36,7 +36,6 @@ class RmCommand(AbstractCommand):
     def generate_commands_name(self, profile):
         return generate_debianqueued_commands_name(profile)
 
-
     def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",

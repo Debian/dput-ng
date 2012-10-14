@@ -31,23 +31,105 @@ Theory
 
 New-style config files have two core attributes -- ``class`` and ``name``.
 For a upload target, that's known as a ``profile``. Technically speaking, any
-config file is located in ``${CONFIG_DIR}/class/name.json``. The only exception
-is the ``metas`` class. Any config may define a ``meta`` key, and it will also
-inherit from the corresponding ``metas`` json file. Meta configuration files
-may also declare a meta key.
+config file is located in ``${CONFIG_DIR}/class/name.json``.
 
-Phew, that was a lot. I know that's a bit overwhelming, but basically, this
-means you can ship a profile "default" group, such as ``ubuntu`` or ``debian``.
-Since Ubuntu and Debian have different requirements on what to upload
-(source-only vs binary-included), you will now be able to declare upload targets
-as Ubuntu or Debian, which tell the file-checker different things.
+Keys can also be prefixed with one of three "operators". Operators tell
+dput-ng to preform an operation on the datastructure when merging the
+layers together.
 
-Basically, this means, without changing the configuration, that you can set
-dput to give you an error when you attempt to upload .debs to a PPA, and then
-turn around, and get a warning that you've forgotten .debs on a push to
-ftp-master.
+Addition::
 
-Nice, right?
+
+    # global configuration block
+    {
+        "foo": [
+            'one',
+            'two'
+        ]
+    }
+
+    # local configuration block
+    {
+        "+foo": [
+            'three'
+        ]
+    }
+
+    # resulting data structure:
+    {
+        "foo": [
+            'one',
+            'two',
+            'three'
+        ]
+    }
+
+Subtraction::
+
+    # global configuration block
+    {
+        "foo": [
+            'one',
+            'two',
+            'three'
+        ]
+    }
+
+    # local configuration block
+    {
+        "-foo": [
+            'three'
+        ]
+    }
+
+    # resulting data structure:
+    {
+        "foo": [
+            'one',
+            'two'
+        ]
+    }
+
+Assignment::
+
+    # It should be noted that this *IS* the same as not prefixing the block
+    # by an "=" operator. Please don't use this? Kay? It just uses up cycles
+    # and is only here to be a logical extention of the last two.
+
+    # global configuration block
+    {
+        "foo": [
+            'one',
+            'two',
+            'three'
+        ]
+    }
+
+    # local configuration block
+    {
+        "=foo": [
+            'three'
+        ]
+    }
+
+    # resulting data structure:
+    {
+        "foo": [
+            'three'
+        ]
+    }
+
+
+Meta
+----
+
+The most complex part of these files is the "meta" target. Internally, this
+will fetch the config file from the ``metas`` class with the name provided
+in the config's ``meta`` attribute. The resulting object is placed under
+the config.
+
+Meta configs can declare another meta config, but will not work if it's
+self-referencing. Don't do that.
 
 Practice
 --------
@@ -73,4 +155,6 @@ a bit deeper, you'll also notice that we inherit from the Ubuntu meta-class.
 Overriding default checker behavior
 -----------------------------------
 
-.. XXX TODO
+It's idiomatic to just *extend* what you get from your parent (e.g. use the
+prefix operators ``+`` or ``-``, so that you don't have to duplicate the same
+list over and over.

@@ -1,0 +1,29 @@
+Howdy!
+
+Firstly, thanks for trying out dput-ng.
+
+Here's what's up with these subdirs:
+
+Interesting stuff:
+  - metas:      meta-classes for config files.
+  - profiles:   where you set upload targets (ftp-master, etc)
+
+Boring stuff:
+  - checkers:   where checker routines register themselves.
+  - commands:   where dcut routines register themselves.
+  - interfaces: where user interface routines register themselves.
+  - processors: where processor routines register themselves.
+  - uploaders:  where upload routines register themselves.
+
+
+You should read through:
+
+  - http://dput.readthedocs.org/en/latest/reference/configs.html
+
+or, if you have the dput-ng-doc package installed:
+
+  - file:///usr/share/doc/dput-ng/html/reference/configs.html
+
+Have fun!
+
+  paultag & arno

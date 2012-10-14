@@ -29,6 +29,7 @@ from dput.core import logger
 class CancelCommandError(DcutError):
     pass
 
+
 def generate_debianqueued_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
@@ -45,7 +46,6 @@ class CancelCommand(AbstractCommand):
 
     def generate_commands_name(self, profile):
         return generate_debianqueued_commands_name(profile)
-
 
     def register(self, parser, **kwargs):
         parser.add_argument('file', metavar="FILENAME", action='store',

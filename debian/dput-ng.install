@@ -1,3 +1,10 @@
 bin/*                       usr/bin/
-skel/*                      usr/share/dput-ng/
+skel/metas                  etc/dput.d/
+skel/profiles               etc/dput.d/
+skel/checkers               usr/share/dput-ng/
+skel/commands               usr/share/dput-ng/
+skel/interfaces             usr/share/dput-ng/
+skel/processors             usr/share/dput-ng/
+skel/uploaders              usr/share/dput-ng/
+skel/README                 usr/share/dput-ng/
 README.md                   usr/share/doc/dput-ng/

@@ -29,6 +29,7 @@ from dput.core import logger
 class DmCommandError(DcutError):
     pass
 
+
 def generate_dak_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
@@ -45,7 +46,6 @@ class DmCommand(AbstractCommand):
 
     def generate_commands_name(self, profile):
         return generate_dak_commands_name(profile)
-
 
     def register(self, parser, **kwargs):
         parser.add_argument('--dm', action='store', default=None,

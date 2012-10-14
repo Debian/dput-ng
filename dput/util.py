@@ -130,6 +130,7 @@ def _config_cleanup(obj):
         "=": do_eql
     }
 
+    ret = obj.copy()
     trm = []
     for key in obj:
         operator = key[0]
@@ -140,13 +141,11 @@ def _config_cleanup(obj):
         op = operators[operator]
 
         if kname in obj:
-            obj[kname] = op(obj[key], obj[kname])
-            trm.append(key)
-
-    for t in trm:
-        obj.pop(t)
-
-    return obj
+            ret[kname] = op(obj[key], obj[kname])
+        else:
+            ret[kname] = obj[key]
+        ret.pop(key)
+    return ret
 
 
 def load_config(config_class, config_name, default=None):

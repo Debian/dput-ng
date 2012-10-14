@@ -63,6 +63,7 @@ class AbstractCommand(object):
     def generate_commands_name(self, profile):
         pass
 
+
 def find_commands():
     return get_configs('commands')
 
