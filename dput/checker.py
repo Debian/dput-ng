@@ -21,9 +21,7 @@
 Implementation of the interface to run a checker.
 """
 
-from dput.core import logger
-from dput.util import get_obj, obj_docs, run_func_by_name
-from dput.exceptions import DputConfigurationError
+from dput.util import obj_docs, run_func_by_name
 
 
 def checker_docs(checker):

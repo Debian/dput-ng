@@ -20,6 +20,7 @@
 
 from dput.command import AbstractCommand
 
+
 class UploadCommand(AbstractCommand):
     def __init__(self):
         super(UploadCommand, self).__init__()

@@ -21,15 +21,16 @@
 import os
 import ConfigParser
 
+import dput.core
 from dput.config import AbstractConfig
-from dput.core import (DPUT_CONFIG_LOCATIONS, logger)
+from dput.core import logger
 from dput.exceptions import DputConfigurationError
 
 
 class DputCfConfig(AbstractConfig):
     def preload(self, replacements):
         parser = ConfigParser.ConfigParser()
-        for config in DPUT_CONFIG_LOCATIONS:
+        for config in dput.core.DPUT_CONFIG_LOCATIONS:
             if not os.access(config, os.R_OK):
                 logger.debug("Skipping file %s: Not accessible" % (
                     config
@@ -62,8 +63,41 @@ class DputCfConfig(AbstractConfig):
         return self.get_config("DEFAULT")
 
     def set_defaults(self, defaults):
+        defaults = self._translate_bools(defaults)
         for key in defaults:
             self.parser.set("DEFAULT", key, defaults[key])
+
+    def _translate_strs(self, ret):
+        trans = {
+            "1": True,
+            "0": False
+        }
+        ret = self._translate_dict(ret, trans)
+        return ret
+
+    def _translate_bools(self, ret):
+        trans = {
+            True: "1",
+            False: "0"
+        }
+        return self._translate_dict(ret, trans)
+
+    def _translate_dict(self, ret, trans):
+        if isinstance(ret, dict):
+            ret = ret.copy()
+        elif isinstance(ret, list):
+            ret = ret[:]
+
+        for key in ret:
+            val = ret[key]
+            if isinstance(val, dict) or isinstance(val, list):
+                ret[key] = self._translate_dict(val, trans)
+                continue
+
+            if val in trans:
+                val = trans[val]
+                ret[key] = val
+        return ret
 
     def get_config(self, name):
         ret = {}
@@ -74,4 +108,5 @@ class DputCfConfig(AbstractConfig):
         for key, val in items:
             ret[key] = val
         ret['name'] = name
+        ret = self._translate_strs(ret)
         return ret

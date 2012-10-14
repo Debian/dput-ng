@@ -18,10 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-import os
-
 from dput.util import load_config, get_configs
-from dput.core import (CONFIG_LOCATIONS, logger)
+from dput.core import logger
 from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
@@ -41,7 +39,9 @@ class DputProfileConfig(AbstractConfig):
         return self.configs.keys()
 
     def get_defaults(self):
-        return self.configs['DEFAULT']
+        if "DEFAULT" in self.configs:
+            return self.configs['DEFAULT']
+        return {}
 
     def set_defaults(self, defaults):
         self.configs['DEFAULT'] = defaults
@@ -54,17 +54,18 @@ class DputProfileConfig(AbstractConfig):
             default['name'] = name
             for key in default:
                 val = default[key]
-                if "%(" in val and ")s" in val:
-                    logger.debug("error with %s -> %s" % (
-                        key,
-                        val
-                    ))
-                    raise DputConfigurationError(
-                        "Not converted values in key `%s' - %s" % (
+                if isinstance(val, basestring):
+                    if "%(" in val and ")s" in val:
+                        logger.debug("error with %s -> %s" % (
                             key,
                             val
+                        ))
+                        raise DputConfigurationError(
+                            "Not converted values in key `%s' - %s" % (
+                                key,
+                                val
+                            )
                         )
-                    )
             return default
         return {}
 

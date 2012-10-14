@@ -27,7 +27,6 @@ import importlib
 import subprocess
 
 import dput.core
-from dput.core import CONFIG_LOCATIONS
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
@@ -94,7 +93,7 @@ def run_command(command):
 
 def get_configs(klass):
     configs = set()
-    for path in CONFIG_LOCATIONS:
+    for path in dput.core.CONFIG_LOCATIONS:
         path = "%s/%s" % (path, klass)
         if os.path.exists(path):
             for fil in os.listdir(path):
@@ -102,6 +101,52 @@ def get_configs(klass):
                 if fil.endswith(xtn):
                     configs.add(fil[:-len(xtn)])
     return configs
+
+
+def _config_cleanup(obj):
+    def do_add(new, old):
+        if not isinstance(new, list) and not isinstance(old, list):
+            raise Exception("WTF NOT LIST")  # XXX: better exception
+
+        nset = set(new)
+        oset = set(old)
+        nobj = oset | nset
+        return list(nobj)
+
+    def do_sub(new, old):
+        if not isinstance(new, list) and not isinstance(old, list):
+            raise Exception("WTF NOT LIST")  # XXX: better exception
+        nset = set(new)
+        oset = set(old)
+        nobj = oset - nset
+        return list(nobj)
+
+    def do_eql(new, old):
+        return new
+
+    operators = {
+        "+": do_add,
+        "-": do_sub,
+        "=": do_eql
+    }
+
+    trm = []
+    for key in obj:
+        operator = key[0]
+        if operator not in operators:
+            continue
+
+        kname = key[1:]
+        op = operators[operator]
+
+        if kname in obj:
+            obj[kname] = op(obj[key], obj[kname])
+            trm.append(key)
+
+    for t in trm:
+        obj.pop(t)
+
+    return obj
 
 
 def load_config(config_class, config_name, default=None):
@@ -120,12 +165,12 @@ def load_config(config_class, config_name, default=None):
         if os.path.exists(path):
             ret.update(json.load(open(path, 'r')))
 
-    if ret != {}:
-        if 'meta' in ret and ret['meta'] == config_name:
-            metainfo = load_config("metas", ret['meta'], default={})
-            metainfo.update(ret)
-            ret = metainfo
-        return ret
+    if 'meta' in ret and ret['meta'] != config_name:
+        metainfo = load_config("metas", ret['meta'], default={})
+        metainfo.update(ret)
+        ret = metainfo
+
+    return _config_cleanup(ret)
 
     if default is not None:
         return default

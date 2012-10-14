@@ -1,5 +1,5 @@
 {
-    "allow_dcut": "1",
+    "allow_dcut": true,
     "check-debs": {
         "enforce_debs": true
     },
