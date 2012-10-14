@@ -55,7 +55,7 @@ class DputProfileConfig(AbstractConfig):
             for key in default:
                 val = default[key]
                 if "%(" in val and ")s" in val:
-                    logger.warning("error with %s -> %s" % (
+                    logger.debug("error with %s -> %s" % (
                         key,
                         val
                     ))
