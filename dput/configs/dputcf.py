@@ -21,15 +21,16 @@
 import os
 import ConfigParser
 
+import dput.core
 from dput.config import AbstractConfig
-from dput.core import (DPUT_CONFIG_LOCATIONS, logger)
+from dput.core import logger
 from dput.exceptions import DputConfigurationError
 
 
 class DputCfConfig(AbstractConfig):
     def preload(self, replacements):
         parser = ConfigParser.ConfigParser()
-        for config in DPUT_CONFIG_LOCATIONS:
+        for config in dput.core.DPUT_CONFIG_LOCATIONS:
             if not os.access(config, os.R_OK):
                 logger.debug("Skipping file %s: Not accessible" % (
                     config

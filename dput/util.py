@@ -27,7 +27,6 @@ import importlib
 import subprocess
 
 import dput.core
-from dput.core import CONFIG_LOCATIONS
 from dput.core import logger
 from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
@@ -94,7 +93,7 @@ def run_command(command):
 
 def get_configs(klass):
     configs = set()
-    for path in CONFIG_LOCATIONS:
+    for path in dput.core.CONFIG_LOCATIONS:
         path = "%s/%s" % (path, klass)
         if os.path.exists(path):
             for fil in os.listdir(path):

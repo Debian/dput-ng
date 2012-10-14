@@ -21,7 +21,7 @@
 import os
 
 from dput.util import load_config, get_configs
-from dput.core import (CONFIG_LOCATIONS, logger)
+from dput.core import logger
 from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
