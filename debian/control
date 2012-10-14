@@ -38,7 +38,7 @@ Package: python-dput
 Architecture: all
 Section: python
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${python:Depends}, 
+Depends: ${misc:Depends}, ${python:Depends},
  python-debian,
  python-paramiko,
  python-argparse | python (>= 2.7~),
