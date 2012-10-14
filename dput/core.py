@@ -21,6 +21,7 @@
 Stuff that everything uses and shouldn't keep pulling on their own.
 """
 
+import sys
 import os.path
 import logging
 import dput.logger
@@ -76,3 +77,12 @@ def _enable_debugging(level):
     logger.addHandler(_ch)
 
 logger.addHandler(_ch)
+
+
+def mangle_sys():
+    for root in CONFIG_LOCATIONS:
+        pth = "%s/scripts" % (root)
+        pth = os.path.abspath(pth)
+        if pth not in sys.path:
+            logger.debug("Loading external script location %s" % (pth))
+            sys.path.insert(0, pth)

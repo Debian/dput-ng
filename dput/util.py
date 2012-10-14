@@ -43,6 +43,7 @@ def load_obj(obj_path):  # XXX: Name sucks.
     module (such as dput.core) and use getattr to load the thing - similar to
     how `from` works.
     """
+    dput.core.mangle_sys()
     logger.trace("Loading object: %s" % (obj_path))
     module, obj = obj_path.rsplit(".", 1)
     mod = importlib.import_module(module)
@@ -56,14 +57,14 @@ def get_obj(klass, checker_method):
     try:
         config = load_config(klass, checker_method)
     except NoSuchConfigError:
-        logger.debug("failed to resolve %s" % (checker_method))
+        logger.debug("failed to resolve config %s" % (checker_method))
         return None
     path = config['path']
     logger.trace("loading checker %s" % (path))
     try:
         return load_obj(path)
     except ImportError:
-        logger.warning("failed to resolve %s" % (path))
+        logger.warning("failed to resolve path %s" % (path))
         return None
 
 
