@@ -21,4 +21,4 @@ dput.core.CONFIG_LOCATIONS = [
 def test_default_klob():
     profile = dput.profile.load_profile("test")
     assert profile['name'] == 'test'
-    assert profile['key1'] == 'bar'
+    assert profile['key1'] == 'foo'
