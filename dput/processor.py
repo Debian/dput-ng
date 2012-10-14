@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 """
-Implementation of the interface to run a checker.
+Implementation of the interface to run a processor.
 """
 
 from dput.core import logger
@@ -26,18 +26,18 @@ from dput.util import get_obj, obj_docs, run_func_by_name
 from dput.exceptions import DputConfigurationError
 
 
-def checker_docs(checker):
-    return obj_docs('checkers', checker)
+def processor_docs(checker):
+    return obj_docs('processors', checker)
 
 
-def run_checker(checker, changes, profile):
+def run_processor(processor, changes, profile):
     """
-    Run a checker (by the name of ``checker``) against the changes file (by
+    Run a processor (by the name of ``processor``) against the changes file (by
     the name of ``changes``), with the upload profile (named ``profile``).
 
     args:
-        ``checker`` (str) string of the checker (which is the name of the
-            the JSON file which contains the checker def)
+        ``processor`` (str) string of the checker (which is the name of the
+            the JSON file which contains the processor def)
 
         ``changes`` (:class:`dput.changes.Changes`) changes file that the
             check should be run against.
@@ -45,4 +45,4 @@ def run_checker(checker, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the checker's runtime.
     """
-    return run_func_by_name('checkers', checker, changes, profile)
+    return run_func_by_name('processors', processor, changes, profile)

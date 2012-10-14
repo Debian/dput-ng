@@ -1,4 +1,3 @@
 bin/*                       usr/bin/
 skel/*                      usr/share/dput-ng/
-docs/_build/html            usr/share/doc/dput-ng/html/
 README.md                   usr/share/doc/dput-ng/

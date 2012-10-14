@@ -30,9 +30,10 @@ from contextlib import contextmanager
 
 import dput.profile
 from dput.core import logger
-from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.checker import run_checker
+from dput.processor import run_processor
 from dput.util import (run_command, get_obj)
+from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.exceptions import (DputConfigurationError, DputError,
                              UploadException)
 
@@ -257,3 +258,12 @@ def invoke_dput(changes, args):  # XXX: Name sucks
                         profile['name']
                     )
                 )
+
+    if 'processors' in profile:
+        for proc in profile['processors']:
+            logger.trace("Running check: %s" % (proc))
+            run_processor(proc, changes, profile)
+    else:
+        logger.trace(profile)
+        logger.warning("No processors defined in the profile. "
+                       "Not processing upload.")

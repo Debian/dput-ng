@@ -29,7 +29,7 @@ import subprocess
 import dput.core
 from dput.core import CONFIG_LOCATIONS
 from dput.core import logger
-from dput.exceptions import NoSuchConfigError
+from dput.exceptions import NoSuchConfigError, DputConfigurationError
 
 
 def load_obj(obj_path):  # XXX: Name sucks.
@@ -43,6 +43,7 @@ def load_obj(obj_path):  # XXX: Name sucks.
     module (such as dput.core) and use getattr to load the thing - similar to
     how `from` works.
     """
+    dput.core.mangle_sys()
     logger.trace("Loading object: %s" % (obj_path))
     module, obj = obj_path.rsplit(".", 1)
     mod = importlib.import_module(module)
@@ -56,14 +57,14 @@ def get_obj(klass, checker_method):
     try:
         config = load_config(klass, checker_method)
     except NoSuchConfigError:
-        logger.debug("failed to resolve %s" % (checker_method))
+        logger.debug("failed to resolve config %s" % (checker_method))
         return None
     path = config['path']
     logger.trace("loading checker %s" % (path))
     try:
         return load_obj(path)
     except ImportError:
-        logger.warning("failed to resolve %s" % (path))
+        logger.warning("failed to resolve path %s" % (path))
         return None
 
 
@@ -140,3 +141,45 @@ def load_config(config_class, config_name, default=None):
     nsce.config_name = config_name
     nsce.checked = dput.core.CONFIG_LOCATIONS
     raise nsce
+
+
+def obj_docs(klass, ostr):
+    """
+    Get an object's docstring by name / class.
+    """
+    obj = get_obj(klass, ostr)
+    if obj is None:
+        raise DputConfigurationError("No such object: `%s'" % (
+            ostr
+        ))
+    return obj.__doc__
+
+
+def run_func_by_name(klass, name, changes, profile):
+    logger.debug("running check: %s" % (name))
+    obj = get_obj(klass, name)
+    if obj is None:
+        raise DputConfigurationError("No such obj: `%s'" % (
+            name
+        ))
+
+    interface = 'cli'
+    if 'interface' in profile:
+        interface = profile['interface']
+    logger.trace("Using interface %s" % (interface))
+    interface_obj = get_obj('interfaces', interface)
+    if interface_obj is None:
+        raise DputConfigurationError("No such interface: `%s'" % (
+            interface
+        ))
+    interface = interface_obj()
+    interface.initialize()
+
+    ret = obj(
+        changes,
+        profile,
+        interface
+    )
+
+    interface.shutdown()
+    return ret

@@ -85,6 +85,10 @@ def load_profile(host):
     if host in configs:
         return config.get_config(host)
 
+    if host is not None:
+        raise DputConfigurationError("Error, was given host, "
+                                     "but we don't know about it.")
+
     for block in configs:
         try:
             obj = config.get_config(block)

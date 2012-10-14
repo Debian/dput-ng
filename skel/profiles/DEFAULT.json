@@ -1,13 +1,18 @@
 {
-    "checkers": [
-        "unblock",
-        "allowed-distribution",
-        "suite-mismatch",
-        "checksum",
-        "check-debs",
-        "gpg",
-        "lintian"
-    ],
+    "allow_dcut": "0",
+    "allow_unsigned_uploads": "0",
+    "allowed_distributions": "(?!UNRELEASED)",
+    "checkers": [],
+    "default_host_main": "",
+    "hash": "sha1",
     "interface": "cli",
-    "meta": "debian"
+    "login": "*",
+    "meta": "debian",
+    "method": "ftp",
+    "passive_ftp": "1",
+    "post_upload_command": "",
+    "pre_upload_command": "",
+    "processors": [],
+    "run_lintian": "0",
+    "scp_compress": "1"
 }

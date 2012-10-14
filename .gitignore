@@ -8,4 +8,8 @@ debian/dput-ng/
 debian/dput.substvars
 debian/files
 debian/*debhelper*
-debian/dput/
+debian/dput-ng-doc.substvars
+debian/dput-ng-doc/
+debian/python-dput.substvars
+debian/python-dput/
+debian/tmp/

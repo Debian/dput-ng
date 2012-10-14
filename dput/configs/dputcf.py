@@ -31,7 +31,7 @@ class DputCfConfig(AbstractConfig):
         parser = ConfigParser.ConfigParser()
         for config in DPUT_CONFIG_LOCATIONS:
             if not os.access(config, os.R_OK):
-                logger.warning("Skipping file %s: Not accessible" % (
+                logger.debug("Skipping file %s: Not accessible" % (
                     config
                 ))
                 continue
