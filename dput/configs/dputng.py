@@ -56,17 +56,18 @@ class DputProfileConfig(AbstractConfig):
             default['name'] = name
             for key in default:
                 val = default[key]
-                if "%(" in val and ")s" in val:
-                    logger.debug("error with %s -> %s" % (
-                        key,
-                        val
-                    ))
-                    raise DputConfigurationError(
-                        "Not converted values in key `%s' - %s" % (
+                if isinstance(val, basestring):
+                    if "%(" in val and ")s" in val:
+                        logger.debug("error with %s -> %s" % (
                             key,
                             val
+                        ))
+                        raise DputConfigurationError(
+                            "Not converted values in key `%s' - %s" % (
+                                key,
+                                val
+                            )
                         )
-                    )
             return default
         return {}
 

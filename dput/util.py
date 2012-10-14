@@ -119,12 +119,12 @@ def load_config(config_class, config_name, default=None):
         if os.path.exists(path):
             ret.update(json.load(open(path, 'r')))
 
-    if ret != {}:
-        if 'meta' in ret and ret['meta'] == config_name:
-            metainfo = load_config("metas", ret['meta'], default={})
-            metainfo.update(ret)
-            ret = metainfo
-        return ret
+    if 'meta' in ret and ret['meta'] != config_name:
+        metainfo = load_config("metas", ret['meta'], default={})
+        metainfo.update(ret)
+        ret = metainfo
+
+    return ret
 
     if default is not None:
         return default
