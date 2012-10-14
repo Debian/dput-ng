@@ -1,6 +1,6 @@
 bin/*                       usr/bin/
-skel/metas                  etc/dput-ng/
-skel/profiles               etc/dput-ng/
+skel/metas                  etc/dput.d/
+skel/profiles               etc/dput.d/
 skel/checkers               usr/share/dput-ng/
 skel/commands               usr/share/dput-ng/
 skel/interfaces             usr/share/dput-ng/
