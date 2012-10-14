@@ -72,18 +72,7 @@ class DputCfConfig(AbstractConfig):
             "1": True,
             "0": False
         }
-        return self._translate_dict(ret, trans)
-
-    def _translate_dict(self, ret, trans):
-        for key in ret:
-            val = ret[key]
-            if isinstance(val, dict) or isinstance(val, list):
-                ret[key] = self._translate_dict(val, trans)
-                continue
-
-            if ret[key] in trans:
-                val = trans[val]
-                ret[key] = val
+        ret = self._translate_dict(ret, trans)
         return ret
 
     def _translate_bools(self, ret):
@@ -92,6 +81,23 @@ class DputCfConfig(AbstractConfig):
             False: "0"
         }
         return self._translate_dict(ret, trans)
+
+    def _translate_dict(self, ret, trans):
+        if isinstance(ret, dict):
+            ret = ret.copy()
+        elif isinstance(ret, list):
+            ret = ret[:]
+
+        for key in ret:
+            val = ret[key]
+            if isinstance(val, dict) or isinstance(val, list):
+                ret[key] = self._translate_dict(val, trans)
+                continue
+
+            if val in trans:
+                val = trans[val]
+                ret[key] = val
+        return ret
 
     def get_config(self, name):
         ret = {}
