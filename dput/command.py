@@ -21,12 +21,14 @@
 import abc
 import os
 import tempfile
+import time
 
 import dput.profile
 from dput.util import get_obj, get_configs
-from dput.core import (CONFIG_LOCATIONS, logger)
+from dput.core import logger
 from dput.exceptions import UploadException, DputConfigurationError, DcutError
-
+from dput.overrides import force_passive_ftp_upload
+from dput.uploader import uploader
 
 class AbstractCommand(object):
     """
@@ -82,6 +84,7 @@ def write_header(fh, profile, args):
     name = os.environ["DEBFULLNAME"]
 
     # TODO: parse gecos?
+    logger.debug("Using %s <%s> as uploader identity" % (name, email))
 
     if not name or not email:
         raise DcutError("Your name or email could not be retrieved."
@@ -90,6 +93,11 @@ def write_header(fh, profile, args):
     fh.write("Archive: %s\n" % (profile['fqdn']))
     fh.write("Uploader: %s <%s>\n\n" % (name, email))
 
+
+def generate_commands_name(profile):
+    # should be $login-$timestamp.dak[.-]commands
+    the_file = "%s-%s.dak.commands" % (os.getlogin(), int(time.time()))
+    return the_file
 
 def invoke_dcut(args):
     profile = dput.profile.load_profile(args.host)
@@ -107,16 +115,47 @@ def invoke_dcut(args):
         profile['incoming']
     ))
 
+    if args.simulate:
+        logger.warning("Not uploading for real - dry run")
+
     command = args.command
     assert(issubclass(type(command), AbstractCommand))
     command.validate(args)
 
-    if command.cmd_name == "upload":
-        raise DcutError("Cry! Cry! Cry! Such a fugly hack")
+    # XXX: Checkers for dcut?
+    #if 'checkers' in profile:
+    #    for checker in profile['checkers']:
+    #        logger.trace("Running check: %s" % (checker))
+    #        run_checker(checker, changes, profile)
+    #else:
+    #    logger.trace(profile)
+    #    logger.warning("No checkers defined in the profile. "
+    #                   "Not checking upload.")
 
-    with tempfile.NamedTemporaryFile(mode='w+r', delete=True) as fh:
-        write_header(fh, profile, args)
-        command.produce(fh, args)
-        print fh.name
-        fh.flush()
-        raw_input()
+    try:
+        if command.cmd_name == "upload":
+            raise DcutError("Cry! Cry! Cry! Such a fugly hack")
+        else:
+            fh = tempfile.NamedTemporaryFile(mode='w+r', delete=True)
+            write_header(fh, profile, args)
+            command.produce(fh, args)
+            fh.flush()
+            #print fh.name
+
+            upload_filename = generate_commands_name(profile)
+
+            with uploader(profile['method'], profile) as obj:
+                logger.info("Uploading %s to %s" % (
+                                                    upload_filename,
+                                                    profile['name']
+                                                    ))
+                if not args.simulate:
+                    obj.upload_file(fh.name, upload_filename=upload_filename)
+
+    finally:
+        fh.close()
+
+    if args.passive:
+        force_passive_ftp_upload(profile)
+
+
