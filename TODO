@@ -95,9 +95,9 @@ feature requests
   - lack of ppa pockets, etc
   - upload to more then one ppa
   - sftp upload bar
-  
+
 dcut
 ----
 
-  - Support is there, but no input validation is performed. See TODOs in 
+  - Support is there, but no input validation is performed. See TODOs in
     commands/
