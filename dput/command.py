@@ -23,9 +23,10 @@ import os
 import tempfile
 import time
 import email.utils
+import shutil
 
 import dput.profile
-from dput.util import get_obj, get_configs
+from dput.util import get_obj, get_configs, run_command
 from dput.core import logger
 from dput.exceptions import UploadException, DputConfigurationError, DcutError
 from dput.overrides import force_passive_ftp_upload
@@ -109,7 +110,39 @@ def generate_commands_name(profile):
     return the_file
 
 def sign_file(filename, keyid=None, name=None, email=None):
-    pass
+    logger.debug("Signing file %s - signature hints are key: %s, "
+                 "name: %s, email: %s" % (filename, keyid, name, email))
+
+    gpg_path = "gpg"
+    if keyid:
+        identity_hint = keyid
+    else:
+        if name:
+            identity_hint = name
+        if email:
+            identity_hint += " <%s>" % (email)
+
+    logger.trace("GPG identity hint: %s" % (identity_hint))
+
+    (gpg_output, gpg_output_stderr, exit_status) = run_command([gpg_path,
+                "--default-key", identity_hint, "--status-fd", "1", "--sign",
+                "--armor", "--clearsign", filename])
+
+    if exit_status == -1:
+        raise DcutError("Unknown problem while making cleartext signature")
+
+    if exit_status != 0:
+        raise DcutError("Failed to make cleartext signature "
+                        "to commands file:\n%s" % (gpg_output_stderr))
+
+    if gpg_output.count('[GNUPG:] SIG_CREATED'):
+        pass
+    else:
+        raise DcutError("Failed to make cleartext signature:\n%s" %
+                        (gpg_output_stderr))
+
+    os.unlink(filename)
+    shutil.move("%s.asc" % (filename), filename)
 
 
 def upload_commands_file(filename, upload_filename, profile):
@@ -157,9 +190,17 @@ def invoke_dcut(args):
     if args.passive:
         force_passive_ftp_upload(profile)
 
+    upload_path = None
+    fh = None
+    upload_filename = generate_commands_name(profile)
     try:
         if command.cmd_name == "upload":
-            raise DcutError("Cry! Cry! Cry! Such a fugly hack")
+            logger.debug("Uploading file %s as is to %s" % (args.upload_file,
+                                                            profile['name']))
+            if not os.access(args.upload_file, os.R_OK):
+                raise DcutError("Cannot access %s: No such file" % (
+                                                        args.upload_file))
+            upload_path = args.upload_file
         else:
             fh = tempfile.NamedTemporaryFile(mode='w+r', delete=False)
             (name, email) = write_header(fh, profile, args)
@@ -168,14 +209,22 @@ def invoke_dcut(args):
             #print fh.name
             fh.close()
 
-            upload_filename = generate_commands_name(profile)
             sign_file(fh.name, args.keyid, name, email)
+            upload_path = fh.name
 
 
         if not args.simulate and not args.output:
-            upload_commands_file(fh.name, upload_filename, profile)
+            upload_commands_file(upload_path, upload_filename, profile)
         elif args.output and not args.simulate:
-            raise DcutError("Copy file to args.output here")
+            if os.access(args.output, os.R_OK):
+                logger.error("Not writing %s: File already exists" % (
+                                                                args.output))
+                # ... but intentionally do nothing
+                # TODO: or rais exception?
+                return
+            shutil.move(fh.name, args.output)
+        elif args.simulate:
+            pass
         else:
             # we should *never* come here
             assert(False)

@@ -27,9 +27,8 @@ class UploadCommand(AbstractCommand):
         self.cmd_purpose = "Upload an existing file as is"
 
     def register(self, parser, **kwargs):
-        parser.add_argument('file', metavar="FILENAME", action='store',
-                            default=None, help="file name to be uploaded",
-                            nargs="+")
+        parser.add_argument('upload_file', metavar="FILENAME", action='store',
+                            default=None, help="file name to be uploaded")
 
     def produce(self, fh, args):
         return
