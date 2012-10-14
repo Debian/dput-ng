@@ -85,7 +85,7 @@ package
 -------
 
   - Yep, make a native Debian package out of it (that's right)
-  - file an ITP (and hope they shitstorm may pass by)
+  - file an ITP (and hope the shitstorm may pass by)
 
 python2.6
 ---------
@@ -102,3 +102,9 @@ feature requests
   - lack of ppa pockets, etc
   - upload to more then one ppa
   - sftp upload bar
+  
+dcut
+----
+
+  - Support is there, but no input validation is performed. See TODOs in 
+    commands/

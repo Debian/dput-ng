@@ -46,6 +46,7 @@ class CancelCommand(AbstractCommand):
 
     def validate(self, args):
         print("validate")
+        # TODO: Validate input. It must be a changes file reference
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)

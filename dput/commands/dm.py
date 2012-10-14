@@ -61,6 +61,8 @@ class DmCommand(AbstractCommand):
 
     def validate(self, args):
         print("validate")
+        # TODO: Validate input. Packages must exist (i.e. be not NEW)
+        # and translate the --dm argument to a fingerprint (and/or validate it)
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)

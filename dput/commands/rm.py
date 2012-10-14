@@ -51,6 +51,8 @@ class RmCommand(AbstractCommand):
 
     def validate(self, args):
         print("validate")
+        # TODO: argument can be either a path or a base name, but then the user
+        #       most likely wants to add --searchdirs
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)
