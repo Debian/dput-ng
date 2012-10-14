@@ -29,7 +29,7 @@ from dput.core import logger
 class DmCommandError(DcutError):
     pass
 
-def generate_commands_name(profile):
+def generate_dak_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
     the_file = "%s-%s.dak-commands" % (os.getlogin(), int(time.time()))
@@ -44,7 +44,7 @@ class DmCommand(AbstractCommand):
         self.cmd_purpose = "manage Debian Mantainer (DM) permissions"
 
     def generate_commands_name(self, profile):
-        return generate_commands_name(profile)
+        return generate_dak_commands_name(profile)
 
 
     def register(self, parser, **kwargs):

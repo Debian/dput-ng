@@ -29,7 +29,7 @@ from dput.core import logger
 class CancelCommandError(DcutError):
     pass
 
-def generate_commands_name(profile):
+def generate_debianqueued_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
     the_file = "%s-%s.commands" % (os.getlogin(), int(time.time()))
@@ -44,7 +44,7 @@ class CancelCommand(AbstractCommand):
         self.cmd_purpose = "cancel a deferred upload"
 
     def generate_commands_name(self, profile):
-        return generate_commands_name(profile)
+        return generate_debianqueued_commands_name(profile)
 
 
     def register(self, parser, **kwargs):

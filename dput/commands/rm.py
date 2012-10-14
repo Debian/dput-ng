@@ -20,7 +20,7 @@
 
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
-from dput.commands.cancel import generate_commands_name
+from dput.commands.cancel import generate_debianqueued_commands_name
 
 
 class RmCommandError(DcutError):
@@ -34,7 +34,7 @@ class RmCommand(AbstractCommand):
         self.cmd_purpose = "remove a file from the upload queue"
 
     def generate_commands_name(self, profile):
-        return generate_commands_name(profile)
+        return generate_debianqueued_commands_name(profile)
 
 
     def register(self, parser, **kwargs):
