@@ -59,7 +59,7 @@ def get_obj(klass, checker_method):
         logger.debug("failed to resolve config %s" % (checker_method))
         return None
     path = config['path']
-    logger.trace("loading checker %s" % (path))
+    logger.trace("loading %s %s" % (klass, path))
     try:
         return load_obj(path)
     except ImportError:
