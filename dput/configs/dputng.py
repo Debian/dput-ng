@@ -41,7 +41,9 @@ class DputProfileConfig(AbstractConfig):
         return self.configs.keys()
 
     def get_defaults(self):
-        return self.configs['DEFAULT']
+        if "DEFAULT" in self.configs:
+            return self.configs['DEFAULT']
+        return {}
 
     def set_defaults(self, defaults):
         self.configs['DEFAULT'] = defaults

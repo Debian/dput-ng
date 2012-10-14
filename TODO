@@ -11,9 +11,6 @@ CRITICAL BUGS
 
   - implement +foo -foo and =foo keys
 
-  - fix some shitty issue with dput.core's config location not working
-    exactly right.
-
 =================
 END CRITICAL BUGS
 =================
