@@ -1,7 +1,7 @@
 {
-    "meta": "debian",
     "fqdn": "mentors.debian.net",
     "incoming": ".",
     "login": "anonymous",
+    "meta": "debian",
     "method": "ftp"
 }

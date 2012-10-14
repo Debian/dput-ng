@@ -1,8 +1,7 @@
 {
-    "meta": "debian",
-    "allow_dcut": true,
     "fqdn": "ssh.upload.debian.org",
     "incoming": "/srv/upload.debian.org/UploadQueue/",
     "login": "*",
+    "meta": "debian",
     "method": "sftp"
 }

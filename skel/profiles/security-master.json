@@ -1,8 +1,7 @@
 {
-    "meta": "debian",
-    "allow_dcut": true,
     "fqdn": "security-master.debian.org",
     "incoming": "/pub/SecurityUploadQueue",
     "login": "anonymous",
+    "meta": "debian",
     "method": "ftp"
 }
