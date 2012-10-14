@@ -140,10 +140,10 @@ def _config_cleanup(obj):
         kname = key[1:]
         op = operators[operator]
 
-        if kname in obj:
-            ret[kname] = op(obj[key], obj[kname])
+        if kname in ret:
+            ret[kname] = op(ret[key], ret[kname])
         else:
-            ret[kname] = obj[key]
+            ret[kname] = ret[key]
         ret.pop(key)
     return ret
 
