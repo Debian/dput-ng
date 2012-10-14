@@ -8,7 +8,6 @@ Build-Depends: debhelper (>= 9),
  python-setuptools,
  python-coverage,
  python-nose,
- python-argparse | python (>= 2.7~),
  python-paramiko,
  python-debian,
  python-sphinx (>= 1.0.7+dfsg),
@@ -39,7 +38,14 @@ Package: python-dput
 Architecture: all
 Section: python
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${python:Depends}, python-debian, python-paramiko
+Depends: ${misc:Depends}, ${python:Depends}, 
+ python-debian,
+ python-paramiko,
+ python-argparse | python (>= 2.7~),
+ gnupg
+Recommends:
+ lintian,
+ openssh-client,
 Description: set of Python backings to the dput tool
  python-dput are some bindings to help provide a clean, Pythonic way to
  access dput. This is what dput-ng uses internally, and is a from-scratch
