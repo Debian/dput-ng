@@ -22,6 +22,7 @@ import abc
 import os
 import tempfile
 import time
+import email.utils
 
 import dput.profile
 from dput.util import get_obj, get_configs
@@ -78,26 +79,47 @@ def load_commands():
 
 
 def write_header(fh, profile, args):
-    email = os.environ["DEBEMAIL"]
-    if not email:
+
+    email_address = os.environ["DEBEMAIL"]
+    if not email_address:
         os.environ["EMAIL"]
     name = os.environ["DEBFULLNAME"]
 
     # TODO: parse gecos?
-    logger.debug("Using %s <%s> as uploader identity" % (name, email))
 
-    if not name or not email:
+    if args.maintainer:
+        (name, email_address) = email.utils.parseaddr(args.maintainer)
+
+    logger.debug("Using %s <%s> as uploader identity" % (name, email_address))
+
+    if not name or not email_address:
         raise DcutError("Your name or email could not be retrieved."
-                        "Please set DEBEMAIL and DEBFULLNAME.")
+                        "Please set DEBEMAIL and DEBFULLNAME or provide"
+                        " a full identity through --maintainer")
 
     fh.write("Archive: %s\n" % (profile['fqdn']))
-    fh.write("Uploader: %s <%s>\n\n" % (name, email))
+    fh.write("Uploader: %s <%s>\n\n" % (name, email_address))
+    return (name, email_address)
 
 
 def generate_commands_name(profile):
     # should be $login-$timestamp.dak[.-]commands
     the_file = "%s-%s.dak.commands" % (os.getlogin(), int(time.time()))
+    logger.trace("Commands file will be named %s" % (the_file))
     return the_file
+
+def sign_file(filename, keyid=None, name=None, email=None):
+    pass
+
+
+def upload_commands_file(filename, upload_filename, profile):
+    with uploader(profile['method'], profile) as obj:
+        logger.info("Uploading %s to %s" % (
+                                            upload_filename,
+                                            profile['name']
+                                            ))
+        obj.upload_file(filename, upload_filename=upload_filename)
+
 
 def invoke_dcut(args):
     profile = dput.profile.load_profile(args.host)
@@ -132,30 +154,33 @@ def invoke_dcut(args):
     #    logger.warning("No checkers defined in the profile. "
     #                   "Not checking upload.")
 
+    if args.passive:
+        force_passive_ftp_upload(profile)
+
     try:
         if command.cmd_name == "upload":
             raise DcutError("Cry! Cry! Cry! Such a fugly hack")
         else:
-            fh = tempfile.NamedTemporaryFile(mode='w+r', delete=True)
-            write_header(fh, profile, args)
+            fh = tempfile.NamedTemporaryFile(mode='w+r', delete=False)
+            (name, email) = write_header(fh, profile, args)
             command.produce(fh, args)
             fh.flush()
             #print fh.name
+            fh.close()
 
             upload_filename = generate_commands_name(profile)
+            sign_file(fh.name, args.keyid, name, email)
 
-            with uploader(profile['method'], profile) as obj:
-                logger.info("Uploading %s to %s" % (
-                                                    upload_filename,
-                                                    profile['name']
-                                                    ))
-                if not args.simulate:
-                    obj.upload_file(fh.name, upload_filename=upload_filename)
+
+        if not args.simulate and not args.output:
+            upload_commands_file(fh.name, upload_filename, profile)
+        elif args.output and not args.simulate:
+            raise DcutError("Copy file to args.output here")
+        else:
+            # we should *never* come here
+            assert(False)
+
 
     finally:
-        fh.close()
-
-    if args.passive:
-        force_passive_ftp_upload(profile)
-
-
+        if fh and os.access(fh.name, os.R_OK):
+            os.unlink(fh.name)

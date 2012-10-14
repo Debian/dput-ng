@@ -92,8 +92,7 @@ parser.add_argument('-O', '--output', metavar="FILENAME",
                     "uploading.  You should not specify a host when using "
                     "this option.  Also, this option should not be used with "
                     "--upload.  Both filename and filename.asc will be "
-                    "overwritten", action='store_const', const="output",
-                    dest="command_action")
+                    "overwritten", action='store')
 parser.add_argument('-P', '--passive',
                     help="Use passive ftp instead of active",
                     action='store_true')
@@ -102,8 +101,7 @@ parser.add_argument('-s', '--simulate',
 parser.add_argument('-U', '--upload', metavar="FILENAME",
                     help="Upload FILENAME as commands file. "
                     "Note: No checks (syntax or presence/validity of "
-                    "signature) are currently performed", action='store_const',
-                     const="output", dest="command_action")
+                    "signature) are currently performed", action='store')
 parser.add_argument('-i', '--input', metavar="FILENAME",
                     help="(ignored)", action='store')
 parser.add_argument('-v', '--version',
@@ -122,8 +120,6 @@ for command in command_registry:
     command.register(command_parser)
 
 args = parser.parse_args()
-
-print(args.command_action)
 
 if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
