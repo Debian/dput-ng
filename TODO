@@ -11,8 +11,6 @@ CRITICAL BUGS
      + test is in tests/test_conf.py/test_default_klob -- disabled for now,
        there are bigger things to do atm.
 
-  - implement +foo -foo and =foo keys
-
 =================
 END CRITICAL BUGS
 =================
