@@ -99,12 +99,13 @@ def write_header(fh, profile, args):
                         " a full identity through --maintainer")
 
     fh.write("Archive: %s\n" % (profile['fqdn']))
-    fh.write("Uploader: %s <%s>\n\n" % (name, email_address))
+    fh.write("Uploader: %s <%s>\n" % (name, email_address))
     return (name, email_address)
 
 
 def generate_commands_name(profile):
-    # should be $login-$timestamp.dak[.-]commands
+    # for debianqueued: $login-$timestamp.commands
+    # for dak: $login-$timestamp.dak-commands
     the_file = "%s-%s.dak.commands" % (os.getlogin(), int(time.time()))
     logger.trace("Commands file will be named %s" % (the_file))
     return the_file
