@@ -1,0 +1,14 @@
+etc/dput-ng/checkers
+etc/dput-ng/commands
+etc/dput-ng/interfaces
+etc/dput-ng/metas
+etc/dput-ng/processors
+etc/dput-ng/profiles
+etc/dput-ng/uploaders
+usr/share/dput-ng/checkers
+usr/share/dput-ng/commands
+usr/share/dput-ng/interfaces
+usr/share/dput-ng/metas
+usr/share/dput-ng/processors
+usr/share/dput-ng/profiles
+usr/share/dput-ng/uploaders
