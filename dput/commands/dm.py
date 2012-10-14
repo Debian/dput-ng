@@ -49,15 +49,15 @@ class DmCommand(AbstractCommand):
         fh.write("Action: %s\n" % (self.cmd_name))
         fh.write("Fingerprint: %s\n" % (args.dm))
         if args.allow:
+            fh.write("Allow: ")
             for allowed_packages in args.allow:
-                fh.write("Allow: %s %s\n" % (
-                                             self.cmd_name,
-                                             allowed_packages))
+                fh.write("%s " % (allowed_packages))
+            fh.write("\n")
         if args.deny:
+            fh.write("Deny: ")
             for denied_packages in args.deny:
-                fh.write("Deny: %s %s\n" % (
-                                            self.cmd_name,
-                                            denied_packages))
+                fh.write("%s " % (denied_packages))
+            fh.write("\n")
 
     def validate(self, args):
         print("validate")
