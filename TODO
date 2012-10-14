@@ -8,6 +8,8 @@ CRITICAL BUGS
   - default json global declares key1 to be foo
   - dput.cf [default] local declares key1 to be bar
   - key is foo, even though local dput.cf is bar
+     + test is in tests/test_conf.py/test_default_klob -- disabled for now,
+       there are bigger things to do atm.
 
   - implement +foo -foo and =foo keys
 
