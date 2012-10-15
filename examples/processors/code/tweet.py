@@ -1,14 +1,16 @@
 # Copyright (c) Paul Tagliamonte, 2012, under the terms of dput-ng.
+# Example: https://twitter.com/paultag/status/257981606139133954
 
 import twitter
 import json
 import os
 
 def tweet(changes, profile, interface):
-    tweet = "I've just uploaded %s/%s to %s #debian" % (
+    tweet = "I've just uploaded %s/%s to %s's %s suite #debian" % (
         changes['Source'],
         changes['Version'],
-        profile['name']
+        profile['name'],
+        changes['Distribution']
     )
     if len(tweet) > 140:
         tweet = tweet[:140]
