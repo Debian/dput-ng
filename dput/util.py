@@ -133,7 +133,6 @@ def _config_cleanup(obj):
     }
 
     ret = obj.copy()
-    trm = []
     for key in obj:
         operator = key[0]
         if operator not in operators:

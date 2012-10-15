@@ -5,6 +5,7 @@ import twitter
 import json
 import os
 
+
 def tweet(changes, profile, interface):
     tweet = "I've just uploaded %s/%s to %s's %s suite #debian" % (
         changes['Source'],
