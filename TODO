@@ -11,6 +11,19 @@ CRITICAL BUGS
      + test is in tests/test_conf.py/test_default_klob -- disabled for now,
        there are bigger things to do atm.
 
+    Why it's bad:
+
+      This can lead to unpredictable behavior -- a global DEFAULT should be
+      overriden by the local DEFAULT, even if the DEFAULT is a different
+      priority.
+
+      json    <-- global
+      dput.cf <-- global
+      json    <-- local
+      dput.cf <-- local
+
+      in a perfect world.
+
 =================
 END CRITICAL BUGS
 =================
