@@ -55,6 +55,8 @@ def get_obj(klass, checker_method):
     logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
         config = load_config(klass, checker_method)
+        if config is None or config == {}:
+            raise NoSuchConfigError("No such config")
     except NoSuchConfigError:
         logger.debug("failed to resolve config %s" % (checker_method))
         return None

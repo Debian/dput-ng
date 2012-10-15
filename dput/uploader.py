@@ -200,6 +200,29 @@ If you want to upload nonetheless, use --force or remove %s""" %
 def should_write_logfile(args):
     return not args.simulate and not args.check_only and not args.no_upload_log
 
+
+def check_modules(profile):
+    if 'checkers' in profile:
+        for checker in profile['checkers']:
+            obj = get_obj('checkers', checker)
+            if obj is None:
+                raise DputConfigurationError(
+                    "Error: no such checker '%s'" % (
+                        checker
+                    )
+                )
+
+    if 'processors' in profile:
+        for proc in profile['processors']:
+            obj = get_obj('processors', proc)
+            if obj is None:
+                raise DputConfigurationError(
+                    "Error: no such post-processor '%s'" % (
+                        proc
+                    )
+                )
+
+
 def invoke_dput(changes, args):  # XXX: Name sucks
     """
     .. warning::
@@ -211,6 +234,7 @@ def invoke_dput(changes, args):  # XXX: Name sucks
 
     """
     profile = dput.profile.load_profile(args.host)
+    check_modules(profile)
 
     fqdn = None
     if 'fqdn' in profile:
