@@ -42,7 +42,8 @@ Depends: ${misc:Depends}, ${python:Depends},
  python-debian,
  python-paramiko,
  python-argparse | python (>= 2.7~),
- gnupg
+ gnupg,
+ python-validictory
 Recommends:
  lintian,
  openssh-client,
