@@ -73,7 +73,8 @@ class DputProfileConfig(AbstractConfig):
         profile = load_config(
             'profiles',
             name,
-            default={}
+            default={},
+            schema="config"
         )
         repls = self.replacements
         for thing in profile:

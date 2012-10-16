@@ -25,6 +25,7 @@ import json
 import shlex
 import importlib
 import subprocess
+import validictory
 
 import dput.core
 from dput.core import logger
@@ -149,7 +150,7 @@ def _config_cleanup(obj):
     return ret
 
 
-def load_config(config_class, config_name, default=None):
+def load_config(config_class, config_name, default=None, schema=None):
     logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
     ret = {}
@@ -170,7 +171,14 @@ def load_config(config_class, config_name, default=None):
         metainfo.update(ret)
         ret = metainfo
 
-    return _config_cleanup(ret)
+    obj = _config_cleanup(ret)
+    if schema is not None:
+        sobj = json.load(open("%s/%s.json" % (
+            dput.core.SCHEMA_DIR,
+            schema
+        ), 'r'))
+        validictory.validate(obj, sobj)
+    return obj
 
     if default is not None:
         return default

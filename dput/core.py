@@ -48,6 +48,11 @@ DPUT_CONFIG_LOCATIONS = [
 Locations to look for old-style dput.cf configuration files.
 """
 
+SCHEMA_DIR = "/usr/share/dput-ng/schemas"
+"""
+validictory schemas
+"""
+
 # logging routines
 logging.setLoggerClass(dput.logger.DputLogger)
 logger = logging.getLogger("dput")

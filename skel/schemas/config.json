@@ -1,0 +1,75 @@
+{
+    "description": "dput-ng configuration file",
+    "properties": {
+        "allow_dcut": {
+            "required": false,
+            "type": "boolean"
+        },
+        "allow_unsigned_uploads": {
+            "required": false,
+            "type": "boolean"
+        },
+        "allowed_distributions": {
+            "type": "string",
+            "required": false
+        },
+        "checkers": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "required": false
+        },
+        "default_host_main": {
+            "type": "string",
+            "required": false,
+            "blank": true
+        },
+        "hash": {
+            "type": "string",
+            "required": false
+        },
+        "interface": {
+            "type": "string",
+            "required": false
+        },
+        "login": {
+            "type": "string",
+            "required": false
+        },
+        "meta": {
+            "type": "string",
+            "required": false
+        },
+        "passive_ftp": {
+            "required": false,
+            "type": "boolean"
+        },
+        "post_upload_command": {
+            "type": "string",
+            "required": false,
+            "blank": true
+        },
+        "pre_upload_command": {
+            "type": "string",
+            "required": false,
+            "blank": true
+        },
+        "processors": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "required": false
+        },
+        "run_lintian": {
+            "required": false,
+            "type": "boolean"
+        },
+        "scp_compress": {
+            "required": false,
+            "type": "boolean"
+        }
+    },
+    "type": "object"
+}
