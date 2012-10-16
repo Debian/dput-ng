@@ -55,7 +55,7 @@ def get_obj(klass, checker_method):
     # XXX: return (defn, obj), so we can use the stored .json file for more.
     logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
-        config = load_config(klass, checker_method)
+        config = load_config(klass, checker_method, schema='plugin')
         if config is None or config == {}:
             raise NoSuchConfigError("No such config")
     except NoSuchConfigError:

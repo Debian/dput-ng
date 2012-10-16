@@ -1,0 +1,15 @@
+{
+    "description": "dput-ng plugin def",
+    "additionalProperties": false,
+    "properties": {
+        "path": {
+            "type": "string",
+            "required": true
+        },
+        "name": {
+            "type": "string",
+            "required": true
+        }
+    },
+    "type": "object"
+}
