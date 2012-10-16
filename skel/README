@@ -14,7 +14,8 @@ Boring stuff:
   - interfaces: where user interface routines register themselves.
   - processors: where processor routines register themselves.
   - uploaders:  where upload routines register themselves.
-  - schemas:    where the schemas for the conffiles are loaded
+  - schemas:    where the schemas for the conffiles are loaded (/usr/share
+                only)
 
 
 You should read through:
