@@ -17,6 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+# XXX: DOCUMENT ME.
 
 import abc
 import os
@@ -70,6 +71,7 @@ def find_commands():
 
 # XXX: This function could be refactored over to dput. There a *very*
 # similar function exists.
+#   -- Note: paultag refactored it back, it's in utils now. Low hanging.
 def load_commands():
     commands = []
     for command in find_commands():

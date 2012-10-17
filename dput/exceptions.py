@@ -51,6 +51,14 @@ class NoSuchConfigError(DputError):
     pass
 
 
+class InvalidConfigError(DputError):
+    """
+    Config file was loaded properly, but it was missing part of it's
+    required fields.
+    """
+    pass
+
+
 class ChangesFileException(DputError):
     """
     Thrown when there's an error processing / verifying a .changes file

@@ -32,10 +32,11 @@ import validictory
 
 import dput.core
 from dput.core import logger
-from dput.exceptions import NoSuchConfigError, DputConfigurationError
+from dput.exceptions import (NoSuchConfigError, DputConfigurationError,
+                             InvalidConfigError)
 
 
-def load_obj(obj_path):  # XXX: Name sucks.
+def load_obj(obj_path):
     """
     Dynamically load an object (class, method, etc) by name (such as
     `dput.core.ClassName`), and return that object to work with. This is
@@ -156,9 +157,30 @@ def _config_cleanup(obj):
 def load_config(config_class, config_name,
                 default=None, schema=None,
                 configs=None):
+    """
+    Load any dput configuration given a ``config_class`` (such as
+    ``checkers`` or ``profiles``), and a ``config_name`` (such as
+    ``lintian`` or ``tweet``).
+
+    Optional kwargs:
+
+        ``default`` is a default to return, in case the config file
+        isn't found. If this isn't provided, this function will
+        raise a :class:`dput.exceptions.NoSuchConfigError`.
+
+        ``schema`` is a schema to check the return value against,
+        before returning it. This reads validictory syntax. If it's
+        violated, this will raise a
+        :class:`dput.exceptions.InvalidConfigError`.
+
+        ``configs`` is a list of config files to check. When this
+        isn't provided, we check dput.core.CONFIG_LOCATIONS.
+    """
+    # XXX: Erm, that last bit is a lie. WTF do we have that here?
 
     logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
+    roots = []
     ret = {}
     template_path = "%s/%s/%s.json"
     for config in dput.core.CONFIG_LOCATIONS:
@@ -170,6 +192,7 @@ def load_config(config_class, config_name,
         )
         logger.trace("Checking - %s" % (path))
         if os.path.exists(path):
+            roots.append(path)
             ret.update(json.load(open(path, 'r')))
 
     if 'meta' in ret and ret['meta'] != config_name:
@@ -184,13 +207,32 @@ def load_config(config_class, config_name,
             dput.core.SCHEMA_DIR,
             schema
         ), 'r'))
-        validictory.validate(obj, sobj)
-    return obj
+        try:
+            validictory.validate(obj, sobj)
+        except validictory.validator.ValidationError as e:
+            err = str(e)
+            error = "Error with config file %s/%s - %s" % (
+                config_class,
+                config_name,
+                err
+            )
+            ex = InvalidConfigError(error)
+            ex.obj = obj
+            ex.root = e
+            ex.config_class = config_class
+            ex.config_name = config_name
+            ex.sdir = dput.core.SCHEMA_DIR
+            ex.schema = schema
+            ex.roots = roots
+            raise ex
+
+    if obj != {}:
+        return obj
 
     if default is not None:
         return default
 
-    logger.warning("Failed to load configuration")
+    logger.debug("Failed to load configuration %s" % (config_name))
 
     nsce = NoSuchConfigError("No such configuration: '%s' in class '%s'" % (
         config_name,
@@ -205,7 +247,7 @@ def load_config(config_class, config_name,
 
 def obj_docs(klass, ostr):
     """
-    Get an object's docstring by name / class.
+    Get an object's docstring by name / class def.
     """
     obj = get_obj(klass, ostr)
     if obj is None:
@@ -220,8 +262,10 @@ def run_func_by_name(klass, name, changes, profile):
     Run a function, defined by ``name``, filed in class ``klass``,
     with a :class:`dput.changes.Changes` (``changes``), and profile
     ``profile``.
+
+    This is used to run the checkers / processors, internally.
     """
-    logger.debug("running check: %s" % (name))
+    logger.debug("running %s: %s" % (klass, name))
     obj = get_obj(klass, name)
     if obj is None:
         raise DputConfigurationError("No such obj: `%s'" % (

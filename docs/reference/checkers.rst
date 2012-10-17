@@ -1,6 +1,11 @@
 Writing checker plugins
 =======================
 
+.. note::
+    All of the information in this guide applies fully to writing
+    ``processors``. Just rename the config class to ``processors``
+    and you're good to go.
+
 Checkers are a fundemental part of dput-ng. Checkers make sure the package
 you've prepared is actually fit to upload given the target & current profile.
 

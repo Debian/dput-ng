@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+Unblock post-processor implementation.
+"""
 
 why = """Package: release.debian.org
 Severity: normal
@@ -31,7 +34,11 @@ unblock {srcpkg}/{version}
 """
 
 
+# XXX: Document me.
 def unblock(changes, profile, interface):
+    """
+    """
+
     info = {
         'srcpkg': changes['Source'],
         'version': changes['Version'],
