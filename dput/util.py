@@ -21,8 +21,6 @@
 Misc & helper functions
 """
 
-# XXX: Document me, please.
-
 import os
 import json
 import shlex
@@ -55,8 +53,11 @@ def load_obj(obj_path):
     return fltr
 
 
-def get_obj(klass, checker_method):
-    # XXX: return (defn, obj), so we can use the stored .json file for more.
+def get_obj(klass, checker_method):  # checker_method is a bad name.
+    """
+    Get an object by plugin def (``checker_method``) in class ``klass`` (such
+    as ``processors`` or ``checkers``).
+    """
     logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
         config = load_config(klass, checker_method, schema='plugin')
@@ -82,13 +83,13 @@ def run_command(command):
     If there was a problem to start the supplied command, (None, None, -1) is
     returned
     """
-
     if not isinstance(command, list):
         command = shlex.split(command)
     try:
         pipe = subprocess.Popen(command,
-                            shell=False, stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE)
+                                shell=False,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE)
     except OSError as e:
         logger.error("Could not execute %s: %s" % (" ".join(command), e))
         return (None, None, -1)
@@ -99,6 +100,9 @@ def run_command(command):
 
 
 def get_configs(klass):
+    """
+    Get all valid config targets for class ``klass``.
+    """
     configs = set()
     for path in dput.core.CONFIG_LOCATIONS:
         path = "%s/%s" % (path, klass)
@@ -111,6 +115,9 @@ def get_configs(klass):
 
 
 def _config_cleanup(obj):
+    """
+    Handle merging plus, minus and set fields. Internal only.
+    """
     def do_add(new, old):
         if not isinstance(new, list) and not isinstance(old, list):
             raise Exception("WTF NOT LIST")  # XXX: better exception
