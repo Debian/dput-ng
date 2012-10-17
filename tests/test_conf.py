@@ -4,7 +4,7 @@ import dput.core
 import dput.profile
 
 
-dput.core._enable_debugging(2)
+# dput.core._enable_debugging(2)
 
 dput.core.DPUT_CONFIG_LOCATIONS = {
     "tests/resources/defklob/cf1/dput.cf": 15,
