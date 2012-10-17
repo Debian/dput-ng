@@ -150,7 +150,10 @@ def _config_cleanup(obj):
     return ret
 
 
-def load_config(config_class, config_name, default=None, schema=None):
+def load_config(config_class, config_name,
+                default=None, schema=None,
+                configs=None):
+
     logger.debug("Loading configuration: %s %s" % (config_class,
                                             config_name))
     ret = {}
@@ -167,7 +170,8 @@ def load_config(config_class, config_name, default=None, schema=None):
             ret.update(json.load(open(path, 'r')))
 
     if 'meta' in ret and ret['meta'] != config_name:
-        metainfo = load_config("metas", ret['meta'], default={})
+        metainfo = load_config("metas", ret['meta'],
+                               default={}, configs=configs)
         metainfo.update(ret)
         ret = metainfo
 

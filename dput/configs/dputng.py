@@ -29,11 +29,12 @@ def get_sections():
 
 
 class DputProfileConfig(AbstractConfig):
-    def preload(self, replacements):
+    def preload(self, replacements, configs):
         self.configs = {}
         self.replacements = replacements
         for section in get_sections():
-            self.configs[section] = self.load_config(section)
+            self.configs[section] = self.load_config(section,
+                                                     configs=configs)
 
     def get_config_blocks(self):
         return self.configs.keys()
@@ -69,12 +70,18 @@ class DputProfileConfig(AbstractConfig):
             return default
         return {}
 
-    def load_config(self, name):
+    def load_config(self, name, configs=None):
+        kwargs = {
+            "default": {},
+            "schema": "config"
+        }
+        if configs is not None:
+            kwargs['configs'] = configs
+
         profile = load_config(
             'profiles',
             name,
-            default={},
-            schema="config"
+            **kwargs
         )
         repls = self.replacements
         for thing in profile:

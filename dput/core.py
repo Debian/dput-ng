@@ -28,22 +28,22 @@ import dput.logger
 
 
 # used for searching for config files. place in order of precedence
-CONFIG_LOCATIONS = [
-    "/usr/share/dput-ng/",
-    "/etc/dput.d/",
-    os.path.expanduser("~/.dput.d"),
-    "skel/",
-]
+CONFIG_LOCATIONS = {
+    "/usr/share/dput-ng/": 30,
+    "/etc/dput.d/": 20,
+    os.path.expanduser("~/.dput.d"): 10,
+    "skel/": 100
+}
 """
 Locations to look for JSON-ey config files. Under each directory may exist
 a ``class``, which is a folder full of json files, which may be loaded.
 The order dicates which has the most precedence.
 """
 
-DPUT_CONFIG_LOCATIONS = [
-    "/etc/dput.cf",
-    os.path.expanduser("~/.dput.cf")
-]
+DPUT_CONFIG_LOCATIONS = {
+    "/etc/dput.cf": 15,
+    os.path.expanduser("~/.dput.cf"): 5
+}
 """
 Locations to look for old-style dput.cf configuration files.
 """

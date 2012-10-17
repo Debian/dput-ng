@@ -28,9 +28,12 @@ from dput.exceptions import DputConfigurationError
 
 
 class DputCfConfig(AbstractConfig):
-    def preload(self, replacements):
+    def preload(self, replacements, configs):
         parser = ConfigParser.ConfigParser()
-        for config in dput.core.DPUT_CONFIG_LOCATIONS:
+        if configs is None:
+            configs = dput.core.DPUT_CONFIG_LOCATIONS
+
+        for config in configs:
             if not os.access(config, os.R_OK):
                 logger.debug("Skipping file %s: Not accessible" % (
                     config

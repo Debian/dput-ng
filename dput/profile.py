@@ -22,6 +22,7 @@
 
 import logging
 
+import dput.core
 from dput.core import logger
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig
@@ -29,12 +30,42 @@ from dput.configs.dputng import DputProfileConfig
 from dput.exceptions import DputConfigurationError
 
 
+classes = {
+    "dputng": DputProfileConfig,
+    "dputcf": DputCfConfig
+}
+
+
 class MultiConfig(AbstractConfig):
-    def preload(self, replacements):
-        configs = [
-            DputCfConfig(replacements),
-            DputProfileConfig(replacements)
-        ]
+    def __init__(self, replacements):
+        configs = []
+        for config in dput.core.CONFIG_LOCATIONS:
+            configs.append({
+                "type": "dputng",
+                "loc": config,
+                "weight": dput.core.CONFIG_LOCATIONS[config]
+            })
+        for config in dput.core.DPUT_CONFIG_LOCATIONS:
+            configs.append({
+                "type": "dputcf",
+                "loc": config,
+                "weight": dput.core.DPUT_CONFIG_LOCATIONS[config]
+            })
+
+        configs = sorted(configs, key=lambda c: c['weight'])
+        configs.reverse()
+        self.preload(replacements, configs)
+
+    def preload(self, replacements, objs):
+        configs = []
+        for obj in objs:
+            configs.append(
+                classes[obj['type']](
+                    replacements,
+                    [obj['loc']]
+                )
+            )
+
         self.configs = configs
 
         defaults = {}

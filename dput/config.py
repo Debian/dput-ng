@@ -38,8 +38,8 @@ class AbstractConfig(object):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, replacements):
-        self.preload(replacements)
+    def __init__(self, replacements, configs):
+        self.preload(replacements, configs)
 
     @abc.abstractmethod
     def set_defaults(self, defaults):
