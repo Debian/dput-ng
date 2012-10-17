@@ -110,7 +110,7 @@ def load_profile(host):
         host, arg = host.split(":", 1)
         repls[host] = arg
 
-    config = MultiConfig(repls)
+    config = MultiConfig(repls)  # XXX: Really slows everything down.
     configs = config.get_config_blocks()
 
     if host in configs:
@@ -133,7 +133,7 @@ def load_profile(host):
 
 
 def profiles():
-    config = MultiConfig({})
+    config = MultiConfig({})  # XXX: HUGE preformance knock
     configs = config.get_config_blocks()
     if "DEFAULT" in configs:
         configs.remove("DEFAULT")
