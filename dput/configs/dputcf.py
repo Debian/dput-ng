@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+Old dput config file implementation
+"""
 
 import os
 import ConfigParser
@@ -28,7 +31,15 @@ from dput.exceptions import DputConfigurationError
 
 
 class DputCfConfig(AbstractConfig):
+    """
+    dput-old config file implementation. Subclass of a
+    :class:`dput.config.AbstractConfig`.
+    """
+
     def preload(self, replacements, configs):
+        """
+        See :meth:`dput.config.AbstractConfig.preload`
+        """
         parser = ConfigParser.ConfigParser()
         if configs is None:
             configs = dput.core.DPUT_CONFIG_LOCATIONS
@@ -60,12 +71,21 @@ class DputCfConfig(AbstractConfig):
         self.parser = parser
 
     def get_config_blocks(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config_blocks`
+        """
         return self.parser.sections()
 
     def get_defaults(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_defaults`
+        """
         return self.get_config("DEFAULT")
 
     def set_defaults(self, defaults):
+        """
+        See :meth:`dput.config.AbstractConfig.set_defaults`
+        """
         defaults = self._translate_bools(defaults)
         for key in defaults:
             self.parser.set("DEFAULT", key, defaults[key])
@@ -103,6 +123,9 @@ class DputCfConfig(AbstractConfig):
         return ret
 
     def get_config(self, name):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config`
+        """
         ret = {}
         try:
             items = self.parser.items(name)

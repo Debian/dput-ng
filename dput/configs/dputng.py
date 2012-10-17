@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
+"""
+dput-ng native configuration file implementation.
+"""
 
 from dput.util import load_config, get_configs
 from dput.core import logger
@@ -25,11 +28,22 @@ from dput.exceptions import DputConfigurationError
 
 
 def get_sections():
+    """
+    Get all profiles we know about.
+    """
     return get_configs('profiles')
 
 
 class DputProfileConfig(AbstractConfig):
+    """
+    dput-ng native config file implementation. Subclass of a
+    :class:`dput.config.AbstractConfig`.
+    """
+
     def preload(self, replacements, configs):
+        """
+        See :meth:`dput.config.AbstractConfig.preload`
+        """
         self.configs = {}
         self.replacements = replacements
         for section in get_sections():
@@ -37,17 +51,29 @@ class DputProfileConfig(AbstractConfig):
                                                      configs=configs)
 
     def get_config_blocks(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config_blocks`
+        """
         return self.configs.keys()
 
     def get_defaults(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_defaults`
+        """
         if "DEFAULT" in self.configs:
             return self.configs['DEFAULT']
         return {}
 
     def set_defaults(self, defaults):
+        """
+        See :meth:`dput.config.AbstractConfig.set_defaults`
+        """
         self.configs['DEFAULT'] = defaults
 
     def get_config(self, name):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config`
+        """
         logger.debug("Getting %s" % (name))
         default = self.configs['DEFAULT'].copy()
         if name in self.configs:
@@ -71,6 +97,9 @@ class DputProfileConfig(AbstractConfig):
         return {}
 
     def load_config(self, name, configs=None):
+        """
+        See :meth:`dput.config.AbstractConfig.load_config`
+        """
         kwargs = {
             "default": {},
             "schema": "config"
