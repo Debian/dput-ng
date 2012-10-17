@@ -3,3 +3,4 @@ nose
 paramiko
 sphinx
 coverage
+# You also need python-debian, which isn't in pypi.
