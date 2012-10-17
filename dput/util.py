@@ -216,6 +216,11 @@ def obj_docs(klass, ostr):
 
 
 def run_func_by_name(klass, name, changes, profile):
+    """
+    Run a function, defined by ``name``, filed in class ``klass``,
+    with a :class:`dput.changes.Changes` (``changes``), and profile
+    ``profile``.
+    """
     logger.debug("running check: %s" % (name))
     obj = get_obj(klass, name)
     if obj is None:
