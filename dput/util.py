@@ -176,14 +176,16 @@ def load_config(config_class, config_name,
         ``configs`` is a list of config files to check. When this
         isn't provided, we check dput.core.CONFIG_LOCATIONS.
     """
-    # XXX: Erm, that last bit is a lie. WTF do we have that here?
 
-    logger.debug("Loading configuration: %s %s" % (config_class,
-                                            config_name))
+    logger.debug("Loading configuration: %s %s" % (
+        config_class,
+        config_name
+    ))
     roots = []
     ret = {}
     template_path = "%s/%s/%s.json"
-    for config in dput.core.CONFIG_LOCATIONS:
+    locations = configs or dput.core.CONFIG_LOCATIONS
+    for config in locations:
         logger.trace("Checking for configuration: %s" % (config))
         path = template_path % (
             config,
