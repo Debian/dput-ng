@@ -10,15 +10,17 @@
 #
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
-
-# XXX: document.
+"""
+Profile implementation & routines. This handles all external access
+of the Profile data.
+"""
 
 import logging
 
@@ -37,6 +39,13 @@ classes = {
 
 
 class MultiConfig(AbstractConfig):
+    """
+    Multi-configuration abstraction. This helps abstract
+    the underlying configurations from the user.
+
+    This is a subclass of :class:`dput.config.AbstractConfig`
+    """
+
     def __init__(self, replacements):
         configs = []
         for config in dput.core.CONFIG_LOCATIONS:
@@ -57,6 +66,9 @@ class MultiConfig(AbstractConfig):
         self.preload(replacements, configs)
 
     def preload(self, replacements, objs):
+        """
+        See :meth:`dput.config.AbstractConfig.preload`
+        """
         configs = []
         for obj in objs:
             configs.append(
@@ -75,6 +87,9 @@ class MultiConfig(AbstractConfig):
         self.set_defaults(defaults)
 
     def set_defaults(self, defaults):
+        """
+        See :meth:`dput.config.AbstractConfig.set_defaults`
+        """
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug("Default set:")
             for default in defaults:
@@ -83,9 +98,15 @@ class MultiConfig(AbstractConfig):
             config.set_defaults(defaults)
 
     def get_defaults(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_defaults`
+        """
         return self.get_config("DEFAULT")
 
     def get_config(self, name):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config`
+        """
         ret = {}
         for config in self.configs:
             obj = config.get_config(name)
@@ -97,6 +118,9 @@ class MultiConfig(AbstractConfig):
         return ret
 
     def get_config_blocks(self):
+        """
+        See :meth:`dput.config.AbstractConfig.get_config_blocks`
+        """
         ret = set()
         for config in self.configs:
             for block in config.get_config_blocks():
@@ -105,6 +129,14 @@ class MultiConfig(AbstractConfig):
 
 
 def load_profile(host):
+    """
+    Load a profile, for a given host ``host``. In the case where
+    ``host`` has a ":", that'll be treated as an expantion for
+    config strings. For instance:
+
+    ``ppa:paultag/fluxbox`` will expand any ``%(ppa)s`` strings to
+    ``paultag/fluxbox``. Comes in super handy.
+    """
     repls = {}
     if host and ":" in host:
         host, arg = host.split(":", 1)
@@ -133,6 +165,10 @@ def load_profile(host):
 
 
 def profiles():
+    """
+    Get a list of all profiles we know about. It returns a set of
+    strings, which can be accessed with :func:`load_profile`
+    """
     config = MultiConfig({})  # XXX: HUGE preformance knock
     configs = config.get_config_blocks()
     if "DEFAULT" in configs:
