@@ -1,0 +1,5 @@
+validictory
+nose
+paramiko
+sphinx
+coverage
