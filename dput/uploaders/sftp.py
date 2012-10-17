@@ -102,7 +102,7 @@ class SFTPUploader(AbstractUploader):
             raise SftpUploadException("Failed to authenticate")
         try:
             self._sshclient.connect(fqdn, **ssh_kwargs)
-            logger.info("Logged in!")
+            logger.debug("Logged in!")
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
             user, pw = self.prompt_ui('please login', [
