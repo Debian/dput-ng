@@ -16,6 +16,7 @@ dput.core.CONFIG_LOCATIONS = {
     "tests/resources/defklob/js2": 10
 }
 
+
 def test_default_klob():
     profile = dput.profile.load_profile("test")
     assert profile['name'] == 'test'
