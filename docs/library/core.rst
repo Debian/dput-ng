@@ -12,12 +12,16 @@ Printing to the screen using :func:`print` is wrong, m'kay? Please do **not**
 use it under any conditions. In it's place, we have a central ``logger``
 object, to use as all the bits of dput see fit.
 
-.. .. autoobject:: logger
-
 The logger object is an instatiation of :class:`dput.logger.DputLogger`, so
 feel free to use any if it's logging methods. In general, don't use
 ``info`` or above, unless the user *really* needs to know. Most calls should be
 to ``debug`` or ``trace``.
+
+Example usage::
+
+    from dput.core import logger
+    logger.debug("Hello, World!")
+    logger.warning("OH MY DEAR GOD")
 
 Configuration Objects
 ---------------------
@@ -29,14 +33,25 @@ All configs are in the form of a dict, the key being the path, and the
 value being the "weight" of the path. The higher the weight, the less
 important it is.
 
-.. XXX: Fix the kludged doc import
-.. .. autoobject:: CONFIG_LOCATIONS
+Example ``dput.core.CONFIG_LOCATIONS``::
+
+    {
+        "/usr/share/dput-ng/": 30,
+        "/etc/dput.d/": 20,
+        os.path.expanduser("~/.dput.d"): 10,
+    }
 
 :func:`dput.util.load_config` is used to access a config from this list,
 and handles meta-classes, and other edge cases when loading. Please use
 :func:`dput.util.load_config` to load config files from these locations.
 
-.. .. autoobject:: DPUT_CONFIG_LOCATIONS
+Example ``dput.core.DPUT_CONFIG_LOCATIONS``::
+
+    {
+        "/etc/dput.cf": 15,
+        os.path.expanduser("~/.dput.cf"): 5
+    }
+
 
 Both are merged into a single list, sorted by list, and used by
 :class:`dput.profile.MultiConfig` to handle loading and access.
@@ -44,4 +59,6 @@ Both are merged into a single list, sorted by list, and used by
 Schema Directory
 ----------------
 
-.. .. autoobject:: SCHEMA_DIR
+This is the path to seach for validictory schemas. By default, this is
+set to ``/usr/share/dput-ng/schemas``. These are not treated as normal
+conf-files.

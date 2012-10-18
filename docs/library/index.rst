@@ -10,28 +10,22 @@ hackers, and interested persons.
 Documentation Index
 -------------------
 
-Sub-packages:
+Top-level modules:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
+   core
+   changes
+   util
+   profile
+   exceptions
    checkers/index
    processors/index
    interfaces/index
    uploaders/index
    configs/index
-
-Top-level modules:
-
-.. toctree::
-   :maxdepth: 2
-
-   exceptions
-   changes
    overrides
-   core
    checker
    uploader
-   util
-   profile
    interface
