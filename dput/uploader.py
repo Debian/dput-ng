@@ -223,7 +223,7 @@ def check_modules(profile):
                 )
 
 
-def invoke_dput(changes, args):  # XXX: Name sucks
+def invoke_dput(changes, args):
     """
     .. warning::
        This method may change names. Please use it via :func:`dput.upload`.
@@ -246,8 +246,6 @@ def invoke_dput(changes, args):  # XXX: Name sucks
         fqdn or profile['name'],
         profile['incoming']
     ))
-
-    # XXX: This function is huge, let's break this up!
 
     if args.simulate:
         logger.warning("Not uploading for real - dry run")

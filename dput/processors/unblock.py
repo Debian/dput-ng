@@ -34,9 +34,21 @@ unblock {srcpkg}/{version}
 """
 
 
-# XXX: Document me.
 def unblock(changes, profile, interface):
     """
+    The ``unblock`` processor will help you file a Debian Freeze unblock
+    bug after upload.
+
+    Profile key: ``unblock``
+
+    Example profile::
+
+        {
+            "unblock": {
+            }
+        }
+
+    No keys are currently supported.
     """
 
     info = {

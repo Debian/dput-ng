@@ -40,8 +40,6 @@ __author__ = 'Jonny Lamb'
 __copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
 __license__ = 'MIT'
 
-# XXX: Finish documenting this.
-
 import os.path
 import hashlib
 from debian import deb822
@@ -216,6 +214,10 @@ class Changes(object):
             self._directory = ""
 
     def validate(self, check_hash="sha1", check_signature=True):
+        """
+        See :meth:`validate_checksums` for ``check_hash``, and
+        :meth:`validate_signature` if ``check_signature`` is True.
+        """
         self.validate_checksums(check_hash)
         if check_signature:
             self.validate_signature(check_signature)
@@ -223,6 +225,12 @@ class Changes(object):
             logger.info("Not checking signature")
 
     def validate_signature(self, check_signature=True):
+        """
+        Validate the GPG signature of a .changes file.
+
+        Throws a :class:`dput.exceptions.ChangesFileException` if there's
+        an issue with the GPG signature. Returns the GPG key ID.
+        """
         gpg_path = "gpg"
 
         (gpg_output, gpg_output_stderr, exit_status) = run_command([
@@ -255,6 +263,17 @@ class Changes(object):
         return key
 
     def validate_checksums(self, check_hash="sha1"):
+        """
+        Validate checksums for a package, using ``check_hack``'s type
+        to validate the package.
+
+        Valid ``check_hash`` types:
+
+            * sha1
+            * sha256
+            * md5
+            * md5sum
+        """
         logger.info("Validate %s checksums" % (check_hash))
 
         for filename in self.get_files():
