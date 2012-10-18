@@ -50,6 +50,10 @@ class FtpUploader(AbstractUploader):
         """
         See :meth:`dput.uploader.AbstractUploader.initialize`
         """
+        logger.debug("Logging into %s as %s" % (
+            self._config["fqdn"],
+            self._config["login"]
+        ))
         try:
             self._ftp = ftplib.FTP(
                 self._config["fqdn"],

@@ -42,14 +42,6 @@ class AbstractConfig(object):
         self.preload(configs)
 
     @abc.abstractmethod
-    def set_defaults(self, defaults):
-        """
-        Set the defaults to overlay concrete configs on top of. In theory, this
-        is called to help bootstrapping a series of configuration objects.
-        """
-        pass
-
-    @abc.abstractmethod
     def set_replacements(self, replacements):
         """
         """

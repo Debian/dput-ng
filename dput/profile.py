@@ -90,18 +90,7 @@ class MultiConfig(AbstractConfig):
         for config in configs:
             defaults.update(config.get_defaults())
 
-        self.set_defaults(defaults)
-
-    def set_defaults(self, defaults):
-        """
-        See :meth:`dput.config.AbstractConfig.set_defaults`
-        """
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Default set:")
-            for default in defaults:
-                logger.debug("\t%s: %s" % (default, defaults[default]))
-        for config in self.configs:
-            config.set_defaults(defaults)
+        self.defaults = defaults
 
     def get_defaults(self):
         """
@@ -113,9 +102,11 @@ class MultiConfig(AbstractConfig):
         """
         See :meth:`dput.config.AbstractConfig.get_config`
         """
-        ret = {}
+        ret = self.defaults.copy()
         for config in self.configs:
+            logger.trace("Loading %s" % (config))
             obj = config.get_config(name)
+            logger.trace(obj)
             ret.update(obj)
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug("Got configuration: %s" % (name))

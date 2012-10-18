@@ -66,13 +66,7 @@ class DputProfileConfig(AbstractConfig):
         """
         See :meth:`dput.config.AbstractConfig.get_defaults`
         """
-        return self.defaults
-
-    def set_defaults(self, defaults):
-        """
-        See :meth:`dput.config.AbstractConfig.set_defaults`
-        """
-        self.defaults = defaults
+        return self.defaults.copy()
 
     def get_config(self, name):
         """
@@ -91,6 +85,7 @@ class DputProfileConfig(AbstractConfig):
             name,
             **kwargs
         )
+        logger.trace("name: %s - %s / %s" % (name, profile, kwargs))
         repls = self.replacements
         for thing in profile:
             val = profile[thing]
@@ -100,7 +95,7 @@ class DputProfileConfig(AbstractConfig):
                 if repl in val:
                     val = val.replace("%%(%s)s" % (repl), repls[repl])
             profile[thing] = val
-        ret = self.defaults.copy()
+        ret = {}
         ret.update(profile)
         ret['name'] = name
 

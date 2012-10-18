@@ -65,6 +65,8 @@ class DputCfConfig(AbstractConfig):
                     e
                 ))
         self.parser = parser
+        self.defaults = self._translate_strs(self.get_config("DEFAULT"))
+        self.parser.remove_section("DEFAULT")
 
     def set_replacements(self, replacements):
         """
@@ -86,15 +88,7 @@ class DputCfConfig(AbstractConfig):
         """
         See :meth:`dput.config.AbstractConfig.get_defaults`
         """
-        return self.get_config("DEFAULT")
-
-    def set_defaults(self, defaults):
-        """
-        See :meth:`dput.config.AbstractConfig.set_defaults`
-        """
-        defaults = self._translate_bools(defaults)
-        for key in defaults:
-            self.parser.set("DEFAULT", key, defaults[key])
+        return self.defaults
 
     def _translate_strs(self, ret):
         trans = {
