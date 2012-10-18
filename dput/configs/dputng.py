@@ -40,70 +40,49 @@ class DputProfileConfig(AbstractConfig):
     :class:`dput.config.AbstractConfig`.
     """
 
-    def preload(self, replacements, configs):
+    def preload(self, configs):
         """
         See :meth:`dput.config.AbstractConfig.preload`
         """
-        self.configs = {}
+        self.configs = configs
+        self.replacements = {}
+        self.cache = {}
+        self.defaults = {}
+        self.defaults = self.get_config("DEFAULT")
+
+    def set_replacements(self, replacements):
+        """
+        See :meth:`dput.config.AbstractConfig.set_replacements`
+        """
         self.replacements = replacements
-        for section in get_sections():
-            self.configs[section] = self.load_config(section,
-                                                     configs=configs)
 
     def get_config_blocks(self):
         """
         See :meth:`dput.config.AbstractConfig.get_config_blocks`
         """
-        return self.configs.keys()
+        return get_sections()
 
     def get_defaults(self):
         """
         See :meth:`dput.config.AbstractConfig.get_defaults`
         """
-        if "DEFAULT" in self.configs:
-            return self.configs['DEFAULT']
-        return {}
+        return self.defaults
 
     def set_defaults(self, defaults):
         """
         See :meth:`dput.config.AbstractConfig.set_defaults`
         """
-        self.configs['DEFAULT'] = defaults
+        self.defaults = defaults
 
     def get_config(self, name):
         """
         See :meth:`dput.config.AbstractConfig.get_config`
         """
-        logger.debug("Getting %s" % (name))
-        default = self.configs['DEFAULT'].copy()
-        if name in self.configs:
-            default.update(self.configs[name])
-            default['name'] = name
-            for key in default:
-                val = default[key]
-                if isinstance(val, basestring):
-                    if "%(" in val and ")s" in val:
-                        logger.debug("error with %s -> %s" % (
-                            key,
-                            val
-                        ))
-                        raise DputConfigurationError(
-                            "Not converted values in key `%s' - %s" % (
-                                key,
-                                val
-                            )
-                        )
-            return default
-        return {}
-
-    def load_config(self, name, configs=None):
-        """
-        See :meth:`dput.config.AbstractConfig.load_config`
-        """
         kwargs = {
             "default": {},
             "schema": "config"
         }
+        configs = self.configs
         if configs is not None:
             kwargs['configs'] = configs
 
@@ -121,4 +100,19 @@ class DputProfileConfig(AbstractConfig):
                 if repl in val:
                     val = val.replace("%%(%s)s" % (repl), repls[repl])
             profile[thing] = val
-        return profile
+        ret = self.defaults.copy()
+        ret.update(profile)
+        ret['name'] = name
+
+        for key in ret:
+            val = ret[key]
+            if isinstance(val, basestring):
+                if "%(" in val and ")s" in val:
+                    raise DputConfigurationError(
+                        "Half-converted block: %s --> %s" % (
+                            key,
+                            val
+                        )
+                    )
+
+        return ret

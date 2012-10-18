@@ -36,7 +36,7 @@ class DputCfConfig(AbstractConfig):
     :class:`dput.config.AbstractConfig`.
     """
 
-    def preload(self, replacements, configs):
+    def preload(self, configs):
         """
         See :meth:`dput.config.AbstractConfig.preload`
         """
@@ -64,11 +64,17 @@ class DputCfConfig(AbstractConfig):
                     config,
                     e
                 ))
-
-        for replacement in replacements:
-            if parser.has_section(replacement):
-                parser.set(replacement, replacement, replacements[replacement])
         self.parser = parser
+
+    def set_replacements(self, replacements):
+        """
+        See :meth:`dput.config.AbstractConfig.set_replacements`
+        """
+        for replacement in replacements:
+            if self.parser.has_section(replacement):
+                self.parser.set(replacement,
+                                replacement,
+                                replacements[replacement])
 
     def get_config_blocks(self):
         """

@@ -38,8 +38,8 @@ class AbstractConfig(object):
     """
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, replacements, configs):
-        self.preload(replacements, configs)
+    def __init__(self, configs):
+        self.preload(configs)
 
     @abc.abstractmethod
     def set_defaults(self, defaults):
@@ -48,6 +48,12 @@ class AbstractConfig(object):
         is called to help bootstrapping a series of configuration objects.
         """
         pass
+
+    @abc.abstractmethod
+    def set_replacements(self, replacements):
+        """
+        """
+        pass  # XXX: DOCUMENT ME.
 
     @abc.abstractmethod
     def get_defaults(self):

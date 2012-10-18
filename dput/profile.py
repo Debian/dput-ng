@@ -46,7 +46,7 @@ class MultiConfig(AbstractConfig):
     This is a subclass of :class:`dput.config.AbstractConfig`
     """
 
-    def __init__(self, replacements):
+    def __init__(self):
         configs = []
         for config in dput.core.CONFIG_LOCATIONS:
             configs.append({
@@ -63,9 +63,16 @@ class MultiConfig(AbstractConfig):
 
         configs = sorted(configs, key=lambda c: c['weight'])
         configs.reverse()
-        self.preload(replacements, configs)
+        self.preload(configs)
 
-    def preload(self, replacements, objs):
+    def set_replacements(self, replacements):
+        """
+        See :meth:`dput.config.AbstractConfig.set_replacements`
+        """
+        for config in self.configs:
+            config.set_replacements(replacements)
+
+    def preload(self, objs):
         """
         See :meth:`dput.config.AbstractConfig.preload`
         """
@@ -73,7 +80,6 @@ class MultiConfig(AbstractConfig):
         for obj in objs:
             configs.append(
                 classes[obj['type']](
-                    replacements,
                     [obj['loc']]
                 )
             )
@@ -128,6 +134,9 @@ class MultiConfig(AbstractConfig):
         return ret
 
 
+_multi_config = None
+
+
 def load_profile(host):
     """
     Load a profile, for a given host ``host``. In the case where
@@ -137,12 +146,17 @@ def load_profile(host):
     ``ppa:paultag/fluxbox`` will expand any ``%(ppa)s`` strings to
     ``paultag/fluxbox``. Comes in super handy.
     """
+    global _multi_config
+
     repls = {}
     if host and ":" in host:
         host, arg = host.split(":", 1)
         repls[host] = arg
 
-    config = MultiConfig(repls)  # XXX: Really slows everything down.
+    if _multi_config is None:
+        _multi_config = MultiConfig()
+    config = _multi_config
+    config.set_replacements(repls)
     configs = config.get_config_blocks()
 
     if host in configs:
@@ -169,7 +183,10 @@ def profiles():
     Get a list of all profiles we know about. It returns a set of
     strings, which can be accessed with :func:`load_profile`
     """
-    config = MultiConfig({})  # XXX: HUGE preformance knock
+    global _multi_config
+    if _multi_config is None:
+        _multi_config = MultiConfig()
+    config = _multi_config
     configs = config.get_config_blocks()
     if "DEFAULT" in configs:
         configs.remove("DEFAULT")
