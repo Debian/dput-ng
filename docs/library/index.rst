@@ -16,8 +16,8 @@ Top-level modules:
    :maxdepth: 3
 
    core
-   changes
    util
+   changes
    profile
    exceptions
    checkers/index
