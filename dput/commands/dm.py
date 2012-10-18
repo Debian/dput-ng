@@ -61,6 +61,7 @@ class DmCommand(AbstractCommand):
                             "upload should be denied", nargs="*")
 
     def produce(self, fh, args):
+        fh.write("\n") # yes, this newline matters
         fh.write("Action: %s\n" % (self.cmd_name))
         fh.write("Fingerprint: %s\n" % (args.dm))
         if args.allow:
