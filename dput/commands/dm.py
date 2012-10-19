@@ -24,7 +24,9 @@ import os
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 from dput.core import logger
+from dput.util import run_command
 
+DM_KEYRING = "/usr/share/keyrings/debian-maintainers.gpg"
 
 class DmCommandError(DcutError):
     pass
@@ -76,9 +78,45 @@ class DmCommand(AbstractCommand):
             fh.write("\n")
 
     def validate(self, args):
-        print("validate")
+        # I HATE embedded functions. But OTOH this function is not usable
+        # somewhere else, so...
+        def pretty_print_list(tuples):
+            fingerprints = ""
+            for entry in tuples:
+                fingerprints += "\n- %s (%s)" % entry
+            return fingerprints
+
         # TODO: Validate input. Packages must exist (i.e. be not NEW)
-        # and translate the --dm argument to a fingerprint (and/or validate it)
+        (out, err, exit_status) = run_command(["gpg", "--no-options",
+                    "--no-auto-check-trustdb", "--no-default-keyring",
+                    "--list-key", "--with-colons", "--keyring", DM_KEYRING,
+                     args.dm])
+        if exit_status != 0:
+            raise DmCommandError("DM fingerprint lookup"
+                                 "for argument %s failed. "
+                                 "GnuPG returned error: %s" %
+                                 (args.dm, err))
+        possible_fingerprints = []
+        for line in out.split("\n"):
+            if not line.startswith("pub"):
+                continue
+            else:
+                # will give a line like:
+                # pub:-:4096:1:7B585B30807C2A87:2011-08-18:::-:Paul Tagliamonte <tag@pault.ag>::scESC:
+                parsed_fingerprint = line.split(":")
+                possible_fingerprints.append((
+                                parsed_fingerprint[9], parsed_fingerprint[4]))
+
+        if len(possible_fingerprints) > 1:
+            raise DmCommandError("DM argument `%s' is ambiguous. "
+                                 "Possible choices:\n%s" %
+                                 (args.dm,
+                                  pretty_print_list(possible_fingerprints)))
+
+        possible_fingerprints = possible_fingerprints[0]
+        logger.info("Picking DM %s with fingerprint %s" %
+                    possible_fingerprints)
+        args.dm = possible_fingerprints[1]
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)

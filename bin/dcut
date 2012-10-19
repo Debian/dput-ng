@@ -127,4 +127,18 @@ if args.debug:
     dput.core._enable_debugging(args.debug)
 
 
-upload_command(args)
+try:
+    upload_command(args)
+except dput.exceptions.DcutError as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(2)
+except dput.exceptions.UploadException as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(3)
+except dput.exceptions.CheckerException as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(1)
+except KeyboardInterrupt:
+    sys.exit(0)
+
+
