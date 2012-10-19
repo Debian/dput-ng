@@ -121,7 +121,7 @@ for command in command_registry:
 args = parser.parse_args()
 
 if args.config:
-    dput.core.DPUT_CONFIG_LOCATIONS.append(args.config)
+    dput.core.DPUT_CONFIG_LOCATIONS[args.config] = 1
 
 if args.debug:
     dput.core._enable_debugging(args.debug)
