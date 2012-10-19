@@ -18,44 +18,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
-"""
-blackhole for a dcut concept:
-
-- use the dput concept, in particular uploaders can be used as is for dcut
-- checker for dcut, e.g. if a file targeted for removal actually exists in the
-  queue?
-- generic command support, maybe support even commands not explicitly known
-  to dcut - ng?
-- (How to) handle signing?
-
-Existing commands:
-
-rm
-reschedule
-cancel
-dm
-
-
-Syntax of command files:
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Archive: ftp.debian.org
-Uploader: A Developer < adeveloper@example.com > (optional)
-
-Commands:
- (rm | reschedule | cancel) < file | changes_file >
-
-Action: dm
-Fingerprint: < DM fingerprint >
-Allow: < source_package >
-Deny: < source_package >
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Filename is:
-
-# $login-$timestamp.dak[.-]commands
-"""
-
 
 import sys
 import argparse
@@ -140,5 +102,3 @@ except dput.exceptions.CheckerException as e:
     sys.exit(1)
 except KeyboardInterrupt:
     sys.exit(0)
-
-
