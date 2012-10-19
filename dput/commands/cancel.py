@@ -60,8 +60,10 @@ class CancelCommand(AbstractCommand):
                                      rm_file))
 
     def validate(self, args):
-        print("validate")
         # TODO: Validate input. It must be a changes file reference
+        #       Aside we cannot do much. The file is remote, so we cannot
+        #       process it
+        pass
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)

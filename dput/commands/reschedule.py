@@ -54,7 +54,8 @@ class RescheduleCommand(AbstractCommand):
                                      args.days))
 
     def validate(self, args):
-        print("validate")
+        # TODO: any todos here?
+        pass
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)
