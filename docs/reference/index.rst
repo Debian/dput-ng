@@ -13,3 +13,4 @@ Contents:
    contributing
    configs
    checkers
+   processors
