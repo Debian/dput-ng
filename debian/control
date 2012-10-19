@@ -6,7 +6,7 @@ Uploaders: Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 9),
  python-all (>= 2.6.6-3~),
  python-setuptools,
- python-importlib,
+ python-importlib | python (>= 2.7~),
  python-coverage,
  python-nose,
  python-paramiko,
