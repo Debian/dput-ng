@@ -16,6 +16,8 @@ dput.core.CONFIG_LOCATIONS = {
     "tests/resources/defklob/js2": 10
 }
 
+# use skeleton schema for testing since user may not have a global one 
+dput.core.SCHEMA_DIR = 'skel/schemas'
 
 def test_default_klob():
     profile = dput.profile.load_profile("test")
