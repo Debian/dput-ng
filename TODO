@@ -1,33 +1,6 @@
 TODO list for dput-ng
 =====================
 
-=============
-CRITICAL BUGS
-=============
-
-  - default json global declares key1 to be foo
-  - dput.cf [default] local declares key1 to be bar
-  - key is foo, even though local dput.cf is bar
-     + test is in tests/test_conf.py/test_default_klob -- disabled for now,
-       there are bigger things to do atm.
-
-    Why it's bad:
-
-      This can lead to unpredictable behavior -- a global DEFAULT should be
-      overriden by the local DEFAULT, even if the DEFAULT is a different
-      priority.
-
-      json    <-- global
-      dput.cf <-- global
-      json    <-- local
-      dput.cf <-- local
-
-      in a perfect world.
-
-=================
-END CRITICAL BUGS
-=================
-
 prime hacks neededing to be done
 
   $ grep -E "(TODO|XXX)" . -r
