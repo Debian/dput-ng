@@ -20,12 +20,14 @@ Top-level modules:
    changes
    profile
    exceptions
+   checker
    checkers/index
+   processor
    processors/index
+   interface
    interfaces/index
+   uploader
    uploaders/index
+   config
    configs/index
    overrides
-   checker
-   uploader
-   interface
