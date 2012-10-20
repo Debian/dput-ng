@@ -14,3 +14,4 @@ Abstraction
 
 .. autoclass:: dput.changes.Changes
     :members:
+    :private-members:
