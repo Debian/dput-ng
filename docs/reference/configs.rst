@@ -15,9 +15,9 @@ configuration file. The biggest change is that dput-ng will prefer it's own,
 By default, dput-ng will look for configuration files in one of three places:
 ``/usr/share/dput-ng/``, ``/etc/dput.d/`` and ``~/.dput.d/``. Files in each
 location are additive, except in the case of a key conflict, in which case,
-the key is overriden by the next file. The idea here is that packages must
+the key is overridden by the next file. The idea here is that packages must
 ship defaults in ``/usr/share/dput-ng``. If the system admin wishes to override
-the defaults on a per-host basis, the file may be overriden in ``/etc/dput.d``.
+the defaults on a per-host basis, the file may be overridden in ``/etc/dput.d``.
 If a user wishes to override either of the decisions above, they may modify
 it in the local ``~/.dput.d`` directory.
 

@@ -1,8 +1,8 @@
 Processors Walkthrough
 ----------------------
 
-Processessors are just checkers, that have a few small changes. Firstly,
-register as a processor, rather then a checker by placicng the plugin def
+Processors are just checkers, that have a few small changes. Firstly,
+register as a processor, rather then a checker by placing the plugin def
 in the ``processors`` class. In the event of an error, feel free to just
 bail out. There's not much you can do, and throwing an error is bad form.
 

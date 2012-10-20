@@ -23,7 +23,7 @@ Key points
 Big changes from dput
 ---------------------
 
-  * Configruation can be defined in JSON. :doc:`configs` may be of
+  * Configuration can be defined in JSON. :doc:`configs` may be of
     some help.
 
   * More & better behaved checks are enabled by default, and more are
@@ -45,5 +45,5 @@ use by technical people.
 
   * Ideas are extremely welcome.
 
-  * Contributors are extrmely welcome -- of all kinds (technical or
+  * Contributors are extremely welcome -- of all kinds (technical or
     otherwise) (see :doc:`contributing`)

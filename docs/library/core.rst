@@ -12,7 +12,7 @@ Printing to the screen using :func:`print` is wrong, m'kay? Please do **not**
 use it under any conditions. In it's place, we have a central ``logger``
 object, to use as all the bits of dput see fit.
 
-The logger object is an instatiation of :class:`dput.logger.DputLogger`, so
+The logger object is an instantiation of :class:`dput.logger.DputLogger`, so
 feel free to use any if it's logging methods. In general, don't use
 ``info`` or above, unless the user *really* needs to know. Most calls should be
 to ``debug`` or ``trace``.

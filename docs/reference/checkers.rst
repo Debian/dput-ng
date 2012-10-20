@@ -6,7 +6,7 @@ Writing checker plugins
     ``processors``. Just rename the config class to ``processors``
     and you're good to go.
 
-Checkers are a fundemental part of dput-ng. Checkers make sure the package
+Checkers are a fundamental part of dput-ng. Checkers make sure the package
 you've prepared is actually fit to upload given the target & current profile.
 
 In general, one should implement checkers for things that the remote server
@@ -27,7 +27,7 @@ Checkers will always be run before an upload, and will be given the digested
 .changes object, the current profile & a way to interface with the user.
 
 All checkers (at their core) should preform a single check (as simply as it
-can), and rither raise a subclass of :class:`dput.exceptions.CheckerException`
+can), and either raise a subclass of :class:`dput.exceptions.CheckerException`
 or return normally.
 
 How a checker is invoked
@@ -76,7 +76,7 @@ implementation of :func:`dput.checkers.validate_checksums`::
     def validate_checksums(changes, profile, interface):
 
 We're passed three objects -- the ``changes``, ``profile`` and ``interface``.
-the ``changes`` object is an instance of :class:`dput.changes.Changes`,
+The ``changes`` object is an instance of :class:`dput.changes.Changes`,
 pre-loaded with the target of this upload action. ``profile`` is a simple
 dict, with the current upload profile. ``interface`` is a subclass of
 :class:`dput.interface.AbstractInterface`, ready to be used to talk
@@ -105,7 +105,7 @@ Let's take a look at our reference implementation again::
             )
 
 As you can see, the checker verifies the hashsums, catches any Exceptions
-thrown by the code it uses, and rasies sane error text. The Exception
+thrown by the code it uses, and raises sane error text. The Exception
 raised (:class:`dput.checkers.basics.HashValidationError`) is a subclass
 of the expected :class:`dput.exceptions.CheckerException`.
 
