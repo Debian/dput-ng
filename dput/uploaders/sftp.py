@@ -74,6 +74,12 @@ class SFTPUploader(AbstractUploader):
             "compress": True
         }
 
+        if 'port' in self._config:
+            ssh_kwargs['port'] = self._config['port']
+
+        if 'scp_compress' in self._config:
+            ssh_kwargs['compress'] = self._config['scp_compress']
+
         config = paramiko.SSHConfig()
         config.parse(open(os.path.expanduser('~/.ssh/config')))
         o = config.lookup(fqdn)
