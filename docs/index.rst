@@ -1,9 +1,10 @@
 Welcome to dput's documentation!
 ================================
 
-dput-ng is a brand-new retake of the classic Debian tool, dput. We've made
-some important changes, which are documented here. Please get acquainted with
-the documentation, in order to fully understand the changes.
+`dput-ng <http://people.debian.org/~paultag/dput-ng/>`_ is a brand-new retake
+of the classic Debian tool, dput. We've made some important changes, which are
+documented here. Please get acquainted with the documentation, in order to
+fully understand the changes.
 
 Documentation Index
 ===================
