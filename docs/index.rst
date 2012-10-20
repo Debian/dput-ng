@@ -6,6 +6,8 @@ of the classic Debian tool, dput. We've made some important changes, which are
 documented here. Please get acquainted with the documentation, in order to
 fully understand the changes.
 
+The :doc:`reference/migrating` might be helpful for new users.
+
 Documentation Index
 ===================
 
