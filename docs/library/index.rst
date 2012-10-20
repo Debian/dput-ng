@@ -20,6 +20,7 @@ Top-level modules:
    changes
    profile
    exceptions
+   overrides
    checker
    checkers/index
    processor
@@ -30,4 +31,3 @@ Top-level modules:
    uploaders/index
    config
    configs/index
-   overrides
