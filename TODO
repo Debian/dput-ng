@@ -36,8 +36,6 @@ sftp
 ----
 
   - finish impl
-  - ports
-  - behave better w/ overrides
 
 uploader
 --------
