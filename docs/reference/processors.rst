@@ -3,11 +3,11 @@ Processors Walkthrough
 
 Processessors are just checkers, that have a few small changes. Firstly,
 register as a processor, rather then a checker by placicng the plugin def
-in the ``processors`` class. In the event of an error, feel free to raise
-a ProcessorError.
+in the ``processors`` class. In the event of an error, feel free to just
+bail out. There's not much you can do, and throwing an error is bad form.
 
-.. XXX: ProcessorError stuff is a dirty lie.
+For now. This is likely to change.
 
-See the other guide``here``
+Until this documentation is updated, please check out :doc:`checkers`.
 
 .. XXX: Link to the other guide.
