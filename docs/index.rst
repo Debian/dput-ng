@@ -8,17 +8,6 @@ fully understand the changes.
 
 The :doc:`reference/migrating` might be helpful for new users.
 
-Documentation Index
-===================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 3
-
-   reference/index
-   library/index
-
 Motiviation
 ===========
 
@@ -52,6 +41,17 @@ to Debian derivatives, such as the ability to add a new upload target
 (now called profiles) and unique checks, without having to fork dput.
 Changes which make extending dput downstream will likely be accepted
 in dput main. Please consider contributing.
+
+Documentation Index
+===================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 3
+
+   reference/index
+   library/index
 
 Authors
 =======
