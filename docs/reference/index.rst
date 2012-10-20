@@ -10,7 +10,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   contributing
+   migrating
    configs
+   contributing
    checkers
    processors
