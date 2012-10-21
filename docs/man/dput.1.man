@@ -1,0 +1,120 @@
+DPUT(1)
+=======
+:doctype: manpage
+
+
+NAME
+----
+dput - Debian package upload tool
+
+SYNOPSIS
+--------
+*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-H] [-l] [-U] [-o] 
+            [-p] [-P] [-s] [-u] [-v] [-V]
+            ['HOST'] 'CHANGES-FILE'
+
+
+DESCRIPTION
+-----------
+
+Foo
+
+
+OPTIONS
+-------
+
+*-d, --debug*::
+	Enable debug messages. Repeat twice to increase the verbosity level
+
+*-c, --config*=FILE::
+	Configuration file to parse)
+
+*-D, --dinstall*:: 
+	(ignored silently))
+
+*-e, --delayed*=DAYS::
+	Upload to a delayed queue. Takes an argument from 0 to 15
+
+*-f, --force*::
+	Force an upload
+
+*-H, --host-list*::
+	print the lists of hosts that dput knows about
+
+*-l, --lintian*::
+	Run lintian before upload
+
+*-U, --no-upload-log*::
+	Do not write a .upload file after uploading
+
+*-o, --check-only*::
+	Only check the package
+
+*-p, --print*::
+	print the configuration that dput is using
+
+*-P, --passive*::
+	Use passive mode for ftp uploads
+
+*-s, --simulate*::
+	Simulate the upload only
+
+*-u, --unchecked*::
+	Do not check GnuPG signature
+
+*-v, --version*::
+	(ignored)
+
+*-V, --check-version*::
+	(ignored))
+
+*HOST*::
+	Target host to upload a package
+
+*CHANGES-FILE*::
+	A Debian .changes file
+
+
+EXIT STATUS
+-----------
+*0*::
+    Success
+
+*1*::
+    A runtime check returned an error
+    
+*2*::
+    An internal error was detected, for example while loading configuration
+    files
+
+*3*::
+	An upload error was detected, for example a permission or authentication
+	problem while uploading files
+
+
+BUGS
+----
+
+write me
+
+
+AUTHOR
+------
+dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the 
+Grace of God of the United Kingdom of Debian and Ubuntu and of his other 
+realms and territories King Head of the Fluxbox Window Manager Defender of the 
+Faith, who insists on is insignia Tagliamonte`.
+
+
+
+RESOURCES
+---------
+
+link to asciidocs here
+
+COPYING
+-------
+Copyright \(C) 2012 dput-ng authors. Free use of this software is
+granted under the terms of the GNU General Public License (GPL) Version 2 or
+later.
+

@@ -60,9 +60,6 @@ parser.add_argument('-P', '--passive',
                     action='store_true')
 parser.add_argument('-s', '--simulate',
                     help="Simulate an upload only", action='store_true')
-parser.add_argument('-U', '--upload', metavar="FILENAME",
-                    help="Upload FILENAME as commands file. "
-                    "Note: No checks are currently performed", action='store')
 parser.add_argument('-i', '--input', metavar="FILENAME",
                     help="(ignored)", action='store')
 parser.add_argument('-v', '--version',

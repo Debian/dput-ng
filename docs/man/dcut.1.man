@@ -1,0 +1,238 @@
+DCUT(1)
+=======
+:doctype: manpage
+
+
+NAME
+----
+dcut - Debian archive command file upload tool
+
+SYNOPSIS
+--------
+*dcut* [-h] [-d] [-c 'FILE'] [-m 'MAINTAINER'] [-k 'KEYID'] [-O 'FILENAME'] 
+			[-P] [-s] [-U 'FILENAME'] [-i 'FILENAME'] [-v]
+            ['HOST'] SUBCOMMAND ...
+
+*dcut* ['OPTIONS'] ['HOST'] SUBCOMMAND ['SUB-COMMAND OPTIONS']
+
+
+DESCRIPTION
+-----------
+
+*dcut* can create and/or upload command files understood by the debian archive
+kit ("dak") software. It provides an extensible interface so that third party
+authors can easily integrate more sub-commands. Hence, your running instance of
+*dcut* may understand more commands than these documented here. Refer to the 
+respective documentations for these commands.
+
+Similar to *dput*, a 'HOST' can be specified as a target site for the command
+file. Likewise, the same default host selection criteria apply. 
+
+
+OPTIONS
+-------
+
+*-d, --debug*::
+	Enable debug messages. Repeat twice to increase the verbosity level
+
+*-c, --config*=FILE::
+	Configuration file to parse)
+
+*-m, --maintainer*=MAINTAINER::
+	Use MAINTAINER (full name and email) for the uploader field and GnuPG key 
+	selection. This has no effect when --upload is used
+
+*-k, --keyid*=KEYID::
+	Use KEYID for signing. Default is to use DEBEMAIL and DEBNAME, or whatever 
+	was provided with --maintainer. This has no effect when --upload is used
+
+*-O, --output*=FILENAME::
+	Write  commands  file to FILENAME  instead of uploading.  This option 
+	should not be used with --upload.  FILENAME wont be overwritten if it 
+	exists
+
+*-P, --passive*::
+	Use passive FTP instead of active
+
+*-s, --simulate*::
+	Simulate an upload only
+
+*-i, --input*=FILENAME::
+	(ignored)
+
+*-v, --version*::
+	Print version information and exit
+
+*host*=HOST::
+	Target host to upload a package
+
+SUB-COMMANDS
+------------
+
+Sub-commands are actually implementing commands understood by be archive 
+software. They can take individual arguments which must appear after specifying
+the actual desired sub-command. 
+
+cancel
+~~~~~~
+
+Cancel an upload entirely. The upload is referred to as a changes file name
+existing *remote* in the incoming or deferred queues. 
+
+Arguments
+^^^^^^^^^
+
+Takes one argument
+
+*FILENAME*::
+	The changes file name which refers to the upload to be cancelled. 
+
+rm
+~~
+
+Remove a lost or wrongly uploaded file from the incoming directory. The
+argument is interpreted as a path fragment by the archive software. Therefore,
+to delete a filename from a deferred queue, refer to it by using the full path
+
+For example, to delete a broken upload in the DELAYED queue, use the command
+
+  dcut rm DELAYED/X-day/foobar.deb
+
+Alternatively, the '--searchdirs' argument instructs the archive software to
+search for a file name in all directory. Hence, this command is equivalent to
+the command before:
+
+  dcut rm --searchdirs foobar.deb
+
+
+Arguments
+^^^^^^^^^
+
+Takes at least one argument
+
+*FILE*::
+	The file name to be removed. This argument can be repeated, and also knows
+	about the shell wildcards *, ?, and []. However, please keep your local
+	shell replacements in mind when supplying shell meta characters. You may
+	need to escape them or provide them within quotes.
+
+*--searchdirs*::
+	Search in all directories for the given file. Only supported for files in 
+	the DELAYED queue.
+
+
+dm
+~~
+
+Manage Debian Maintainer (DM) upload permissions. Debian Developers can grant
+or revoke them package upload permissions using this command. Takes the Debian
+Maintainer and the action to perform as argument.
+
+Note, dcut will not perform any validation for conflicting arguments within 
+*--alow* and *--deny* below. This handling is left to the archive software,
+which is currently processing *--alow* before *--deny* as an implementation
+detail.
+
+Arguments
+^^^^^^^^^
+
+*--dm*::
+
+Any searchable, unique identity to identify an existing Debian Maintainer. This
+can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
+Debian Maintainer. Note, the identity must be known the the DM keyring. This
+command validates the supplied argument and makes sure the identity hint 
+supplied matches a *single* DM only. 
+
+*--allow*=PACKAGES::
+
+Source package(s) where permissions to upload should be granted. Repeat the
+argument to apply permissions to more than one package at once. 
+
+*--deny*=PACKAGES
+
+Source package(s) where permissions to upload should be denied. Repeat the
+argument to apply permissions to more than one package at once. 
+
+reschedule
+~~~~~~~~~~
+
+Reschedule an upload. This command can move a deferred upload to any other
+deferred queue.
+
+Arguments
+^^^^^^^^^
+
+Takes two arguments
+
+*FILENAME*::
+
+file name to be rescheduled
+
+*DAYS*::
+
+Reschedule the upload to DAYS days. Takes a numeric argument from 0 to 15 
+corresponding to the respective delayed queues. Note, 0-day is not the same
+as uploading to incoming straight.
+
+
+upload
+~~~~~~
+
+This is a pseudo-command (that is, it is handled within dcut and not forwarded
+to the archive kit) which uploads a locally existing commands file as is.
+
+However, no checks are performed for this file. Use with caution.
+
+Arguments
+^^^^^^^^^
+
+Takes one argument
+
+*FILENAME*::
+	A local file name which is uploaded as is to the archive software.
+
+
+EXIT STATUS
+-----------
+*0*::
+    Success
+
+*1*::
+    A runtime check returned an error
+    
+*2*::
+    An internal error was detected, for example while loading configuration
+    files
+
+*3*::
+	An upload error was detected, for example a permission or authentication
+	problem while uploading files
+
+
+BUGS
+----
+
+write me
+
+
+AUTHOR
+------
+dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the 
+Grace of God of the United Kingdom of Debian and Ubuntu and of his other 
+realms and territories King Head of the Fluxbox Window Manager Defender of the 
+Faith, who insists on is insignia Tagliamonte`.
+
+
+
+RESOURCES
+---------
+
+link to asciidocs here
+
+COPYING
+-------
+Copyright \(C) 2012 dput-ng authors. Free use of this software is
+granted under the terms of the GNU General Public License (GPL) Version 2 or
+later.
+

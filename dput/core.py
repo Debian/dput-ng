@@ -50,7 +50,7 @@ Locations to look for old-style dput.cf configuration files.
 
 # XXX: This breaks when virtualenv is not used. It needs to read skel/schemas
 # as well. However, that would break things for now.
-SCHEMA_DIR = "/usr/share/dput-ng/schemas"
+SCHEMA_DIR = "skel/schemas"
 """
 validictory schemas
 """
