@@ -1,5 +1,5 @@
-dput-ng (1.0.0~rc1) UNSTABLE; urgency=low
+dput-ng (0.9.5) unstable; urgency=low
 
-  * Initial release.
+  * Initial interneal release.
 
- -- Paul Tagliamonte <paultag@debian.org>  Sat, 06 Oct 2012 19:00:07 -0400
+ -- Paul Tagliamonte <paultag@debian.org>  Sun, 21 Oct 2012 00:37:27 -0400
