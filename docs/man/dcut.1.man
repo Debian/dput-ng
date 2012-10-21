@@ -32,39 +32,45 @@ file. Likewise, the same default host selection criteria apply.
 OPTIONS
 -------
 
-*-d, --debug*::
-	Enable debug messages. Repeat twice to increase the verbosity level
-
 *-c, --config*=FILE::
-	Configuration file to parse)
+	Configuration file to parse.
+
+*-d, --debug*::
+	Enable debug messages. Repeat twice to increase the verbosity level.
 
 *-m, --maintainer*=MAINTAINER::
-	Use MAINTAINER (full name and email) for the uploader field and GnuPG key 
-	selection. This has no effect when --upload is used
+	Use 'MAINTAINER' for the uploader field and GnuPG key 
+	selection. Provide it as a full identity, that is in
+	"+J Uploader <yourid@example.com>+" format. This has no effect when 
+	*--upload* is used. 
 
 *-k, --keyid*=KEYID::
-	Use KEYID for signing. Default is to use DEBEMAIL and DEBNAME, or whatever 
-	was provided with --maintainer. This has no effect when --upload is used
+	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and DEBNAME, 
+	or whatever identity was provided with *--maintainer*. This has no effect
+	when --upload is used.
 
 *-O, --output*=FILENAME::
-	Write  commands  file to FILENAME  instead of uploading.  This option 
-	should not be used with --upload.  FILENAME wont be overwritten if it 
-	exists
+	Write the resulting commands file to 'FILENAME' instead of uploading it. 
+	This option should not be used with *--upload*.  The selected 'FILENAME'
+	wont be overwritten if it exists already.
 
 *-P, --passive*::
-	Use passive FTP instead of active
+	Force FTP passive mode when uploading the package through FTP. 
+	This option is deprecated - use profiles instead. 
 
 *-s, --simulate*::
-	Simulate an upload only
+	Simulate the upload only. This runs all pre-upload checks, initializes
+	the upload handler but does not actually store any file.
 
 *-i, --input*=FILENAME::
-	(ignored)
+	Ignored silently for compatibility with old-style dput command lines. 
 
 *-v, --version*::
 	Print version information and exit
 
-*host*=HOST::
-	Target host to upload a package
+*HOST*::
+	Target host to upload a package. It has the same behavior and semantics as
+	*dput(1)*'s 'HOST' argument. It also uses the same profiles from it.
 
 SUB-COMMANDS
 ------------
@@ -79,8 +85,8 @@ cancel
 Cancel an upload entirely. The upload is referred to as a changes file name
 existing *remote* in the incoming or deferred queues. 
 
-Arguments
-^^^^^^^^^
+OPTIONS
+^^^^^^^
 
 Takes one argument
 
@@ -105,8 +111,8 @@ the command before:
   dcut rm --searchdirs foobar.deb
 
 
-Arguments
-^^^^^^^^^
+OPTIONS
+^^^^^^^
 
 Takes at least one argument
 
@@ -133,8 +139,8 @@ Note, dcut will not perform any validation for conflicting arguments within
 which is currently processing *--alow* before *--deny* as an implementation
 detail.
 
-Arguments
-^^^^^^^^^
+OPTIONS
+^^^^^^^
 
 *--dm*::
 
@@ -160,8 +166,8 @@ reschedule
 Reschedule an upload. This command can move a deferred upload to any other
 deferred queue.
 
-Arguments
-^^^^^^^^^
+OPTIONS
+^^^^^^^
 
 Takes two arguments
 
@@ -184,8 +190,8 @@ to the archive kit) which uploads a locally existing commands file as is.
 
 However, no checks are performed for this file. Use with caution.
 
-Arguments
-^^^^^^^^^
+OPTIONS
+^^^^^^^
 
 Takes one argument
 
@@ -213,7 +219,7 @@ EXIT STATUS
 BUGS
 ----
 
-write me
+Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 
 
 AUTHOR
@@ -232,7 +238,7 @@ link to asciidocs here
 
 COPYING
 -------
-Copyright \(C) 2012 dput-ng authors. Free use of this software is
+Copyright (C) 2012 dput-ng authors. Free use of this software is
 granted under the terms of the GNU General Public License (GPL) Version 2 or
 later.
 
