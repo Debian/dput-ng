@@ -1,4 +1,4 @@
-Writing checker plugins
+Writing Checker Plugins
 =======================
 
 .. note::
@@ -30,7 +30,7 @@ All checkers (at their core) should preform a single check (as simply as it
 can), and either raise a subclass of :class:`dput.exceptions.CheckerException`
 or return normally.
 
-How a checker is invoked
+How a Checker Is Invoked
 ------------------------
 
 Throughout this overview, we'll be looking at the
@@ -82,7 +82,7 @@ dict, with the current upload profile. ``interface`` is a subclass of
 :class:`dput.interface.AbstractInterface`, ready to be used to talk
 to the user, if something comes up.
 
-What do do when you find an issue
+What To Do When You Find an Issue
 ---------------------------------
 
 During runtime, and for any reason the checker sees fit to do so, the Checker

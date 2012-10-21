@@ -5,12 +5,17 @@ There are a few changes between dput and dput-ng's handling of configuration
 files. The changes can be a bit overwhelming, but stick to what's in here
 and it should all make great sense.
 
-High level changes
+High Level Changes
 ------------------
 
 Firstly, you should know dput-ng fully supports the old dput.cf style
-configuration file. The biggest change is that dput-ng will prefer it's own,
-`JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded format over dput.cf.
+configuration file. However, it also defines its own own,
+`JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded. Settings which are 
+specific to dput-ng, in particular checkers and profiles can only be defined
+in dput-ng's configuration style. It is possible to run dput-ng with old-style
+configuration files only, with new-style configuration files only and even with
+shared profiles, where both new-style and old-style dput configuration files
+partially define behavior of a stanza.
 
 By default, dput-ng will look for configuration files in one of three places:
 ``/usr/share/dput-ng/``, ``/etc/dput.d/`` and ``~/.dput.d/``. Files in each
@@ -26,6 +31,20 @@ Defaults (e.g. the old [DEFAULT] section) are shared (new-style location is in
 target, regardless of how it's defined. In the case of two defaults conflicting,
 the new-style configuration is chosen.
 
+Order of Loading
+----------------
+
+If all possible files and directories exist, this is order of loading of files:
+
+1. /usr/share/dput-ng/ (new-style default profiles)
+2. /etc/dput.d (new-style site-wide profiles), 
+3. /etc/dput.cf (old-style site-wide profiles)
+4 ~/.dput.d (new-style local profiles)
+5 ~/.dput.cf (old-style local profiles)
+6. Any file supplied via command line
+
+To remove a profile entirely, see operator handling below.
+
 Theory
 ------
 
@@ -34,7 +53,7 @@ For a upload target, that's known as a ``profile``. Technically speaking, any
 config file is located in ``${CONFIG_DIR}/class/name.json``.
 
 Keys can also be prefixed with one of three "operators". Operators tell
-dput-ng to preform an operation on the datastructure when merging the
+dput-ng to preform an operation on the data structure when merging the
 layers together.
 
 Addition::
@@ -94,7 +113,7 @@ Assignment::
 
     # It should be noted that this *IS* the same as not prefixing the block
     # by an "=" operator. Please don't use this? Kay? It just uses up cycles
-    # and is only here to be a logical extention of the last two.
+    # and is only here to be a logical extension of the last two.
 
     # global configuration block
     {

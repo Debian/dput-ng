@@ -8,15 +8,16 @@ to run through this helpful starting guide.
 Key points
 ----------
 
-  * Old configuration files *are* supported, and *will* override any new-style
-    configuration file.
+  * dput's configuration files *are* supported, and *will* override any 
+    new-style configuration file.
 
   * Behavior of pre-upload checks *may* be different.
 
   * dput-ng maintains backwards compatibility with the old dput's command line
     flags.
 
-  * dcut has a totally revamped interface.
+  * dcut has a totally revamped interface, but is similar in spirit and 
+    usability of dput's dcut interface.
 
   * This package *replaces* old style dput.
 
@@ -26,7 +27,7 @@ Big changes from dput
   * Configuration can be defined in JSON. :doc:`configs` may be of
     some help.
 
-  * More & better behaved checks are enabled by default, and more are
+  * More and better behaved checks are enabled by default, and more are
     ready for use out of the box, if you so wish.
 
   * post-upload hook and pre-upload checks (or hooks) may be written

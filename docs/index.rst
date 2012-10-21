@@ -20,12 +20,15 @@ codebase to support them.
 
 As far as what features, the biggest improvements in our mind are:
 
-  * Enhanced pre-upload checks baked in and enabled by default.
-  * Support for external checkers
+  * Enhanced and configurable pre-upload checks baked in and enabled by 
+    default to make sure you do not accidentally upload a package which is not
+    suitable for archives
+  * Support for external third party checkers
   * Fragmented configuration, to allow external packages to include checks.
   * Real SFTP support
   * Dynamic checker behavior depending on host / profile
-  * SHA support
+  * Support for all checksums, Debian Changes files support (MD5, SHA1, SHA256)
+  * Full dcut support, including Debian Maintainer permission handling
 
 We're both really big fans of dput, so we've decided to maintain 100%
 compatibility with dput in dput-ng, as well as automagically reading from the
