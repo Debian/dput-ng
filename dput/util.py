@@ -212,10 +212,26 @@ def load_config(config_class, config_name,
 
     obj = _config_cleanup(ret)
     if schema is not None:
-        sobj = json.load(open("%s/%s.json" % (
-            dput.core.SCHEMA_DIR,
-            schema
-        ), 'r'))
+        sobj = None
+        for root in dput.core.SCHEMA_DIRS:
+            if sobj is not None:
+                logger.debug("Skipping %s" % (root))
+                continue
+
+            logger.debug("Loading schema %s from %s" % (schema, root))
+            spath = "%s/%s.json" % (
+                root,
+                schema
+            )
+            if os.path.exists(spath):
+                sobj = json.load(open(spath, 'r'))
+            else:
+                logger.debug("No such config: %s" % (spath))
+
+        if sobj is None:
+            logger.critical("Schema not found: %s" % (schema))
+            raise DputConfigurationError("No such schema: %s" % (schema))
+
         try:
             validictory.validate(obj, sobj)
         except validictory.validator.ValidationError as e:
