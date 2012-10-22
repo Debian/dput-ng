@@ -296,9 +296,14 @@ def invoke_dput(changes, args):
             if not args.simulate:
                 obj.upload_file(path)
 
+            if "fqdn" in profile:
+                fqdn_name = profile['fqdn']
+            else:
+                fqdn_name = profile['name']
+
             log.write("Successfully uploaded %s to %s for %s.\n" % (
                 os.path.basename(path),
-                profile['fqdn'] or profile['name'],
+                fqdn_name,
                 profile['name']
             ))
 
