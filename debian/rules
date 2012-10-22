@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+MANPAGES := $(patsubst docs/man/%.man, debian/man/%, $(wildcard docs/man/*.man))
+
 %:
 	dh $@ --with python2,sphinxdoc
 
@@ -15,7 +17,18 @@ endif
 override_dh_auto_clean:
 	dh_auto_clean
 	rm -rvf ./docs/_build ./*.egg-info ./build
+	rm -f $(MANPAGES)
+	rmdir debian/man
 
 override_dh_auto_build:
 	dh_auto_build
 	make -C docs html
+
+debian/man:
+	mkdir $@
+
+$(MANPAGES): debian/man
+	a2x --doctype manpage --format manpage -D $(dir $@) $(patsubst debian/man/%, docs/man/%.man, $@)
+
+override_dh_installman: $(MANPAGES)
+	dh_installman
