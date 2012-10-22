@@ -5,52 +5,48 @@ DPUT(5)
 
 NAME
 ----
-dput - configuration format for dput
+dput - configuration file format for dput-ng
 
 
 DESCRIPTION
 -----------
 
-    The way in which people may configure dput-ng differs from old-style-dput
-    in a few key ways. This is only a brief overview of what one can do with
-    the configuration files. For more information, please install the
-    dput-ng-doc package, and please view
-    /usr/share/doc/dput-ng/html/reference/configs.html
+*dput* supports two configuration file formats. The old-style configuration
+format was originally introduced by dput and is described in *dput.cf(5)*.
+This manpage describes new-style configuration files only. All details are
+covered in in </usr/share/doc/dput-ng/html/reference/configs.html> which is
+available in the dput-ng-doc package. 
 
-CREATING A NEW UPLOAD TARGET
-----------------------------
+FILES AND FORMAT
+----------------
 
-THEORY::
+Upload targets are configured using JSON as described in *RFC 4627*. In a
+nutshell, JSON allows insignificant whitespace before or after any type
+statement. Each upload profile is stored in its own file and is represented as 
+a pair of curly brackets surrounding name/value pairs described below. Both, 
+name and values are strings. A single colon separates the name from the value. 
+A string begins and ends with quotation marks and may be escaped. Booleans are
+either 'true' or 'false' (mind these are not surrounded by quotation marks). 
 
-    Each upload target is pure JSON. Config files are loaded from every
-    dput configuration home, and overlayed. By default, all keys will
-    override the next. As a special case, there are two operators (*+*,
-    *-*) that may be prefixed to lists to merge with the existing values.
-    This should be the default way to add or remove *checkers* or
-    *processors* from a profile that inherits values via it's meta-class
-    or parent.
+Some keys names are accepting lists as possible value. A list is represented
+as square brackets surrounding zero or more values, separated by commas.
 
-META-CLASSES::
+*dput* reads, in order, these files:
 
-    Config files may declare an optional *meta* key, who's value is the
-    name of a meta-config to be placed under this config. You can check
-    for meta-configs in */usr/share/dput-ng/metas*, */etc/dput.d/metas* or
-    *~/.dput.d/metas*. This helps declare common settings (such as general
-    Debian archive configuration values (GPG requirements, enforcing
-    that binary files exist, etc) without having to maintain may of the
-    same values in many places).
+ 1. '/usr/share/dput-ng/profiles/'
+ 2. '/etc/dput.d/profiles'
+ 3. '~/.dput.d/profiles'
+ 4. The directory supplied via command line argument
 
-BASICS::
+In general, packages are installing pre-defined defaults for popular upload 
+targets to '/usr/share/dput-ng/profiles/'. System administrators who wish to
+override or create a new system-wide and shared target for many users may
+choose '/etc/dput.d/profiles'. Finally, local targets may be written to
+'~/.dput.d/profiles' for personal upload targets.
 
-    When creating a target, you need to consider where it should go. In
-    general, packages which install dput targets should limit themselves
-    to */usr/share/dput-ng/profiles/*. System administrators who wish to
-    create a target for many users on the system may choose to use
-    */etc/dput.d/profiles*. Finally, end-users may choose to use
-    *~/.dput.d/profiles* to declare their personal upload targets.
-    Following is an example configuration for a local upload target, named
-    "localhost.json"
 
+Following is an example configuration for a local upload target, named
+"'localhost.json'".
 
     {
         "+checkers": [
@@ -66,10 +62,151 @@ BASICS::
     }
 
 
-OVERRIDING SINGLE VALUES::
+By default, *all* configuration file locations are parsed, and overlayed in a
+additive manner. This way both, entire profiles and actual settings within a
+profile is inherited from any parent location defining a key within the current
+scope.
 
-    Here's an example stanza from a local dput config to remove an annoying
-    checker from being run, sitting in *~/.dput.d/profiles/ftp-master.json*
+By default, keys will override any previously defined value. However, as a
+special case, there are two operators (*+* and *-*) that may be prefixed to
+names to merge with existing inherited values. This is beneficial when a
+profile wishes to add or remove *checkers* or *processors* to an existing
+profile that is inheriting values via it's meta-class or parent.
+
+NAMES
+-----
+
+*allow_dcut* (boolean)::
+
+This defines if you are allowed to upload a dcut changes file to the queue to
+remove or move files. See *dcut(1)*.
+
+*allow_unsigned_uploads* (boolean)::
+
+This defines if you are allowed to upload files without a GnuPG signature to
+this host or not.
+
+*allowed_distributions* (string)::
+
+A regular expression (of Python re module syntax) that the distribution field
+must match or dput will refuse the upload.
+
+*checkers* (list of string)::
+
+write me
+
+*default_host_main* (string)::
+
+This defines the default host for packages that are allowed to be uploaded to
+the main archive. This variable is used when guessing the host to upload to.
+
+
+*fqdn* (string)::
+
+This is the fully qualified domain name that will be used (can be specified as
+host:port for HTTP, HTTPS and FTP).
+
+*distributions* (string)::
+
+This defines a comma-separated list of distributions that this host accepts,
+used to guess the host to use when none is given on the command line.
+
+*hash* (string)::
+              
+The hash algorithm that should be used in calculating the checksum of the
+files before uploading them. Currently, dput accepts the following values
+for hash:
+
+fix me
+
+*interface* (string)::
+
+write me
+
+*incoming* (string)::
+
+The directory that you should upload the files to.
+
+*method* (string)::
+
+write me
+
+*login* (string)::
+
+Your login on the machine named before. A single asterisk * will cause the scp
+and rsync uploaders to not use supply a login name when calling to ssh, scp,
+and rsync.
+
+
+*meta* (string)::
+
+*passive_ftp* (boolean)::
+
+This  option  defines  if dput should use passive ftp or active ftp for
+uploading a package to one of the upload queues. By default, dput uses passive
+ftp connections. If you need to use active ftp connections, set passive_ftp to
+0.
+
+
+*post_upload_command* (string)::
+
+This option defines a command to be run by dput after a successful upload.
+
+
+*pre_upload_command* (string)::
+
+This option defines a command to be run by dput before a upload happens.
+
+
+*processors* (list of string)::
+
+write me
+
+*run_lintian* (boolean)::
+
+This option defines if lintian should be run before the package will be
+uploaded or not. If the package is not lintian clean, the upload will not
+happen.
+
+
+
+
+Inheritance, Profiles, Checkers and Processors
+----------------------------------------------
+
+<write some introductory sentence>
+
+Profiles
+~~~~~~~~
+
+write me
+
+Checkers
+~~~~~~~~
+
+write me
+
+Processors
+~~~~~~~~~~
+
+write me
+
+Meta-Classes
+~~~~~~~~~~~~
+
+Configuration files may declare an optional *meta* key, who's value is the
+name of a meta-configuration to be placed under this configuration. You can
+check for meta-configuration in */usr/share/dput-ng/metas*, */etc/dput.d/metas*
+or *~/.dput.d/metas*. This helps declare common settings (such as general
+Debian archive configuration values (GPG requirements, enforcing
+that binary files exist, etc) without having to maintain may of the
+same values in many places).
+
+OVERRIDING SINGLE VALUES
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here's an example stanza from a local dput config to remove an annoying
+checker from being run, sitting in *~/.dput.d/profiles/ftp-master.json*
 
     {
         "-checkers": [
@@ -84,3 +221,8 @@ FILES
      /usr/share/dput-ng/
      /etc/dput.d/
      ~/.dput.d/
+
+RESOURCES
+---------
+
+*RFC 4627*

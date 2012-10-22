@@ -20,12 +20,24 @@
             },
             "required": false
         },
+        "distributions": {
+            "type": "string",
+            "required": false
+        },
         "default_host_main": {
             "type": "string",
             "required": false,
             "blank": true
         },
+        "fqdn": {
+            "required": false,
+            "type": "string"
+        },
         "hash": {
+            "type": "string",
+            "required": false
+        },
+        "incoming": {
             "type": "string",
             "required": false
         },
@@ -38,6 +50,10 @@
             "required": false
         },
         "meta": {
+            "type": "string",
+            "required": false
+        },
+        "method": {
             "type": "string",
             "required": false
         },
@@ -66,10 +82,6 @@
             "required": false,
             "type": "boolean"
         },
-        "scp_compress": {
-            "required": false,
-            "type": "boolean"
-        }
     },
     "type": "object"
 }
