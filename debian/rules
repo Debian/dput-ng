@@ -28,7 +28,8 @@ debian/man:
 	mkdir $@
 
 $(MANPAGES): debian/man
-	a2x --doctype manpage --format manpage -D $(dir $@) $(patsubst debian/man/%, docs/man/%.man, $@)
+	a2x --doctype manpage --format manpage -D $(dir $@) \
+		$(patsubst debian/man/%, docs/man/%.man, $@)
 
 override_dh_installman: $(MANPAGES)
 	dh_installman

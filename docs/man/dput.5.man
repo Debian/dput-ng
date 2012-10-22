@@ -1,0 +1,86 @@
+DPUT(5)
+=======
+:doctype: manpage
+
+
+NAME
+----
+dput - configuration format for dput
+
+
+DESCRIPTION
+-----------
+
+    The way in which people may configure dput-ng differs from old-style-dput
+    in a few key ways. This is only a brief overview of what one can do with
+    the configuration files. For more information, please install the
+    dput-ng-doc package, and please view
+    /usr/share/doc/dput-ng/html/reference/configs.html
+
+CREATING A NEW UPLOAD TARGET
+----------------------------
+
+THEORY::
+
+    Each upload target is pure JSON. Config files are loaded from every
+    dput configuration home, and overlayed. By default, all keys will
+    override the next. As a special case, there are two operators (*+*,
+    *-*) that may be prefixed to lists to merge with the existing values.
+    This should be the default way to add or remove *checkers* or
+    *processors* from a profile that inherits values via it's meta-class
+    or parent.
+
+META-CLASSES::
+
+    Config files may declare an optional *meta* key, who's value is the
+    name of a meta-config to be placed under this config. You can check
+    for meta-configs in */usr/share/dput-ng/metas*, */etc/dput.d/metas* or
+    *~/.dput.d/metas*. This helps declare common settings (such as general
+    Debian archive configuration values (GPG requirements, enforcing
+    that binary files exist, etc) without having to maintain may of the
+    same values in many places).
+
+BASICS::
+
+    When creating a target, you need to consider where it should go. In
+    general, packages which install dput targets should limit themselves
+    to */usr/share/dput-ng/profiles/*. System administrators who wish to
+    create a target for many users on the system may choose to use
+    */etc/dput.d/profiles*. Finally, end-users may choose to use
+    *~/.dput.d/profiles* to declare their personal upload targets.
+    Following is an example configuration for a local upload target, named
+    "localhost.json"
+
+
+    {
+        "+checkers": [
+            "lintian"
+        ],
+        "-checkers": [
+            "gpg"
+        ],
+        "incoming": "~/incoming",
+        "meta": "debian",
+        "method": "local",
+        "run_lintian": true
+    }
+
+
+OVERRIDING SINGLE VALUES::
+
+    Here's an example stanza from a local dput config to remove an annoying
+    checker from being run, sitting in *~/.dput.d/profiles/ftp-master.json*
+
+    {
+        "-checkers": [
+            "lintian"
+        ]
+    }
+
+
+FILES
+-----
+
+     /usr/share/dput-ng/
+     /etc/dput.d/
+     ~/.dput.d/
