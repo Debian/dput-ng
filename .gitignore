@@ -13,3 +13,4 @@ debian/dput-ng-doc/
 debian/python-dput.substvars
 debian/python-dput/
 debian/tmp/
+debian/man
