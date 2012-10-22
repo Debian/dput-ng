@@ -10,7 +10,7 @@ High Level Changes
 
 Firstly, you should know dput-ng fully supports the old dput.cf style
 configuration file. However, it also defines its own own,
-`JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded. Settings which are 
+`JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded. Settings which are
 specific to dput-ng, in particular checkers and profiles can only be defined
 in dput-ng's configuration style. It is possible to run dput-ng with old-style
 configuration files only, with new-style configuration files only and even with
@@ -37,11 +37,11 @@ Order of Loading
 If all possible files and directories exist, this is order of loading of files:
 
 1. /usr/share/dput-ng/ (new-style default profiles)
-2. /etc/dput.d (new-style site-wide profiles), 
+2. /etc/dput.d (new-style site-wide profiles),
 3. /etc/dput.cf (old-style site-wide profiles)
-4 ~/.dput.d (new-style local profiles)
-5 ~/.dput.cf (old-style local profiles)
-6. Any file supplied via command line
+4. ~/.dput.d (new-style local profiles)
+5. ~/.dput.cf (old-style local profiles)
+6. Any file supplied via command line.
 
 To remove a profile entirely, see operator handling below.
 
