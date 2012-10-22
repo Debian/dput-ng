@@ -13,6 +13,12 @@ bin/dput
   - implement --force switch (bypass all checker, ignore .upload file?)
   - Implement various switches (-H/-U/-o/-p/-v/-V)
 
+config loader
+-------------
+
+make sure schema, scripts and other non-configs won't be attempted to be
+loaded :)
+
 logging
 -------
 
