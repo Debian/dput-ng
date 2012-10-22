@@ -28,6 +28,7 @@ from dput.util import run_command
 
 DM_KEYRING = "/usr/share/keyrings/debian-maintainers.gpg"
 
+
 class DmCommandError(DcutError):
     pass
 
@@ -63,7 +64,7 @@ class DmCommand(AbstractCommand):
                             "upload should be denied", nargs="*")
 
     def produce(self, fh, args):
-        fh.write("\n") # yes, this newline matters
+        fh.write("\n")  # yes, this newline matters
         fh.write("Action: %s\n" % (self.cmd_name))
         fh.write("Fingerprint: %s\n" % (args.dm))
         if args.allow:
@@ -102,7 +103,9 @@ class DmCommand(AbstractCommand):
                 continue
             else:
                 # will give a line like:
-                # pub:-:4096:1:7B585B30807C2A87:2011-08-18:::-:Paul Tagliamonte <tag@pault.ag>::scESC:
+                # pub:-:4096:1:7B585B30807C2A87:2011-08-18:::-:
+                # Paul Tagliamonte <tag@pault.ag>::scESC:
+                # without the newline
                 parsed_fingerprint = line.split(":")
                 possible_fingerprints.append((
                                 parsed_fingerprint[9], parsed_fingerprint[4]))
