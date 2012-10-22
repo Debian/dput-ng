@@ -28,6 +28,9 @@ respective documentations for these commands.
 Similar to *dput*, a 'HOST' can be specified as a target site for the command
 file. Likewise, the same default host selection criteria apply.
 
+It should be noted that this does not support the same interface as the old
+dput binary. Please be sure to double-check scripts that depend on old-style
+dput's interface.
 
 OPTIONS
 -------
@@ -52,7 +55,8 @@ OPTIONS
 *-O, --output*=FILENAME::
 	Write the resulting commands file to 'FILENAME' instead of uploading it.
 	This option should not be used with *--upload*.  The selected 'FILENAME'
-	wont be overwritten if it exists already.
+	wont be overwritten if it exists already. This is very helpful for testing
+    that things work correctly.
 
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
@@ -222,6 +226,14 @@ BUGS
 Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 
 
+EXAMPLES
+--------
+
+  $ dcut dm --dm "Paul Tagliamonte" --allow "glibc"
+
+  $ dcut rm --searchdirs udj-desktop-client_0.5.1-2_amd64.deb
+
+
 AUTHOR
 ------
 dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the
@@ -230,11 +242,10 @@ realms and territories King Head of the Fluxbox Window Manager Defender of the
 Faith, who insists on is insignia Tagliamonte`.
 
 
-
 RESOURCES
 ---------
 
-link to asciidocs here
+  *dput(1)*
 
 COPYING
 -------
