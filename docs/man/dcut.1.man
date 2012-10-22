@@ -9,7 +9,7 @@ dcut - Debian archive command file upload tool
 
 SYNOPSIS
 --------
-*dcut* [-h] [-d] [-c 'FILE'] [-m 'MAINTAINER'] [-k 'KEYID'] [-O 'FILENAME'] 
+*dcut* [-h] [-d] [-c 'FILE'] [-m 'MAINTAINER'] [-k 'KEYID'] [-O 'FILENAME']
 			[-P] [-s] [-U 'FILENAME'] [-i 'FILENAME'] [-v]
             ['HOST'] SUBCOMMAND ...
 
@@ -22,11 +22,11 @@ DESCRIPTION
 *dcut* can create and/or upload command files understood by the debian archive
 kit ("dak") software. It provides an extensible interface so that third party
 authors can easily integrate more sub-commands. Hence, your running instance of
-*dcut* may understand more commands than these documented here. Refer to the 
+*dcut* may understand more commands than these documented here. Refer to the
 respective documentations for these commands.
 
 Similar to *dput*, a 'HOST' can be specified as a target site for the command
-file. Likewise, the same default host selection criteria apply. 
+file. Likewise, the same default host selection criteria apply.
 
 
 OPTIONS
@@ -39,31 +39,31 @@ OPTIONS
 	Enable debug messages. Repeat twice to increase the verbosity level.
 
 *-m, --maintainer*=MAINTAINER::
-	Use 'MAINTAINER' for the uploader field and GnuPG key 
+	Use 'MAINTAINER' for the uploader field and GnuPG key
 	selection. Provide it as a full identity, that is in
-	"+J Uploader <yourid@example.com>+" format. This has no effect when 
-	*--upload* is used. 
+	"+J Uploader <yourid@example.com>+" format. This has no effect when
+	*--upload* is used.
 
 *-k, --keyid*=KEYID::
-	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and DEBNAME, 
+	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and DEBNAME,
 	or whatever identity was provided with *--maintainer*. This has no effect
 	when --upload is used.
 
 *-O, --output*=FILENAME::
-	Write the resulting commands file to 'FILENAME' instead of uploading it. 
+	Write the resulting commands file to 'FILENAME' instead of uploading it.
 	This option should not be used with *--upload*.  The selected 'FILENAME'
 	wont be overwritten if it exists already.
 
 *-P, --passive*::
-	Force FTP passive mode when uploading the package through FTP. 
-	This option is deprecated - use profiles instead. 
+	Force FTP passive mode when uploading the package through FTP.
+	This option is deprecated - use profiles instead.
 
 *-s, --simulate*::
 	Simulate the upload only. This runs all pre-upload checks, initializes
 	the upload handler but does not actually store any file.
 
 *-i, --input*=FILENAME::
-	Ignored silently for compatibility with old-style dput command lines. 
+	Ignored silently for compatibility with old-style dput command lines.
 
 *-v, --version*::
 	Print version information and exit
@@ -75,15 +75,15 @@ OPTIONS
 SUB-COMMANDS
 ------------
 
-Sub-commands are actually implementing commands understood by be archive 
+Sub-commands are actually implementing commands understood by be archive
 software. They can take individual arguments which must appear after specifying
-the actual desired sub-command. 
+the actual desired sub-command.
 
 cancel
 ~~~~~~
 
 Cancel an upload entirely. The upload is referred to as a changes file name
-existing *remote* in the incoming or deferred queues. 
+existing *remote* in the incoming or deferred queues.
 
 OPTIONS
 ^^^^^^^
@@ -91,7 +91,7 @@ OPTIONS
 Takes one argument
 
 *FILENAME*::
-	The changes file name which refers to the upload to be cancelled. 
+	The changes file name which refers to the upload to be cancelled.
 
 rm
 ~~
@@ -123,7 +123,7 @@ Takes at least one argument
 	need to escape them or provide them within quotes.
 
 *--searchdirs*::
-	Search in all directories for the given file. Only supported for files in 
+	Search in all directories for the given file. Only supported for files in
 	the DELAYED queue.
 
 
@@ -134,7 +134,7 @@ Manage Debian Maintainer (DM) upload permissions. Debian Developers can grant
 or revoke them package upload permissions using this command. Takes the Debian
 Maintainer and the action to perform as argument.
 
-Note, dcut will not perform any validation for conflicting arguments within 
+Note, dcut will not perform any validation for conflicting arguments within
 *--alow* and *--deny* below. This handling is left to the archive software,
 which is currently processing *--alow* before *--deny* as an implementation
 detail.
@@ -147,18 +147,18 @@ OPTIONS
 Any searchable, unique identity to identify an existing Debian Maintainer. This
 can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
 Debian Maintainer. Note, the identity must be known the the DM keyring. This
-command validates the supplied argument and makes sure the identity hint 
-supplied matches a *single* DM only. 
+command validates the supplied argument and makes sure the identity hint
+supplied matches a *single* DM only.
 
 *--allow*=PACKAGES::
 
 Source package(s) where permissions to upload should be granted. Repeat the
-argument to apply permissions to more than one package at once. 
+argument to apply permissions to more than one package at once.
 
 *--deny*=PACKAGES
 
 Source package(s) where permissions to upload should be denied. Repeat the
-argument to apply permissions to more than one package at once. 
+argument to apply permissions to more than one package at once.
 
 reschedule
 ~~~~~~~~~~
@@ -177,7 +177,7 @@ file name to be rescheduled
 
 *DAYS*::
 
-Reschedule the upload to DAYS days. Takes a numeric argument from 0 to 15 
+Reschedule the upload to DAYS days. Takes a numeric argument from 0 to 15
 corresponding to the respective delayed queues. Note, 0-day is not the same
 as uploading to incoming straight.
 
@@ -206,7 +206,7 @@ EXIT STATUS
 
 *1*::
     A runtime check returned an error
-    
+
 *2*::
     An internal error was detected, for example while loading configuration
     files
@@ -224,9 +224,9 @@ Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 
 AUTHOR
 ------
-dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the 
-Grace of God of the United Kingdom of Debian and Ubuntu and of his other 
-realms and territories King Head of the Fluxbox Window Manager Defender of the 
+dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the
+Grace of God of the United Kingdom of Debian and Ubuntu and of his other
+realms and territories King Head of the Fluxbox Window Manager Defender of the
 Faith, who insists on is insignia Tagliamonte`.
 
 
