@@ -5,6 +5,14 @@ prime hacks neededing to be done
 
   $ grep -E "(TODO|XXX)" . -r
 
+09:18 < daemonkeeper> If you're bored crossing the continent I think having a
+                      critic look at checkers is more worthwhile. at least my
+                      todos with checkers are a major construction site. We've
+                      a stub file in there which either needs refactoring or a
+                      removal, a broken checker, and a checker which only
+                      exists as a quotation by me.
+
+
 bin/dput
 --------
 
