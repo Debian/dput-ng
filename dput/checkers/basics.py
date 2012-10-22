@@ -151,15 +151,15 @@ def check_debs_in_upload(changes, profile, interface):
 
         {
             "skip": false,
-            "enforce_debs": false
+            "enforce": "debs"
         }
 
-    ``skip``         controls if the checker should drop out without checking
-                     for anything at all.
+    ``skip``    controls if the checker should drop out without checking
+                for anything at all.
 
-    ``enforce_debs`` When true, this asserts the package has at least one
-                     .deb file. When false, this asserts the package does
-                     *not* have *any* .debs.
+    ``enforce`` This controls what we check for. Valid values are
+                "debs" or "source". Nonsense values will cause
+                an abort.
     """
     debs = {}
     if 'check-debs' in profile:
@@ -170,10 +170,23 @@ def check_debs_in_upload(changes, profile, interface):
         return
 
     enforce_debs = True
-    if 'enforce_debs' in debs:
-        enforce_debs = debs['enforce_debs']
+    if 'enforce' in debs:
+        model = debs['enforce']
+        if model == 'debs':
+            enforce_debs = True
+        elif model == 'source':
+            enforce_debs = False
+        else:
+            logger.warning("Garbage value for check-debs/enforce - is %s,"
+                           " valid values are `debs` and `source`. Skipping"
+                           " checks." % (
+                                model
+                           ))
+            return
+    else:
+        logger.warning("No `enforce` key in check-debs. Skipping checks.")
+        return
 
-    # XXX: Look at all this again.
 
     has_debs = False
     for fil in changes.get_files():

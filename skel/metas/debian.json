@@ -1,7 +1,8 @@
 {
     "allow_dcut": true,
     "check-debs": {
-        "enforce_debs": true
+        "enforce": "debs",
+        "skip": false
     },
     "checkers": [
         "allowed-distribution",
