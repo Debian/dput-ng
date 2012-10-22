@@ -157,7 +157,7 @@ Faith, who insists on is insignia Tagliamonte`.
 RESOURCES
 ---------
 
-  *dcut(1)*, *dput-help(1)*
+  link to other manpages here
 
 COPYING
 -------
