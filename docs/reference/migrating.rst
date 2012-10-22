@@ -8,7 +8,7 @@ to run through this helpful starting guide.
 Key points
 ----------
 
-  * dput's configuration files *are* supported, and *will* override any 
+  * dput's configuration files *are* supported, and *will* override any
     new-style configuration file.
 
   * Behavior of pre-upload checks *may* be different.
@@ -16,7 +16,7 @@ Key points
   * dput-ng maintains backwards compatibility with the old dput's command line
     flags.
 
-  * dcut has a totally revamped interface, but is similar in spirit and 
+  * dcut has a totally revamped interface, but is similar in spirit and
     usability of dput's dcut interface.
 
   * This package *replaces* old style dput.
