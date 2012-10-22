@@ -24,10 +24,10 @@ Provides: dput
 Depends: ${misc:Depends}, ${python:Depends}, python-dput
 Description: new generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use inter-
- face to Debian (like) package archive hosting facilities. It allowing anyone 
- who works with Debian packages to upload their work to a remote service,
- including Debian's ftp-master, mentors.debian.net, Launchpad or other package
- hosting facilities for Debian package maintainers.
+ face to Debian (like) package archive hosting facilities. It is allowing 
+ anyone who works with Debian packages to upload their work to a remote 
+ service, including Debian's ftp-master, mentors.debian.net, Launchpad or other
+ package hosting facilities for Debian package maintainers.
  .
  dput-ng features many enhancements over dput, such as more comprehensive
  checks, an easy to use plugin system, and code designed to handle the numerous
@@ -52,10 +52,10 @@ Recommends:
  openssh-client,
 Description: new generation Debian package upload tool (Python library)
  dput-ng is a Debian package upload tool which provides an easy to use inter-
- face to Debian (like) package archive hosting facilities. It allowing anyone 
- who works with Debian packages to upload their work to a remote service,
- including Debian's ftp-master, mentors.debian.net, Launchpad or other package
- hosting facilities for Debian package maintainers.
+ face to Debian (like) package archive hosting facilities. It is allowing 
+ anyone who works with Debian packages to upload their work to a remote 
+ service, including Debian's ftp-master, mentors.debian.net, Launchpad or other
+ package hosting facilities for Debian package maintainers.
  .
  This package provides Python library functions providing core functionality to
  dput-ng and tools building on top of that. This library provides upload 
@@ -69,10 +69,10 @@ Multi-Arch: foreign
 Depends: ${misc:Depends}, ${sphinxdoc:Depends}
 Description: new generation Debian package upload tool (documentation)
  dput-ng is a Debian package upload tool which provides an easy to use inter-
- face to Debian (like) package archive hosting facilities. It allowing anyone 
- who works with Debian packages to upload their work to a remote service,
- including Debian's ftp-master, mentors.debian.net, Launchpad or other package
- hosting facilities for Debian package maintainers.
+ face to Debian (like) package archive hosting facilities. It is allowing 
+ anyone who works with Debian packages to upload their work to a remote 
+ service, including Debian's ftp-master, mentors.debian.net, Launchpad or other
+ package hosting facilities for Debian package maintainers.
  .
  This package provides exhaustive user documentation, developer API docu-
  mentation and command interface documentation.

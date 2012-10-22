@@ -35,7 +35,7 @@ compatibility with dput in dput-ng, as well as automagically reading from the
 old-style dput.cf conf files.
 
 You might see some behavior change, but we believe it to be in the spirit
-of the original incarnation of dput. All the new features & functionality
+of the original incarnation of dput. All the new features and functionality
 is fully disable-able, and you should be able to use dput-ng just like
 you were before.
 

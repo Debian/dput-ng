@@ -17,63 +17,95 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-Foo
+dput-ng is a Debian package upload tool which provides an easy to use inter-
+face to Debian (like) package archive hosting facilities. It is allowing 
+anyone who works with Debian packages to upload their work to a remote 
+service, including Debian's ftp-master, mentors.debian.net, Launchpad or other
+package hosting facilities for Debian package maintainers.
 
+'HOST' may optionally specify a target stanza from any configured configured
+profile which is selected as a upload target. If 'HOST' is omitted a default 
+host using the heuristic described below is selected.
+
+The only mandatory argument is a 'CHANGES-FILE' which is interpreted as a 
+Debian +package.changes+ file denoting the desired package to be uploaded. 
+
+
+Packages being uploaded already, but not processed yet can be removed later 
+from the destination using *dcut*. 
 
 OPTIONS
 -------
 
-*-d, --debug*::
-	Enable debug messages. Repeat twice to increase the verbosity level
-
 *-c, --config*=FILE::
-	Configuration file to parse)
+	Configuration file to parse. This option will override all other 
+	configuration files. 
+
+*-d, --debug*::
+	Enable debug messages. Repeat twice to increase the verbosity level.
 
 *-D, --dinstall*:: 
-	(ignored silently))
+	Ignored silently for compatibility with old-style dput command lines. 
 
 *-e, --delayed*=DAYS::
-	Upload to a delayed queue. Takes an argument from 0 to 15
+	Upload to the delayed queue, instead of the usual incoming directory. 
+	This option takes an argument from 0 to 15 correspinding to the respective
+	DELAYED queue.
 
 *-f, --force*::
-	Force an upload
+	Force an upload, even if the upload log exists already.
 
 *-H, --host-list*::
-	print the lists of hosts that dput knows about
+	Print out the list of hosts that dput knows about.
 
 *-l, --lintian*::
-	Run lintian before upload
-
-*-U, --no-upload-log*::
-	Do not write a .upload file after uploading
+	Run Lintian before uploading the package. Note, this option is deprecated.
+	Use profiles instead. 
 
 *-o, --check-only*::
-	Only check the package
+	Only run pre-upload checks for the package, do not actually upload. 
 
 *-p, --print*::
-	print the configuration that dput is using
+	This option is currently not implemented.
 
 *-P, --passive*::
-	Use passive mode for ftp uploads
+	Force FTP passive mode when uploading the package through FTP. 
+	This option is deprecated - use profiles instead. 
 
 *-s, --simulate*::
-	Simulate the upload only
+	Simulate the upload only. This runs all pre-upload checks, initializes
+	the upload handler but does not actually store any file.
+
+*-U, --no-upload-log*::
+	Do not write a .upload log file after uploading.
 
 *-u, --unchecked*::
-	Do not check GnuPG signature
+	Do not check GnuPG signature.
 
 *-v, --version*::
-	(ignored)
+	Ignored silently for compatibility with old-style dput command lines. 
 
 *-V, --check-version*::
-	(ignored))
+	Ignored silently for compatibility with old-style dput command lines. 
 
 *HOST*::
-	Target host to upload a package
+	Target host to upload a package. This refers to any existing upload site,
+	which either can be a section in old-style *dput.cf* files, or
+	alternatively any profile in a read *dput.d* directory.
+	If *HOST* was not supplied, the (first) profile having the the 
+	+default_host_main+ flag set will be selected. If neither, 'HOST' was
+	present, nor any profile setting the upload host, dput-ng scans for a
+	profile called 'ftp-master' which will be used on a successful look-up.
 
 *CHANGES-FILE*::
-	A Debian .changes file
+	A Debian +package.changes+ file
 
+PROFILES
+--------
+
+Profiles may define upload host names, log-in details and their requied upload 
+methods used to upload packages. Moreover, profiles define checks which are
+running before and after uploading. Its format is described in *dput.cf*(5). 
 
 EXIT STATUS
 -----------
@@ -95,7 +127,7 @@ EXIT STATUS
 BUGS
 ----
 
-write me
+Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 
 
 AUTHOR
@@ -114,7 +146,7 @@ link to asciidocs here
 
 COPYING
 -------
-Copyright \(C) 2012 dput-ng authors. Free use of this software is
+Copyright (C) 2012 dput-ng authors. Free use of this software is
 granted under the terms of the GNU General Public License (GPL) Version 2 or
 later.
 
