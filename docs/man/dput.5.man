@@ -366,4 +366,5 @@ Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 RESOURCES
 ---------
 
-*RFC 4627*, */usr/share/doc/dput-ng/html/reference/*, *dput(1)*, *dcut(1)*
+*RFC 4627*, */usr/share/doc/dput-ng/html/reference/*, *dput(1)*, *dcut(1)*,
+*dput-info(1)*

@@ -1,0 +1,77 @@
+DPUT-INFO(1)
+============
+:doctype: manpage
+
+
+NAME
+----
+
+dput-info - Debian package upload tool
+
+SYNOPSIS
+--------
+
+*dput-info* 
+
+
+DESCRIPTION
+-----------
+
+this is a placeholder
+
+OPTIONS
+-------
+
+*-p, --print*::
+	This option is currently not implemented.
+
+*-H, --host-list*::
+	Print out the list of hosts that dput knows about.
+
+EXIT STATUS
+-----------
+*0*::
+    Success
+
+*1*::
+    A runtime check returned an error
+
+*2*::
+    An internal error was detected, for example while loading configuration
+    files
+
+*3*::
+	An upload error was detected, for example a permission or authentication
+	problem while uploading files
+
+
+BUGS
+----
+
+Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
+
+EXAMPLES
+--------
+
+fill me
+
+AUTHOR
+------
+dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
+Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
+of his other realms and territories King Head of the Fluxbox Window Manager
+Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
+
+
+RESOURCES
+---------
+
+*dput(5)*, *dput.cf(5)*, *dcut(1)*
+
+COPYING
+-------
+Copyright (C) 2012 dput-ng authors. Free use of this software is
+granted under the terms of the GNU General Public License (GPL) Version 2 or
+later.
+
+	

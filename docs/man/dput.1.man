@@ -9,8 +9,8 @@ dput - Debian package upload tool
 
 SYNOPSIS
 --------
-*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-H] [-l] [-U] [-o]
-            [-p] [-P] [-s] [-u] [-v] [-V]
+*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-l] [-U] [-o]
+            [-P] [-s] [-u] [-v] [-V]
             ['HOST'] 'CHANGES-FILE'
 
 
@@ -55,9 +55,6 @@ OPTIONS
 *-f, --force*::
 	Force an upload, even if the upload log exists already.
 
-*-H, --host-list*::
-	Print out the list of hosts that dput knows about.
-
 *-l, --lintian*::
 	Run Lintian before uploading the package. Note, this option is deprecated.
 	Profile targets have the ability to properly handle invoking lintian
@@ -67,9 +64,6 @@ OPTIONS
 	Only run pre-upload checks for the package, do not actually upload. This
     is useful to help in testing new checks, or verifying the profile will
     work as expected.
-
-*-p, --print*::
-	This option is currently not implemented.
 
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
@@ -165,7 +159,7 @@ Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 RESOURCES
 ---------
 
-*dput(5)*, *dput.cf(5)*, *dcut(1)*
+*dput(5)*, *dput.cf(5)*, *dcut(1)*, *dput-info(1)*
 
 COPYING
 -------
