@@ -51,12 +51,12 @@ def show_class_list(show):
     print(show)
 
 def show_class(checker, processor):
-    if args.checker:
+    if checker:
         klass = "checker"
-        thing = args.checker
-    elif args.processor:
+        thing = checker
+    elif processor:
         klass = "processor"
-        thing = args.processor
+        thing = processor
 
     try:
         klass = None
