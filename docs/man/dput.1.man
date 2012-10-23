@@ -118,6 +118,8 @@ configuration files. This format is deprecated for use in dput-ng and described
 in *dput.cf(5)*. In particular this configuration file format does not support
 all configurable settings which are specific to dput-ng. 
 
+It is possible to run *dput* with any combination of new-style and old-style
+configuration files. When both types of files are present,  
 
 EXIT STATUS
 -----------

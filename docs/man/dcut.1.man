@@ -26,7 +26,8 @@ authors can easily integrate more sub-commands. Hence, your running instance of
 respective documentations for these commands.
 
 Similar to *dput*, a 'HOST' can be specified as a target site for the command
-file. Likewise, the same default host selection criteria apply.
+file. Likewise, the same default host selection criteria apply. It also parses
+the same configuration files described there. 
 
 It should be noted that this does not support the same interface as the old
 dput binary. Please be sure to double-check scripts that depend on old-style

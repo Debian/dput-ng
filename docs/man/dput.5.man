@@ -73,23 +73,21 @@ are developing or customizing existing plug-ins to *dput* or *dcut*
  * *processor/* define entry hooks to processor functions which are registered
    for use with *dput*. See *PROCESSORS* below.
  
-
-By default, *all* configuration file locations are parsed, and overlayed in a
+By default *all* configuration file locations are parsed, and overlayed in a
 additive manner. This way both, entire profiles and actual settings within a
 profile is inherited from any parent location defining a key within the current
-scope.
+scope. Details are explained in the *INHERITANCE OF KEYS* section.
 
-By default, keys will override any previously defined value. However, as a
-special case, there are two operators (*+* and *-*) that may be prefixed to
-names to merge with existing inherited values. This is beneficial when a
-profile wishes to add or remove *checkers* or *processors* to an existing
-profile that is inheriting values via it's meta-class or parent.
+
 
 PROFILES
 ---------
 
 Profiles are indexed as '<profile name>.json' within the 'profiles/'
-configuration directory. may define these keys.
+configuration directory. Every profile may define these keys. Optionally a
+profile called 'DEFAULT.json' can be defined as a superset of all existing
+profiles. Any other profile will inherit values from this profile. For a finer
+grained control see *meta* keyword and *META-CLASSES* below.
 
 Following is an example configuration for a local upload profile, named
 "'localhost.json'".
@@ -152,9 +150,9 @@ The hash algorithm that should be used in calculating the checksum of the
 files before uploading them. Currently, dput accepts the following values
 for hash:
 
-	* 'sha1':: Perform validation of the SHA-1 hash (default when omitted)
-	* 'sha256':: Perform validation of the SHA-256 hash
-	* 'md5':: Perform validation of the MD5 hash
+	* 'sha1': Perform validation of the SHA-1 hash (default when omitted)
+	* 'sha256': Perform validation of the SHA-256 hash
+	* 'md5': Perform validation of the MD5 hash
 
 *interface* (string)::
 
@@ -228,45 +226,126 @@ uploaded or not.  *This setting is deprecated* but works as a fallback to the
 corresponding *CHECKER*. The Lintian checker allows much more fine grained
 control over the Lintian invocation.
 
+INHERITANCE OF KEYS
+-------------------
 
-CHECKERS AND PROCESSORS
-------------------------
+By default, keys will override any previously defined value. However, as a
+special case, there are three operators (*=*, *+* and *-*) that may be prefixed
+to names to merge with existing inherited values. This is beneficial when a
+profile wishes to add or remove values from an existing key which accepts lists
+of values. This is mostly useful to *checkers* or *processors* which may want
+to extend an existing profile key that is inheriting values via it's meta-class
+or parent.
 
-<write some introductory sentence>
+* The *=* operator is the default operator when no operator was explicitly
+  provided. It overwrites any previous key.
+* The *+* operator is additive. When set, it merges the supplied value(s) with
+  any previous value
+* The *-* operator is subtractive. When set, it removes the suplied value(s)
+  from any previous value.
 
+The DEFAULT Profile
+~~~~~~~~~~~~~~~~~~~
 
-PROFILES AND INHERITANCE
-------------------------
+There is a special profile called 'DEFAULT' ("'DEFAULT.json'" in any
+configuration location). This profile is the root profile. All profiles are
+automatically inheriting values from this profile. Values set there are global
+defaults. The profile itself is subject to the same inheritance rules as any
+other profile itself as well.  
 
-<write some introductory sentence>
+All keys and values can be set in the 'DEFAULT' profile.
 
-Profiles
-~~~~~~~~
-
-write me
-
-Meta-Classes
-~~~~~~~~~~~~
+META PROFILES
+~~~~~~~~~~~~~
 
 Configuration files may declare an optional *meta* key, who's value is the
 name of a meta-configuration to be placed under this configuration. You can
-check for meta-configuration in */usr/share/dput-ng/metas*, */etc/dput.d/metas*
-or *~/.dput.d/metas*. This helps declare common settings (such as general
+check for meta-configuration in '/usr/share/dput-ng/metas', '/etc/dput.d/metas'
+or '~/.dput.d/metas'. This helps declare common settings (such as general
 Debian archive configuration values (GPG requirements, enforcing
 that binary files exist, etc) without having to maintain may of the
 same values in many places).
+
+They are different to the 'DEFAULT' profile in such, that no profile
+automatically inherits values from a meta profile, but only upon explicit
+request.
+
+Meta profiles can in turn inherit itself values from other meta profiles.
 
 OVERRIDING SINGLE VALUES
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here's an example stanza from a local dput config to remove an annoying
-checker from being run, sitting in *~/.dput.d/profiles/ftp-master.json*
+checker from being run:
+
+'~/.dput.d/profiles/DEFAULT.json':
+
+    {
+        "checkers": [
+            "gpg",
+            "lintian"
+        ]
+    }
+
+
+At this point, every profile will invoke the checkers 'gpg', 'lintian'
+
+'~/.dput.d/metas/my-defaults.json':
+
+    {
+        "checkers": [
+            "checksum",
+        ]
+    }
+
+This defines a meta profile named 'my-defaults', which will also invoke the
+'checksum' checker. At this point this meta profile, inherits values from
+'DEFAULT' and therefore invokes the checkers 'gpg', 'lintian' and 'checksum'.
+
+'~/.dput.d/profiles/ftp-master.json':
 
     {
         "-checkers": [
             "lintian"
         ]
+        "meta": [
+        	"my-defaults"
+        ]
     }
+
+At this point, the profile 'ftp-master' will inherit values from 'DEFAULT' and
+'my-defaults'. However, the '-' operator prefix removes 'lintian' from the
+checker list.  Hence, 'ftp-master' will run the checkers 'gpg' and 'checksum'.
+
+CHECKERS AND PROCESSORS
+------------------------
+
+Checkers are pre-upload checks, processors are post-upload checks. They are
+pluggable components running before or after the upload of a package.
+
+Checkers
+~~~~~~~~
+
+Checkers are pluggable components which are designed to run before the upload
+actually happens. This typically involves consistency checks, sanity checks
+and similar tasks. The list of available checkers can be obtained using
+*dput-info(1)*. The checkers invoked by default are determined on a per-profile
+basis by retrieving the setting of the *checkers* key. Checkers also run in
+simulation and check-only mode.
+
+It is easy to write your own checker extensions. Consult the manual for
+instructions.
+
+Processors
+~~~~~~~~~~
+
+Processors are pluggable components which are designed to run after the upload
+actually happens. They cannot interrupt the upload, because they are invoked
+after a successful upload only. They do not run when *dput* was invoked with
+check-only or simulation mode. Such processors may invoke post-processing tasks
+such as closing or filing bugs.The list of available processors can be obtained
+using *dput-info(1)*. The processors invoked by default are determined on a
+per-profile basis by retrieving the setting of the *processors* key.
 
 
 FILES
@@ -287,4 +366,4 @@ Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 RESOURCES
 ---------
 
-*RFC 4627*
+*RFC 4627*, */usr/share/doc/dput-ng/html/reference/*, *dput(1)*, *dcut(1)*

@@ -15,8 +15,19 @@ This manpage gives a brief overview of dput's configuration file and the
 available options in it.  dput is a tool to upload Debian packages to the
 archive.
 
-FORMAT
-------
+FILES AND FORMAT
+----------------
+
+*dput* reads, in order, these files:
+
+ 1. '/etc/dput.cf'
+ 2. '~/.dput.cf'
+ 3. The file supplied via command line argument
+
+By default *all* configuration file locations are parsed, and overlayed in a
+additive manner. This way both, entire profiles and actual settings within a
+profile is inherited from any parent location defining a key within the current
+scope.
 
 dput.cf consists of different groups of configuration options, one for each
 host where you want to be able to upload packages. Hosts are defined using an
@@ -26,157 +37,69 @@ only the group following the last header is considered. This is done to avoid
 confusion when overriding a  global configuration  file  with a user-specific
 one.  There's a special identifier, [DEFAULT], which holds default parameters
 for all the hosts. The defaults can be overridden by redefining them again in
-each host section. The available parameters are listed below:
+each host section. 
 
-*fqdn*::
+SUPPORTED KEYS
+~~~~~~~~~~~~~~
 
-This is the fully qualified domain name that will be used (can be specified as
-host:port for HTTP, HTTPS and FTP).
+These keys are supported in dput.cf files. For their meaning refer to
+*dput(5)*.
 
-*login*::
+*allow_dcut*, *allow_unsigned_uploads*, *allowed_distributions*,
+*default_host_main*, *fqdn*, *distributions*, *hash*, *incoming*, *method*,
+*login*, *passive_ftp*, *post_upload_command*, *pre_upload_command*,
+*run_lintian*. 
 
-Your login on the machine named before. A single asterisk * will cause the scp
-and rsync uploaders to not use supply a login name when calling to ssh, scp, and rsync.
 
-*incoming*::
+UNSUPPORTED LEGACY KEYS
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-The directory that you should upload the files to.
+These keys known and understood to the original dput implementation are not
+understood by dput-ng:
 
 *method*::
 
-The method that you want to use for uploading the files.  Currently, dput
-accepts the following values for method:
-
-	'ftp'::
+This command is mostly supported. However, there is no support for the 'rsync'
+method. 
 	
-	the package will be uploaded via ftp, either anonymously or using a
-	login/password. Note that ftp is unencrypted so you should not use password
-	authentication with this.
-	
-	'http' and 'https'::
-	
-	the package will be uploaded via http or https using the PUT method as
-	specified in WebDAV. The upload method will prompt for a password if
-	necessary.
-	
-	'scp'::
-	
-	the package will be uploaded using ssh's scp. This transfers files using a
-	secure ssh tunnel, and needs an account on the upload machine.
-	
-	'rsync'::
-	
-	the package will be uploaded using rsync over ssh. This is similar to scp,
-	but can save some bandwidth if the destination file already exists on the
-	upload server. It  also  needs a login on the remote machine as it uses
-	ssh.
-	
-	'local'::
-	
-	the package will be "uploaded" locally using /usr/bin/install. This
-	transfers files to a local incoming directory, and needs appropriate
-	permissions set on that directory.
-
-*hash*::
-
-The hash algorithm that should be used in calculating the checksum of the
-files before uploading them. Currently, dput accepts the following values for
-hash:
-
-'md5'::
-use the md5 algorithm for calculation
-  
-'sha'::
-use the sha algorithm for calculation
-
-
-*allow_unsigned_uploads*::
-
-This defines if you are allowed to upload files without a GnuPG signature to
-this host or not.
-
-*allow_dcut*::
-
-This defines if you are allowed to upload a dcut changes file to the queue to
-remove or move files.
-
-*distributions*::
-
-This defines a comma-separated list of distributions that this host accepts,
-used to guess the host to use when none is given on the command line.
-
-*allowed_distributions*::
-
-A regular expression (of Python re module syntax) that the distribution field
-must match or dput will refuse the upload.
 
 *delayed*::
 
-Set  a  numeric  default  parameter for delayed uploads (i.e. uploads to this
-queue will be delayed the specified number of days. Defaults to the empty
-string, meaning no delay. This only works with upload
-queues that support delayed uploads.
+This key is not supported. Use the '*--delayed*' switch from the command line,
+or set *incoming* to the actual delayed directory if you really rely on this
+key.
 
-*run_lintian*::
-
-This option defines if lintian should be run before the package will be
-uploaded or not. If the package is not lintian clean, the upload will not
-happen.
-
+ 
 *run_dinstall*::
 
-This options defines if dinstall -n should be run after the package has been
-uploaded or not. This is an easy way to test if your package would be installed
-into the archive or not.
+Not supported. Please submit a post-upload processor if you'd like to run
+*dinstall*.
 
 *check_version*::
 
-This option defines if dput should check if the user has installed the package
-in his system for testing it before putting it into the archive. If the user
-has not installed and tested it, dput will reject
-the upload.
-
-*passive_ftp*::
-
-This  option  defines  if dput should use passive ftp or active ftp for
-uploading a package to one of the upload queues. By default, dput uses passive
-ftp connections. If you need to use active ftp connec‐
-tions, set passive_ftp to 0.
+Not supported.
 
 *progress_indicator*::
 
-This integer option defines if dput should display a progress indicator for the
-upload. (Currently implemented in ftp only.) Supported values: 0 (default) -
-no progress, 1 - rotating progress indicator, and 2 - kilobyte counter.
+Not supported yet.
 
 *scp_compress*::
 
-This option defines if the scp upload to the host will be compressed, or not.
-This option is only used for the 'scp' upload method, and has been found to
-decrease upload time for slow links, and  increase upload times for faster
-links.
+SCP compression is enabled by default. This is, however not configurable
+currently.
 
 *ssh_config_options*::
 
-The  arguments  of this config options should be ssh config file options in the
-style documented in ssh_config(5). They will be passed to all automatic
-invocations of ssh and scp by dput. Note that you can define multiline (dput)
-configuration options by indenting the second line with whitespace (i.e.
-similar to RFC822 header continuations).
+Not supported. Please switch to the 'sftp' method which supports your options
+from *ssh_config(5)* natively.
 
-*post_upload_command*::
+UNSUPPORTED KEYS
+~~~~~~~~~~~~~~~~
 
-This option defines a command to be run by dput after a successful upload.
+These keys are not supported in old-style configuration files. However, their
+values are inherited from their new-style defaults. See *dput(5)* for details:
 
-*pre_upload_command*::
-
-This option defines a command to be run by dput before a upload happens.
-
-*default_host_main*::
-
-This defines the default host for packages that are allowed to be uploaded to
-the main archive. This variable is used when guessing the host to upload to.
-
+*checkers*, *interface*, *meta*, *processors*.
 
 
 BUGS
@@ -198,20 +121,23 @@ peruser dput configuration file
 AUTHOR
 ------
 
-Christian Kurz. Updated by Thomas Viehmann <tv@beamnet.de>.
+dput was originally written by Christian Kurz. Updated by Thomas Viehmann
+<tv@beamnet.de>. dput-ng does not re-use notable portions of code, but was
+heavily inspired by its behavior. Much appreciated.
 
-Many other people have contributed to this code. See the Thanks file.
+dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
+Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
+of his other realms and territories King Head of the Fluxbox Window Manager
+Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 
 
 SEE ALSO
 --------
 
-*dput(1)*
-*/usr/share/doc/dput*
+*dput(1)*, *dput(5)*
 
-COMMENTS
---------
-
-The author appreciates comments and suggestions from you, if any.
-
-              
+COPYING
+-------
+Copyright (C) 2012 dput-ng authors. Free use of this software is
+granted under the terms of the GNU General Public License (GPL) Version 2 or
+later.
