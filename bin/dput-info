@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+
+# A little temporary hack for those of us not using virtualenv
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+import argparse
+import dput.info
+
+parser = argparse.ArgumentParser(description=' Debian package upload tool')
+parser.add_argument('-H', '--host-list', action='store_true',
+                    help='print the lists of hosts that dput knows about')
+parser.add_argument('-p', '--print', action='store_true', dest='print_conf',
+                    help='print the configuration that dput is using')
+parser.add_argument('-s', '--show', action='store', choices=[
+                                "checkers", "commands", "interfaces",
+                                "metas", "processors", "uploaders", "all"],
+                    help='show information about installed plug-ins.',
+                    nargs='+')
+
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-C', '--checker', action='store',
+                    help='retrieve information about the checker asked')
+group.add_argument('-P', '--processor', action='store',
+                    help='retrieve information about the processor asked')
+args = parser.parse_args()
+
+
+if args.host_list:
+    dput.info.host_list()
+
+if args.print_conf:
+    dput.info.print_conf()
+
+if args.show:
+    dput.info.show_class_list(args.show)
+
+if args.checker or args.processor:
+    dput.info.show_class(args.checker, args.processor)

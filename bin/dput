@@ -28,33 +28,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
 import dput.changes
-import dput.profile
 import dput.exceptions
 from dput import upload_package
-
-
-# XXX: This is a hack.
-if "-H" in sys.argv or '--host-list' in sys.argv:
-    default = dput.profile.load_profile(None)
-    print
-    print "Default method: %s" % (default['method'])
-    print
-    for config in dput.profile.profiles():
-        obj = dput.profile.load_profile("%s:%s" % (config, config))
-        #                               ^^^^^^ fake arg for others
-        if not "fqdn" in obj:  # likely localhost
-            obj['fqdn'] = 'localhost'
-
-        string = "{name} => {fqdn}  (Upload method: {method})".format(**obj)
-        print string
-    print
-
-    sys.exit(0)
-
-if "-p" in sys.argv or '--print' in sys.argv:
-    print "Unimplemented."
-    sys.exit(0)
-
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-d', '--debug', action='count', default=False,
@@ -69,16 +44,12 @@ parser.add_argument('-e', '--delayed', action='store', metavar="DAYS",
             type=int, choices=range(0, 16))
 parser.add_argument('-f', '--force', action='store_true',
                     help='Force an upload')
-parser.add_argument('-H', '--host-list', action='store_true',
-                    help='print the lists of hosts that dput knows about')
 parser.add_argument('-l', '--lintian', action='store_true',
                     help='Run lintian before upload')
 parser.add_argument('-U', '--no-upload-log', action='store_true',
                     help='Do not write a .upload file after uploading')
 parser.add_argument('-o', '--check-only', action='store_true',
                     help='Only check the package')
-parser.add_argument('-p', '--print', action='store_true', dest='print_conf',
-                    help='print the configuration that dput is using')
 parser.add_argument('-P', '--passive', action='store_true',
                     help='Use passive mode for ftp uploads')
 parser.add_argument('-s', '--simulate', action='store_true',
