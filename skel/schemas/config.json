@@ -10,78 +10,78 @@
             "type": "boolean"
         },
         "allowed_distributions": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "checkers": {
-            "type": "array",
             "items": {
                 "type": "string"
             },
-            "required": false
-        },
-        "distributions": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "array"
         },
         "default_host_main": {
-            "type": "string",
+            "blank": true,
             "required": false,
-            "blank": true
+            "type": "string"
+        },
+        "distributions": {
+            "required": false,
+            "type": "string"
         },
         "fqdn": {
             "required": false,
             "type": "string"
         },
         "hash": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "incoming": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "interface": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "login": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "meta": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "method": {
-            "type": "string",
-            "required": false
+            "required": false,
+            "type": "string"
         },
         "passive_ftp": {
             "required": false,
             "type": "boolean"
         },
         "post_upload_command": {
-            "type": "string",
+            "blank": true,
             "required": false,
-            "blank": true
+            "type": "string"
         },
         "pre_upload_command": {
-            "type": "string",
+            "blank": true,
             "required": false,
-            "blank": true
+            "type": "string"
         },
         "processors": {
-            "type": "array",
             "items": {
                 "type": "string"
             },
-            "required": false
+            "required": false,
+            "type": "array"
         },
         "run_lintian": {
             "required": false,
             "type": "boolean"
-        },
+        }
     },
     "type": "object"
 }
