@@ -37,10 +37,10 @@ class RescheduleCommand(AbstractCommand):
         return generate_debianqueued_commands_name(profile)
 
     def register(self, parser, **kwargs):
-        parser.add_argument('file', metavar="FILENAME", action='store',
+        parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
                             default=None, help="file name to be rescheduleds",
                             nargs=1)
-        parser.add_argument('days', metavar="DAYS", action='store',
+        parser.add_argument('-d', '--days', metavar="DAYS", action='store',
                             default=None, help="reschedule for DAYS days."
                             " Takes an argument from 0 to 15", type=int,
                             choices=range(0, 16))

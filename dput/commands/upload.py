@@ -31,8 +31,9 @@ class UploadCommand(AbstractCommand):
         pass
 
     def register(self, parser, **kwargs):
-        parser.add_argument('upload_file', metavar="FILENAME", action='store',
-                            default=None, help="file name to be uploaded")
+        parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
+                            dest='upload_file', default=None,
+                            help="file name to be uploaded")
 
     def produce(self, fh, args):
         return
