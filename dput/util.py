@@ -246,7 +246,7 @@ def load_config(config_class, config_name,
             ex.root = e
             ex.config_class = config_class
             ex.config_name = config_name
-            ex.sdir = dput.core.SCHEMA_DIR
+            ex.sdir = dput.core.SCHEMA_DIRS
             ex.schema = schema
             ex.roots = roots
             raise ex
