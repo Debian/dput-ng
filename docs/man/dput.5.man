@@ -21,21 +21,22 @@ FILES AND FORMAT
 ----------------
 
 Upload targets are configured using JSON as described in *RFC 4627*. In a
-nutshell, JSON allows insignificant whitespace before or after any type
-statement. Each upload profile is stored in its own file and is represented as 
-a pair of curly brackets surrounding name/value pairs described below. Both, 
-name and values are strings. A single colon separates the name from the value. 
-A string begins and ends with quotation marks and may be escaped. Booleans are
-either 'true' or 'false' (mind these are not surrounded by quotation marks). 
+nutshell, *dput* configuration allows insignificant whitespace before or after
+any type statement. Each upload profile is stored in its own file and is
+represented as  a pair of curly brackets surrounding name/value pairs described
+below. Both, name and values are strings. A single colon separates the name
+from the value. A string begins and ends with quotation marks and may be
+escaped. Booleans are either 'true' or 'false' (mind these are not surrounded
+by quotation marks). 
 
 Some keys names are accepting lists as possible value. A list is represented
 as square brackets surrounding zero or more values, separated by commas.
 
-*dput* reads, in order, these files:
+*dput* reads, in order, these directories:
 
- 1. '/usr/share/dput-ng/profiles/'
- 2. '/etc/dput.d/profiles'
- 3. '~/.dput.d/profiles'
+ 1. '/usr/share/dput-ng/'
+ 2. '/etc/dput.d/'
+ 3. '~/.dput.d/'
  4. The directory supplied via command line argument
 
 In general, packages are installing pre-defined defaults for popular upload 
@@ -45,7 +46,52 @@ choose '/etc/dput.d/profiles'. Finally, local targets may be written to
 '~/.dput.d/profiles' for personal upload targets.
 
 
-Following is an example configuration for a local upload target, named
+Within each configuration directory, there may be another tier of
+configuration directories. There, these actual configuration directories may
+exist:
+
+ * *metas/* define super-classes of upload profiles. They can define any name
+   and value known to profiles (see below) which are shared across profiles.
+
+ * *profiles/* define upload profiles. Files therein are looked-up by their
+   name as 'HOST' argument by *dput*. This is, where upload hosts are defined.
+
+Moreover, these directories can exist and are documented here for the sake of
+completeness. However, users typically do not need to touch these unless you
+are developing or customizing existing plug-ins to *dput* or *dcut*
+
+ * *checkers/* define entry hooks to checker functions which are registered for
+   use with *dput*. See *CHECKERS* below.
+
+ * *commands/* define entry hooks to command functions which are registered for
+   use with *dcut*.
+
+ * *interfaces/* define entry hooks to user interface functions which are
+   registered for use with *dput* and *dcut*. They are responsible to retrieve
+   data from the user.
+
+ * *processor/* define entry hooks to processor functions which are registered
+   for use with *dput*. See *PROCESSORS* below.
+ 
+
+By default, *all* configuration file locations are parsed, and overlayed in a
+additive manner. This way both, entire profiles and actual settings within a
+profile is inherited from any parent location defining a key within the current
+scope.
+
+By default, keys will override any previously defined value. However, as a
+special case, there are two operators (*+* and *-*) that may be prefixed to
+names to merge with existing inherited values. This is beneficial when a
+profile wishes to add or remove *checkers* or *processors* to an existing
+profile that is inheriting values via it's meta-class or parent.
+
+PROFILES
+---------
+
+Profiles are indexed as '<profile name>.json' within the 'profiles/'
+configuration directory. may define these keys.
+
+Following is an example configuration for a local upload profile, named
 "'localhost.json'".
 
     {
@@ -62,19 +108,7 @@ Following is an example configuration for a local upload target, named
     }
 
 
-By default, *all* configuration file locations are parsed, and overlayed in a
-additive manner. This way both, entire profiles and actual settings within a
-profile is inherited from any parent location defining a key within the current
-scope.
-
-By default, keys will override any previously defined value. However, as a
-special case, there are two operators (*+* and *-*) that may be prefixed to
-names to merge with existing inherited values. This is beneficial when a
-profile wishes to add or remove *checkers* or *processors* to an existing
-profile that is inheriting values via it's meta-class or parent.
-
-NAMES
------
+Supported keys are:
 
 *allow_dcut* (boolean)::
 
@@ -93,7 +127,8 @@ must match or dput will refuse the upload.
 
 *checkers* (list of string)::
 
-write me
+Defines a list of checkers which are running before the upload. See *CHECKERS*
+below.
 
 *default_host_main* (string)::
 
@@ -103,8 +138,8 @@ the main archive. This variable is used when guessing the host to upload to.
 
 *fqdn* (string)::
 
-This is the fully qualified domain name that will be used (can be specified as
-host:port for HTTP, HTTPS and FTP).
+This is the fully qualified domain name that *dput* will connect to as a target
+site.
 
 *distributions* (string)::
 
@@ -117,7 +152,9 @@ The hash algorithm that should be used in calculating the checksum of the
 files before uploading them. Currently, dput accepts the following values
 for hash:
 
-fix me
+	* 'sha1':: Perform validation of the SHA-1 hash (default when omitted)
+	* 'sha256':: Perform validation of the SHA-256 hash
+	* 'md5':: Perform validation of the MD5 hash
 
 *interface* (string)::
 
@@ -125,69 +162,86 @@ write me
 
 *incoming* (string)::
 
-The directory that you should upload the files to.
+The directory that *dput* should upload files to. Most upload sites do not
+allow to write files in the log-in directory. Specify a path here, to which
+*dput* should change the directory to, before starting to write files.
 
 *method* (string)::
 
-write me
+Use the specified method to upload your package. Currently these alternatives
+are supported:
+
+	* 'ftp':: Use FTP to upload files
+	* 'http' or 'https':: Use HTTP or HTTPS to upload files
+	* 'local':: Upload to a locally mounted location of the file system.
+	  Internally this calls *install(1)*. 
+	* 'scp':: Use scp to upload files. *This method is deprecated*, use 'sftp'
+		instead when possible.
+	* 'sftp':: Use the sftp protocol (a secured file transfer via SSH).
+	
+	* *dput-ng* does not support 'rsync'.
 
 *login* (string)::
 
-Your login on the machine named before. A single asterisk * will cause the scp
-and rsync uploaders to not use supply a login name when calling to ssh, scp,
-and rsync.
+Your login on the machine named before. A single asterisk '*' will cause the
+'scp', 'sftp' and uploaders to not use supply a login name when calling trying
+to authenticate.
 
 
-*meta* (string)::
+*meta* (list of string)::
+
+Specify a list of super classes from which the profile should inherit settings
+explicitly. This is different to the 'DEFAULT.json' profile in such that this
+defines settings conditionally, and not for all profiles. 
 
 *passive_ftp* (boolean)::
 
-This  option  defines  if dput should use passive ftp or active ftp for
-uploading a package to one of the upload queues. By default, dput uses passive
-ftp connections. If you need to use active ftp connections, set passive_ftp to
-0.
-
+This  option  defines whether *dput* should use passive or active FTP for
+uploading a package to one of the upload queues. This name is only meaningful
+when 'method' is set to 'ftp'.
 
 *post_upload_command* (string)::
 
-This option defines a command to be run by dput after a successful upload.
+This option defines a command to be run by dput after a successful upload. The
+command is invoked via the shell and does not get passed any argument. See
+*PROCESSORS* for more sophisticated approaches which are integrated in the
+upload process.
 
 
 *pre_upload_command* (string)::
 
-This option defines a command to be run by dput before a upload happens.
+This option defines a command to be run by dput before an upload. The
+command is invoked via the shell and does not get passed any argument. See
+*CHECKERS* for more sophisticated approaches which are integrated in the
+upload process and can gracefully interrupt the upload process.
 
 
 *processors* (list of string)::
 
-write me
+Defines *PROCESSORS* which shall be run after a successful upload.
+
 
 *run_lintian* (boolean)::
 
 This option defines if lintian should be run before the package will be
-uploaded or not. If the package is not lintian clean, the upload will not
-happen.
+uploaded or not.  *This setting is deprecated* but works as a fallback to the
+corresponding *CHECKER*. The Lintian checker allows much more fine grained
+control over the Lintian invocation.
 
 
+CHECKERS AND PROCESSORS
+------------------------
+
+<write some introductory sentence>
 
 
-Inheritance, Profiles, Checkers and Processors
-----------------------------------------------
+PROFILES AND INHERITANCE
+------------------------
 
 <write some introductory sentence>
 
 Profiles
 ~~~~~~~~
-
-write me
-
-Checkers
-~~~~~~~~
-
-write me
-
-Processors
-~~~~~~~~~~
 
 write me
 
@@ -221,6 +275,14 @@ FILES
      /usr/share/dput-ng/
      /etc/dput.d/
      ~/.dput.d/
+
+AUTHOR
+------
+dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
+Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
+of his other realms and territories King Head of the Fluxbox Window Manager
+Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
+
 
 RESOURCES
 ---------

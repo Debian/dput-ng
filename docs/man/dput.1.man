@@ -109,9 +109,15 @@ OPTIONS
 PROFILES
 --------
 
-Profiles may define upload host names, log-in details and their requied upload
-methods used to upload packages. Moreover, profiles define checks which are
-running before and after uploading. Its format is described in *dput.cf*(5).
+Profiles may define upload 'HOST' names, log-in details and their required
+upload methods used to upload packages. Moreover, profiles define checks which
+are running before and after uploading. Their format is described in *dput(5)*.
+
+Additionally, *dput* reads old-style configuration files from INI style
+configuration files. This format is deprecated for use in dput-ng and described
+in *dput.cf(5)*. In particular this configuration file format does not support
+all configurable settings which are specific to dput-ng. 
+
 
 EXIT STATUS
 -----------
@@ -148,16 +154,16 @@ EXAMPLES
 
 AUTHOR
 ------
-dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the
-Grace of God of the United Kingdom of Debian and Ubuntu and of his other
-realms and territories King Head of the Fluxbox Window Manager Defender of the
-Faith, who insists on is insignia Tagliamonte`.
+dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
+Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
+of his other realms and territories King Head of the Fluxbox Window Manager
+Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 
 
 RESOURCES
 ---------
 
-  link to other manpages here
+*dput(5)*, *dput.cf(5)*, *dcut(1)*
 
 COPYING
 -------

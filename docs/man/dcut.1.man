@@ -232,21 +232,25 @@ EXAMPLES
 
   $ dcut dm --dm "Paul Tagliamonte" --allow "glibc"
 
-  $ dcut rm --searchdirs udj-desktop-client_0.5.1-2_amd64.deb
+  $ dcut dm --dm 0xDEFACED --allow glibc linux --deny kfreebsd9
+
+  $ dcut rm --searchdirs -f udj-desktop-client_0.5.1-2_amd64.deb
+
+  $ dcut ftp-master rm 'linux*.deb'
 
 
 AUTHOR
 ------
-dput-ng was originally written by `Arno Töll` and `Paul Paul Richard I by the
-Grace of God of the United Kingdom of Debian and Ubuntu and of his other
-realms and territories King Head of the Fluxbox Window Manager Defender of the
-Faith, who insists on is insignia Tagliamonte`.
+dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
+Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
+of his other realms and territories King Head of the Fluxbox Window Manager
+Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 
 
 RESOURCES
 ---------
 
-  link to other manpages here
+*dput(5)*, *dput.cf(5)*, *dcut(1)*, *gpg(1)*
 
 COPYING
 -------
