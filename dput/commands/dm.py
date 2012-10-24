@@ -106,7 +106,8 @@ class DmCommand(AbstractCommand):
                 assert(line.startswith("fpr"))
                 parsed_fingerprint = line.split(":")
                 #fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
-                possible_fingerprints.append((current_uid, parsed_fingerprint[9],))
+                possible_fingerprints.append((current_uid,
+                                              parsed_fingerprint[9],))
                 next_line_contains_fpr = False
                 continue
 
