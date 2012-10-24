@@ -90,15 +90,25 @@ class DmCommand(AbstractCommand):
         # TODO: Validate input. Packages must exist (i.e. be not NEW)
         (out, err, exit_status) = run_command(["gpg", "--no-options",
                     "--no-auto-check-trustdb", "--no-default-keyring",
-                    "--list-key", "--with-colons", "--keyring", DM_KEYRING,
-                     args.dm])
+                    "--list-key", "--with-colons", "--fingerprint",
+                    "--keyring", DM_KEYRING, args.dm])
         if exit_status != 0:
             raise DmCommandError("DM fingerprint lookup"
                                  "for argument %s failed. "
                                  "GnuPG returned error: %s" %
                                  (args.dm, err))
         possible_fingerprints = []
-        for line in out.split("\n"):
+        current_uid = None
+        next_line_contains_fpr = False
+        gpg_out = out.split("\n")
+        for line in gpg_out:
+            if next_line_contains_fpr:
+                assert(line.startswith("fpr"))
+                parsed_fingerprint = line.split(":")
+                #fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
+                possible_fingerprints.append((current_uid, parsed_fingerprint[9],))
+                next_line_contains_fpr = False
+
             if not line.startswith("pub"):
                 continue
             else:
@@ -107,8 +117,9 @@ class DmCommand(AbstractCommand):
                 # Paul Tagliamonte <tag@pault.ag>::scESC:
                 # without the newline
                 parsed_fingerprint = line.split(":")
-                possible_fingerprints.append((
-                                parsed_fingerprint[9], parsed_fingerprint[4]))
+
+                current_uid = parsed_fingerprint[9]
+                next_line_contains_fpr = True
 
         if len(possible_fingerprints) > 1:
             raise DmCommandError("DM argument `%s' is ambiguous. "
