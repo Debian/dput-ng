@@ -51,7 +51,7 @@ class DmCommand(AbstractCommand):
         return generate_dak_commands_name(profile)
 
     def register(self, parser, **kwargs):
-        parser.add_argument('--dm', action='store', default=None,
+        parser.add_argument('--uid', action='store', default=None, dest="dm",
                             help="Name, e-mail or fingerprint of an existing "
                             "Debian Maintainer", required=True)
         parser.add_argument('--allow', metavar="PACKAGES",

@@ -147,7 +147,7 @@ detail.
 OPTIONS
 ^^^^^^^
 
-*--dm*::
+*--uid*::
 
 Any searchable, unique identity to identify an existing Debian Maintainer. This
 can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
