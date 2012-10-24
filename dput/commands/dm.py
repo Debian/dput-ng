@@ -108,9 +108,11 @@ class DmCommand(AbstractCommand):
                 #fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
                 possible_fingerprints.append((current_uid, parsed_fingerprint[9],))
                 next_line_contains_fpr = False
-
-            if not line.startswith("pub"):
                 continue
+
+            elif not line.startswith("pub"):
+                continue
+
             else:
                 # will give a line like:
                 # pub:-:4096:1:7B585B30807C2A87:2011-08-18:::-:
