@@ -38,6 +38,22 @@ classes = {
 }
 
 
+def _blame_map(obj, blame):
+    ret = {}
+    for key in obj:
+        val = obj[key]
+        if isinstance(val, dict):
+            ret[key] = _blame_map(obj[key], blame)
+        if isinstance(val, list):
+            vals = {}
+            for v in val:
+                vals[v] = blame
+            ret[key] = vals
+        else:
+            ret[key] = blame
+    return ret
+
+
 class MultiConfig(AbstractConfig):
     """
     Multi-configuration abstraction. This helps abstract
@@ -86,11 +102,20 @@ class MultiConfig(AbstractConfig):
 
         self.configs = configs
 
+        defaults_blame = {}
         defaults = {}
+
         for config in configs:
             defaults.update(config.get_defaults())
+            defaults_blame.update(
+                _blame_map(config.get_defaults(), "%s (%s)" % (
+                    config.path,
+                    'DEFAULT'
+                ))
+            )
 
         self.defaults = defaults
+        self.defaults_blame = defaults_blame
 
     def get_defaults(self):
         """
@@ -112,6 +137,16 @@ class MultiConfig(AbstractConfig):
             logger.debug("Got configuration: %s" % (name))
             for key in ret:
                 logger.debug("\t%s: %s" % (key, ret[key]))
+        return ret
+
+    def get_blame(self, name):
+        ret = self.defaults_blame
+        for config in self.configs:
+            obj = config.get_config(name)
+            ret.update(_blame_map(obj, "%s (%s)" % (
+                config.path,
+                name
+            )))
         return ret
 
     def get_config_blocks(self):
@@ -181,4 +216,13 @@ def profiles():
     configs = config.get_config_blocks()
     if "DEFAULT" in configs:
         configs.remove("DEFAULT")
+    return configs
+
+
+def get_blame_map(name):
+    global _multi_config
+    if _multi_config is None:
+        _multi_config = MultiConfig()
+    config = _multi_config
+    configs = config.get_blame(name)
     return configs

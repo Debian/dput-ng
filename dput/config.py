@@ -40,6 +40,7 @@ class AbstractConfig(object):
 
     def __init__(self, configs):
         self.preload(configs)
+        self.path = ' '.join(configs)
 
     @abc.abstractmethod
     def set_replacements(self, replacements):
