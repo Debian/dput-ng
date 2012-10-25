@@ -17,19 +17,15 @@ easy requests
 -------------
 
   - 637775 (time in .upload files) (pinotree)
+    \- we are still having the alternative to print out the log into the
+       .upload file
 
-dcut
-----
-
-cancel is broken
 
 bin/dput
 --------
 
   - make a file logger?
-  - implement dinstall switch (*sigh*) (PRT - calling a punt)
   - implement --force switch (bypass all checker, ignore .upload file?)
-  - Implement various switches (-H/-U/-o/-p/-v/-V)
 
 config loader
 -------------
@@ -51,32 +47,18 @@ dput/uploader.py
   - change invoke_dput to a less worse name
   - same with uploader
 
-sftp
-----
-
-  - finish impl
-
 uploader
 --------
 
   - A progress bar
+  - Authentication support
 
-rsync
------
-
-  - implement (do people *really* use this??) - (PRT: calling a punt)
 
 profiles
 --------
 
   - find a sane way to allow base checks without always having to copy the
     full list in each profile. (global_checkers?)
-
-package
--------
-
-  - Yep, make a native Debian package out of it (that's right)
-  - file an ITP (and hope the shitstorm may pass by)
 
 feature requests
 ----------------
@@ -88,9 +70,14 @@ feature requests
   - lack of ppa pockets, etc
   - upload to more then one ppa
   - sftp upload bar
+  - Prompt before uploading to stable/security archives
+    
+processors
+----------
 
-dcut
-----
+  - implement the dinstall switch as a processor (possibly!)
 
-  - Support is there, but no input validation is performed. See TODOs in
-    commands/
+dput-info
+---------
+
+  - Implement various switches (/-p/-v/-V) (from dput originally)

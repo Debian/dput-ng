@@ -187,7 +187,6 @@ def determine_logfile(changes, conf, args):
             changes.get_filename()
         ))
 
-    # XXX: ugh. I really hope nobody every tries to localize dput.
     if os.access(logfile, os.R_OK) and not args.force:
         raise UploadException("""Package %s was already uploaded to %s
 If you want to upload nonetheless, use --force or remove %s""" %
