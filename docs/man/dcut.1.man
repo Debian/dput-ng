@@ -160,7 +160,7 @@ supplied matches a *single* DM only.
 Source package(s) where permissions to upload should be granted. Repeat the
 argument to apply permissions to more than one package at once.
 
-*--deny*=PACKAGES
+*--deny*=PACKAGES::
 
 Source package(s) where permissions to upload should be denied. Repeat the
 argument to apply permissions to more than one package at once.
