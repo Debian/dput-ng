@@ -190,6 +190,7 @@ def load_config(config_class, config_name,
     ))
     roots = []
     ret = {}
+    found = False
     template_path = "%s/%s/%s.json"
     locations = configs or dput.core.CONFIG_LOCATIONS
     for config in locations:
@@ -202,11 +203,18 @@ def load_config(config_class, config_name,
         logger.trace("Checking - %s" % (path))
         try:
             if os.path.exists(path):
+                found = True
                 roots.append(path)
                 ret.update(json.load(open(path, 'r')))
         except ValueError as e:
             raise DputConfigurationError("syntax error in %s: %s" % (
                                                 (path, e)))
+
+    if not found:
+        raise DputConfigurationError("No such config: %s/%s" % (
+            config_class,
+            config_name
+        ))
 
     if 'meta' in ret and ret['meta'] != config_name:
         metainfo = load_config("metas", ret['meta'],
