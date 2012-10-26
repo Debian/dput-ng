@@ -200,9 +200,13 @@ def load_config(config_class, config_name,
             config_name
         )
         logger.trace("Checking - %s" % (path))
-        if os.path.exists(path):
-            roots.append(path)
-            ret.update(json.load(open(path, 'r')))
+        try:
+            if os.path.exists(path):
+                roots.append(path)
+                ret.update(json.load(open(path, 'r')))
+        except ValueError as e:
+            raise DputConfigurationError("syntax error in %s: %s" % (
+                                                (path, e)))
 
     if 'meta' in ret and ret['meta'] != config_name:
         metainfo = load_config("metas", ret['meta'],
