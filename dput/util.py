@@ -294,7 +294,7 @@ def run_func_by_name(klass, name, changes, profile):
 
     This is used to run the checkers / processors, internally.
     """
-    logger.debug("running %s: %s" % (klass, name))
+    logger.info("running %s: %s" % (klass, name))
     obj = get_obj(klass, name)
     if obj is None:
         raise DputConfigurationError("No such obj: `%s'" % (
