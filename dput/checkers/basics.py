@@ -278,16 +278,21 @@ def check_allowed_distribution(changes, profile, interface):
 
     The allowed_distributions key is in Python ``re`` syntax.
     """
-    # TODO: This function does not correctly handles distributions
-    #       which is different to allowed_distributions.
     suite = changes['Distribution']
-    srgx = profile['allowed_distributions']
-    if re.match(srgx, suite) is None:
-        raise BadDistributionError("'%s' doesn't match '%s'" % (
-            suite,
-            srgx
-        ))
-
+    if 'allowed_distributions' in profile:
+        srgx = profile['allowed_distributions']
+        if re.match(srgx, suite) is None:
+            raise BadDistributionError("'%s' doesn't match '%s'" % (
+                suite,
+                srgx
+            ))
+        logger.debug("Distribution %s matches '%s'" % (suite,
+                                        profile['allowed_distributions']))
+    if'distributions' in profile:
+        allowed_dists = profile['distributions']
+        if suite not in allowed_dists.split(","):
+            raise BadDistributionError("'%s' doesn't contain distribution '%s'"
+                                       % (profile['distributions'], srgx))
 
 def check_source_needed(changes, profile, interface):
     """
