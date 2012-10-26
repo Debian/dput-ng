@@ -52,14 +52,13 @@ def show_class_list(show):
 
 def show_class(checker, processor):
     if checker:
-        klass = "checker"
+        klass = "checkers"
         thing = checker
     elif processor:
-        klass = "processor"
+        klass = "processors"
         thing = processor
 
     try:
-        klass = None
         docs = obj_docs(klass, thing)
         if docs is None:
             print "Sorry, the author of that module didn't provide documentation."
