@@ -22,6 +22,14 @@ dput-info
 
   borked, needs user-facing cleanup (args, switches, etc, very confusing tool)
 
+dput-bugreport
+--------------
+
+  implement me.
+
+  dump all stuff we need to properly grok issues. dump targets, last run
+  information, full blame, etc.
+
 dput-config
 -----------
 
