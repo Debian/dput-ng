@@ -74,4 +74,4 @@ if args.processor:
     show_class('processors', args.processor)
 
 if args.checker:
-    show_class('checkers', args.processor)
+    show_class('checkers', args.checker)
