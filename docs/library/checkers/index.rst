@@ -11,5 +11,4 @@ Contents:
    :maxdepth: 2
 
    basics
-   changes
    lintian

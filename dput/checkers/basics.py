@@ -187,7 +187,6 @@ def check_debs_in_upload(changes, profile, interface):
         logger.warning("No `enforce` key in check-debs. Skipping checks.")
         return
 
-
     has_debs = False
     for fil in changes.get_files():
         xtn = '.deb'
@@ -288,11 +287,13 @@ def check_allowed_distribution(changes, profile, interface):
                 suite,
                 srgx
             ))
+
     if'distributions' in profile:
         allowed_dists = profile['distributions']
         if suite not in allowed_dists.split(","):
             raise BadDistributionError("'%s' doesn't contain distribution '%s'"
                                        % (suite, profile['distributions']))
+
 
 def check_source_needed(changes, profile, interface):
     """

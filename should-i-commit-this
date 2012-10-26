@@ -8,11 +8,15 @@ FLAKE_RET=$?
 #    echo "$FLAKES"
 #fi
 
-WARNINGS=$(make -C docs html 2>&1 >/dev/null | grep WARNING)
+make -C docs clean >/dev/null 2>&1
+
+WARNINGS=$(make -C docs html 2>&1 >/dev/null)
 DOC_RET=$?
-#if [ "x$WARNINGS" != "x" ]; then
-#    echo "$WARNINGS"
-#fi
+WARNINGS="$(echo ${WARNINGS} | grep WARNING)"
+
+if [ "x$WARNINGS" != "x" ]; then
+    echo "$WARNINGS"
+fi
 nosetests 2> /dev/null
 NOSE_RET=$?
 

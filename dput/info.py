@@ -43,12 +43,15 @@ def host_list():
 
     sys.exit(0)
 
+
 def print_conf():
     print "Unimplemented."
     sys.exit(0)
 
+
 def show_class_list(show):
     print(show)
+
 
 def show_class(checker, processor):
     if checker:
@@ -61,7 +64,8 @@ def show_class(checker, processor):
     try:
         docs = obj_docs(klass, thing)
         if docs is None:
-            print "Sorry, the author of that module didn't provide documentation."
+            print \
+              "Sorry, the author of that module didn't provide documentation."
         else:
             print docs
     except DputConfigurationError as e:
