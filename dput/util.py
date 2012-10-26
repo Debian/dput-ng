@@ -227,10 +227,14 @@ def load_config(config_class, config_name,
                 root,
                 schema
             )
-            if os.path.exists(spath):
-                sobj = json.load(open(spath, 'r'))
-            else:
-                logger.debug("No such config: %s" % (spath))
+            try:
+                if os.path.exists(spath):
+                    sobj = json.load(open(spath, 'r'))
+                else:
+                    logger.debug("No such config: %s" % (spath))
+            except ValueError as e:
+                raise DputConfigurationError("syntax error in %s: %s" % (
+                                                    (spath, e)))
 
         if sobj is None:
             logger.critical("Schema not found: %s" % (schema))
