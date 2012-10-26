@@ -7,7 +7,10 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import argparse
-import dput.info
+import dput.profile
+
+from dput.util import obj_docs
+from dput.exceptions import DputConfigurationError, InvalidConfigError
 
 parser = argparse.ArgumentParser(description=' Debian package upload tool')
 parser.add_argument('-H', '--host-list', action='store_true',
@@ -29,13 +32,46 @@ args = parser.parse_args()
 
 
 if args.host_list:
-    dput.info.host_list()
+    default = dput.profile.load_profile(None)
+    print
+    print "Default method: %s" % (default['method'])
+    print
+    for config in dput.profile.profiles():
+        obj = dput.profile.load_profile("%s:%s" % (config, config))
+        #                               ^^^^^^ fake arg for others
+        if not "fqdn" in obj:  # likely localhost
+            obj['fqdn'] = 'localhost'
+
+        string = "{name} => {fqdn}  (Upload method: {method})".format(**obj)
+        print string
+    print
+    sys.exit(0)
+
+def show_class(klass, thing):
+    try:
+        docs = obj_docs(klass, thing)
+        if docs is None:
+            print \
+              "Sorry, the author of that module didn't provide documentation."
+        else:
+            print docs
+    except DputConfigurationError as e:
+        print "Error with the config file:"
+        print e
+    except InvalidConfigError as e:
+        print "Invalid config file:"
+        print e
 
 if args.print_conf:
-    dput.info.print_conf()
+    print "Not implemented"
+    sys.exit(0)
 
 if args.show:
-    dput.info.show_class_list(args.show)
+    print "Not implemented"
+    sys.exit(0)
 
-if args.checker or args.processor:
-    dput.info.show_class(args.checker, args.processor)
+if args.processor:
+    show_class('processors', args.processor)
+
+if args.checker:
+    show_class('checkers', args.processor)
