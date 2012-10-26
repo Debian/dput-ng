@@ -17,6 +17,21 @@ prime hacks neededing to be done
                         I want # to check whether the orig checksum matches
                         the -1 upload.
 
+dput-info
+---------
+
+  borked, needs user-facing cleanup (args, switches, etc, very confusing tool)
+
+dput-config
+-----------
+
+  implement me.
+
+  dput-config ftp-master --global --enable-checker 'gpg'
+  dput-config localhost --local --enable-processor 'tweet'
+  dput-config ftp-master --get fqdn
+  dput-config ftp-master --blame
+
 easy requests
 -------------
 
@@ -40,7 +55,7 @@ loaded :)
 tests/*
 -------
 
-  - get 100% coverage
+  - get 80% coverage
   - test ftp / sftp w/mockers (pyftpdlib)
 
 dput/uploader.py
@@ -75,7 +90,7 @@ feature requests
   - upload to more then one ppa
   - sftp upload bar
   - Prompt before uploading to stable/security archives
-    
+
 processors
 ----------
 
