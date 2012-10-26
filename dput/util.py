@@ -211,7 +211,10 @@ def load_config(config_class, config_name,
                                                 (path, e)))
 
     if not found:
-        raise DputConfigurationError("No such config: %s/%s" % (
+        if default is not None:
+            return default
+
+        raise NoSuchConfigError("No such config: %s/%s" % (
             config_class,
             config_name
         ))
