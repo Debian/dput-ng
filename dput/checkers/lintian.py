@@ -22,7 +22,6 @@ Lintian checker implementation
 """
 
 import subprocess
-from collections import defaultdict
 
 from dput.core import logger
 from dput.exceptions import CheckerException
@@ -102,6 +101,8 @@ def lintian(changes, profile, interface):
     ignore lists, etc.
     """
     if "run_lintian" in profile:
+        logger.warning("Setting 'run_lintian' is deprecated. "
+                       "Please configure the lintian checker instead.")
         if not profile['run_lintian']:  # XXX: Broken. Fixme.
             logger.info("skipping lintian checking, enable with "
                         "run_lintian = 1 in your dput.cf")
@@ -114,25 +115,31 @@ def lintian(changes, profile, interface):
         experimental=True
     )
 
-    counts = defaultdict(int)
-    tcounts = [x['severity'] for x in tags]
-    for entry in tcounts:
-        counts[entry] += 1
+    sorted_tags = {}
 
-    if len(tags) > 0:
-        for tag in set([x['tag'] for x in tags]):
-            print "  - %s" % (tag)
+    for tag in tags:
+        if not tag['severity'] in sorted_tags:
+            sorted_tags[tag['severity']] = {}
+        if tag['tag'] not in sorted_tags[tag['severity']]:
+            sorted_tags[tag['severity']][tag['tag']] = tag
+    tags = sorted_tags
 
-        inp = interface.query('Lintian Checker', [
+    # XXX: Make this configurable
+    if not "E" in tags:
+        return
+    for tag in set(tags["E"]):
+        print "  - %s: %s" % (tags["E"][tag]['severity'], tag)
+
+    inp = interface.query('Lintian Checker', [
             {'msg': 'Do you consent to these lintian tags? [Ny]',
              'show': True}
-        ])
-        inp = [x.strip().lower() for x in inp]
-        query = inp[0]
-        if query == "":
-            query = 'n'
-        if query != 'y':
-            raise LintianCheckerException("User didn't own up to the "
+    ])
+    inp = [x.strip().lower() for x in inp]
+    query = inp[0]
+    if query == "":
+        query = 'n'
+    if query != 'y':
+        raise LintianCheckerException("User didn't own up to the "
                                           "Lintian issues")
-        else:
-            logger.warning("Uploading with outstanding Lintian issues.")
+    else:
+        logger.warning("Uploading with outstanding Lintian issues.")
