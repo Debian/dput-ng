@@ -282,17 +282,17 @@ def check_allowed_distribution(changes, profile, interface):
     if 'allowed_distributions' in profile:
         srgx = profile['allowed_distributions']
         if re.match(srgx, suite) is None:
+            logger.debug("Distribution does not %s match '%s'" % (suite,
+                                    profile['allowed_distributions']))
             raise BadDistributionError("'%s' doesn't match '%s'" % (
                 suite,
                 srgx
             ))
-        logger.debug("Distribution %s matches '%s'" % (suite,
-                                        profile['allowed_distributions']))
     if'distributions' in profile:
         allowed_dists = profile['distributions']
         if suite not in allowed_dists.split(","):
             raise BadDistributionError("'%s' doesn't contain distribution '%s'"
-                                       % (profile['distributions'], srgx))
+                                       % (suite, profile['distributions']))
 
 def check_source_needed(changes, profile, interface):
     """
