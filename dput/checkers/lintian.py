@@ -24,7 +24,7 @@ Lintian checker implementation
 import subprocess
 
 from dput.core import logger
-from dput.exceptions import CheckerException
+from dput.exceptions import CheckerException, DputConfigurationError
 
 
 class LintianCheckerException(CheckerException):
@@ -77,6 +77,9 @@ def lint(path, pedantic=False, info=False, experimental=False):
         output = subprocess.check_output(args)
     except subprocess.CalledProcessError as e:
         output = e.output
+    except OSError as e:
+        logger.warning("Failed to execute lintian: %s" % (e))
+        raise DputConfigurationError("lintian: %s" % (e))
 
     return process(output)
 
