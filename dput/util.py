@@ -222,8 +222,15 @@ def load_config(config_class, config_name,
     if 'meta' in ret and ret['meta'] != config_name:
         metainfo = load_config("metas", ret['meta'],
                                default={}, configs=configs)
-        metainfo.update(ret)
-        ret = metainfo
+        for key in metainfo:
+            if not key in ret:
+                ret[key] = metainfo[key]
+            else:
+                logger.trace("Ignoring key %s for %s (%s)" % (
+                    key,
+                    ret['meta'],
+                    metainfo[key]
+                ))
 
     obj = _config_cleanup(ret)
     if schema is not None:
