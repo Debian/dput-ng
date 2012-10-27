@@ -22,7 +22,7 @@ Breaks: dput
 Replaces: dput
 Provides: dput
 Depends: ${misc:Depends}, ${python:Depends}, python-dput
-Description: new generation Debian package upload tool
+Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use inter-
  face to Debian (like) package archive hosting facilities. It is allowing
  anyone who works with Debian packages to upload their work to a remote
@@ -48,7 +48,7 @@ Depends: ${misc:Depends}, ${python:Depends},
 Recommends:
  lintian,
  openssh-client,
-Description: new generation Debian package upload tool (Python library)
+Description: next generation Debian package upload tool (Python library)
  dput-ng is a Debian package upload tool which provides an easy to use inter-
  face to Debian (like) package archive hosting facilities. It is allowing
  anyone who works with Debian packages to upload their work to a remote
@@ -65,7 +65,7 @@ Architecture: all
 Section: doc
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${sphinxdoc:Depends}
-Description: new generation Debian package upload tool (documentation)
+Description: next generation Debian package upload tool (documentation)
  dput-ng is a Debian package upload tool which provides an easy to use inter-
  face to Debian (like) package archive hosting facilities. It is allowing
  anyone who works with Debian packages to upload their work to a remote
