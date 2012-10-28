@@ -208,7 +208,8 @@ def load_config(config_class, config_name,
                 ret.update(json.load(open(path, 'r')))
         except ValueError as e:
             raise DputConfigurationError("syntax error in %s: %s" % (
-                                                (path, e)))
+                path, e
+            ))
 
     if not found:
         if default is not None:
@@ -252,7 +253,9 @@ def load_config(config_class, config_name,
                     logger.debug("No such config: %s" % (spath))
             except ValueError as e:
                 raise DputConfigurationError("syntax error in %s: %s" % (
-                                                    (spath, e)))
+                    spath,
+                    e
+                ))
 
         if sobj is None:
             logger.critical("Schema not found: %s" % (schema))

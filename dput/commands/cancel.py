@@ -56,8 +56,9 @@ class CancelCommand(AbstractCommand):
         fh.write("Commands:\n")
         for rm_file in args.file:
             fh.write("  %s %s\n" % (
-                                     self.cmd_name,
-                                     rm_file))
+                self.cmd_name,
+                rm_file
+            ))
 
     def validate(self, args):
         # TODO: Validate input. It must be a changes file reference

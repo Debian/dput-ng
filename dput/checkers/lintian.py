@@ -134,15 +134,17 @@ def lintian(changes, profile, interface):
         print "  - %s: %s" % (tags["E"][tag]['severity'], tag)
 
     inp = interface.query('Lintian Checker', [
-            {'msg': 'Do you consent to these lintian tags? [Ny]',
-             'show': True}
+        {'msg': 'Do you consent to these lintian tags? [Ny]',
+         'show': True}
     ])
     inp = [x.strip().lower() for x in inp]
     query = inp[0]
     if query == "":
         query = 'n'
     if query != 'y':
-        raise LintianCheckerException("User didn't own up to the "
-                                          "Lintian issues")
+        raise LintianCheckerException(
+            "User didn't own up to the "
+            "Lintian issues"
+        )
     else:
         logger.warning("Uploading with outstanding Lintian issues.")

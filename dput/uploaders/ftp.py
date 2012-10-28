@@ -80,10 +80,10 @@ class FtpUploader(AbstractUploader):
                 self._ftp.cwd(self._config["incoming"])
             except ftplib.error_perm as e:
                 raise FtpUploadException(
-                   "Could not change directory to %s: %s" % (
-                       self._config["incoming"],
-                       e
-                   )
+                    "Could not change directory to %s: %s" % (
+                        self._config["incoming"],
+                        e
+                    )
                 )
 
     def upload_file(self, filename, upload_filename=None):

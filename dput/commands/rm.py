@@ -49,9 +49,10 @@ class RmCommand(AbstractCommand):
         fh.write("Commands:\n")
         for rm_file in args.file:
             fh.write("  %s %s %s\n" % (
-                                     self.cmd_name,
-                                     "--searchdirs" if args.searchdirs else "",
-                                     rm_file))
+                self.cmd_name,
+                "--searchdirs" if args.searchdirs else "",
+                rm_file
+            ))
 
     def validate(self, args):
         print("validate")

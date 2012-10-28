@@ -88,10 +88,12 @@ class DmCommand(AbstractCommand):
             return fingerprints
 
         # TODO: Validate input. Packages must exist (i.e. be not NEW)
-        (out, err, exit_status) = run_command(["gpg", "--no-options",
-                    "--no-auto-check-trustdb", "--no-default-keyring",
-                    "--list-key", "--with-colons", "--fingerprint",
-                    "--keyring", DM_KEYRING, args.dm])
+        (out, err, exit_status) = run_command([
+            "gpg", "--no-options",
+            "--no-auto-check-trustdb", "--no-default-keyring",
+            "--list-key", "--with-colons", "--fingerprint",
+            "--keyring", DM_KEYRING, args.dm
+        ])
         if exit_status != 0:
             raise DmCommandError("DM fingerprint lookup"
                                  "for argument %s failed. "

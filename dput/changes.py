@@ -234,12 +234,13 @@ class Changes(object):
         gpg_path = "gpg"
 
         (gpg_output, gpg_output_stderr, exit_status) = run_command([
-                gpg_path, "--status-fd", "1", "--verify",
-                "--batch", self.get_changes_file()])
+            gpg_path, "--status-fd", "1", "--verify",
+            "--batch", self.get_changes_file()
+        ])
 
         if exit_status == -1:
             raise ChangesFileException(
-                                "Unknown problem while verifying signature")
+                "Unknown problem while verifying signature")
 
         # contains verbose human readable GPG information
         print(gpg_output_stderr)  # XXX: Don't depend on stdout
@@ -254,7 +255,8 @@ class Changes(object):
             raise ChangesFileException("No signature on")
         else:
             raise ChangesFileException(
-                                "Unknown problem while verifying signature")
+                "Unknown problem while verifying signature"
+            )
 
         key = None
         for line in gpg_output.split("\n"):
@@ -307,12 +309,15 @@ class Changes(object):
 
             if not hash_type.hexdigest() == changed_files[field_name]:
                 raise ChangesFileException(
-                            "Checksum mismatch for file %s: %s != %s" %
-                            (filename, hash_type.hexdigest(),
-                             changed_files[field_name]))
+                    "Checksum mismatch for file %s: %s != %s" % (
+                        filename,
+                        hash_type.hexdigest(),
+                        changed_files[field_name]
+                    ))
             else:
-                logger.trace("%s Checksum for file %s matches" %
-                             (field_name, filename))
+                logger.trace("%s Checksum for file %s matches" % (
+                    field_name, filename
+                ))
 
 
 def parse_changes_file(filename, directory=None):

@@ -104,8 +104,7 @@ def check_gpg_signature(changes, profile, interface):
     """
 
     if "allow_unsigned_uploads" in profile:
-        if profile['allow_unsigned_uploads'] and \
-           profile['allow_unsigned_uploads'] != '0':
+        if profile['allow_unsigned_uploads']:
             logger.info("Not checking GPG signature due to "
                         "allow_unsigned_uploads being set.")
             return
@@ -179,9 +178,7 @@ def check_debs_in_upload(changes, profile, interface):
         else:
             logger.warning("Garbage value for check-debs/enforce - is %s,"
                            " valid values are `debs` and `source`. Skipping"
-                           " checks." % (
-                                model
-                           ))
+                           " checks." % (model))
             return
     else:
         logger.warning("No `enforce` key in check-debs. Skipping checks.")
@@ -256,7 +253,7 @@ def check_distribution_matches(changes, profile, interface):
             actual == 'sid'
         ):
             err += \
-              "\nLooks like you forgot -d experimental when invoking sbuild."
+                "\nLooks like you forgot -d experimental when invoking sbuild."
         raise SuiteMismatchError(err)
 
 
@@ -282,8 +279,10 @@ def check_allowed_distribution(changes, profile, interface):
     if 'allowed_distributions' in profile:
         srgx = profile['allowed_distributions']
         if re.match(srgx, suite) is None:
-            logger.debug("Distribution does not %s match '%s'" % (suite,
-                                    profile['allowed_distributions']))
+            logger.debug("Distribution does not %s match '%s'" % (
+                suite,
+                profile['allowed_distributions']
+            ))
             raise BadDistributionError("'%s' doesn't match '%s'" % (
                 suite,
                 srgx
@@ -292,8 +291,12 @@ def check_allowed_distribution(changes, profile, interface):
     if'distributions' in profile:
         allowed_dists = profile['distributions']
         if suite not in allowed_dists.split(","):
-            raise BadDistributionError("'%s' doesn't contain distribution '%s'"
-                                       % (suite, profile['distributions']))
+            raise BadDistributionError(
+                "'%s' doesn't contain distribution '%s'" % (
+                    suite,
+                    profile['distributions']
+                ))
+
 
 def check_protected_distributions(changes, profile, interface):
     """
@@ -328,8 +331,8 @@ def check_protected_distributions(changes, profile, interface):
         logger.trace("Querying the user for input. The upload targets a "
                      "protected distribution")
         inp = interface.query('Protected Checker', [
-                {'msg': '%s [Ny]' % (msg),
-                 'show': True}
+            {'msg': '%s [Ny]' % (msg),
+             'show': True}
         ])
         inp = [x.strip().lower() for x in inp]
         query = inp[0]
@@ -380,10 +383,12 @@ def check_source_needed(changes, profile, interface):
             break
 
     if debian_revision == 1 and not orig_tarball_found:
-        raise SourceMissingError("Upload appears to be a new upstream " +
-                            "version but does not include original tarball")
+        raise SourceMissingError(
+            "Upload appears to be a new upstream "
+            "version but does not include original tarball"
+        )
     elif debian_revision > 1 and orig_tarball_found:
-        logger.warning("Upload appears to be a Debian specific change, " +
+        logger.warning("Upload appears to be a Debian specific change, "
                        "but does include original tarball")
 
     # TODO: Are we insane doing this? e.g. consider -B uploads?
