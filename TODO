@@ -81,6 +81,34 @@ uploader
   - Authentication support
 
 
+user interface
+---------------
+
+ - Do not let interface consumer do their own input handling. Instead, provide
+   an abstraction, e.g. something like
+   
+           inp = interface.query('Protected Checker', [
+                {'msg': msg,
+                 'type': 'boolean_yes_no',
+                 'default': False
+                 'show': True}
+        ])
+        
+        if inp:
+        	# ...
+   
+   instead of
+   
+   
+           inp = interface.query('Protected Checker', [
+                {'msg': '%s [Ny]' % (msg),
+                 'show': True}
+        ])
+        inp = [x.strip().lower() for x in inp]
+        if inp == 'foo':
+        	#...
+   
+
 profiles
 --------
 
