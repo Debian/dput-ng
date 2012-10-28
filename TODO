@@ -1,6 +1,17 @@
 TODO list for dput-ng
 =====================
 
+Important issues
+================
+
+14:17 < noshadow> paultag: so you just send passwords to a totally untrusted
+                  host? (and for saving the result I think you use the wrong
+                  loading function)
+
+end important issues
+====================
+
+
 prime hacks neededing to be done
 
   $ grep -E "(TODO|XXX)" . -r
