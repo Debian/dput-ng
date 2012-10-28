@@ -6,6 +6,7 @@
     },
     "checkers": [
         "allowed-distribution",
+        "protected-distribution",
         "checksum",
         "suite-mismatch",
         "check-debs",

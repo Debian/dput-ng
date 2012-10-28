@@ -271,7 +271,8 @@ def check_allowed_distribution(changes, profile, interface):
 
         {
             ...
-            "allowed_distributions": "(?!UNRELEASED)"
+            "allowed_distributions": "(?!UNRELEASED)",
+            "distributions": ["unstable", "testing"]
             ...
         }
 
@@ -293,6 +294,53 @@ def check_allowed_distribution(changes, profile, interface):
         if suite not in allowed_dists.split(","):
             raise BadDistributionError("'%s' doesn't contain distribution '%s'"
                                        % (suite, profile['distributions']))
+
+def check_protected_distributions(changes, profile, interface):
+    """
+    The ``protected distributions`` checker is a stock dput checker that makes
+    sure, users intending an upload for a special care archive (
+    testing-proposed-updates, stable-security, etc.) did really follow the
+    archive policies for that.
+
+    Profile key: none
+
+    """
+    # XXX: This check does not contain code names yet. We need a global way
+    #      to retrieve and share current code names.
+    suite = changes['Distribution']
+    query_user = False
+    release_team_suites = ["testing-proposed-updates", "proposed-updates"]
+    if suite in release_team_suites:
+        msg = "Are you sure to upload to %s? Did you coordinate with the " \
+            "Release Team before your upload?" % (suite)
+        error_msg = "Aborting upload to Release Team managed suite upon " \
+            "request"
+        query_user = True
+    security_team_suites = ["stable-security", "oldstable-security"]
+    if suite in security_team_suites:
+        msg = "Are you sure to upload to %s? Did you coordinate with the " \
+            "Security Team before your upload?" % (suite)
+        error_msg = "Aborting upload to Security Team managed suite upon " \
+            "request"
+        query_user = True
+
+    if query_user:
+        logger.trace("Querying the user for input. The upload targets a "
+                     "protected distribution")
+        inp = interface.query('Protected Checker', [
+                {'msg': '%s [Ny]' % (msg),
+                 'show': True}
+        ])
+        inp = [x.strip().lower() for x in inp]
+        query = inp[0]
+        if query == "":
+            query = 'n'
+        if query != 'y':
+            raise BadDistributionError(error_msg)
+        else:
+            logger.warning("Uploading with explicit confirmation by the user")
+    else:
+        logger.trace("Nothing to do for checker protected_distributions")
 
 
 def check_source_needed(changes, profile, interface):

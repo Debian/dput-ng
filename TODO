@@ -97,7 +97,6 @@ feature requests
   - lack of ppa pockets, etc
   - upload to more then one ppa
   - sftp upload bar
-  - Prompt before uploading to stable/security archives
 
 processors
 ----------
