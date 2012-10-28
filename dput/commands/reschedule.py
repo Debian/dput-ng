@@ -49,9 +49,10 @@ class RescheduleCommand(AbstractCommand):
         fh.write("Commands:\n")
         for rm_file in args.file:
             fh.write("  %s %s %s-day\n" % (
-                                     self.cmd_name,
-                                     rm_file,
-                                     args.days))
+                self.cmd_name,
+                rm_file,
+                args.days
+            ))
 
     def validate(self, args):
         # TODO: any todos here?

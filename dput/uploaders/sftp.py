@@ -23,6 +23,7 @@ SFTP Uploader implementation
 
 import paramiko
 import os.path
+from binascii import hexlify
 
 from dput.core import logger
 from dput.uploader import AbstractUploader
@@ -49,6 +50,27 @@ def find_username(conf):
         if new_user != "*":
             user = new_user
     return user
+
+
+class AskToAccept(paramiko.AutoAddPolicy):
+    """
+    Policy for automatically adding the hostname, but only after asking.
+    """
+
+    def __init__(self, uploader):
+        super(AskToAccept, self).__init__()
+        self.uploader = uploader
+
+    def missing_host_key(self, client, hostname, key):
+        accept = self.uploader.prompt_ui('please login', [
+            {'msg': 'To accept %s hostkey %s for %s type "yes":' % (
+                key.get_name(), hexlify(key.get_fingerprint()), hostname
+            ), 'show': True}
+        ])
+        if accept[0] == "yes":
+            super(AskToAccept, self).missing_host_key(client, hostname, key)
+        else:
+            raise paramiko.SSHException('Unknown server %s' % hostname)
 
 
 class SFTPUploader(AbstractUploader):
@@ -81,6 +103,7 @@ class SFTPUploader(AbstractUploader):
             ssh_kwargs['compress'] = self._config['scp_compress']
 
         config = paramiko.SSHConfig()
+        config.parse(open('/etc/ssh/ssh_config'))
         config.parse(open(os.path.expanduser('~/.ssh/config')))
         o = config.lookup(fqdn)
 
@@ -96,8 +119,37 @@ class SFTPUploader(AbstractUploader):
 
         logger.info("Logging into host %s as %s" % (fqdn, user))
         self._sshclient = paramiko.SSHClient()
-        self._sshclient.load_system_host_keys()
-        self._sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        if 'globalknownhostsfile' in o:
+            for gkhf in o['globalknownhostsfile'].split():
+                if os.path.isfile(gkhf):
+                    self._sshclient.load_system_host_keys(gkhf)
+        else:
+            files = [
+                "/etc/ssh/ssh_known_hosts",
+                "/etc/ssh/ssh_known_hosts2"
+            ]
+            for fpath in files:
+                if os.path.isfile(fpath):
+                    self._sshclient.load_system_host_keys(fpath)
+
+        if 'userknownhostsfile' in o:
+            for u in o['userknownhostsfile'].split():
+                # actually, ssh supports a bit more than ~/,
+                # but that would be a task for paramiko...
+                ukhf = os.path.expanduser(u)
+                if os.path.isfile(ukhf):
+                    self._sshclient.load_host_keys(ukhf)
+        else:
+            for u in ['~/.ssh/known_hosts2', '~/.ssh/known_hosts']:
+                ukhf = os.path.expanduser(u)
+                if os.path.isfile(ukhf):
+                    # Ideally, that should be load_host_keys,
+                    # so that the known_hosts file can be written
+                    # again. But paramiko can destroy the contents
+                    # or parts of it, so no writing by using
+                    # load_system_host_keys here, too:
+                    self._sshclient.load_system_host_keys(ukhf)
+        self._sshclient.set_missing_host_key_policy(AskToAccept(self))
         self._auth(fqdn, ssh_kwargs)
         self._sftp = self._sshclient.open_sftp()
         logger.debug("Changing directory to %s" % (incoming))

@@ -32,8 +32,11 @@ def make_delayed_upload(conf, delayed_days):
 
     Mangles the supplied configuration object
     """
-    incoming_directory = os.path.join(conf['incoming'],
-                                    "DELAYED", "%d-day" % (delayed_days))
+    incoming_directory = os.path.join(
+        conf['incoming'],
+        "DELAYED",
+        "%d-day" % (delayed_days)
+    )
     logger.debug("overriding upload directory to %s" % (incoming_directory))
     conf['incoming'] = incoming_directory
 

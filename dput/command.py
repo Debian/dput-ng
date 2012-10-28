@@ -124,9 +124,13 @@ def sign_file(filename, keyid=None, name=None, email=None):
 
     logger.trace("GPG identity hint: %s" % (identity_hint))
 
-    (gpg_output, gpg_output_stderr, exit_status) = run_command([gpg_path,
-                "--default-key", identity_hint, "--status-fd", "1", "--sign",
-                "--armor", "--clearsign", filename])
+    (gpg_output, gpg_output_stderr, exit_status) = run_command([
+        gpg_path,
+        "--default-key", identity_hint,
+        "--status-fd", "1",
+        "--sign", "--armor", "--clearsign",
+        filename
+    ])
 
     if exit_status == -1:
         raise DcutError("Unknown problem while making cleartext signature")
@@ -148,9 +152,9 @@ def sign_file(filename, keyid=None, name=None, email=None):
 def upload_commands_file(filename, upload_filename, profile):
     with uploader(profile['method'], profile) as obj:
         logger.info("Uploading %s to %s" % (
-                                            upload_filename,
-                                            profile['name']
-                                            ))
+            upload_filename,
+            profile['name']
+        ))
         obj.upload_file(filename, upload_filename=upload_filename)
 
 
@@ -199,7 +203,8 @@ def invoke_dcut(args):
                                                             profile['name']))
             if not os.access(args.upload_file, os.R_OK):
                 raise DcutError("Cannot access %s: No such file" % (
-                                                        args.upload_file))
+                    args.upload_file
+                ))
             upload_path = args.upload_file
         else:
             fh = tempfile.NamedTemporaryFile(mode='w+r', delete=False)
@@ -217,7 +222,8 @@ def invoke_dcut(args):
         elif args.output and not args.simulate:
             if os.access(args.output, os.R_OK):
                 logger.error("Not writing %s: File already exists" % (
-                                                                args.output))
+                    args.output
+                ))
                 # ... but intentionally do nothing
                 # TODO: or rais exception?
                 return
