@@ -4,9 +4,10 @@ TODO list for dput-ng
 Important issues
 ================
 
-14:17 < noshadow> paultag: so you just send passwords to a totally untrusted
-                  host? (and for saving the result I think you use the wrong
-                  loading function)
+Catch paramiko.SSHException from sftp's
+self._policy.missing_host_key(self, server_hostkey_name, server_key)
+and raise some sort of dput error.
+
 
 end important issues
 ====================
