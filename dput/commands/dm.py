@@ -79,6 +79,9 @@ class DmCommand(AbstractCommand):
             fh.write("\n")
 
     def validate(self, args):
+        if args.force:
+            return
+
         # I HATE embedded functions. But OTOH this function is not usable
         # somewhere else, so...
         def pretty_print_list(tuples):
