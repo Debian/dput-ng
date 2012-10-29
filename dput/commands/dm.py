@@ -20,7 +20,7 @@
 
 import time
 import os
-
+import os.path
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 from dput.core import logger
@@ -82,6 +82,11 @@ class DmCommand(AbstractCommand):
         if args.force:
             return
 
+        if not os.path.exists(DM_KEYRING):
+            raise DmCommandError("To manage DM permissions, the `debian-keyring' "
+                         "keyring package must be installed. "
+                         "File %s does not exist" % (DM_KEYRING))
+            return
         # I HATE embedded functions. But OTOH this function is not usable
         # somewhere else, so...
         def pretty_print_list(tuples):

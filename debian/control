@@ -48,6 +48,7 @@ Depends: ${misc:Depends}, ${python:Depends},
 Recommends:
  lintian,
  openssh-client,
+ debian-keyring
 Description: next generation Debian package upload tool (Python library)
  dput-ng is a Debian package upload tool which provides an easy to use inter-
  face to Debian (like) package archive hosting facilities. It allows
