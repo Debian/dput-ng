@@ -44,8 +44,7 @@ class ScpUploadException(UploadException):
 
 class ScpUploader(AbstractUploader):
     """
-    Provides an interface to upload files through SCP. Supports anonymous
-    uploads only for the time being.
+    Provides an interface to upload files through SCP.
 
     This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
