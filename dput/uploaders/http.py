@@ -43,8 +43,8 @@ class HttpUploadException(UploadException):
 
 class HTTPUploader(AbstractUploader):
     """
-    Provides an interface to upload files through HTTP. Supports anonymous
-    uploads only for the time being.
+    Provides an interface to upload files through HTTP. Supports only anonymous
+    uploads for the time being.
 
     This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
