@@ -187,7 +187,8 @@ def determine_logfile(changes, conf, args):
             changes.get_filename()
         ))
 
-    if os.access(logfile, os.R_OK) and not args.force:
+    if os.access(logfile, os.R_OK) and os.stat(logfile).st_size > 0 and \
+       not args.force:
         raise UploadException("""Package %s was already uploaded to %s
 If you want to upload nonetheless, use --force or remove %s""" % (
             changes.get_package_name(),
