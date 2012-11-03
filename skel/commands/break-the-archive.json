@@ -1,0 +1,4 @@
+{
+    "name": "break-the-archive command",
+    "path": "dput.commands.breakthearchive.BreakTheArchiveCommand"
+}
