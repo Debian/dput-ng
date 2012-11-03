@@ -22,6 +22,7 @@ SFTP Uploader implementation
 """
 
 import paramiko
+import socket
 import os.path
 from binascii import hexlify
 
@@ -151,7 +152,12 @@ class SFTPUploader(AbstractUploader):
                     self._sshclient.load_system_host_keys(ukhf)
         self._sshclient.set_missing_host_key_policy(AskToAccept(self))
         self._auth(fqdn, ssh_kwargs)
-        self._sftp = self._sshclient.open_sftp()
+        try:
+            self._sftp = self._sshclient.open_sftp()
+        except paramiko.SSHException, e:
+            raise SftpUploadException(
+                  ("Error opening SFTP channel to %s " +
+                   "(perhaps sftp is disabled there?): %s" )% (fqdn, repr(e)))
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
 
@@ -161,6 +167,9 @@ class SFTPUploader(AbstractUploader):
         try:
             self._sshclient.connect(fqdn, **ssh_kwargs)
             logger.debug("Logged in!")
+        except socket.error, e:
+            raise SftpUploadException("SFTP error uploading to %s: %s" % (
+                                                           fqdn, repr(e)))
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
             user, pw = self.prompt_ui('please login', [
@@ -171,6 +180,9 @@ class SFTPUploader(AbstractUploader):
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
             self._auth(fqdn, ssh_kwargs, _first=_first + 1)
+        except paramiko.SSHException, e:
+            raise SftpUploadException("SFTP error uploading to %s: %s" % (
+                                                           fqdn, repr(e)))
 
     def upload_file(self, filename, upload_filename=None):
         """

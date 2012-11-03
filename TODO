@@ -4,11 +4,7 @@ TODO list for dput-ng
 Important issues
 ================
 
-Catch paramiko.SSHException from sftp's
-self._policy.missing_host_key(self, server_hostkey_name, server_key)
-and raise some sort of dput error.
-
-Fail with grace if DM keyring isn't present.
+For some reason, ubuntu meta breaks with source only. look at basics again.
 
 Allow sane --force behavior for DM permissions if the key isn't in the ring
 for some reason.

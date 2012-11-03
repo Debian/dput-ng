@@ -44,8 +44,7 @@ class ScpUploadException(UploadException):
 
 class ScpUploader(AbstractUploader):
     """
-    Provides an interface to upload files through SCP. Supports anonymous
-    uploads only for the time being.
+    Provides an interface to upload files through SCP.
 
     This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
@@ -76,7 +75,7 @@ class ScpUploader(AbstractUploader):
         (_, e, x) = run_command(scp)
         if x != 0:
             raise ScpUploadException("Failed to upload %s to %s: %s" % (
-                upload_filename, self._config.name(), e)
+                upload_filename, targetfile, e)
             )
 
     def shutdown(self):
