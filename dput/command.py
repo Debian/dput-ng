@@ -78,7 +78,7 @@ def load_commands():
         logger.debug("importing command: %s" % (command))
         obj = get_obj('commands', command)
         if obj is None:
-            raise DputConfigurationError("No such checker: `%s'" % (
+            raise DputConfigurationError("No such command: `%s'" % (
                 command
             ))
         commands.append(obj())
