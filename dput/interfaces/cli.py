@@ -45,17 +45,27 @@ class CLInterface(AbstractInterface):
         assert(False)
 
     def str_to_button(self, str_button, default):
+        str_button = str_button.lower()
         # return default when no input was supplied
         if default and not str_button:
             return default
         # compare literally
         if str_button in ALL_BUTTONS:
             return str_button
-        # guess input until only one choice is left
-        assert(False)
+        # guess input button until only one choice is left or the outcome is
+        # known to be ambiguous
+        for index in range(0, len(str_button) + 1):
+            buttons = [count for count in ALL_BUTTONS if
+                       count.startswith(str_button[0:index])]
+            if len(buttons) == 0:
+                break
+            elif len(buttons) == 1:
+                return buttons[0]
+        return None
 
 
-    def boolean(self, title, message, question_type=BUTTON_YES_NO, default=None):
+    def boolean(self, title, message, question_type=BUTTON_YES_NO,
+                default=None):
         super(CLInterface, self).boolean(title, message, question_type)
 
         choices = ""
@@ -68,9 +78,11 @@ class CLInterface(AbstractInterface):
             question_len -= 1
             if question_len:
                 choices += ", "
-        input = self.question(title, "%s [%s]" % (message, choices))
-        self.str_to_button(input, default)
-        if input in (BUTTON_OK, BUTTON_YES):
+        user_input = None
+        while not user_input:
+            user_input = self.question(title, "%s [%s]" % (message, choices))
+            user_input = self.str_to_button(user_input, default)
+        if user_input in (BUTTON_OK, BUTTON_YES):
             return True
         return False
 
