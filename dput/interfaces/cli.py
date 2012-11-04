@@ -109,8 +109,9 @@ class CLInterface(AbstractInterface):
         See :meth:`dput.interface.AbstractInterface.message`
         """
         super(CLInterface, self).message(title, message, question_type)
-        # XXX implement when needed. No use so far
-        raise NotImplemented()
+        if title:
+            sys.stdout.write("%s: " % (title))
+        sys.stdout.write("%s\n" % (message))
 
     def list(self, title, message, selections=[]):
         """
