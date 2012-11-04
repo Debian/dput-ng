@@ -28,8 +28,8 @@ class RescheduleCommandError(DcutError):
 
 
 class RescheduleCommand(AbstractCommand):
-    def __init__(self):
-        super(RescheduleCommand, self).__init__()
+    def __init__(self, interface):
+        super(RescheduleCommand, self).__init__(interface)
         self.cmd_name = "reschedule"
         self.cmd_purpose = "reschedule a deferred upload"
 

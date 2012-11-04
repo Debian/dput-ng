@@ -26,9 +26,10 @@ import email.utils
 import shutil
 
 import dput.profile
-from dput.util import get_obj, get_configs, run_command
+from dput.util import get_obj_by_name, get_configs, run_command
 from dput.core import logger
-from dput.exceptions import UploadException, DputConfigurationError, DcutError
+from dput.exceptions import (UploadException, DputConfigurationError,
+                             DcutError, NoSuchConfigError)
 from dput.overrides import force_passive_ftp_upload
 from dput.uploader import uploader
 
@@ -40,9 +41,10 @@ class AbstractCommand(object):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self):
+    def __init__(self, interface):
         self.cmd_name = None
         self.cmd_purpose = None
+        self.interface = interface
 
     @abc.abstractmethod
     def register(self, parser, **kwargs):
@@ -69,19 +71,18 @@ def find_commands():
     return get_configs('commands')
 
 
-# XXX: This function could be refactored over to dput. There a *very*
-# similar function exists.
-#   -- Note: paultag refactored it back, it's in utils now. Low hanging.
 def load_commands():
     commands = []
     for command in find_commands():
         logger.debug("importing command: %s" % (command))
-        obj = get_obj('commands', command)
-        if obj is None:
-            raise DputConfigurationError("No such command: `%s'" % (
-                command
-            ))
-        commands.append(obj())
+        try:
+            # XXX: Stubbed the profile for now. That ignores any user choice
+            #      on the profile
+            with get_obj_by_name('commands', command, {}) as(obj, interface):
+                commands.append(obj(interface))
+        except NoSuchConfigError:
+            raise DputConfigurationError("No such command: `%s'" % (command))
+
     return commands
 
 

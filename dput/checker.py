@@ -22,7 +22,7 @@ Implementation of the interface to run a checker.
 """
 
 from dput.util import obj_docs, run_func_by_name
-
+from dput.core import logger
 
 def checker_docs(checker):
     return obj_docs('checkers', checker)
@@ -43,4 +43,5 @@ def run_checker(checker, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the checker's runtime.
     """
+    logger.info("running %s" % (checker))
     return run_func_by_name('checkers', checker, changes, profile)

@@ -39,8 +39,8 @@ def generate_debianqueued_commands_name(profile):
 
 
 class CancelCommand(AbstractCommand):
-    def __init__(self):
-        super(CancelCommand, self).__init__()
+    def __init__(self, interface):
+        super(CancelCommand, self).__init__(interface)
         self.cmd_name = "cancel"
         self.cmd_purpose = "cancel a deferred upload"
 

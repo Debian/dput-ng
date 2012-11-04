@@ -42,8 +42,8 @@ def generate_dak_commands_name(profile):
 
 
 class DmCommand(AbstractCommand):
-    def __init__(self):
-        super(DmCommand, self).__init__()
+    def __init__(self, interface):
+        super(DmCommand, self).__init__(interface)
         self.cmd_name = "dm"
         self.cmd_purpose = "manage Debian Mantainer (DM) permissions"
 

@@ -317,7 +317,7 @@ def get_obj_by_name(klass, name, profile):
     """
     Run a function, defined by ``name``, filed in class ``klass``
     """
-    logger.info("running %s: %s" % (klass, name))
+    logger.trace("running %s: %s" % (klass, name))
     obj = get_obj(klass, name)
     if obj is None:
         raise DputConfigurationError("No such obj: `%s'" % (
@@ -352,5 +352,5 @@ def run_func_by_name(klass, name, changes, profile):
 
     This is used to run the checkers / processors, internally.
     """
-    with get_obj_by_name(klass, name, profile) as (obj, interface):
+    with get_obj_by_name(klass, name, profile) as(obj, interface):
         obj(changes, profile, interface)

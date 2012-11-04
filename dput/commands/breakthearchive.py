@@ -33,8 +33,8 @@ class BreakTheArchiveCommandCommandError(DcutError):
 
 
 class BreakTheArchiveCommand(AbstractCommand):
-    def __init__(self):
-        super(BreakTheArchiveCommand, self).__init__()
+    def __init__(self, interface):
+        super(BreakTheArchiveCommand, self).__init__(interface)
         self.cmd_name = "break-the-archive"
         self.cmd_purpose = "break the archive (no, really)"
 

@@ -22,8 +22,8 @@ from dput.command import AbstractCommand
 
 
 class UploadCommand(AbstractCommand):
-    def __init__(self):
-        super(UploadCommand, self).__init__()
+    def __init__(self, interface):
+        super(UploadCommand, self).__init__(interface)
         self.cmd_name = "upload"
         self.cmd_purpose = "Upload an existing file as is"
 

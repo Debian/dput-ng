@@ -28,8 +28,8 @@ class RmCommandError(DcutError):
 
 
 class RmCommand(AbstractCommand):
-    def __init__(self):
-        super(RmCommand, self).__init__()
+    def __init__(self, interface):
+        super(RmCommand, self).__init__(interface)
         self.cmd_name = "rm"
         self.cmd_purpose = "remove a file from the upload queue"
 
