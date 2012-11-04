@@ -23,8 +23,10 @@ CLI User Interface Implementation
 
 import sys
 import getpass
+from dput.core import logger
 
-from dput.interface import *
+from dput.interface import (AbstractInterface, ALL_BUTTONS, BUTTON_YES_NO,
+                            BUTTON_OK, BUTTON_YES)
 
 
 class CLInterface(AbstractInterface):
@@ -97,6 +99,7 @@ class CLInterface(AbstractInterface):
         while not user_input:
             user_input = self.question(title, "%s [%s]" % (message, choices))
             user_input = self.str_to_button(user_input, default)
+        logger.trace("translated user input '%s'" % (user_input))
         if user_input in (BUTTON_OK, BUTTON_YES):
             return True
         return False
@@ -107,7 +110,7 @@ class CLInterface(AbstractInterface):
         """
         super(CLInterface, self).message(title, message, question_type)
         # XXX implement when needed. No use so far
-        assert(False)
+        raise NotImplemented()
 
     def list(self, title, message, selections=[]):
         """
@@ -115,7 +118,7 @@ class CLInterface(AbstractInterface):
         """
         super(CLInterface, self).list(title, message, selections)
         # XXX implement when needed. No use so far
-        assert(False)
+        raise NotImplemented()
 
     def question(self, title, message, echo_input=True):
         """
