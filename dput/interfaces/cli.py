@@ -24,7 +24,7 @@ CLI User Interface Implementation
 import sys
 import getpass
 
-from dput.interface import AbstractInterface
+from dput.interface import *
 
 
 class CLInterface(AbstractInterface):
@@ -38,19 +38,66 @@ class CLInterface(AbstractInterface):
         """
         pass  # nothing here.
 
-    def query(self, title, questions):
+    def button_to_str(self, button):
+        for item in ALL_BUTTONS:
+            if item == button:
+                return item
+        assert(False)
+
+    def str_to_button(self, str_button, default):
+        # return default when no input was supplied
+        if default and not str_button:
+            return default
+        # compare literally
+        if str_button in ALL_BUTTONS:
+            return str_button
+        # guess input until only one choice is left
+        assert(False)
+
+
+    def boolean(self, title, message, question_type=BUTTON_YES_NO, default=None):
+        super(CLInterface, self).boolean(title, message, question_type)
+
+        choices = ""
+        question_len = len(question_type)
+        for question in question_type:
+            button_name = self.button_to_str(question)
+            if question == default:
+                button_name = button_name.upper()
+            choices += button_name
+            question_len -= 1
+            if question_len:
+                choices += ", "
+        input = self.question(title, "%s [%s]" % (message, choices))
+        self.str_to_button(input, default)
+        if input in (BUTTON_OK, BUTTON_YES):
+            return True
+        return False
+
+    def message(self, title, message, question_type=BUTTON_OK):
+        super(CLInterface, self).message(title, message, question_type)
+        # XXX implement when needed. No use so far
+        assert(False)
+
+    def list(self, title, message, selections=[]):
+        super(CLInterface, self).list(title, message, selections)
+        # XXX implement when needed. No use so far
+        assert(False)
+
+    def question(self, title, message, echo_input=True):
         """
         See :meth:`dput.interface.AbstractInterface.query`
         """
-        ret = []
-        for question in questions:
-            msg = "%s: " % (question['msg'])
-            if question['show']:
-                sys.stdout.write(msg)
-                ret.append(sys.stdin.readline().strip())
-            else:
-                ret.append(getpass.getpass(msg))
-        return ret
+        super(CLInterface, self).question(title, message, echo_input)
+
+        message = "%s: " % (message)
+        if title:
+            sys.stdout.write("%s: " % (title))
+        if echo_input:
+            sys.stdout.write(message)
+            return sys.stdin.readline().strip()
+        else:
+            return getpass.getpass(message)
 
     def shutdown(self):
         """

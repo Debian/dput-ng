@@ -23,6 +23,16 @@ Interface implementation.
 
 import abc
 
+BUTTON_YES = "yes"
+BUTTON_NO = "no"
+BUTTON_CANCEL = "cancel"
+BUTTON_OK = "ok"
+(WIDGET_BOOLEAN, WIDGET_MESSAGE, WIDGET_LIST, WIDGET_QUESTION) = range(4)
+
+# some shortcuts
+ALL_BUTTONS = [BUTTON_YES, BUTTON_NO, BUTTON_CANCEL, BUTTON_OK]
+BUTTON_YES_NO = [BUTTON_YES, BUTTON_NO]
+BUTTON_OK_CANCEL = [BUTTON_OK, BUTTON_CANCEL]
 
 class AbstractInterface(object):
     """
@@ -34,6 +44,7 @@ class AbstractInterface(object):
 
     __metaclass__ = abc.ABCMeta
 
+
     @abc.abstractmethod
     def initialize(self, **kwargs):
         """
@@ -41,20 +52,30 @@ class AbstractInterface(object):
         """
         pass
 
-    @abc.abstractmethod
-    def query(self, title, questions):
-        """
-        Query the user for information.
+    def boolean(self, title, message, question_type=BUTTON_YES_NO,
+                default=None):
+        self.widget_type = WIDGET_BOOLEAN
+        self.message = message
+        self.question_type = question_type
+        self.default = default
 
-        ``title`` is the "title" of what to show to the user, like the titlebar
-                  of a user interface.
+    def message(self, title, message, question_type=BUTTON_OK):
+        self.widget_type = WIDGET_MESSAGE
+        self.message = message
+        self.question_type = question_type
 
-        ``questions`` is an array of dicts, that looks like the following::
+    def list(self, title, message, selections=[]):
+        self.widget_type = WIDGET_LIST
+        self.message = message
+        self.selection = selections
 
-            [{'msg': 'username', 'show': true},
-             {'msg': 'password', 'show': false'}]
-        """
-        pass
+    def question(self, title, message, echo_input=True):
+        self.widget_type = WIDGET_QUESTION
+        self.message = message
+        self.echo_input = True
+
+    def password(self, title, message):
+        self.question(title, message, echo_input=False)
 
     @abc.abstractmethod
     def shutdown(self):

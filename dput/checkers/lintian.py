@@ -25,7 +25,7 @@ import subprocess
 
 from dput.core import logger
 from dput.exceptions import CheckerException, DputConfigurationError
-
+from dput.interface import BUTTON_NO
 
 class LintianCheckerException(CheckerException):
     pass
@@ -133,15 +133,10 @@ def lintian(changes, profile, interface):
     for tag in set(tags["E"]):
         print "  - %s: %s" % (tags["E"][tag]['severity'], tag)
 
-    inp = interface.query('Lintian Checker', [
-        {'msg': 'Do you consent to these lintian tags? [Ny]',
-         'show': True}
-    ])
-    inp = [x.strip().lower() for x in inp]
-    query = inp[0]
-    if query == "":
-        query = 'n'
-    if query != 'y':
+    inp = interface.boolean('Lintian Checker',
+                            'Do you consent to these lintian tags?',
+                            default=BUTTON_NO)
+    if not inp:
         raise LintianCheckerException(
             "User didn't own up to the "
             "Lintian issues"

@@ -56,19 +56,8 @@ class AbstractUploader(object):
             raise DputConfigurationError("No such interface: `%s'" % (
                 interface
             ))
-        self._interface = interface_obj()
-
-    def prompt_ui(self, *args, **kwargs):
-        """
-        Prompt the user for some information. All arguments get passed through
-        to a subclass of the :class:`dput.interface.AbstractInterface`'s
-        :meth:`dput.interface.AbstractInterface.query` method.
-        """
-
-        self._interface.initialize()
-        ret = self._interface.query(*args, **kwargs)
-        self._interface.shutdown()
-        return ret
+        self.interface = interface_obj()
+        self.interface.initialize()
 
     def _pre_hook(self):
         self._run_hook("pre_upload_command")
@@ -88,6 +77,10 @@ class AbstractUploader(object):
                         ret
                     )
                 )
+
+
+    def __del__(self):
+        self._interface.shutdown()
 
     def upload_write_error(self, e):
         """

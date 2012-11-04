@@ -25,6 +25,7 @@ import re
 
 from dput.core import logger
 from dput.exceptions import ChangesFileException, CheckerException
+from dput.interface import BUTTON_NO
 
 
 class GPGCheckerError(CheckerException):
@@ -330,15 +331,7 @@ def check_protected_distributions(changes, profile, interface):
     if query_user:
         logger.trace("Querying the user for input. The upload targets a "
                      "protected distribution")
-        inp = interface.query('Protected Checker', [
-            {'msg': '%s [Ny]' % (msg),
-             'show': True}
-        ])
-        inp = [x.strip().lower() for x in inp]
-        query = inp[0]
-        if query == "":
-            query = 'n'
-        if query != 'y':
+        if not interface.boolean('Protected Checker', msg, default=BUTTON_NO):
             raise BadDistributionError(error_msg)
         else:
             logger.warning("Uploading with explicit confirmation by the user")

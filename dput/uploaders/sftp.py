@@ -63,12 +63,10 @@ class AskToAccept(paramiko.AutoAddPolicy):
         self.uploader = uploader
 
     def missing_host_key(self, client, hostname, key):
-        accept = self.uploader.prompt_ui('please login', [
-            {'msg': 'To accept %s hostkey %s for %s type "yes":' % (
-                key.get_name(), hexlify(key.get_fingerprint()), hostname
-            ), 'show': True}
-        ])
-        if accept[0] == "yes":
+        accept = self.uploader.interface.boolean(title='please login',
+                message='To accept %s hostkey %s for %s type "yes":' % (
+                key.get_name(), hexlify(key.get_fingerprint()), hostname))
+        if accept:
             super(AskToAccept, self).missing_host_key(client, hostname, key)
         else:
             raise paramiko.SSHException('Unknown server %s' % hostname)
@@ -93,7 +91,7 @@ class SFTPUploader(AbstractUploader):
                                       "if you need $HOME paths, use SCP.")
 
         ssh_kwargs = {
-            "port": 22,  # XXX: Allow overrides
+            "port": 22, # XXX: Allow overrides
             "compress": True
         }
 
@@ -157,7 +155,7 @@ class SFTPUploader(AbstractUploader):
         except paramiko.SSHException, e:
             raise SftpUploadException(
                   ("Error opening SFTP channel to %s " +
-                   "(perhaps sftp is disabled there?): %s" )% (fqdn, repr(e)))
+                   "(perhaps sftp is disabled there?): %s") % (fqdn, repr(e)))
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
 
@@ -172,10 +170,11 @@ class SFTPUploader(AbstractUploader):
                                                            fqdn, repr(e)))
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
-            user, pw = self.prompt_ui('please login', [
-                {'msg': 'Username', 'show': True},  # XXX: Ask for pw only
-                {'msg': 'Password', 'show': False}         # 4 first error
-            ])
+            # XXX: Ask for pw only
+            user = self.interface.question('please login', 'Username')
+            # 4 first error
+            pw = self.interface.password(None, "Password")
+
             if user is not None:
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
