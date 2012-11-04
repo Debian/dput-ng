@@ -27,6 +27,7 @@ import shlex
 import importlib
 import subprocess
 import validictory
+from contextlib import contextmanager
 
 import dput.core
 from dput.core import logger
@@ -311,13 +312,10 @@ def obj_docs(klass, ostr):
     return obj.__doc__
 
 
-def run_func_by_name(klass, name, changes, profile):
+@contextmanager
+def get_obj_by_name(klass, name, profile):
     """
-    Run a function, defined by ``name``, filed in class ``klass``,
-    with a :class:`dput.changes.Changes` (``changes``), and profile
-    ``profile``.
-
-    This is used to run the checkers / processors, internally.
+    Run a function, defined by ``name``, filed in class ``klass``
     """
     logger.info("running %s: %s" % (klass, name))
     obj = get_obj(klass, name)
@@ -338,11 +336,21 @@ def run_func_by_name(klass, name, changes, profile):
     interface = interface_obj()
     interface.initialize()
 
-    ret = obj(
-        changes,
-        profile,
-        interface
-    )
+    try:
+        yield (obj, interface)
+    finally:
+        pass
 
     interface.shutdown()
-    return ret
+
+
+def run_func_by_name(klass, name, changes, profile):
+    """
+    Run a function, defined by ``name``, filed in class ``klass``,
+    with a :class:`dput.changes.Changes` (``changes``), and profile
+    ``profile``.
+
+    This is used to run the checkers / processors, internally.
+    """
+    with get_obj_by_name(klass, name, profile) as (obj, interface):
+        obj(changes, profile, interface)
