@@ -23,9 +23,21 @@ Interface implementation.
 
 import abc
 
+"""
+A button labeled 'yes'
+"""
 BUTTON_YES = "yes"
+"""
+A button labeled 'no'
+"""
 BUTTON_NO = "no"
+"""
+A button labeled 'cancel'
+"""
 BUTTON_CANCEL = "cancel"
+"""
+A button labeled 'ok'
+"""
 BUTTON_OK = "ok"
 (WIDGET_BOOLEAN, WIDGET_MESSAGE, WIDGET_LIST, WIDGET_QUESTION) = range(4)
 
@@ -54,27 +66,50 @@ class AbstractInterface(object):
 
     def boolean(self, title, message, question_type=BUTTON_YES_NO,
                 default=None):
+        """
+        Display a question returning a boolean value. This is evaluated
+        by checking the button return code either to be BUTTON_YES or
+        BUTTON_OK
+        """
         self.widget_type = WIDGET_BOOLEAN
         self.message = message
         self.question_type = question_type
         self.default = default
 
     def message(self, title, message, question_type=BUTTON_OK):
+        """
+        Display a message and a confirmation button when required by the
+        interface to make sure the user noticed the message Some interfaces,
+        e.g. the CLI may ignore the button.
+        """
         self.widget_type = WIDGET_MESSAGE
         self.message = message
         self.question_type = question_type
 
     def list(self, title, message, selections=[]):
+        """
+        Display a list of alternatives the user can choose from, returns a
+        list of selections.
+        """
         self.widget_type = WIDGET_LIST
         self.message = message
         self.selection = selections
 
     def question(self, title, message, echo_input=True):
+        """
+        Query for user input. The input is returned literally
+        """
         self.widget_type = WIDGET_QUESTION
         self.message = message
         self.echo_input = True
 
     def password(self, title, message):
+        """
+        Query for user input. The input is returned literally but not printed
+        back. This is a shortcut to
+        :meth:`dput.interface.AbstractInterface.question` with echo_input
+        defaulting to False
+        """
         self.question(title, message, echo_input=False)
 
     @abc.abstractmethod

@@ -39,12 +39,24 @@ class CLInterface(AbstractInterface):
         pass  # nothing here.
 
     def button_to_str(self, button):
+        """
+        Translate a button name to it's label value.
+        """
         for item in ALL_BUTTONS:
             if item == button:
                 return item
         assert(False)
 
     def str_to_button(self, str_button, default):
+        """
+        Translate a string input to a button known to the interface. In case
+        of the CLI interface there is no straight notion of a button, so this
+        is abstracted by expected data input treated as button.
+
+        This method guesses based on the supplied argument and the supplied
+        default value, which button the user meant in 'Do you wanna foo [y/N]?'
+        situations.
+        """
         str_button = str_button.lower()
         # return default when no input was supplied
         if default and not str_button:
@@ -66,6 +78,9 @@ class CLInterface(AbstractInterface):
 
     def boolean(self, title, message, question_type=BUTTON_YES_NO,
                 default=None):
+        """
+        See :meth:`dput.interface.AbstractInterface.boolean`
+        """
         super(CLInterface, self).boolean(title, message, question_type)
 
         choices = ""
@@ -87,18 +102,24 @@ class CLInterface(AbstractInterface):
         return False
 
     def message(self, title, message, question_type=BUTTON_OK):
+        """
+        See :meth:`dput.interface.AbstractInterface.message`
+        """
         super(CLInterface, self).message(title, message, question_type)
         # XXX implement when needed. No use so far
         assert(False)
 
     def list(self, title, message, selections=[]):
+        """
+        See :meth:`dput.interface.AbstractInterface.list`
+        """
         super(CLInterface, self).list(title, message, selections)
         # XXX implement when needed. No use so far
         assert(False)
 
     def question(self, title, message, echo_input=True):
         """
-        See :meth:`dput.interface.AbstractInterface.query`
+        See :meth:`dput.interface.AbstractInterface.question`
         """
         super(CLInterface, self).question(title, message, echo_input)
 
