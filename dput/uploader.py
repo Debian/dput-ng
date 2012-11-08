@@ -80,7 +80,7 @@ class AbstractUploader(object):
 
 
     def __del__(self):
-        self._interface.shutdown()
+        self.interface.shutdown()
 
     def upload_write_error(self, e):
         """
