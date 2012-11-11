@@ -1,5 +1,5 @@
 dput-ng (1.0) UNRELEASED; urgency=low
 
-  * Initial interneal release (Closes: #691624)
+  * Initial internal release (Closes: #691624)
 
  -- Paul Tagliamonte <paultag@debian.org>  Sun, 21 Oct 2012 00:37:27 -0400
