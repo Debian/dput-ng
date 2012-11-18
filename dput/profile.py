@@ -146,7 +146,6 @@ class MultiConfig(AbstractConfig):
         ret = self.defaults_blame
         for config in self.configs:
             obj = config.get_config(name)
-            obj = _config_cleanup(obj)
             ret.update(_blame_map(obj, "%s (%s)" % (
                 config.path,
                 name
