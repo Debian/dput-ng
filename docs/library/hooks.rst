@@ -2,5 +2,5 @@ Hook Implementation
 ======================
 
 
-.. automodule:: dput.hook
+.. automodule:: dput.hooks
    :members:

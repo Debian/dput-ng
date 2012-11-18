@@ -21,10 +21,8 @@ Top-level modules:
    profile
    exceptions
    overrides
-   checker
-   checkers/index
-   processor
-   processors/index
+   hooks
+   hooks/index
    interface
    interfaces/index
    uploader
