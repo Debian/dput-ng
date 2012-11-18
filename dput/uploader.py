@@ -203,7 +203,7 @@ def check_modules(profile):
             if obj is None:
                 raise DputConfigurationError(
                     "Error: no such hook '%s'" % (
-                        checker
+                        hook
                     )
                 )
 
