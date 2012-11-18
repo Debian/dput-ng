@@ -19,12 +19,11 @@ setup(
     version=version,
     packages=[
         'dput',
+        'dput.hooks',
         'dput.configs',
         'dput.commands',
-        'dput.checkers',
         'dput.uploaders',
         'dput.interfaces',
-        'dput.processors'
     ],
     author="dput authors",
     author_email="paultag@debian.org",
