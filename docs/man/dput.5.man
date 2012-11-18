@@ -60,8 +60,8 @@ Moreover, these directories can exist and are documented here for the sake of
 completeness. However, users typically do not need to touch these unless you
 are developing or customizing existing plug-ins to *dput* or *dcut*
 
- * *checkers/* define entry hooks to checker functions which are registered for
-   use with *dput*. See *CHECKERS* below.
+ * *hooks/* define entry hooks to checker functions which are registered for
+   use with *dput*. See *HOOKS* below.
 
  * *commands/* define entry hooks to command functions which are registered for
    use with *dcut*.
@@ -69,9 +69,6 @@ are developing or customizing existing plug-ins to *dput* or *dcut*
  * *interfaces/* define entry hooks to user interface functions which are
    registered for use with *dput* and *dcut*. They are responsible to retrieve
    data from the user.
-
- * *processor/* define entry hooks to processor functions which are registered
-   for use with *dput*. See *PROCESSORS* below.
  
 By default *all* configuration file locations are parsed, and overlayed in a
 additive manner. This way both, entire profiles and actual settings within a
@@ -93,10 +90,10 @@ Following is an example configuration for a local upload profile, named
 "'localhost.json'".
 
     {
-        "+checkers": [
+        "+hooks": [
             "lintian"
         ],
-        "-checkers": [
+        "-hooks": [
             "gpg"
         ],
         "incoming": "~/incoming",
@@ -123,11 +120,6 @@ this host or not.
 A regular expression (of Python re module syntax) that the distribution field
 must match or dput will refuse the upload.
 
-*checkers* (list of string)::
-
-Defines a list of checkers which are running before the upload. See *CHECKERS*
-below.
-
 *default_host_main* (string)::
 
 This defines the default host for packages that are allowed to be uploaded to
@@ -153,6 +145,12 @@ for hash:
 	* 'sha1': Perform validation of the SHA-1 hash (default when omitted)
 	* 'sha256': Perform validation of the SHA-256 hash
 	* 'md5': Perform validation of the MD5 hash
+
+*hooks* (list of string)::
+
+Defines a list of checkers which are running before or after the upload. See
+*CHECKERS* below.
+
 
 *interface* (string)::
 
@@ -210,20 +208,15 @@ upload process.
 
 This option defines a command to be run by dput before an upload. The
 command is invoked via the shell and does not get passed any argument. See
-*CHECKERS* for more sophisticated approaches which are integrated in the
+*HOOKS* for more sophisticated approaches which are integrated in the
 upload process and can gracefully interrupt the upload process.
-
-
-*processors* (list of string)::
-
-Defines *PROCESSORS* which shall be run after a successful upload.
 
 
 *run_lintian* (boolean)::
 
 This option defines if lintian should be run before the package will be
 uploaded or not.  *This setting is deprecated* but works as a fallback to the
-corresponding *CHECKER*. The Lintian checker allows much more fine grained
+corresponding *HOOK*. The Lintian hook allows much more fine grained
 control over the Lintian invocation.
 
 INHERITANCE OF KEYS
@@ -233,9 +226,8 @@ By default, keys will override any previously defined value. However, as a
 special case, there are three operators (*=*, *+* and *-*) that may be prefixed
 to names to merge with existing inherited values. This is beneficial when a
 profile wishes to add or remove values from an existing key which accepts lists
-of values. This is mostly useful to *checkers* or *processors* which may want
-to extend an existing profile key that is inheriting values via it's meta-class
-or parent.
+of values. This is mostly useful to *hooks* which may want to extend an
+existing profile key that is inheriting values via it's meta-class or parent.
 
 * The *=* operator is the default operator when no operator was explicitly
   provided. It overwrites any previous key.
@@ -276,36 +268,36 @@ OVERRIDING SINGLE VALUES
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here's an example stanza from a local dput config to remove an annoying
-checker from being run:
+hook from being run:
 
 '~/.dput.d/profiles/DEFAULT.json':
 
     {
-        "checkers": [
+        "hooks": [
             "gpg",
             "lintian"
         ]
     }
 
 
-At this point, every profile will invoke the checkers 'gpg', 'lintian'
+At this point, every profile will invoke the hooks 'gpg', 'lintian'
 
 '~/.dput.d/metas/my-defaults.json':
 
     {
-        "checkers": [
+        "hooks": [
             "checksum",
         ]
     }
 
 This defines a meta profile named 'my-defaults', which will also invoke the
-'checksum' checker. At this point this meta profile, inherits values from
-'DEFAULT' and therefore invokes the checkers 'gpg', 'lintian' and 'checksum'.
+'checksum' hook. At this point this meta profile, inherits values from
+'DEFAULT' and therefore invokes the hooks 'gpg', 'lintian' and 'checksum'.
 
 '~/.dput.d/profiles/ftp-master.json':
 
     {
-        "-checkers": [
+        "-hooks": [
             "lintian"
         ]
         "meta": [
@@ -317,35 +309,37 @@ At this point, the profile 'ftp-master' will inherit values from 'DEFAULT' and
 'my-defaults'. However, the '-' operator prefix removes 'lintian' from the
 checker list.  Hence, 'ftp-master' will run the checkers 'gpg' and 'checksum'.
 
-CHECKERS AND PROCESSORS
-------------------------
+HOOKS
+------
 
-Checkers are pre-upload checks, processors are post-upload checks. They are
-pluggable components running before or after the upload of a package.
+Hooks are pre- or post-uupload checks, They are pluggable components running
+before or after the upload of a package. Whether they run before or after the
+upload is determined by the JSON definition of a hook. 
 
-Checkers
-~~~~~~~~
+Pre-Upload Hooks
+~~~~~~~~~~~~~~~~
 
-Checkers are pluggable components which are designed to run before the upload
-actually happens. This typically involves consistency checks, sanity checks
+Pre-upload hooks are pluggable components which are designed to run before the
+upload actually happens. This typically involves consistency checks, sanity checks
 and similar tasks. The list of available checkers can be obtained using
-*dput-info(1)*. The checkers invoked by default are determined on a per-profile
-basis by retrieving the setting of the *checkers* key. Checkers also run in
+*dput-info(1)*. The hooks invoked by default are determined on a per-profile
+basis by retrieving the setting of the *hooks* key. Hools also run in
 simulation and check-only mode.
 
-It is easy to write your own checker extensions. Consult the manual for
+It is easy to write your own hook extensions. Consult the manual for
 instructions.
 
-Processors
-~~~~~~~~~~
+Post-Upload Hooks
+~~~~~~~~~~~~~~~~~
 
 Processors are pluggable components which are designed to run after the upload
 actually happens. They cannot interrupt the upload, because they are invoked
 after a successful upload only. They do not run when *dput* was invoked with
-check-only or simulation mode. Such processors may invoke post-processing tasks
-such as closing or filing bugs.The list of available processors can be obtained
-using *dput-info(1)*. The processors invoked by default are determined on a
-per-profile basis by retrieving the setting of the *processors* key.
+check-only or simulation mode. Such post-upload hooks may invoke post-
+processing tasks such as closing or filing bugs.The list of available
+processors can be obtained using *dput-info(1)*. The hooks invoked by default
+are determined on a per-profile basis by retrieving the setting of the
+*hooks* key.
 
 
 FILES
