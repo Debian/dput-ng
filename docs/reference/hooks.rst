@@ -22,24 +22,29 @@ Theory of Operation
 Pre-upload Hooks are a simple function which is invoked with a few objects to
 help aid in the checking process & reduce code.
 
-Pre-upload hooks will always be run before an upload, and will be given the digested
-.changes object, the current profile & a way to interface with the user.
+Pre-upload hooks will always be run before an upload, and will be given the
+digested .changes object, the current profile & a way to interface with the
+user.
 
 Pre-upload hooks (at their core) should preform a single check (as simply as it
 can), and either raise a subclass of :class:`dput.exceptions.HookException`
 or return normally.
 
-Post-upload hooks work likewise. They are just simple hooks as well, that are slightly different to pre-upload hooks. Firstly, register as a hook by placing the plugin def in the ``hooks`` class. In the event of an error, feel free to just bail out. There's not much you can do, and throwing an error is bad form. For now. This is likely to change.
+Post-upload hooks work likewise. They are just simple hooks as well, that are
+slightly different to pre-upload hooks. Firstly, register as a hook by placing
+the plugin def in the ``hooks`` class. In the event of an error, feel free to
+just bail out. There's not much you can do, and throwing an error is bad form.
+For now. This is likely to change.
 
 How a Hook Is Invoked
 ------------------------
 
 Throughout this overview, we'll be looking at the
-:func:`dput.hooks.validate_checksums` pre-upload hook. It's one of the most
-simple hooks, and demonstrates the concept very clearly.
+:func:`dput.hooks.basics.validate_checksums` pre-upload hook. It's one of the
+most simple hooks, and demonstrates the concept very clearly.
 
 To start to understand how this all works, let's take a step back and
-look at how :func:`dput.hooks.run_hook` invokes the hook-function.
+look at how :func:`dput.hook.run_hook` invokes the hook-function.
 
 Basically, ``run_hook`` will grab all the strings in the ``hooks`` key
 of the profile. They are just that -- simply strings. The hook are looked
@@ -74,7 +79,7 @@ that we care about.
               be put somewhere dput cares about?
 
 Now that we're clear on how we got here, let's check back with the
-implementation of :func:`dput.hooks.validate_checksums`::
+implementation of :func:`dput.hooks.basics.validate_checksums`::
 
     def validate_checksums(changes, profile, interface):
 
