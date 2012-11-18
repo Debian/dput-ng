@@ -198,7 +198,7 @@ def should_write_logfile(args):
 
 def check_modules(profile):
     if 'hooks' in profile:
-        for hooks in profile['hooks']:
+        for hook in profile['hooks']:
             obj = get_obj('hooks', hook)
             if obj is None:
                 raise DputConfigurationError(

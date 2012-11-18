@@ -21,8 +21,9 @@
 Implementation of the interface to run a hook.
 """
 
-from dput.util import obj_docs, run_func_by_name, get_configs, get_obj
+from dput.util import obj_docs, run_func_by_name, get_configs, load_config
 from dput.core import logger
+
 
 def hook_docs(hook):
     return obj_docs('hooks', hook)
@@ -30,23 +31,23 @@ def hook_docs(hook):
 
 def get_hooks(profile):
     for hook in profile['hooks']:
-        yield get_obj('hooks', hook)
+        yield (hook, load_config('hooks', hook, schema='plugin'))
 
 
 def run_pre_hooks(changes, profile):
-    for hook in get_hooks(profile):
+    for name, hook in get_hooks(profile):
         if 'pre' in hook and hook['pre']:
-            run_hook(hook, *args, **kwargs)
+            run_hook(name, changes, profile)
         if 'pre' not in hook and 'post' not in hook:
             logger.warning("Hook: %s has no pre/post ordering. Assuming "
                            "pre.")
-            run_hook(hook, *args, **kwargs)
+            run_hook(name, changes, profile)
 
 
 def run_post_hooks(changes, profile):
-    for hook in get_hooks(profile):
+    for name, hook in get_hooks(profile):
         if 'post' in hook and hook['post']:
-            run_hook(hook, *args, **kwargs)
+            run_hook(name, changes, profile)
 
 
 def run_hook(hook, changes, profile):
