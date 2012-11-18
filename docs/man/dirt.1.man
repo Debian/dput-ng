@@ -1,4 +1,4 @@
-DPUT-INFO(1)
+DIRT(1)
 ============
 :doctype: manpage
 
@@ -6,12 +6,12 @@ DPUT-INFO(1)
 NAME
 ----
 
-dput-info - Debian package upload tool
+dirt - dput information retrieval tool
 
 SYNOPSIS
 --------
 
-*dput-info* 
+*dirt*
 
 
 DESCRIPTION
