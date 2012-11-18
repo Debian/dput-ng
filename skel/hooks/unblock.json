@@ -1,5 +1,5 @@
 {
     "name": "unblocker processor", 
-    "path": "dput.processors.unblock.unblock",
+    "path": "dput.hooks.unblock.unblock", 
     "post": true
 }

@@ -1,5 +1,5 @@
 {
     "name": "target distribution checker", 
-    "path": "dput.checkers.basics.check_allowed_distribution",
+    "path": "dput.hooks.basics.check_allowed_distribution", 
     "pre": true
 }
