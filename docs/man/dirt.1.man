@@ -1,7 +1,6 @@
 DIRT(1)
-============
+=======
 :doctype: manpage
-
 
 NAME
 ----
