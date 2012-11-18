@@ -24,10 +24,10 @@ Lintian checker implementation
 import subprocess
 
 from dput.core import logger
-from dput.exceptions import CheckerException, DputConfigurationError
+from dput.exceptions import HookException, DputConfigurationError
 from dput.interface import BUTTON_NO
 
-class LintianCheckerException(CheckerException):
+class LintianHookException(HookException):
     pass
 
 
@@ -137,7 +137,7 @@ def lintian(changes, profile, interface):
                             'Do you consent to these lintian tags?',
                             default=BUTTON_NO)
     if not inp:
-        raise LintianCheckerException(
+        raise LintianHookException(
             "User didn't own up to the "
             "Lintian issues"
         )

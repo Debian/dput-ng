@@ -11,7 +11,7 @@ Base Exceptions
 
 .. autoexception:: dput.exceptions.UploadException
 
-.. autoexception:: dput.exceptions.CheckerException
+.. autoexception:: dput.exceptions.HookException
 
 Configuration File Errors
 -------------------------

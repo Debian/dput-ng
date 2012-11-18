@@ -75,7 +75,7 @@ class UploadException(DputError):
     pass
 
 
-class CheckerException(DputError):
+class HookException(DputError):
     """
     Thrown when there's an error checking, or creating a checker. Usually
     thrown by a checker invoked by :class:`dput.checker.run_checker`.

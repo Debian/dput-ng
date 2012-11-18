@@ -24,58 +24,58 @@ Basic and core package hooks.
 import re
 
 from dput.core import logger
-from dput.exceptions import ChangesFileException, CheckerException
+from dput.exceptions import ChangesFileException, HookException
 from dput.interface import BUTTON_NO
 
 
-class GPGCheckerError(CheckerException):
+class GPGCheckerError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``gpg`` checker encounters an issue.
     """
     pass
 
 
-class HashValidationError(CheckerException):
+class HashValidationError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``checksum`` checker encounters an issue.
     """
     pass
 
 
-class SuiteMismatchError(CheckerException):
+class SuiteMismatchError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``suite-mismatch`` checker encounters an issue.
     """
     pass
 
 
-class SourceMissingError(CheckerException):
+class SourceMissingError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``source`` checker encounters an issue.
     """
     pass
 
 
-class BadDistributionError(CheckerException):
+class BadDistributionError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``allowed-distribution`` checker encounters an issue.
     """
     pass
 
 
-class BinaryUploadError(CheckerException):
+class BinaryUploadError(HookException):
     """
-    Subclass of the :class:`dput.exceptions.CheckerException`.
+    Subclass of the :class:`dput.exceptions.HookException`.
 
     Thrown if the ``check-debs`` checker encounters an issue.
     """

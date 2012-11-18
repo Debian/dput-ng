@@ -86,7 +86,7 @@ except dput.exceptions.DputConfigurationError as e:
 except dput.exceptions.UploadException as e:
     dput.core.logger.critical(str(e))
     sys.exit(3)
-except dput.exceptions.CheckerException as e:
+except dput.exceptions.HookException as e:
     dput.core.logger.critical(str(e))
     sys.exit(1)
 except KeyboardInterrupt:
