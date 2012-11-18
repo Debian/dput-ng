@@ -1,4 +1,5 @@
 {
-    "name": "protected distribution checker",
-    "path": "dput.checkers.basics.check_protected_distributions"
+    "name": "protected distribution checker", 
+    "path": "dput.checkers.basics.check_protected_distributions",
+    "pre": true
 }

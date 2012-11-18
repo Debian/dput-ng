@@ -1,4 +1,5 @@
 {
-    "name": "gpg signature checker",
-    "path": "dput.checkers.basics.check_gpg_signature"
+    "name": "gpg signature checker", 
+    "path": "dput.checkers.basics.check_gpg_signature",
+    "pre": true
 }

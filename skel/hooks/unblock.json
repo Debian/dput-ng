@@ -1,4 +1,5 @@
 {
-    "name": "unblocker processor",
-    "path": "dput.processors.unblock.unblock"
+    "name": "unblocker processor", 
+    "path": "dput.processors.unblock.unblock",
+    "post": true
 }
