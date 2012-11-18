@@ -101,7 +101,9 @@ may abort the upload by raising a subclass of a
 :class:`dput.exceptions.HookException`. In cases where the user aught to
 make the decision (lintian errors, etc), please **prompt** the user for
 what to do, rather then blindly raising the error. Remember, the user can't
-override a checker's failure except by disabling the checker.
+override a checker's failure except by disabling the checker. Moreover, never
+prompt for inputs directly. Use the :class:`dput.interface.AbstractInterface`
+interface to prompt for data in a uniform way.
 
 Don't make people disable you. Be nice.
 
