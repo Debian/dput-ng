@@ -1,4 +1,0 @@
-{
-    "name": "checksum checker",
-    "path": "dput.checkers.basics.validate_checksums"
-}

@@ -80,6 +80,8 @@ class DputProfileConfig(AbstractConfig):
         if configs is not None:
             kwargs['configs'] = configs
 
+        kwargs['config_cleanup'] = False
+
         profile = load_config(
             'profiles',
             name,

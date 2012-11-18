@@ -1,6 +1,6 @@
 Lintian Checker Implementation
 ==============================
 
-.. automodule:: dput.checkers.lintian
+.. automodule:: dput.hooks.lintian
    :members:
 

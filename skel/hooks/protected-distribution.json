@@ -1,0 +1,5 @@
+{
+    "name": "protected distribution checker", 
+    "path": "dput.hooks.basics.check_protected_distributions", 
+    "pre": true
+}

@@ -1,0 +1,5 @@
+{
+    "name": "checksum checker", 
+    "path": "dput.hooks.basics.validate_checksums", 
+    "pre": true
+}

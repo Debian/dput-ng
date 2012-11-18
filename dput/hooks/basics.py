@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 """
-Basic and core package checkers.
+Basic and core package hooks.
 """
 
 import re

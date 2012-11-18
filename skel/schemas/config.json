@@ -1,87 +1,80 @@
 {
-    "description": "dput-ng configuration file",
+    "description": "dput-ng configuration file", 
     "properties": {
         "allow_dcut": {
-            "required": false,
+            "required": false, 
             "type": "boolean"
-        },
+        }, 
         "allow_unsigned_uploads": {
-            "required": false,
+            "required": false, 
             "type": "boolean"
-        },
+        }, 
         "allowed_distributions": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
-        "checkers": {
+        }, 
+        "hooks": {
             "items": {
                 "type": "string"
-            },
-            "required": false,
+            }, 
+            "required": false, 
             "type": "array"
-        },
+        }, 
         "default_host_main": {
-            "blank": true,
-            "required": false,
+            "blank": true, 
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "distributions": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "fqdn": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "hash": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "incoming": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "interface": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "login": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "meta": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "method": {
-            "required": false,
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "passive_ftp": {
-            "required": false,
+            "required": false, 
             "type": "boolean"
-        },
+        }, 
         "post_upload_command": {
-            "blank": true,
-            "required": false,
+            "blank": true, 
+            "required": false, 
             "type": "string"
-        },
+        }, 
         "pre_upload_command": {
-            "blank": true,
-            "required": false,
+            "blank": true, 
+            "required": false, 
             "type": "string"
-        },
-        "processors": {
-            "items": {
-                "type": "string"
-            },
-            "required": false,
-            "type": "array"
-        },
+        }, 
         "run_lintian": {
-            "required": false,
+            "required": false, 
             "type": "boolean"
         }
-    },
+    }, 
     "type": "object"
 }

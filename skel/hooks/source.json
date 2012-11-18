@@ -1,0 +1,5 @@
+{
+    "name": "source package missing checker", 
+    "path": "dput.hooks.basics.check_source_needed", 
+    "pre": true
+}

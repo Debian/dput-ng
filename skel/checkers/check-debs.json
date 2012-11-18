@@ -1,4 +1,0 @@
-{
-    "name": "binary package checker",
-    "path": "dput.checkers.basics.check_debs_in_upload"
-}

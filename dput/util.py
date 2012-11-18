@@ -57,7 +57,7 @@ def load_obj(obj_path):
 def get_obj(klass, checker_method):  # checker_method is a bad name.
     """
     Get an object by plugin def (``checker_method``) in class ``klass`` (such
-    as ``processors`` or ``checkers``).
+    as ``hooks``).
     """
     logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
@@ -157,17 +157,19 @@ def _config_cleanup(obj):
         if kname in ret:
             ret[kname] = op(ret[key], ret[kname])
         else:
-            ret[kname] = ret[key]
+            foo = op(ret[key], [])
+            if foo != []:
+                ret[kname] = foo
         ret.pop(key)
     return ret
 
 
 def load_config(config_class, config_name,
                 default=None, schema=None,
-                configs=None):
+                configs=None, config_cleanup=True):
     """
     Load any dput configuration given a ``config_class`` (such as
-    ``checkers`` or ``profiles``), and a ``config_name`` (such as
+    ``hooks``), and a ``config_name`` (such as
     ``lintian`` or ``tweet``).
 
     Optional kwargs:
@@ -234,7 +236,10 @@ def load_config(config_class, config_name,
                     metainfo[key]
                 ))
 
-    obj = _config_cleanup(ret)
+    obj = ret
+    if config_cleanup:
+        obj = _config_cleanup(ret)
+
     if schema is not None:
         sobj = None
         for root in dput.core.SCHEMA_DIRS:
@@ -350,7 +355,7 @@ def run_func_by_name(klass, name, changes, profile):
     with a :class:`dput.changes.Changes` (``changes``), and profile
     ``profile``.
 
-    This is used to run the checkers / processors, internally.
+    This is used to run the hooks, internally.
     """
     with get_obj_by_name(klass, name, profile) as(obj, interface):
         obj(changes, profile, interface)

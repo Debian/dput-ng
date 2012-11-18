@@ -1,4 +1,0 @@
-{
-    "name": "lintian checker",
-    "path": "dput.checkers.lintian.lintian"
-}

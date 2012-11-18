@@ -1,4 +1,0 @@
-{
-    "name": "suite mismatch checker",
-    "path": "dput.checkers.basics.check_distribution_matches"
-}

@@ -26,6 +26,7 @@ import logging
 
 import dput.core
 from dput.core import logger
+from dput.util import _config_cleanup
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig
 from dput.configs.dputng import DputProfileConfig
@@ -107,6 +108,7 @@ class MultiConfig(AbstractConfig):
 
         for config in configs:
             defaults.update(config.get_defaults())
+            defaults = _config_cleanup(defaults)
             defaults_blame.update(
                 _blame_map(config.get_defaults(), "%s (%s)" % (
                     config.path,
@@ -133,6 +135,7 @@ class MultiConfig(AbstractConfig):
             obj = config.get_config(name)
             logger.trace(obj)
             ret.update(obj)
+            ret = _config_cleanup(ret)
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug("Got configuration: %s" % (name))
             for key in ret:

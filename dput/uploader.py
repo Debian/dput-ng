@@ -30,8 +30,7 @@ from contextlib import contextmanager
 
 import dput.profile
 from dput.core import logger
-from dput.checker import run_checker
-from dput.processor import run_processor
+from dput.hook import run_pre_hooks, run_post_hooks
 from dput.util import (run_command, get_obj)
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
 from dput.exceptions import (DputConfigurationError, DputError,
@@ -198,23 +197,13 @@ def should_write_logfile(args):
 
 
 def check_modules(profile):
-    if 'checkers' in profile:
-        for checker in profile['checkers']:
-            obj = get_obj('checkers', checker)
+    if 'hooks' in profile:
+        for hook in profile['hooks']:
+            obj = get_obj('hooks', hook)
             if obj is None:
                 raise DputConfigurationError(
-                    "Error: no such checker '%s'" % (
+                    "Error: no such hook '%s'" % (
                         checker
-                    )
-                )
-
-    if 'processors' in profile:
-        for proc in profile['processors']:
-            obj = get_obj('processors', proc)
-            if obj is None:
-                raise DputConfigurationError(
-                    "Error: no such post-processor '%s'" % (
-                        proc
                     )
                 )
 
@@ -252,13 +241,11 @@ def invoke_dput(changes, args):
     if args.passive:
         force_passive_ftp_upload(profile)
 
-    if 'checkers' in profile:
-        for checker in profile['checkers']:
-            logger.trace("Running check: %s" % (checker))
-            run_checker(checker, changes, profile)
+    if 'hooks' in profile:
+            run_pre_hooks(changes, profile)
     else:
         logger.trace(profile)
-        logger.warning("No checkers defined in the profile. "
+        logger.warning("No hooks defined in the profile. "
                        "Not checking upload.")
 
     # XXX: This does not work together with --check-only and --simulate
@@ -306,11 +293,9 @@ def invoke_dput(changes, args):
         if args.simulate:
             return
 
-        if 'processors' in profile:
-            for proc in profile['processors']:
-                logger.trace("Running check: %s" % (proc))
-                run_processor(proc, changes, profile)
+        if 'hooks' in profile:
+            run_post_hooks(changes, profile)
         else:
             logger.trace(profile)
-            logger.warning("No processors defined in the profile. "
-                           "Not processing upload.")
+            logger.warning("No hooks defined in the profile. "
+                           "Not post-processing upload.")

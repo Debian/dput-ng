@@ -1,0 +1,5 @@
+{
+    "name": "gpg signature checker", 
+    "path": "dput.hooks.basics.check_gpg_signature", 
+    "pre": true
+}
