@@ -56,10 +56,13 @@ something like the following::
 
     {
         "name": "checksum pre-upload hook",
-        "path": "dput.hooks.basics.validate_checksums"
+        "path": "dput.hooks.basics.validate_checksums",
+        "pre": true
     }
 
-.. XXX TODO: Document the pre-/post-upload key
+.. note::
+    Use ``"pre": true`` or ``"post": true`` respectively to decide whether
+    the hook should run prior or after uploading a package. 
 
 For more on this file & how it's used, check the other ref-doc on
 config files: :doc:`configs`
