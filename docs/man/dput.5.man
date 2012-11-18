@@ -149,12 +149,12 @@ for hash:
 *hooks* (list of string)::
 
 Defines a list of checkers which are running before or after the upload. See
-*CHECKERS* below.
+*HOOKS* below.
 
 
 *interface* (string)::
 
-write me
+Not supported yet. This is a known limitation. 
 
 *incoming* (string)::
 
@@ -314,17 +314,18 @@ HOOKS
 
 Hooks are pre- or post-uupload checks, They are pluggable components running
 before or after the upload of a package. Whether they run before or after the
-upload is determined by the JSON definition of a hook. 
+upload is determined by the JSON definition of a hook. That is an
+implementation detail the user typically does not need to worry about. 
 
 Pre-Upload Hooks
 ~~~~~~~~~~~~~~~~
 
 Pre-upload hooks are pluggable components which are designed to run before the
-upload actually happens. This typically involves consistency checks, sanity checks
-and similar tasks. The list of available checkers can be obtained using
-*dput-info(1)*. The hooks invoked by default are determined on a per-profile
-basis by retrieving the setting of the *hooks* key. Hools also run in
-simulation and check-only mode.
+upload actually happens. This typically involves consistency checks, sanity
+checks and similar tasks. The list of available pre-upload hooks can be
+obtained using *dirt(1)*. The hooks invoked by default are determined on a
+per-profile basis by retrieving the setting of the *hooks* key. Hooks also run
+in simulation and check-only mode.
 
 It is easy to write your own hook extensions. Consult the manual for
 instructions.
@@ -334,13 +335,15 @@ Post-Upload Hooks
 
 Processors are pluggable components which are designed to run after the upload
 actually happens. They cannot interrupt the upload, because they are invoked
-after a successful upload only. They do not run when *dput* was invoked with
+after a successful upload only. They do _not_ run when *dput* was invoked with
 check-only or simulation mode. Such post-upload hooks may invoke post-
-processing tasks such as closing or filing bugs.The list of available
-processors can be obtained using *dput-info(1)*. The hooks invoked by default
+processing tasks such as closing or filing bugs. The list of available
+processors can be obtained using *dirt(1)*. The hooks invoked by default
 are determined on a per-profile basis by retrieving the setting of the
-*hooks* key.
+*hooks* key and follow the same rules as pre-upload hooks. 
 
+It is easy to write your own hook extensions. Consult the manual for
+instructions.
 
 FILES
 -----
@@ -361,4 +364,4 @@ RESOURCES
 ---------
 
 *RFC 4627*, */usr/share/doc/dput-ng/html/reference/*, *dput(1)*, *dcut(1)*,
-*dput-info(1)*
+*dcut(1)*
