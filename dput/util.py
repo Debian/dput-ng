@@ -157,14 +157,16 @@ def _config_cleanup(obj):
         if kname in ret:
             ret[kname] = op(ret[key], ret[kname])
         else:
-            ret[kname] = ret[key]
+            foo = op(ret[key], [])
+            if foo != []:
+                ret[kname] = foo
         ret.pop(key)
     return ret
 
 
 def load_config(config_class, config_name,
                 default=None, schema=None,
-                configs=None):
+                configs=None, config_cleanup=True):
     """
     Load any dput configuration given a ``config_class`` (such as
     ``hooks``), and a ``config_name`` (such as
@@ -234,7 +236,10 @@ def load_config(config_class, config_name,
                     metainfo[key]
                 ))
 
-    obj = _config_cleanup(ret)
+    obj = ret
+    if config_cleanup:
+        obj = _config_cleanup(ret)
+
     if schema is not None:
         sobj = None
         for root in dput.core.SCHEMA_DIRS:

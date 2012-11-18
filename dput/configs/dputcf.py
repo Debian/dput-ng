@@ -65,6 +65,7 @@ class DputCfConfig(AbstractConfig):
                     e
                 ))
         self.parser = parser
+        self.configs = configs
         self.defaults = self._translate_strs(self.get_config("DEFAULT"))
         self.parser.remove_section("DEFAULT")
 
