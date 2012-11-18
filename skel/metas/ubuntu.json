@@ -1,15 +1,14 @@
 {
-    "allow_dcut": false,
+    "allow_dcut": false, 
     "check-debs": {
-        "enforce": "source",
+        "enforce": "source", 
         "skip": false
-    },
-    "checkers": [
-        "allowed-distribution",
-        "checksum",
-        "suite-mismatch",
-        "check-debs",
+    }, 
+    "hooks": [
+        "allowed-distribution", 
+        "checksum", 
+        "suite-mismatch", 
+        "check-debs", 
         "gpg"
-    ],
-    "processors": []
+    ]
 }

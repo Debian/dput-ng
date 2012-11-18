@@ -25,12 +25,12 @@
    All uploaders (stuff like sftp, scp, local, ftp, http) are implemented as
    "uploaders". They're registered via .json files, which declare the import
    path to the class -- such as `dput.uploaders.sftp.SFTPUploader`. This allows
-   uploaders, checkers (they work just like uploaders!) to be run from dput-ng
+   uploaders, hooks (they work just like uploaders!) to be run from dput-ng
    even if they're outside dput-ng's package (so, nothing stops you from
    writing `foopackage.barmodule.BazUploader` or `kruft.fooChecker` and using
    them when you need to).
 
-   We think this will result in cool new checkers (since uploaders are a bit of
+   We think this will result in cool new hooks (since uploaders are a bit of
    work) being written to better check packages to be uploaded before they go
    too far :)
 
@@ -67,10 +67,7 @@
     $ cat ~/.dput.d/profiles/personal-archive.json
     {
         "name": "My Personal Archive",
-        "checkers": [
-            "suite-mismatch",
-            "checksum",
-            "gpg",
+        "+hooks": [
             "lintian"
         ],
         "interface": "cli"

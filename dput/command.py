@@ -182,16 +182,6 @@ def invoke_dcut(args):
     assert(issubclass(type(command), AbstractCommand))
     command.validate(args)
 
-    # XXX: Checkers for dcut?
-    #if 'checkers' in profile:
-    #    for checker in profile['checkers']:
-    #        logger.trace("Running check: %s" % (checker))
-    #        run_checker(checker, changes, profile)
-    #else:
-    #    logger.trace(profile)
-    #    logger.warning("No checkers defined in the profile. "
-    #                   "Not checking upload.")
-
     if args.passive:
         force_passive_ftp_upload(profile)
 

@@ -167,7 +167,7 @@ def load_config(config_class, config_name,
                 configs=None):
     """
     Load any dput configuration given a ``config_class`` (such as
-    ``checkers`` or ``profiles``), and a ``config_name`` (such as
+    ``hooks``), and a ``config_name`` (such as
     ``lintian`` or ``tweet``).
 
     Optional kwargs:
