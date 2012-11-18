@@ -9,8 +9,9 @@
 
 import argparse
 import json
+import sys
 
-from dput.profile import get_blame_map, profiles
+from dput.profile import get_blame_map, profiles, load_profile
 
 parser = argparse.ArgumentParser(description=' dput information retrieval tool')
 group = parser.add_mutually_exclusive_group()
@@ -35,3 +36,20 @@ if args.blame:
         sys.exit(1)
 
     print json.dumps(get_blame_map(args.blame), sort_keys=True, indent=4)
+    sys.exit(0)
+
+if args.hosts:
+    default = load_profile(None)
+    print
+    print "Default method: %s" % (default['method'])
+    print
+    for config in profiles():
+        obj = load_profile("%s:%s" % (config, config))
+        #                               ^^^^^^ fake arg for others
+        if not "fqdn" in obj:  # likely localhost
+            obj['fqdn'] = 'localhost'
+
+        string = "{name} => {fqdn}  (Upload method: {method})".format(**obj)
+        print string
+    print
+    sys.exit(0)
