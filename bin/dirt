@@ -1,3 +1,37 @@
 #!/usr/bin/env python
 # D.I.R.T.
 
+# arguments:
+#    --blame target
+#    --hosts
+#    --help-checker
+#    --help-processor
+
+import argparse
+import json
+
+from dput.profile import get_blame_map, profiles
+
+parser = argparse.ArgumentParser(description=' dput information retrieval tool')
+group = parser.add_mutually_exclusive_group()
+
+group.add_argument(
+    '--hosts',
+    action='store_true',
+    help='print the lists of hosts that dput knows about'
+)
+
+group.add_argument(
+    '--blame',
+    action='store',
+    help='get information on where dput is finding keys'
+)
+
+args = parser.parse_args()
+
+if args.blame:
+    if args.blame not in profiles():
+        print "No such target."
+        sys.exit(1)
+
+    print json.dumps(get_blame_map(args.blame), sort_keys=True, indent=4)
