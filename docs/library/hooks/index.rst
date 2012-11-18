@@ -1,5 +1,5 @@
-Checker Implementations
-=======================
+Hook Implementations
+====================
 
 
 Documentation Index
