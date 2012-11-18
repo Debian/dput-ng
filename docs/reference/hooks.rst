@@ -1,15 +1,14 @@
-Writing Checker Plugins
-=======================
+Writing Hooks
+=============
 
 .. note::
-    All of the information in this guide applies fully to writing
-    ``processors``. Just rename the config class to ``processors``
-    and you're good to go.
+    Whether a hook runs before or after uploading a package is a
+    matter of the JSON configuration file. Aside, they are identical.
 
-Checkers are a fundamental part of dput-ng. Checkers make sure the package
+Hooks are a fundamental part of dput-ng. Hooks make sure the package
 you've prepared is actually fit to upload given the target & current profile.
 
-In general, one should implement checkers for things that the remote server
+In general, one should implement hooks for things that the remote server
 would ideally check for before accepting a package. Going beyond that is OK,
 providing you have the user's go-ahead to do so.
 
@@ -20,38 +19,42 @@ to help reduce the time to notice big errors.
 Theory of Operation
 -------------------
 
-Checkers are a simple function which is invoked with a few objects to help
-aid in the checking process & reduce code.
+Pre-upload Hooks are a simple function which is invoked with a few objects to
+help aid in the checking process & reduce code.
 
-Checkers will always be run before an upload, and will be given the digested
+Pre-upload hooks will always be run before an upload, and will be given the digested
 .changes object, the current profile & a way to interface with the user.
 
-All checkers (at their core) should preform a single check (as simply as it
-can), and either raise a subclass of :class:`dput.exceptions.CheckerException`
+Pre-upload hooks (at their core) should preform a single check (as simply as it
+can), and either raise a subclass of :class:`dput.exceptions.HookException`
 or return normally.
 
-How a Checker Is Invoked
+Post-upload hooks work likewise. They are just simple hooks as well, that are slightly different to pre-upload hooks. Firstly, register as a hook by placing the plugin def in the ``hooks`` class. In the event of an error, feel free to just bail out. There's not much you can do, and throwing an error is bad form. For now. This is likely to change.
+
+How a Hook Is Invoked
 ------------------------
 
 Throughout this overview, we'll be looking at the
-:func:`dput.checkers.validate_checksums` checker. It's one of the most simple
-checkers, and demonstrates the concept very clearly.
+:func:`dput.hooks.validate_checksums` pre-upload hook. It's one of the most
+simple hooks, and demonstrates the concept very clearly.
 
 To start to understand how this all works, let's take a step back and
-look at how :func:`dput.checker.run_checker` invokes the checker-function.
+look at how :func:`dput.hooks.run_hook` invokes the hook-function.
 
-Basically, ``run_checker`` will grab all the strings in the ``checkers`` key
-of the profile. They are just that -- simply strings. The checkers are looked
+Basically, ``run_hook`` will grab all the strings in the ``hooks`` key
+of the profile. They are just that -- simply strings. The hook are looked
 up using :func:`dput.util.get_obj` (which calls
-:func:`dput.util.load_config` to resolve the .json definition of the checker).
+:func:`dput.util.load_config` to resolve the .json definition of the hook).
 
-All checkers are declared in the ``checkers`` config class, and look
+All hooks are declared in the ``hooks`` config class, and look
 something like the following::
 
     {
-        "name": "checksum checker",
-        "path": "dput.checkers.basics.validate_checksums"
+        "name": "checksum pre-upload hook",
+        "path": "dput.hooks.basics.validate_checksums"
     }
+
+.. XXX TODO: Document the pre-/post-upload key
 
 For more on this file & how it's used, check the other ref-doc on
 config files: :doc:`configs`
@@ -60,7 +63,7 @@ Nextly, let's take a look at the ``path`` key. ``path`` is a
 python-importable path to the function to invoke. Let's take a look
 at it a bit more closely::
 
-    >>> from dput.checkers.basics import validate_checksums
+    >>> from dput.hooks.basics import validate_checksums
     >>> validate_checksums
     <function validate_checksums at 0x7f9be15e1e60>
 
@@ -71,7 +74,7 @@ that we care about.
               be put somewhere dput cares about?
 
 Now that we're clear on how we got here, let's check back with the
-implementation of :func:`dput.checkers.validate_checksums`::
+implementation of :func:`dput.hooks.validate_checksums`::
 
     def validate_checksums(changes, profile, interface):
 
@@ -85,9 +88,9 @@ to the user, if something comes up.
 What To Do When You Find an Issue
 ---------------------------------
 
-During runtime, and for any reason the checker sees fit to do so, the Checker
+During runtime, and for any reason the checker sees fit to do so, the hook
 may abort the upload by raising a subclass of a
-:class:`dput.exceptions.CheckerException`. In cases where the user aught to
+:class:`dput.exceptions.HookException`. In cases where the user aught to
 make the decision (lintian errors, etc), please **prompt** the user for
 what to do, rather then blindly raising the error. Remember, the user can't
 override a checker's failure except by disabling the checker.
@@ -106,10 +109,8 @@ Let's take a look at our reference implementation again::
 
 As you can see, the checker verifies the hashsums, catches any Exceptions
 thrown by the code it uses, and raises sane error text. The Exception
-raised (:class:`dput.checkers.basics.HashValidationError`) is a subclass
-of the expected :class:`dput.exceptions.CheckerException`.
+raised (:class:`dput.hooks.basics.HashValidationError`) is a subclass
+of the expected :class:`dput.exceptions.HookException`.
 
 
-.. Idiomatic Checkers
-   ------------------
-   XXX: implement me.
+

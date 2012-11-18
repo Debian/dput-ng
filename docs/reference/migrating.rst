@@ -32,8 +32,7 @@ Big changes from dput
 
   * post-upload hook and pre-upload checks (or hooks) may be written
     in Python, and have access to the objects which matter. For more on
-    writing one, :doc:`checkers` may provide some insight, as well as
-    :doc:`processors`.
+    writing one, :doc:`hooks` may provide some insight.
 
 Stability Notes
 ---------------

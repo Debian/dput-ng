@@ -13,5 +13,4 @@ Contents:
    migrating
    configs
    contributing
-   checkers
-   processors
+   hooks

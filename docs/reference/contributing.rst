@@ -60,20 +60,20 @@ Some rules here, too:
   * Please add yourself to AUTHORS on your first commit.
 
 
-Checkers
---------
+Hooks
+------
 
-Checkers are hugely important as well. Writing new checkers is insanely cool,
+Hooks are hugely important as well. Writing new hooks is insanely cool,
 and sharing them back with the dput-ng community & friends is an awesome thing
 to do on it's own.
 
 Some other random guidelines we thought up:
 
-  * In general, treat your checkers as self-contained and independent.
+  * In general, treat your hook as self-contained and independent.
 
-  * If you feel your checker should be in the dput main, please ensure it's
+  * If you feel your checker hook be in the dput main, please ensure it's
     properly clean, follows the code guidelines above, and finds a nice home
-    somewhere in the dput codebase. Make sure it's below ``dput.checkers``,
+    somewhere in the dput codebase. Make sure it's below ``dput.hooks``,
     though.
 
   * It must be distributable under the terms of the GPL-2+ license. Permissive

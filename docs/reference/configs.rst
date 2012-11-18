@@ -11,7 +11,7 @@ High Level Changes
 Firstly, you should know dput-ng fully supports the old dput.cf style
 configuration file. However, it also defines its own own,
 `JSON <http://en.wikipedia.org/wiki/JSON>`_ encoded. Settings which are
-specific to dput-ng, in particular checkers and profiles can only be defined
+specific to dput-ng, in particular hooks and profiles can only be defined
 in dput-ng's configuration style. It is possible to run dput-ng with old-style
 configuration files only, with new-style configuration files only and even with
 shared profiles, where both new-style and old-style dput configuration files
@@ -171,7 +171,7 @@ You'll notice the old-style substring replacement is the same. While looking
 a bit deeper, you'll also notice that we inherit from the Ubuntu meta-class.
 
 
-Overriding default checker behavior
+Overriding default hook behavior
 -----------------------------------
 
 It's idiomatic to just *extend* what you get from your parent (e.g. use the
