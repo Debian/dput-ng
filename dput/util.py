@@ -57,7 +57,7 @@ def load_obj(obj_path):
 def get_obj(klass, checker_method):  # checker_method is a bad name.
     """
     Get an object by plugin def (``checker_method``) in class ``klass`` (such
-    as ``processors`` or ``checkers``).
+    as ``hooks``).
     """
     logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
     try:
@@ -350,7 +350,7 @@ def run_func_by_name(klass, name, changes, profile):
     with a :class:`dput.changes.Changes` (``changes``), and profile
     ``profile``.
 
-    This is used to run the checkers / processors, internally.
+    This is used to run the hooks, internally.
     """
     with get_obj_by_name(klass, name, profile) as(obj, interface):
         obj(changes, profile, interface)

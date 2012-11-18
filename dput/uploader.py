@@ -297,5 +297,5 @@ def invoke_dput(changes, args):
             run_post_hooks(changes, profile)
         else:
             logger.trace(profile)
-            logger.warning("No processors defined in the profile. "
-                           "Not processing upload.")
+            logger.warning("No hooks defined in the profile. "
+                           "Not post-processing upload.")
