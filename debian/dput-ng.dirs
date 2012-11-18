@@ -1,4 +1,4 @@
-etc/dput.d/checkers
+etc/dput.d/hooks
 etc/dput.d/commands
 etc/dput.d/interfaces
 etc/dput.d/metas
