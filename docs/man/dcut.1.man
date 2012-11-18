@@ -251,7 +251,7 @@ Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
 RESOURCES
 ---------
 
-*dput(5)*, *dput.cf(5)*, *dcut(1)*, *gpg(1)*, *dput-info(1)*
+*dput(5)*, *dput.cf(5)*, *dcut(1)*, *gpg(1)*, *dirt(1)*
 
 COPYING
 -------
