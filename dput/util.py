@@ -71,8 +71,8 @@ def get_obj(klass, checker_method):  # checker_method is a bad name.
     logger.trace("loading %s %s" % (klass, path))
     try:
         return load_obj(path)
-    except ImportError:
-        logger.warning("failed to resolve path %s" % (path))
+    except ImportError as e:
+        logger.warning("failed to resolve path %s: %s" % (path, e))
         return None
 
 
