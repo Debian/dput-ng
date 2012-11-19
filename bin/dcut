@@ -97,5 +97,8 @@ except dput.exceptions.UploadException as e:
 except dput.exceptions.HookException as e:
     dput.core.logger.critical(str(e))
     sys.exit(1)
+except EnvironmentError as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(2)
 except KeyboardInterrupt:
     sys.exit(0)

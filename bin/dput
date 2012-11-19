@@ -73,12 +73,12 @@ if args.config:
 if args.debug:
     dput.core._enable_debugging(args.debug)
 
-changes = dput.changes.parse_changes_file(
-    args.changes,
-    os.path.dirname(args.changes)
-)
 
 try:
+    changes = dput.changes.parse_changes_file(
+        args.changes,
+        os.path.dirname(args.changes)
+    )
     upload_package(changes, args)
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
@@ -89,5 +89,8 @@ except dput.exceptions.UploadException as e:
 except dput.exceptions.HookException as e:
     dput.core.logger.critical(str(e))
     sys.exit(1)
+except EnvironmentError as e:
+    dput.core.logger.critical(str(e))
+    sys.exit(2)
 except KeyboardInterrupt:
     sys.exit(0)
