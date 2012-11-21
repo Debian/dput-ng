@@ -12,11 +12,14 @@ import json
 import sys
 
 from dput.hook import hook_docs
-from dput.profile import get_blame_map, profiles, load_profile
+from dput.util import get_configs
 from dput.exceptions import DputConfigurationError
+from dput.profile import get_blame_map, profiles, load_profile
+
 
 parser = argparse.ArgumentParser(description=' dput information retrieval tool')
 group = parser.add_mutually_exclusive_group()
+
 
 group.add_argument(
     '--hosts',
@@ -28,6 +31,12 @@ group.add_argument(
     '--blame',
     action='store',
     help='get information on where dput is finding keys'
+)
+
+group.add_argument(
+    '--list',
+    action='store_true',
+    help='list all the hooks'
 )
 
 group.add_argument(
@@ -73,3 +82,8 @@ if args.info:
     except DputConfigurationError:
         print "No such hook '%s'." % (args.info)
         sys.exit(1)
+
+
+if args.list:
+    for config in get_configs('hooks'):
+        print config
