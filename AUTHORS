@@ -1,3 +1,14 @@
+Authors of dput-ng
+==================
+
+The following list is the list of every contributor to dput-ng, in the order
+that their patches were accepted into dput-ng. If you modify dput-ng, please
+add yourself to this list, on the *first* commit.
+
+
+Author List
+===========
+
 Arno Töll <arno@debian.org>
 Paul Tagliamonte <paultag@debian.org>
 Michael Gilbert <mgilbert@debian.org>
