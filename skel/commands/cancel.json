@@ -1,4 +1,4 @@
 {
-    "name": "cancel command",
+    "description": "cancel command",
     "path": "dput.commands.cancel.CancelCommand"
 }

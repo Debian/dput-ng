@@ -1,4 +1,4 @@
 {
-    "name": "upload command",
+    "description": "upload command",
     "path": "dput.commands.upload.UploadCommand"
 }

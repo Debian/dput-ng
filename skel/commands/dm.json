@@ -1,4 +1,4 @@
 {
-    "name": "dm command",
+    "description": "dm command",
     "path": "dput.commands.dm.DmCommand"
 }
