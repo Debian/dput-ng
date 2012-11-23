@@ -55,7 +55,7 @@ All hooks are declared in the ``hooks`` config class, and look
 something like the following::
 
     {
-        "name": "checksum pre-upload hook",
+        "description": "checksum pre-upload hook",
         "path": "dput.hooks.basics.validate_checksums",
         "pre": true
     }
