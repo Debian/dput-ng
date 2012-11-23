@@ -37,20 +37,20 @@ def get_hooks(profile):
 def run_pre_hooks(changes, profile):
     for name, hook in get_hooks(profile):
         if 'pre' in hook and hook['pre']:
-            run_hook(name, changes, profile)
+            run_hook(name, hook, changes, profile)
         if 'pre' not in hook and 'post' not in hook:
             logger.warning("Hook: %s has no pre/post ordering. Assuming "
                            "pre.")
-            run_hook(name, changes, profile)
+            run_hook(name, hook, changes, profile)
 
 
 def run_post_hooks(changes, profile):
     for name, hook in get_hooks(profile):
         if 'post' in hook and hook['post']:
-            run_hook(name, changes, profile)
+            run_hook(name, hook, changes, profile)
 
 
-def run_hook(hook, changes, profile):
+def run_hook(name, hook, changes, profile):
     """
     Run a hook (by the name of ``hook``) against the changes file (by
     the name of ``changes``), with the upload profile (named ``profile``).
@@ -65,5 +65,5 @@ def run_hook(hook, changes, profile):
         ``profile`` (dict) dictonary of the profile that will help guide
             the hook's runtime.
     """
-    logger.info("running %s" % (hook))
-    return run_func_by_name('hooks', hook, changes, profile)
+    logger.info("running %s: %s" % (name, hook['description']))
+    return run_func_by_name('hooks', name, changes, profile)

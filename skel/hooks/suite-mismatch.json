@@ -1,5 +1,5 @@
 {
-    "name": "suite mismatch checker", 
+    "description": "suite mismatch checker", 
     "path": "dput.hooks.basics.check_distribution_matches", 
     "pre": true
 }

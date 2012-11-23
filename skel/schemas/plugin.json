@@ -2,7 +2,7 @@
     "additionalProperties": false, 
     "description": "dput-ng plugin def", 
     "properties": {
-        "name": {
+        "description": {
             "required": true, 
             "type": "string"
         }, 

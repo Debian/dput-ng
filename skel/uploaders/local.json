@@ -1,4 +1,4 @@
 {
-    "name": "local file uploader",
+    "description": "local file uploader",
     "path": "dput.uploaders.local.LocalUploader"
 }

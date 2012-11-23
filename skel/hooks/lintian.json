@@ -1,5 +1,5 @@
 {
-    "name": "lintian checker", 
+    "description": "lintian checker", 
     "path": "dput.hooks.lintian.lintian", 
     "pre": true
 }

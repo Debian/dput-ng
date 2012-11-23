@@ -1,4 +1,4 @@
 {
-    "name": "http(s) uploader",
+    "description": "http(s) uploader",
     "path": "dput.uploaders.http.HTTPUploader"
 }

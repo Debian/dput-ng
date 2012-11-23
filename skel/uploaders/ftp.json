@@ -1,4 +1,4 @@
 {
-    "name": "ftp uploader",
+    "description": "ftp uploader",
     "path": "dput.uploaders.ftp.FtpUploader"
 }

@@ -1,5 +1,5 @@
 {
-    "name": "binary package checker", 
+    "description": "binary package checker", 
     "path": "dput.hooks.basics.check_debs_in_upload", 
     "pre": true
 }
