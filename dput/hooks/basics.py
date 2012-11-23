@@ -23,8 +23,11 @@ Basic and core package hooks.
 
 import re
 
+
 from dput.core import logger
-from dput.exceptions import ChangesFileException, HookException
+from dput.exceptions import (ChangesFileException, HookException,
+                             DscFileException)
+from dput.dsc import parse_dsc_file
 from dput.interface import BUTTON_NO
 
 
@@ -80,6 +83,34 @@ class BinaryUploadError(HookException):
     Thrown if the ``check-debs`` checker encounters an issue.
     """
     pass
+
+
+
+def _find_previous_upload(package_name, package_distribution):
+    # well, this code is broken.
+    # hopefully that's obvious. Thing is, the missing bit to retrieve
+    # this information is not implemented remote
+    # Returns the previous version and a hash of orig.tar.gz tarballs of the
+    # previous upload. Eventually.
+
+    import random
+    return ("1.4.31-2", {"lighttpd_1.4.31.orig.tar.gz":
+            random.choice(["7907b7167d639b8a8daab97e223249d5", "1337"])})
+
+def _parse_version(raw_version):
+    (epoch, version, debian_version) = (0, None, 0)
+    if not raw_version:
+        return (epoch, version, debian_version)
+    epoch_index = raw_version.find(":")
+    if epoch_index >= 0:
+        epoch = raw_version[0:epoch_index]
+        raw_version = raw_version[epoch_index + 1:]
+    debian_version_index = raw_version.rfind("-")
+    if debian_version_index >= 0:
+        debian_version = raw_version[debian_version_index + 1:]
+        raw_version = raw_version[:debian_version_index]
+    version = raw_version
+    return (epoch, version, debian_version)
 
 
 def check_gpg_signature(changes, profile, interface):
@@ -339,7 +370,7 @@ def check_protected_distributions(changes, profile, interface):
         logger.trace("Nothing to do for checker protected_distributions")
 
 
-def check_source_needed(changes, profile, interface):
+def check_archive_integrity(changes, profile, interface):
     """
     The ``source`` checker is a stock dput checker that checks packages
     intended for upload for source attached.
@@ -353,35 +384,59 @@ def check_source_needed(changes, profile, interface):
     have source attached.
     """
 
-    debian_revision = changes.get("Version")
-    if debian_revision.find("-") == -1:
-        logger.trace("Package appears to be native")
-        return
-    logger.trace("Package appears to be non-native")
+    package_version = changes.get("Version")
+    package_name = changes.get("Source")
+    package_distribution = changes.get("Distribution")
+    dsc = parse_dsc_file(filename=changes.get_dsc())
+    orig_tarballs = {}
+    # technically this will also contain .debian.tar.gz or .diff.gz stuff.
+    # We don't care.
+    for files in dsc["Files"]:
+        orig_tarballs[files['name']] = files['md5sum']
 
-    debian_revision = debian_revision[debian_revision.rfind("-") + 1:]
-    debian_revision = int(debian_revision)
-    # policy 5.6.12:
-    # debian_revision --
-    # It is optional; if it isn't present then the upstream_version may not
-    # contain a hyphen. This format represents the case where a piece of
-    # software was written specifically to be a Debian package, where the
-    # Debian package source must always be identical to the pristine source
-    # and therefore no revision indication is required.
+    (previous_version, previous_checksums) = _find_previous_upload(
+                                        package_name, package_distribution)
 
-    orig_tarball_found = False
-    for filename in changes.get_files():
-        if re.search("orig\.tar\.(gz|bz2|lzma|xz)$", filename):
-            orig_tarball_found = True
-            break
+    if previous_version:
+        (p_ev, p_uv, p_dv) = _parse_version(previous_version)
+        (c_ev, c_uv, c_dv) = _parse_version(package_version)
 
-    if debian_revision == 1 and not orig_tarball_found:
-        raise SourceMissingError(
-            "Upload appears to be a new upstream "
-            "version but does not include original tarball"
-        )
-    elif debian_revision > 1 and orig_tarball_found:
-        logger.warning("Upload appears to be a Debian specific change, "
-                       "but does include original tarball")
+        logger.trace("Parsing versions: (old/new) %s/%s; debian: %s/%s" % (
+                                                p_uv, c_uv, p_dv, c_dv))
 
-    # TODO: Are we insane doing this? e.g. consider -B uploads?
+        if p_ev == c_ev and p_uv == c_uv:
+            logger.trace("Upload %s/%s appears to be a Debian revision only" %
+                         (package_name, package_version))
+            for checksum in previous_checksums:
+                if checksum in orig_tarballs:
+                    logger.debug("Checking %s: %s == %s" % (checksum,
+                        previous_checksums[checksum], orig_tarballs[checksum]))
+                    if previous_checksums[checksum] != orig_tarballs[checksum]:
+                        raise SourceMissingError(
+                                "MD5 checksum for a Debian version only "
+                                "upload for package %s/%s does not match the "
+                                "archive's checksum: %s != %s" % (
+                                    package_name, package_version,
+                                    previous_checksums[checksum],
+                                    orig_tarballs[checksum]))
+                else:
+                    logger.debug("Checking %s: new orig stuff? %s" % (checksum,
+                        checksum))
+                    raise SourceMissingError("Package %s/%s introduces new "
+                                             "upstream changes: %s" % (
+                                            package_name, package_version,
+                                            checksum))
+        else:
+            logger.debug("Not checking archive integrity. "
+                         "Upload %s/%s is packaging a new upstream version" %
+                         (package_name, package_version))
+
+        #TODO: It may be also well possible to find out if the new upload has
+        #      a higher number than the previous. But that either needs a
+        #      Python version parser, or a call to dpkg --compare-versions
+
+    else:
+        logger.debug("Upload appears to be native, or packaging a new "
+                  "upstream version.")
+
+    raise Exception("Intentional Barrier")
