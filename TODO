@@ -72,6 +72,11 @@ tests/*
   - get 80% coverage
   - test ftp / sftp w/mockers (pyftpdlib)
 
+dput/command.py
+---------------
+  - For compatibility, use sane default values for DEBEMAIL and DEBFULLNAME.
+    The dch(1) man page documents what many DDs likely expect.
+
 dput/uploader.py
 ----------------
 
