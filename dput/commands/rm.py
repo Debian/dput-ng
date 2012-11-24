@@ -21,7 +21,8 @@
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 from dput.commands.cancel import generate_debianqueued_commands_name
-
+from dput.changes import Changes
+from dput.core import logger
 
 class RmCommandError(DcutError):
     pass
@@ -38,7 +39,9 @@ class RmCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
-                            default=None, help="file name to be removed",
+                            default=None, help="file name to be removed. "
+                            "If the argument is a CHANGES file, a rm command "
+                            "for all .deb packages in it is created",
                             nargs="+")
         parser.add_argument('--searchdirs', action='store_true', default=None,
                             help="Search in all directories for the given"
@@ -46,6 +49,7 @@ class RmCommand(AbstractCommand):
                             " queue.")
 
     def produce(self, fh, args):
+        print(args.searchdirs)
         fh.write("Commands:\n")
         for rm_file in args.file:
             fh.write("  %s %s %s\n" % (
@@ -55,9 +59,23 @@ class RmCommand(AbstractCommand):
             ))
 
     def validate(self, args):
-        print("validate")
         # TODO: argument can be either a path or a base name, but then the user
         #       most likely wants to add --searchdirs
+
+        file_list = []
+        if args.file:
+            for argument in args.file:
+                if argument.endswith("changes"):
+                    # force searchdirs
+                    args.searchdirs = True
+                    changes_file = Changes(filename=argument)
+                    file_list += changes_file.get_files()
+                    file_list.append(changes_file.get_filename())
+                    logger.info("Expanding package list for removals to: %s" %
+                                reduce(lambda x, xs: xs + ", " + x, file_list))
+                    args.file = file_list
+        else:
+            raise RmCommandError("No file to be removed supplied?")
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)
