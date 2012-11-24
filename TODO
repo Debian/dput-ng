@@ -54,18 +54,10 @@ dput-config
 
 (DIRT)
 
-easy requests
--------------
-
-  - 637775 (time in .upload files) (pinotree)
-    \- we are still having the alternative to print out the log into the
-       .upload file
-
 
 bin/dput
 --------
 
-  - make a file logger?
   - implement --force switch (bypass all checker, ignore .upload file?)
 
 config loader
@@ -94,33 +86,6 @@ uploader
   - A progress bar
   - Authentication support
 
-
-user interface
----------------
-
- - Do not let interface consumer do their own input handling. Instead, provide
-   an abstraction, e.g. something like
-
-           inp = interface.query('Protected Checker', [
-                {'msg': msg,
-                 'type': 'boolean_yes_no',
-                 'default': False
-                 'show': True}
-        ])
-
-        if inp:
-        	# ...
-
-   instead of
-
-
-           inp = interface.query('Protected Checker', [
-                {'msg': '%s [Ny]' % (msg),
-                 'show': True}
-        ])
-        inp = [x.strip().lower() for x in inp]
-        if inp == 'foo':
-        	#...
 
 
 profiles
