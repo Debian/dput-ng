@@ -9,7 +9,7 @@ dput - Debian package upload tool
 
 SYNOPSIS
 --------
-*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-l] [-U] [-o]
+*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-F] [-l] [-U] [-o]
             [-P] [-s] [-u] [-v] [-V]
             ['HOST'] 'CHANGES-FILE'
 
@@ -51,6 +51,10 @@ OPTIONS
 	Upload to the delayed queue, instead of the usual incoming directory.
 	This option takes an argument from 0 to 15 correspinding to the respective
 	DELAYED queue.
+
+*-F, --full-upload-log*'
+	Write more verbose .upload logs. When set to, upload logs will include more
+	details. This setting overrides profile defaults when provided. 
 
 *-f, --force*::
 	Force an upload, even if the upload log exists already.

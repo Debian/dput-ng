@@ -29,6 +29,10 @@
             "required": false, 
             "type": "string"
         }, 
+        "full_upload_log": {
+            "required": false, 
+            "type": "boolean"
+        }, 
         "fqdn": {
             "required": false, 
             "type": "string"

@@ -125,6 +125,11 @@ must match or dput will refuse the upload.
 This defines the default host for packages that are allowed to be uploaded to
 the main archive. This variable is used when guessing the host to upload to.
 
+*full_upload_log* (boolean)::
+
+This defines the verbosity of upload logs. When set to *true*, logs will
+include more details. This setting might be overridden on the command line and
+defaults to *false*. 
 
 *fqdn* (string)::
 

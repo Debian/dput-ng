@@ -12,5 +12,6 @@
     "post_upload_command": "", 
     "pre_upload_command": "", 
     "run_lintian": false, 
-    "scp_compress": true
+    "scp_compress": true,
+    "full_upload_log": false
 }

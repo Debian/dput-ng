@@ -99,7 +99,7 @@ UNSUPPORTED KEYS
 These keys are not supported in old-style configuration files. However, their
 values are inherited from their new-style defaults. See *dput(5)* for details:
 
-*hooks*, *interface*, *meta*.
+*hooks*, *interface*, *meta*, *full_upload_log*.
 
 
 BUGS
