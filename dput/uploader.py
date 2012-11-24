@@ -26,6 +26,8 @@ arguments, etc.
 import os
 import abc
 import sys
+import tempfile
+import shutil
 from contextlib import contextmanager
 
 import dput.profile
@@ -229,11 +231,12 @@ def invoke_dput(changes, args):
 
 
     logfile = determine_logfile(changes, profile, args)
+    tmp_logfile = tempfile.NamedTemporaryFile()
     if should_write_logfile(args):
         full_upload_log = profile["full_upload_log"]
         if args.full_upload_log:
             full_upload_log = args.full_upload_log
-        _write_upload_log(logfile, full_upload_log)
+        _write_upload_log(tmp_logfile.name, full_upload_log)
 
     logger.info("Uploading %s using %s to %s (host: %s; directory: %s)" % (
         changes.get_package_name(),
@@ -291,3 +294,8 @@ def invoke_dput(changes, args):
             logger.trace(profile)
             logger.warning("No hooks defined in the profile. "
                            "Not post-processing upload.")
+    if should_write_logfile(args):
+        tmp_logfile.flush()
+        shutil.copy(tmp_logfile.name, logfile)
+        #print(tmp_logfile.name)
+        tmp_logfile.close()
