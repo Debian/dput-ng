@@ -25,6 +25,7 @@ import sys
 import os.path
 import logging
 import dput.logger
+from logging.handlers import RotatingFileHandler
 
 
 # used for searching for config files. place in order of precedence
@@ -72,6 +73,18 @@ _formatter = logging.Formatter(
     '%(message)s')
 _ch.setFormatter(_formatter)
 
+
+def _write_upload_log(logfile, full_log):
+    upload_log_formatter = logging.Formatter(
+            "%(asctime)s - dput[%(process)d]: "
+            "%(module)s.%(funcName)s - %(message)s")
+    upload_log_handler = RotatingFileHandler(logfile)
+    upload_log_handler.setFormatter(upload_log_formatter)
+    if full_log:
+        upload_log_handler.setLevel(logging.DEBUG)
+    else:
+        upload_log_handler.setLevel(logging.INFO)
+    logger.addHandler(upload_log_handler)
 
 def _enable_debugging(level):
     _ch = logging.StreamHandler()

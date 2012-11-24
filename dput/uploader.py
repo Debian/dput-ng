@@ -29,7 +29,7 @@ import sys
 from contextlib import contextmanager
 
 import dput.profile
-from dput.core import logger
+from dput.core import logger, _write_upload_log
 from dput.hook import run_pre_hooks, run_post_hooks
 from dput.util import (run_command, get_obj)
 from dput.overrides import (make_delayed_upload, force_passive_ftp_upload)
@@ -222,12 +222,19 @@ def invoke_dput(changes, args):
     check_modules(profile)
 
     fqdn = None
-    if 'fqdn' in profile:
+    if "fqdn" in profile:
         fqdn = profile['fqdn']
-    logfile = determine_logfile(changes, profile, args)
+    else:
+        fqdn = profile['name']
 
-    logger.info("Uploading %s to %s (incoming: %s)" % (
+
+    logfile = determine_logfile(changes, profile, args)
+    if should_write_logfile(args):
+        _write_upload_log(logfile, args.full_upload_log)
+
+    logger.info("Uploading %s using %s to %s (incoming: %s)" % (
         changes.get_package_name(),
+        profile['method'],
         fqdn or profile['name'],
         profile['incoming']
     ))
@@ -248,13 +255,6 @@ def invoke_dput(changes, args):
         logger.warning("No hooks defined in the profile. "
                        "Not checking upload.")
 
-    # Also, the _contents_ of the log-file maybe should contain the logger
-    # output?
-    if should_write_logfile(args):
-        log = open(logfile, 'w')
-    else:
-        log = open("/dev/null", 'w')
-
     with uploader(profile['method'], profile,
                   run_hooks=(not args.simulate)) as obj:
 
@@ -269,25 +269,16 @@ def invoke_dput(changes, args):
 
         files = changes.get_files() + [changes.get_changes_file()]
         for path in files:
-            logger.info("Uploading %s to %s%s" % (
+            logger.info("Uploading %s to %s (%s)%s" % (
                 os.path.basename(path),
                 profile['name'],
+                fqdn,
                 " (simulation)" if args.simulate else ""
             ))
 
             if not args.simulate:
                 obj.upload_file(path)
 
-            if "fqdn" in profile:
-                fqdn_name = profile['fqdn']
-            else:
-                fqdn_name = profile['name']
-
-            log.write("Successfully uploaded %s to %s for %s.\n" % (
-                os.path.basename(path),
-                fqdn_name,
-                profile['name']
-            ))
 
         if args.simulate:
             return
