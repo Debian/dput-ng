@@ -248,8 +248,6 @@ def invoke_dput(changes, args):
         logger.warning("No hooks defined in the profile. "
                        "Not checking upload.")
 
-    # XXX: This does not work together with --check-only and --simulate
-    # We cannot use with(the_logfile) as an outermost condition
     # Also, the _contents_ of the log-file maybe should contain the logger
     # output?
     if should_write_logfile(args):
@@ -271,9 +269,10 @@ def invoke_dput(changes, args):
 
         files = changes.get_files() + [changes.get_changes_file()]
         for path in files:
-            logger.info("Uploading %s to %s" % (
+            logger.info("Uploading %s to %s%s" % (
                 os.path.basename(path),
-                profile['name']
+                profile['name'],
+                " (simulation)" if args.simulate else ""
             ))
 
             if not args.simulate:
