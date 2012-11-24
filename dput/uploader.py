@@ -235,10 +235,11 @@ def invoke_dput(changes, args):
             full_upload_log = args.full_upload_log
         _write_upload_log(logfile, full_upload_log)
 
-    logger.info("Uploading %s using %s to %s (incoming: %s)" % (
+    logger.info("Uploading %s using %s to %s (host: %s; directory: %s)" % (
         changes.get_package_name(),
         profile['method'],
-        fqdn or profile['name'],
+        profile['name'],
+        fqdn,
         profile['incoming']
     ))
 
@@ -272,10 +273,8 @@ def invoke_dput(changes, args):
 
         files = changes.get_files() + [changes.get_changes_file()]
         for path in files:
-            logger.info("Uploading %s to %s (%s)%s" % (
+            logger.info("Uploading %s%s" % (
                 os.path.basename(path),
-                profile['name'],
-                fqdn,
                 " (simulation)" if args.simulate else ""
             ))
 
