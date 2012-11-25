@@ -12,14 +12,18 @@ import sys
 import json
 import argparse
 
+# A little temporary hack for those of us not using virtualenv
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+
 from dput.hook import hook_docs
 from dput.util import get_configs
 from dput.exceptions import DputConfigurationError
 from dput.profile import get_blame_map, profiles, load_profile
 
 
-parser = argparse.ArgumentParser(description=' dput information retrieval tool')
-group = parser.add_mutually_exclusive_group()
+parser = argparse.ArgumentParser(description='dput information retrieval tool')
+group = parser.add_mutually_exclusive_group(required=True)
 
 
 group.add_argument(
