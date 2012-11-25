@@ -7,6 +7,8 @@
 #    --help-checker
 #    --help-processor
 
+from __future__ import print_function
+
 import os
 import sys
 import json
@@ -17,7 +19,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 from dput.hook import hook_docs
-from dput.util import get_configs
+from dput.util import get_configs, load_config
 from dput.exceptions import DputConfigurationError
 from dput.profile import get_blame_map, profiles, load_profile
 
@@ -36,20 +38,23 @@ group.add_argument(
     '--remove-hook',
     nargs=2,
     action='store',
-    help='print the lists of hosts that dput knows about'
+    help='print the lists of hosts that dput knows about',
+    metavar='HOOK'
 )
 
 group.add_argument(
     '--add-hook',
     nargs=2,
     action='store',
-    help='print the lists of hosts that dput knows about'
+    help='print the lists of hosts that dput knows about',
+    metavar='HOOK'
 )
 
 group.add_argument(
     '--blame',
     action='store',
-    help='get information on where dput is finding keys'
+    help='get information on where dput is finding keys',
+    metavar='PROFILE_NAME'
 )
 
 group.add_argument(
@@ -61,24 +66,25 @@ group.add_argument(
 group.add_argument(
     '--info',
     action='store',
-    help='get some help on a hook'
+    help='get some help on a hook',
+    metavar='HOOK'
 )
 
 args = parser.parse_args()
 
 if args.blame:
     if args.blame not in profiles():
-        print "No such target."
+        print("No such target.")
         sys.exit(1)
 
-    print json.dumps(get_blame_map(args.blame), sort_keys=True, indent=4)
+    print(json.dumps(get_blame_map(args.blame), sort_keys=True, indent=4))
     sys.exit(0)
 
 if args.hosts:
     default = load_profile(None)
-    print
-    print "Default method: %s" % (default['method'])
-    print
+    print()
+    print("Default method: %s" % (default['method']))
+    print()
     for config in profiles():
         obj = load_profile("%s:%s" % (config, config))
         #                               ^^^^^^ fake arg for others
@@ -86,8 +92,8 @@ if args.hosts:
             obj['fqdn'] = 'localhost'
 
         string = "{name} => {fqdn}  (Upload method: {method})".format(**obj)
-        print string
-    print
+        print(string)
+    print()
     sys.exit(0)
 
 
@@ -95,17 +101,28 @@ if args.info:
     try:
         docs = hook_docs(args.info)
         if docs == "":
-            print "Sorry, the author didn't provide help on this module."
+            print("Sorry, the author didn't provide help on this module.")
             sys.exit(0)
-        print docs
+        print(docs)
     except DputConfigurationError:
-        print "No such hook '%s'." % (args.info)
+        print("No such hook '%s'." % (args.info))
         sys.exit(1)
 
 
 if args.list:
+    hook_list = {'pre': {}, 'post': {}}
     for config in get_configs('hooks'):
-        print config
+        hook = load_config('hooks', config, schema='plugin')
+        if 'pre' in hook:
+            hook_list['pre'][config] = hook
+        if 'post' in hook:
+            hook_list['post'][config] = hook
+    for hook_type in hook_list:
+        print("%s-upload hooks:" % (hook_type))
+        for hook in hook_list[hook_type]:
+            print("\t%s: %s" % (hook,
+                                hook_list[hook_type][hook]['description']))
+        print()
     sys.exit(0)
 
 # Dear lord of all that is holy, the kruft below *needs* to be moved into
@@ -137,10 +154,10 @@ if args.add_hook:
     if not '+hooks' in obj:
         obj['+hooks'] = []
     if hook not in obj['+hooks']:
-        print "Added %s to the config." % (hook)
+        print("Added %s to the config." % (hook))
         obj['+hooks'].append(hook)
     else:
-        print "%s is already in the config." % (hook)
+        print("%s is already in the config." % (hook))
 
     _write_file(config, obj)
     sys.exit(0)
