@@ -140,3 +140,29 @@ if args.add_hook:
 
     _write_file(config, obj)
     sys.exit(0)
+
+
+if args.remove_hook:
+    hook, target = args.remove_hook
+    # sanity check target, now.
+    # sanity check hook, now.
+    config = os.path.expanduser(
+        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
+    )
+    obj = _read_file(config)
+
+    if 'hooks' in obj:
+        if hook in obj['hooks']:
+            obj['hooks'].remove(hook)
+
+    elif '+hooks' in obj:
+        if hook in obj['+hooks']:
+            obj['+hooks'].remove(hook)
+    else:
+        if not '-hooks' in obj:
+            obj['-hooks'] = []
+
+        obj['-hooks'].append(hook)
+
+    _write_file(config, obj)
+    sys.exit(0)
