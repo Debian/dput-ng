@@ -88,10 +88,13 @@ def load_commands():
 
 def write_header(fh, profile, args):
 
-    email_address = os.environ["DEBEMAIL"]
+    email_address = os.environ["DEBEMAIL"] \
+    if "DEBEMAIL" in os.environ else None
     if not email_address:
-        email_address = os.environ["EMAIL"]
-    name = os.environ["DEBFULLNAME"]
+        email_address = os.environ["EMAIL"] \
+        if "EMAIL" in os.environ else None
+    name = os.environ["DEBFULLNAME"] \
+    if "DEBFULLNAME" in os.environ else None
 
     # TODO: parse gecos?
 
