@@ -38,7 +38,7 @@ group.add_argument(
     '--remove-hook',
     nargs=2,
     action='store',
-    help='print the lists of hosts that dput knows about',
+    help='Remove a hook from a given profile',
     metavar='HOOK'
 )
 
@@ -46,7 +46,7 @@ group.add_argument(
     '--add-hook',
     nargs=2,
     action='store',
-    help='print the lists of hosts that dput knows about',
+    help='Add a hook to a given profile',
     metavar='HOOK'
 )
 
