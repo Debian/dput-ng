@@ -7,9 +7,10 @@
 #    --help-checker
 #    --help-processor
 
-import argparse
-import json
+import os
 import sys
+import json
+import argparse
 
 from dput.hook import hook_docs
 from dput.util import get_configs
@@ -24,6 +25,20 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument(
     '--hosts',
     action='store_true',
+    help='print the lists of hosts that dput knows about'
+)
+
+group.add_argument(
+    '--remove-hook',
+    nargs=2,
+    action='store',
+    help='print the lists of hosts that dput knows about'
+)
+
+group.add_argument(
+    '--add-hook',
+    nargs=2,
+    action='store',
     help='print the lists of hosts that dput knows about'
 )
 
@@ -87,3 +102,41 @@ if args.info:
 if args.list:
     for config in get_configs('hooks'):
         print config
+    sys.exit(0)
+
+# Dear lord of all that is holy, the kruft below *needs* to be moved into
+# proper dput config objects. We should really just grab the local foo, and
+# deal with that mess on the fly. Don't put it there until it's factored in
+# nicely.
+#   - PRT
+
+def _read_file(fpath):
+    obj = {}
+    if os.path.exists(fpath):
+        obj = json.load(open(fpath, 'r'))
+    return obj
+
+def _write_file(fpath, obj):
+    d = os.path.dirname(fpath)
+    if not os.path.exists(d):
+        os.makedirs(d)
+    open(fpath, 'w').write(json.dumps(obj, sort_keys=True, indent=4))
+
+if args.add_hook:
+    hook, target = args.add_hook
+    # sanity check target, now.
+    # sanity check hook, now.
+    config = os.path.expanduser(
+        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
+    )
+    obj = _read_file(config)
+    if not '+hooks' in obj:
+        obj['+hooks'] = []
+    if hook not in obj['+hooks']:
+        print "Added %s to the config." % (hook)
+        obj['+hooks'].append(hook)
+    else:
+        print "%s is already in the config." % (hook)
+
+    _write_file(config, obj)
+    sys.exit(0)
