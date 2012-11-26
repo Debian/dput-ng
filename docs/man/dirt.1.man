@@ -10,22 +10,33 @@ dirt - dput information retrieval tool
 SYNOPSIS
 --------
 
-*dirt*
+*dirt* [-h] {hosts,blame,list,info} ...
 
 
 DESCRIPTION
 -----------
 
-this is a placeholder
+*dirt* is a data retrieval and change tool, being able to retrieve meta
+information about *dput*(1) configuration files and hooks. 
+
+This command is not completed yet. Interface and behavior changes are expected
+in future releases.
 
 OPTIONS
 -------
 
-*-p, --print*::
-	This option is currently not implemented.
+SUB COMMANDS
+~~~~~~~~~~~~
 
-*-H, --host-list*::
-	Print out the list of hosts that dput knows about.
+*hosts*::
+	print the lists of hosts that dput knows about
+*blame*::
+	get information on where dput is finding keys
+*list*::
+	list all the hooks registered to dput
+*info*::
+	get some help on a hook
+
 
 EXIT STATUS
 -----------
@@ -52,14 +63,26 @@ Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 EXAMPLES
 --------
 
-fill me
-
+  $ dirt list
+  
+  $ dirt blame -p ftp-master
+  
+  $ dirt info --hook source
+  
+  
 AUTHOR
 ------
 dput-ng was originally written by `Arno Töll <arno(a)debian.org>` and `Paul
 Richard I by the Grace of God of the United Kingdom of Debian and Ubuntu and
 of his other realms and territories King Head of the Fluxbox Window Manager
 Defender of the Faith Tagliamonte <paultag(a)debian.org>`.
+
+
+BUGS
+----
+
+This command is not completed yet. Interface and behavior changes are expected
+in future releases.
 
 
 RESOURCES

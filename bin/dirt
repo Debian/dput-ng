@@ -73,6 +73,10 @@ parser_info.add_argument('-H', '--hook', metavar='HOOK_NAME',
 
 args = parser.parse_args()
 
+print("\nWARNING: This command is not completed yet. Interface and behavior "
+      "changes are expected in future releases\n")
+
+
 if args.command == 'blame':
     if args.profile not in profiles():
         print("No such target.")
