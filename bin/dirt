@@ -39,7 +39,8 @@ parser_blame = subparsers.add_parser('blame',
                         help='get information on where dput is finding keys')
 parser_blame.set_defaults(command="blame")
 parser_blame.add_argument('-p', '--profile', metavar='PROFILE_NAME',
-                         help='name of the hook to retrieve information from')
+                         help='name of the hook to retrieve information from',
+                         required=True)
 
 parser_list = subparsers.add_parser('list',
                         help='list all the hooks registered to dput')
@@ -49,7 +50,8 @@ parser_info = subparsers.add_parser('info',
                         help='get some help on a hook')
 parser_info.set_defaults(command="info")
 parser_info.add_argument('-H', '--hook', metavar='HOOK_NAME',
-                         help='name of the hook to retrieve information from')
+                         help='name of the hook to retrieve information from',
+                         required=True)
 
 #XXX: stubbing for now
 #group.add_argument(
