@@ -24,63 +24,62 @@ from dput.exceptions import DputConfigurationError
 from dput.profile import get_blame_map, profiles, load_profile
 
 
+parser = argparse.ArgumentParser()
+
+
+
 parser = argparse.ArgumentParser(description='dput information retrieval tool')
-group = parser.add_mutually_exclusive_group(required=True)
+subparsers = parser.add_subparsers(help='sub-command help')
 
+parser_hosts = subparsers.add_parser('hosts',
+                        help='print the lists of hosts that dput knows about')
+parser_hosts.set_defaults(command="hosts")
 
-group.add_argument(
-    '--hosts',
-    action='store_true',
-    help='print the lists of hosts that dput knows about'
-)
+parser_blame = subparsers.add_parser('blame',
+                        help='get information on where dput is finding keys')
+parser_blame.set_defaults(command="blame")
+parser_blame.add_argument('-p', '--profile', metavar='PROFILE_NAME',
+                         help='name of the hook to retrieve information from')
 
-group.add_argument(
-    '--remove-hook',
-    nargs=2,
-    action='store',
-    help='Remove a hook from a given profile',
-    metavar='HOOK'
-)
+parser_list = subparsers.add_parser('list',
+                        help='list all the hooks registered to dput')
+parser_list.set_defaults(command="list")
 
-group.add_argument(
-    '--add-hook',
-    nargs=2,
-    action='store',
-    help='Add a hook to a given profile',
-    metavar='HOOK'
-)
+parser_info = subparsers.add_parser('info',
+                        help='get some help on a hook')
+parser_info.set_defaults(command="info")
+parser_info.add_argument('-H', '--hook', metavar='HOOK_NAME',
+                         help='name of the hook to retrieve information from')
 
-group.add_argument(
-    '--blame',
-    action='store',
-    help='get information on where dput is finding keys',
-    metavar='PROFILE_NAME'
-)
+#XXX: stubbing for now
+#group.add_argument(
+#    '--remove-hook',
+#    nargs=2,
+#    action='store',
+#    help='Remove a hook from a given profile',
+#    metavar='HOOK'
+#)
+#
+#group.add_argument(
+#    '--add-hook',
+#    nargs=2,
+#    action='store',
+#    help='Add a hook to a given profile',
+#    metavar='HOOK'
+#)
 
-group.add_argument(
-    '--list',
-    action='store_true',
-    help='list all the hooks'
-)
-
-group.add_argument(
-    '--info',
-    action='store',
-    help='get some help on a hook',
-    metavar='HOOK'
-)
 
 args = parser.parse_args()
 
-if args.blame:
-    if args.blame not in profiles():
+if args.command == 'blame':
+    if args.profile not in profiles():
         print("No such target.")
         sys.exit(1)
 
-    print(json.dumps(get_blame_map(args.blame), sort_keys=True, indent=4))
+    print(json.dumps(get_blame_map(args.profile), sort_keys=True, indent=4))
     sys.exit(0)
 
-if args.hosts:
+if args.command == 'hosts':
     default = load_profile(None)
     print()
     print("Default method: %s" % (default['method']))
@@ -97,19 +96,19 @@ if args.hosts:
     sys.exit(0)
 
 
-if args.info:
+if args.command == 'info':
     try:
-        docs = hook_docs(args.info)
+        docs = hook_docs(args.hook)
         if docs == "":
             print("Sorry, the author didn't provide help on this module.")
             sys.exit(0)
         print(docs)
     except DputConfigurationError:
-        print("No such hook '%s'." % (args.info))
+        print("No such hook '%s'." % (args.hook))
         sys.exit(1)
 
 
-if args.list:
+if args.command == 'list':
     hook_list = {'pre': {}, 'post': {}}
     for config in get_configs('hooks'):
         hook = load_config('hooks', config, schema='plugin')
@@ -143,47 +142,47 @@ def _write_file(fpath, obj):
         os.makedirs(d)
     open(fpath, 'w').write(json.dumps(obj, sort_keys=True, indent=4))
 
-if args.add_hook:
-    hook, target = args.add_hook
-    # sanity check target, now.
-    # sanity check hook, now.
-    config = os.path.expanduser(
-        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
-    )
-    obj = _read_file(config)
-    if not '+hooks' in obj:
-        obj['+hooks'] = []
-    if hook not in obj['+hooks']:
-        print("Added %s to the config." % (hook))
-        obj['+hooks'].append(hook)
-    else:
-        print("%s is already in the config." % (hook))
+#if args.add_hook:
+#    hook, target = args.add_hook
+#    # sanity check target, now.
+#    # sanity check hook, now.
+#    config = os.path.expanduser(
+#        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
+#    )
+#    obj = _read_file(config)
+#    if not '+hooks' in obj:
+#        obj['+hooks'] = []
+#    if hook not in obj['+hooks']:
+#        print("Added %s to the config." % (hook))
+#        obj['+hooks'].append(hook)
+#    else:
+#        print("%s is already in the config." % (hook))
+#
+#    _write_file(config, obj)
+#    sys.exit(0)
 
-    _write_file(config, obj)
-    sys.exit(0)
 
-
-if args.remove_hook:
-    hook, target = args.remove_hook
-    # sanity check target, now.
-    # sanity check hook, now.
-    config = os.path.expanduser(
-        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
-    )
-    obj = _read_file(config)
-
-    if 'hooks' in obj:
-        if hook in obj['hooks']:
-            obj['hooks'].remove(hook)
-
-    elif '+hooks' in obj:
-        if hook in obj['+hooks']:
-            obj['+hooks'].remove(hook)
-    else:
-        if not '-hooks' in obj:
-            obj['-hooks'] = []
-
-        obj['-hooks'].append(hook)
-
-    _write_file(config, obj)
-    sys.exit(0)
+#if args.remove_hook:
+#    hook, target = args.remove_hook
+#    # sanity check target, now.
+#    # sanity check hook, now.
+#    config = os.path.expanduser(
+#        "~/.dput.d/profiles/%s.json" % (target)  # XXX: Do this right.
+#    )
+#    obj = _read_file(config)
+#
+#    if 'hooks' in obj:
+#        if hook in obj['hooks']:
+#            obj['hooks'].remove(hook)
+#
+#    elif '+hooks' in obj:
+#        if hook in obj['+hooks']:
+#            obj['+hooks'].remove(hook)
+#    else:
+#        if not '-hooks' in obj:
+#            obj['-hooks'] = []
+#
+#        obj['-hooks'].append(hook)
+#
+#    _write_file(config, obj)
+#    sys.exit(0)
