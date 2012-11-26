@@ -1,5 +1,5 @@
 {
-    "description": "target distribution checker", 
+    "description": "check whether a local profile permits uploads to the target distribution", 
     "path": "dput.hooks.basics.check_allowed_distribution", 
     "pre": true
 }

@@ -1,5 +1,5 @@
 {
-    "description": "check archive integrity", 
+    "description": "check integrity of Debian revision uploads", 
     "path": "dput.hooks.basics.check_archive_integrity", 
     "pre": true
 }

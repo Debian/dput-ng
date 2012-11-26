@@ -1,5 +1,5 @@
 {
-    "description": "suite mismatch checker", 
+    "description": "check the target distribution for common errors", 
     "path": "dput.hooks.basics.check_distribution_matches", 
     "pre": true
 }

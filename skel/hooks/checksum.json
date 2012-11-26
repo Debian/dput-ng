@@ -1,5 +1,5 @@
 {
-    "description": "checksum checker", 
+    "description": "Verify checksums before uploading", 
     "path": "dput.hooks.basics.validate_checksums", 
     "pre": true
 }

@@ -1,5 +1,5 @@
 {
-    "description": "lintian checker", 
+    "description": "runs lintian before the upload", 
     "path": "dput.hooks.lintian.lintian", 
     "pre": true
 }
