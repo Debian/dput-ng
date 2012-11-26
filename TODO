@@ -4,8 +4,6 @@ TODO list for dput-ng
 Important issues
 ================
 
-For some reason, ubuntu meta breaks with source only. look at basics again.
-
 Allow sane --force behavior for DM permissions if the key isn't in the ring
 for some reason.
 
