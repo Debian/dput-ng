@@ -10,6 +10,9 @@ override_dh_auto_install:
 	rm -vf ./debian/tmp/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
 
 override_dh_auto_test:
+	# We don't test for all versions, because we don't support all versions.
+	# Die, python2.6, die! dput (oldschool) will work fine with 2.6, use that
+	# :)
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	nosetests
 endif

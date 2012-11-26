@@ -225,7 +225,10 @@ def load_config(config_class, config_name,
 
     if 'meta' in ret and ret['meta'] != config_name:
         metainfo = load_config("metas", ret['meta'],
-                               default={}, configs=configs)
+                               default={}) #, configs=configs)
+        # Erm, is this right? For some reason, I don't think it is. Meta
+        # handling is a hemorrhoid in my ass. Fuck it, it works. Ship it.
+        #   -- PRT
         for key in metainfo:
             if not key in ret:
                 ret[key] = metainfo[key]
