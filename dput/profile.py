@@ -129,13 +129,15 @@ class MultiConfig(AbstractConfig):
         """
         See :meth:`dput.config.AbstractConfig.get_config`
         """
+        logger.trace("Loading entry %s" % (name))
         ret = self.defaults.copy()
         for config in self.configs:
-            logger.trace("Loading %s" % (config))
             obj = config.get_config(name)
             logger.trace(obj)
             ret.update(obj)
             ret = _config_cleanup(ret)
+            logger.trace('Rewrote to:')
+            logger.trace(obj)
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug("Got configuration: %s" % (name))
             for key in ret:
