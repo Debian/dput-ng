@@ -27,10 +27,18 @@ prime hacks neededing to be done
                         I want # to check whether the orig checksum matches
                         the -1 upload.
 
-dput-info
----------
+dirt
+----
 
   borked, needs user-facing cleanup (args, switches, etc, very confusing tool)
+
+  implement me properly
+
+  dput-config ftp-master --global --enable-checker 'gpg'
+  dput-config localhost --local --enable-processor 'tweet'
+  dput-config ftp-master --get fqdn
+  dput-config ftp-master --blame
+
 
 dput-bugreport
 --------------
@@ -38,20 +46,7 @@ dput-bugreport
   implement me.
 
   dump all stuff we need to properly grok issues. dump targets, last run
-  information, full blame, etc.
-
-dput-config
------------
-
-  implement me.
-
-  dput-config ftp-master --global --enable-checker 'gpg'
-  dput-config localhost --local --enable-processor 'tweet'
-  dput-config ftp-master --get fqdn
-  dput-config ftp-master --blame
-
-(DIRT)
-
+  information, full blame, etc. Hook it up with debbugs and ubuntu's voodoo.
 
 bin/dput
 --------
@@ -70,27 +65,10 @@ tests/*
   - get 80% coverage
   - test ftp / sftp w/mockers (pyftpdlib)
 
-dput/uploader.py
-----------------
-
-  - fix shitty names
-  - other misc refactors
-  - change invoke_dput to a less worse name
-  - same with uploader
-
 uploader
 --------
 
   - A progress bar
-  - Authentication support
-
-
-
-profiles
---------
-
-  - find a sane way to allow base checks without always having to copy the
-    full list in each profile. (global_checkers?)
 
 feature requests
 ----------------
