@@ -90,3 +90,9 @@ dput-info
 ---------
 
   - Implement various switches (/-p/-v/-V) (from dput originally)
+
+
+Paul's Wishlist
+---------------
+
+Python 3.x support.
