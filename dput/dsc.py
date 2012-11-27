@@ -19,7 +19,7 @@
 # 02110-1301, USA.
 
 """
-This code deals with the reading and processing of Debian .dsc files. 
+This code deals with the reading and processing of Debian .dsc files.
 """
 
 import os
