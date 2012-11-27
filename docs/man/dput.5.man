@@ -15,7 +15,7 @@ DESCRIPTION
 format was originally introduced by dput and is described in *dput.cf(5)*.
 This manpage describes new-style configuration files only. All details are
 covered in in </usr/share/doc/dput-ng/html/reference/configs.html> which is
-available in the dput-ng-doc package. 
+available in the dput-ng-doc package.
 
 FILES AND FORMAT
 ----------------
@@ -27,7 +27,7 @@ represented as  a pair of curly brackets surrounding name/value pairs described
 below. Both, name and values are strings. A single colon separates the name
 from the value. A string begins and ends with quotation marks and may be
 escaped. Booleans are either 'true' or 'false' (mind these are not surrounded
-by quotation marks). 
+by quotation marks).
 
 Some keys names are accepting lists as possible value. A list is represented
 as square brackets surrounding zero or more values, separated by commas.
@@ -39,7 +39,7 @@ as square brackets surrounding zero or more values, separated by commas.
  3. '~/.dput.d/'
  4. The directory supplied via command line argument
 
-In general, packages are installing pre-defined defaults for popular upload 
+In general, packages are installing pre-defined defaults for popular upload
 targets to '/usr/share/dput-ng/profiles/'. System administrators who wish to
 override or create a new system-wide and shared target for many users may
 choose '/etc/dput.d/profiles'. Finally, local targets may be written to
@@ -69,7 +69,7 @@ are developing or customizing existing plug-ins to *dput* or *dcut*
  * *interfaces/* define entry hooks to user interface functions which are
    registered for use with *dput* and *dcut*. They are responsible to retrieve
    data from the user.
- 
+
 By default *all* configuration file locations are parsed, and overlayed in a
 additive manner. This way both, entire profiles and actual settings within a
 profile is inherited from any parent location defining a key within the current
@@ -129,7 +129,7 @@ the main archive. This variable is used when guessing the host to upload to.
 
 This defines the verbosity of upload logs. When set to *true*, logs will
 include more details. This setting might be overridden on the command line and
-defaults to *false*. 
+defaults to *false*.
 
 *fqdn* (string)::
 
@@ -142,7 +142,7 @@ This defines a comma-separated list of distributions that this host accepts,
 used to guess the host to use when none is given on the command line.
 
 *hash* (string)::
-              
+
 The hash algorithm that should be used in calculating the checksum of the
 files before uploading them. Currently, dput accepts the following values
 for hash:
@@ -159,7 +159,7 @@ Defines a list of checkers which are running before or after the upload. See
 
 *interface* (string)::
 
-Not supported yet. This is a known limitation. 
+Not supported yet. This is a known limitation.
 
 *incoming* (string)::
 
@@ -175,11 +175,11 @@ are supported:
 	* 'ftp':: Use FTP to upload files
 	* 'http' or 'https':: Use HTTP or HTTPS to upload files
 	* 'local':: Upload to a locally mounted location of the file system.
-	  Internally this calls *install(1)*. 
+	  Internally this calls *install(1)*.
 	* 'scp':: Use scp to upload files. *This method is deprecated*, use 'sftp'
 		instead when possible.
 	* 'sftp':: Use the sftp protocol (a secured file transfer via SSH).
-	
+
 	* *dput-ng* does not support 'rsync'.
 
 *login* (string)::
@@ -193,7 +193,7 @@ to authenticate.
 
 Specify a list of super classes from which the profile should inherit settings
 explicitly. This is different to the 'DEFAULT.json' profile in such that this
-defines settings conditionally, and not for all profiles. 
+defines settings conditionally, and not for all profiles.
 
 *passive_ftp* (boolean)::
 
@@ -238,7 +238,7 @@ existing profile key that is inheriting values via it's meta-class or parent.
   provided. It overwrites any previous key.
 * The *+* operator is additive. When set, it merges the supplied value(s) with
   any previous value
-* The *-* operator is subtractive. When set, it removes the suplied value(s)
+* The *-* operator is subtractive. When set, it removes the supplied value(s)
   from any previous value.
 
 The DEFAULT Profile
@@ -248,7 +248,7 @@ There is a special profile called 'DEFAULT' ("'DEFAULT.json'" in any
 configuration location). This profile is the root profile. All profiles are
 automatically inheriting values from this profile. Values set there are global
 defaults. The profile itself is subject to the same inheritance rules as any
-other profile itself as well.  
+other profile itself as well.
 
 All keys and values can be set in the 'DEFAULT' profile.
 
@@ -320,7 +320,7 @@ HOOKS
 Hooks are pre- or post-uupload checks, They are pluggable components running
 before or after the upload of a package. Whether they run before or after the
 upload is determined by the JSON definition of a hook. That is an
-implementation detail the user typically does not need to worry about. 
+implementation detail the user typically does not need to worry about.
 
 Pre-Upload Hooks
 ~~~~~~~~~~~~~~~~
@@ -345,7 +345,7 @@ check-only or simulation mode. Such post-upload hooks may invoke post-
 processing tasks such as closing or filing bugs. The list of available
 processors can be obtained using *dirt(1)*. The hooks invoked by default
 are determined on a per-profile basis by retrieving the setting of the
-*hooks* key and follow the same rules as pre-upload hooks. 
+*hooks* key and follow the same rules as pre-upload hooks.
 
 It is easy to write your own hook extensions. Consult the manual for
 instructions.
