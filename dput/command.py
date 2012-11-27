@@ -91,6 +91,7 @@ def write_header(fh, profile, args):
     email_address = os.environ.get("DEBEMAIL", None)
     if email_address is None:
         email_address = os.environ.get("EMAIL", None)
+    # XXX: if None, set to "{username}@{host}".format(...)
 
     name = os.environ.get("DEBFULLNAME", None)
 
