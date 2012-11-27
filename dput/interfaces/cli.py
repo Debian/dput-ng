@@ -77,7 +77,6 @@ class CLInterface(AbstractInterface):
                 return buttons[0]
         return None
 
-
     def boolean(self, title, message, question_type=BUTTON_YES_NO,
                 default=None):
         """

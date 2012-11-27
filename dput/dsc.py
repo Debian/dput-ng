@@ -70,7 +70,6 @@ class Dsc(object):
             self.basename = None
         self._directory = ""
 
-
     def __getitem__(self, key):
         """
         Returns the value of the rfc822 key specified.

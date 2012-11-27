@@ -83,10 +83,13 @@ class DmCommand(AbstractCommand):
             return
 
         if not os.path.exists(DM_KEYRING):
-            raise DmCommandError("To manage DM permissions, the `debian-keyring' "
-                         "keyring package must be installed. "
-                         "File %s does not exist" % (DM_KEYRING))
+            raise DmCommandError(
+                "To manage DM permissions, the `debian-keyring' "
+                "keyring package must be installed. "
+                "File %s does not exist" % (DM_KEYRING)
+            )
             return
+
         # I HATE embedded functions. But OTOH this function is not usable
         # somewhere else, so...
         def pretty_print_list(tuples):

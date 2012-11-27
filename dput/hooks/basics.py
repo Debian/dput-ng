@@ -25,8 +25,7 @@ import re
 
 
 from dput.core import logger
-from dput.exceptions import (ChangesFileException, HookException,
-                             DscFileException)
+from dput.exceptions import (ChangesFileException, HookException)
 from dput.dsc import parse_dsc_file
 from dput.interface import BUTTON_NO
 
@@ -85,17 +84,23 @@ class BinaryUploadError(HookException):
     pass
 
 
-
 def _find_previous_upload(package_name, package_distribution):
     # well, this code is broken.
     # hopefully that's obvious. Thing is, the missing bit to retrieve
     # this information is not implemented remote
     # Returns the previous version and a hash of orig.tar.gz tarballs of the
     # previous upload. Eventually.
+    # XXX: What in the fuck?  :)
 
     import random
-    return ("1.4.31-2", {"lighttpd_1.4.31.orig.tar.gz":
-            random.choice(["7907b7167d639b8a8daab97e223249d5", "1337"])})
+    return (
+        "1.4.31-2", {
+        "lighttpd_1.4.31.orig.tar.gz": random.choice([
+            "7907b7167d639b8a8daab97e223249d5",
+            "1337"])
+        }
+    )
+
 
 def _parse_version(raw_version):
     (epoch, version, debian_version) = (0, None, 0)
@@ -395,37 +400,54 @@ def check_archive_integrity(changes, profile, interface):
         orig_tarballs[files['name']] = files['md5sum']
 
     (previous_version, previous_checksums) = _find_previous_upload(
-                                        package_name, package_distribution)
+        package_name,
+        package_distribution
+    )
 
     if previous_version:
         (p_ev, p_uv, p_dv) = _parse_version(previous_version)
         (c_ev, c_uv, c_dv) = _parse_version(package_version)
 
         logger.trace("Parsing versions: (old/new) %s/%s; debian: %s/%s" % (
-                                                p_uv, c_uv, p_dv, c_dv))
+            p_uv,
+            c_uv,
+            p_dv,
+            c_dv
+        ))
 
         if p_ev == c_ev and p_uv == c_uv:
             logger.trace("Upload %s/%s appears to be a Debian revision only" %
                          (package_name, package_version))
             for checksum in previous_checksums:
                 if checksum in orig_tarballs:
-                    logger.debug("Checking %s: %s == %s" % (checksum,
-                        previous_checksums[checksum], orig_tarballs[checksum]))
+                    logger.debug("Checking %s: %s == %s" % (
+                        checksum,
+                        previous_checksums[checksum],
+                        orig_tarballs[checksum]
+                    ))
                     if previous_checksums[checksum] != orig_tarballs[checksum]:
                         raise SourceMissingError(
-                                "MD5 checksum for a Debian version only "
-                                "upload for package %s/%s does not match the "
-                                "archive's checksum: %s != %s" % (
-                                    package_name, package_version,
-                                    previous_checksums[checksum],
-                                    orig_tarballs[checksum]))
+                            "MD5 checksum for a Debian version only "
+                            "upload for package %s/%s does not match the "
+                            "archive's checksum: %s != %s" % (
+                                package_name,
+                                package_version,
+                                previous_checksums[checksum],
+                                orig_tarballs[checksum]
+                            )
+                        )
                 else:
-                    logger.debug("Checking %s: new orig stuff? %s" % (checksum,
-                        checksum))
-                    raise SourceMissingError("Package %s/%s introduces new "
-                                             "upstream changes: %s" % (
-                                            package_name, package_version,
-                                            checksum))
+                    logger.debug("Checking %s: new orig stuff? %s" % (
+                        checksum,
+                        checksum  # XXX: This is wrong?
+                    ))
+                    raise SourceMissingError(
+                        "Package %s/%s introduces new upstream changes: %s" % (
+                            package_name,
+                            package_version,
+                            checksum
+                        )
+                    )
         else:
             logger.debug("Not checking archive integrity. "
                          "Upload %s/%s is packaging a new upstream version" %
@@ -436,7 +458,8 @@ def check_archive_integrity(changes, profile, interface):
         #      Python version parser, or a call to dpkg --compare-versions
 
     else:
-        logger.debug("Upload appears to be native, or packaging a new "
-                  "upstream version.")
+        logger.debug(
+            "Upload appears to be native, or packaging a new upstream version."
+        )
 
     raise Exception("Intentional Barrier")

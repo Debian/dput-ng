@@ -27,6 +27,7 @@ from dput.core import logger
 from dput.exceptions import HookException, DputConfigurationError
 from dput.interface import BUTTON_NO
 
+
 class LintianHookException(HookException):
     pass
 

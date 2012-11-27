@@ -66,6 +66,7 @@ class ChangesFileException(DputError):
     """
     pass
 
+
 class DscFileException(DputError):
     """
     Thrown when there's an error processing / verifying a .dsc file

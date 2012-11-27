@@ -18,13 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-import time
-import os
-import os.path
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
-from dput.core import logger
-from dput.util import run_command
 from dput.commands.dm import generate_dak_commands_name
 from dput.interface import BUTTON_NO
 
@@ -52,15 +47,20 @@ class BreakTheArchiveCommand(AbstractCommand):
     def validate(self, args):
         if args.force:
             return
-        self.interface.message('WARNING: Dangerous command',
-                            "Break the archive is potentially dangerous! " \
-                            "Make sure you know what you are doing before " \
-                            "proceeding.")
-        if not self.interface.boolean('Break the Archive command',
-                                    "Do you really want to break the archive?",
-                                    default=BUTTON_NO):
+        self.interface.message(
+            'WARNING: Dangerous command',
+            "Break the archive is potentially dangerous! Make sure you know "
+            "what you are doing before proceeding."
+        )
+
+        if not self.interface.boolean(
+            'Break the Archive command',
+            "Do you really want to break the archive?",
+            default=BUTTON_NO
+        ):
             raise BreakTheArchiveCommandCommandError(
-                                                    "Aborted by user request")
+                "Aborted by user request"
+            )
 
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)

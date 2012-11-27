@@ -76,8 +76,9 @@ _ch.setFormatter(_formatter)
 
 def _write_upload_log(logfile, full_log):
     upload_log_formatter = logging.Formatter(
-            "%(asctime)s - dput[%(process)d]: "
-            "%(module)s.%(funcName)s - %(message)s")
+        "%(asctime)s - dput[%(process)d]: "
+        "%(module)s.%(funcName)s - %(message)s"
+    )
     upload_log_handler = RotatingFileHandler(logfile)
     upload_log_handler.setFormatter(upload_log_formatter)
     if full_log:
@@ -85,6 +86,7 @@ def _write_upload_log(logfile, full_log):
     else:
         upload_log_handler.setLevel(logging.INFO)
     logger.addHandler(upload_log_handler)
+
 
 def _enable_debugging(level):
     _ch = logging.StreamHandler()

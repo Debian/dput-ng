@@ -21,7 +21,7 @@
 Implementation of the interface to run a hook.
 """
 
-from dput.util import obj_docs, run_func_by_name, get_configs, load_config
+from dput.util import obj_docs, run_func_by_name, load_config
 from dput.core import logger
 
 
