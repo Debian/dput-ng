@@ -1,0 +1,78 @@
+    DPUT HACKING MANUAL
+    ===================
+
+Section i, Git Branching Model:
+
+
+                                          +------------------------------------+
+                                          |    Open to anyone in collab-maint  |
+                                          +------------------------------------+
+                                          |                                    |
+ tag 1.0.1          tag 1.0.0             |                                    |
+     |                 |                  |                      feature/bar   |
+     |                 |                  |                           |        |
+     |    release/1.0  |   master    beta |  bug/502982 feature/foo   |        |
+     |         |       |     |        |   |      |           |        |        |
+     |         |       |     |        |   |      o           |        |        |
+     |         |       |     |        o <-|------+           |        |        |
+     |         |       |     |        o <-|------------------+        |        |
+     |         o <-----+---- o <----- o   |                           |        |
+     |         |             |        |   |                           |        |
+     +-------> o             |        |   |                           |        |
+                             |        |   |                           |        |
+          release/2.0        |        |   |                           |        |
+  tag 2.0.0    |             o <----- o <-|---------------------------+        |
+      |        |             |        |   |                           |        |
+      |        |             |        |   |                           |        |
+      |        |             |        |   |                           |        |
+      |        |             |        |   |                           |        |
+      +------> o <---------- o <----- o <-|---------------------------+        |
+               |             |        |   |                                    |
+               |             |        |   |                                    |
+               |             |        |   |                                    |
+               |             |        |   |                                    |
+               |             |        |   +------------------------------------+
+               |             |        |
+               |             |        |
+               |             |        |
+
+
+Versions must be in the form of:
+
+  Major.Minor.Patch
+
+
+  The workflow works a bit as follows:
+
+    For any feature or bug, a new branch must be created. If it's a feature,
+    please name the branch "feature/.*", where the bit after the slash
+    describes what the feature relates to. Something like:
+
+     "feature/sftp-upload-support", or "feature/unblock-hook"
+
+    will do nicely. For bugs, the branches will be named "bug/.*", where the
+    bit after the slash describes the bug ID.
+
+        BTS #MMMMMM:    "bug/MMMMMM"
+        LP bug #NNNNN:  "bug/lp-NNNNN"
+        untracked:      "bug/x-segfaults-on-sunday"
+
+    When a branch is mature, one of the maintainers (and only one of the
+    maintainers) will merge the branch into "beta".
+
+    Once in a while, one of the maintainers (and only one of the maintainers)
+    will merge "beta" into "master" and tag the release. The tag will be
+    in the form of:
+
+      "1.0.1"
+
+    In addition, a new branch (only major-minor) will be created for critical
+    bugfixes. It's name will be "release/.*" where the trailing bit will be the
+    major.minor version of the release. Something like:
+
+      "release/1.0"
+
+    At the behest of the release's owner, bugfixes may be merged in from
+    any other branch, providing they're a critical bugfix. For each major
+    fix, it will be taged, and uploaded (if needed) to any suites which
+    contain it.
