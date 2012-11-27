@@ -41,10 +41,11 @@ A button labeled 'ok'
 BUTTON_OK = "ok"
 (WIDGET_BOOLEAN, WIDGET_MESSAGE, WIDGET_LIST, WIDGET_QUESTION) = range(4)
 
-# some shortcuts
+# some "shortcuts"
 ALL_BUTTONS = [BUTTON_YES, BUTTON_NO, BUTTON_CANCEL, BUTTON_OK]
 BUTTON_YES_NO = [BUTTON_YES, BUTTON_NO]
 BUTTON_OK_CANCEL = [BUTTON_OK, BUTTON_CANCEL]
+
 
 class AbstractInterface(object):
     """
@@ -55,7 +56,6 @@ class AbstractInterface(object):
     """
 
     __metaclass__ = abc.ABCMeta
-
 
     @abc.abstractmethod
     def initialize(self, **kwargs):

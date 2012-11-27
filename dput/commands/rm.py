@@ -24,6 +24,7 @@ from dput.commands.cancel import generate_debianqueued_commands_name
 from dput.changes import Changes
 from dput.core import logger
 
+
 class RmCommandError(DcutError):
     pass
 

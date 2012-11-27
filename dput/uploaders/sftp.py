@@ -63,9 +63,14 @@ class AskToAccept(paramiko.AutoAddPolicy):
         self.uploader = uploader
 
     def missing_host_key(self, client, hostname, key):
-        accept = self.uploader.interface.boolean(title='please login',
-                message='To accept %s hostkey %s for %s type "yes":' % (
-                key.get_name(), hexlify(key.get_fingerprint()), hostname))
+        accept = self.uploader.interface.boolean(
+            title='please login',
+            message='To accept %s hostkey %s for %s type "yes":' % (
+                key.get_name(),
+                hexlify(key.get_fingerprint()),
+                hostname
+            )
+        )
         if accept:
             super(AskToAccept, self).missing_host_key(client, hostname, key)
         else:
@@ -91,7 +96,7 @@ class SFTPUploader(AbstractUploader):
                                       "if you need $HOME paths, use SCP.")
 
         ssh_kwargs = {
-            "port": 22, # XXX: Allow overrides
+            "port": 22,
             "compress": True
         }
 
@@ -154,8 +159,13 @@ class SFTPUploader(AbstractUploader):
             self._sftp = self._sshclient.open_sftp()
         except paramiko.SSHException, e:
             raise SftpUploadException(
-                  ("Error opening SFTP channel to %s " +
-                   "(perhaps sftp is disabled there?): %s") % (fqdn, repr(e)))
+                "Error opening SFTP channel to %s (perhaps sftp is "
+                "disabled there?): %s" % (
+                    fqdn,
+                    repr(e)
+                )
+            )
+
         logger.debug("Changing directory to %s" % (incoming))
         self._sftp.chdir(incoming)
 
@@ -167,7 +177,9 @@ class SFTPUploader(AbstractUploader):
             logger.debug("Logged in!")
         except socket.error, e:
             raise SftpUploadException("SFTP error uploading to %s: %s" % (
-                                                           fqdn, repr(e)))
+                fqdn,
+                repr(e)
+            ))
         except paramiko.AuthenticationException:
             logger.warning("Failed to auth. Prompting for a login pair.")
             # XXX: Ask for pw only
@@ -181,7 +193,9 @@ class SFTPUploader(AbstractUploader):
             self._auth(fqdn, ssh_kwargs, _first=_first + 1)
         except paramiko.SSHException, e:
             raise SftpUploadException("SFTP error uploading to %s: %s" % (
-                                                           fqdn, repr(e)))
+                fqdn,
+                repr(e)
+            ))
 
     def upload_file(self, filename, upload_filename=None):
         """
@@ -197,8 +211,10 @@ class SFTPUploader(AbstractUploader):
             if e.errno == 13:
                 self.upload_write_error(e)
             else:
-                raise SftpUploadException("Could not upload file %s: %s" %
-                                          (filename, e))
+                raise SftpUploadException("Could not upload file %s: %s" % (
+                    filename,
+                    e
+                ))
 
     def shutdown(self):
         """

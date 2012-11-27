@@ -79,7 +79,6 @@ class AbstractUploader(object):
                     )
                 )
 
-
     def __del__(self):
         self.interface.shutdown()
 
@@ -181,8 +180,12 @@ def determine_logfile(changes, conf, args):
             changes.get_filename()
         ))
 
-    if os.access(logfile, os.R_OK) and os.stat(logfile).st_size > 0 and \
-       not args.force:
+    if (
+        os.access(logfile, os.R_OK) and
+        os.stat(logfile).st_size > 0 and
+        not args.force
+    ):
+
         raise UploadException("""Package %s was already uploaded to %s
 If you want to upload nonetheless, use --force or remove %s""" % (
             changes.get_package_name(),
@@ -228,7 +231,6 @@ def invoke_dput(changes, args):
         fqdn = profile['fqdn']
     else:
         fqdn = profile['name']
-
 
     logfile = determine_logfile(changes, profile, args)
     tmp_logfile = tempfile.NamedTemporaryFile()
@@ -283,7 +285,6 @@ def invoke_dput(changes, args):
 
             if not args.simulate:
                 obj.upload_file(path)
-
 
         if args.simulate:
             return
