@@ -45,11 +45,17 @@ def find_username(conf):
     Given a profile (``conf``), return the prefered username to login
     with. It falls back to getting the logged in user's name.
     """
-    user = os.getlogin()  # XXX: This needs a controlling terminal
-    if 'login' in conf:
-        new_user = conf['login']
-        if new_user != "*":
-            user = new_user
+    try:
+        user = os.getlogin()  # XXX: This needs a controlling terminal
+    except:
+        pass
+        if 'login' in conf:
+            new_user = conf['login']
+            if new_user != "*":
+                user = new_user
+    if not user:
+        raise SftpUploadException("No user to upload could be retrieved. "
+                             "Please set 'login' explicitly in your profile")
     return user
 
 
