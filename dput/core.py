@@ -24,6 +24,9 @@ Stuff that everything uses and shouldn't keep pulling on their own.
 import sys
 import os.path
 import logging
+import traceback
+
+
 import dput.logger
 from logging.handlers import RotatingFileHandler
 
@@ -109,3 +112,11 @@ def mangle_sys():
         if pth not in sys.path:
             logger.debug("Loading external script location %s" % (pth))
             sys.path.insert(0, pth)
+
+def maybe_print_traceback(debug_level, stack):
+    if debug_level > 1:
+        tb = traceback.format_tb(stack[2])
+        logger.trace("Traceback:")
+        for level in tb:
+            for tier in level.split("\n"):
+                logger.trace(tier)
