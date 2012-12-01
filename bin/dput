@@ -84,15 +84,19 @@ try:
     upload_package(changes, args)
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
+    dput.core.maybe_print_traceback(args.debug, sys.exc_info())
     sys.exit(2)
 except dput.exceptions.UploadException as e:
     dput.core.logger.critical(str(e))
+    dput.core.maybe_print_traceback(args.debug, sys.exc_info())
     sys.exit(3)
 except dput.exceptions.HookException as e:
     dput.core.logger.critical(str(e))
+    dput.core.maybe_print_traceback(args.debug, sys.exc_info())
     sys.exit(1)
 except EnvironmentError as e:
     dput.core.logger.critical(str(e))
+    dput.core.maybe_print_traceback(args.debug, sys.exc_info())
     sys.exit(2)
 except KeyboardInterrupt:
     sys.exit(0)
