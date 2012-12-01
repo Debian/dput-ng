@@ -113,6 +113,7 @@ def mangle_sys():
             logger.debug("Loading external script location %s" % (pth))
             sys.path.insert(0, pth)
 
+
 def maybe_print_traceback(debug_level, stack):
     if debug_level > 1:
         tb = traceback.format_tb(stack[2])
