@@ -25,6 +25,7 @@ from dput.changes import Changes
 from dput.core import logger
 # XXX: Generate rm from .changes?
 
+
 class RmCommandError(DcutError):
     pass
 

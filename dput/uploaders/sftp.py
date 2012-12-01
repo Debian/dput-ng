@@ -55,8 +55,10 @@ def find_username(conf):
         if new_user != "*":
             user = new_user
     if not user:
-        raise SftpUploadException("No user to upload could be retrieved. "
-                             "Please set 'login' explicitly in your profile")
+        raise SftpUploadException(
+            "No user to upload could be retrieved. "
+            "Please set 'login' explicitly in your profile"
+        )
     return user
 
 
