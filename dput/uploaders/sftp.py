@@ -113,8 +113,10 @@ class SFTPUploader(AbstractUploader):
             ssh_kwargs['compress'] = self._config['scp_compress']
 
         config = paramiko.SSHConfig()
-        config.parse(open('/etc/ssh/ssh_config'))
-        config.parse(open(os.path.expanduser('~/.ssh/config')))
+        if os.path.exists('/etc/ssh/ssh_config'):
+            config.parse(open('/etc/ssh/ssh_config'))
+        if os.path.exists(os.path.expanduser('~/.ssh/config')):
+            config.parse(open(os.path.expanduser('~/.ssh/config')))
         o = config.lookup(fqdn)
 
         user = find_username(self._config)
