@@ -45,6 +45,7 @@ def find_username(conf):
     Given a profile (``conf``), return the prefered username to login
     with. It falls back to getting the logged in user's name.
     """
+    user = None
     try:
         user = os.getlogin()  # XXX: This needs a controlling terminal
     except:
