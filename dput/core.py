@@ -116,7 +116,7 @@ def mangle_sys():
 def maybe_print_traceback(debug_level, stack):
     if debug_level > 1:
         tb = traceback.format_tb(stack[2])
-        tb = tb[0]
         logger.trace("Traceback:")
-        for tier in tb.split("\n"):
-            logger.trace(tier)
+        for level in tb:
+            for tier in level.split("\n"):
+                logger.trace(tier)
