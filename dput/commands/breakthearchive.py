@@ -49,7 +49,7 @@ class BreakTheArchiveCommand(AbstractCommand):
             return
         self.interface.message(
             'WARNING: Dangerous command',
-            "Break the archive is potentially dangerous! Make sure you know "
+            "Break the archive is totally dangerous! Make sure you know "
             "what you are doing before proceeding."
         )
 

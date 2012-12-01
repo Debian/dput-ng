@@ -23,7 +23,7 @@ from dput.exceptions import DcutError
 from dput.commands.cancel import generate_debianqueued_commands_name
 from dput.changes import Changes
 from dput.core import logger
-
+# XXX: Generate rm from .changes?
 
 class RmCommandError(DcutError):
     pass
@@ -40,7 +40,7 @@ class RmCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
-                            default=None, help="file name to be removed. "
+                            default=None, help="file to be removed. "
                             "If the argument is a CHANGES file, a rm command "
                             "for all .deb packages in it is created",
                             nargs="+")

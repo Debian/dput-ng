@@ -55,7 +55,7 @@ def find_username(conf):
 
 class AskToAccept(paramiko.AutoAddPolicy):
     """
-    Policy for automatically adding the hostname, but only after asking.
+    Paramiko policy to automatically add the hostname, but only after asking.
     """
 
     def __init__(self, uploader):
