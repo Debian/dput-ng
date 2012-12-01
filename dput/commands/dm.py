@@ -37,6 +37,7 @@ def generate_dak_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
     the_file = "%s-%s.dak-commands" % (os.getlogin(), int(time.time()))
+    # XXX: override w/ DEBEMAIL (if DEBEMAIL is @debian.org?)
     logger.trace("Commands file will be named %s" % (the_file))
     return the_file
 
