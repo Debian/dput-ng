@@ -19,6 +19,7 @@ Build-Depends: debhelper (>= 9),
 Standards-Version: 3.9.4
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/dputng.git
 Vcs-Git: git://git.debian.org/collab-maint/dputng.git
+Homepage: http://people.debian.org/~paultag/dput-ng/
 X-Python-Version: >= 2.7
 
 Package: dput-ng
