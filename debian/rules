@@ -19,7 +19,7 @@ endif
 
 override_dh_auto_clean:
 	dh_auto_clean
-	rm -rvf ./docs/_build ./*.egg-info ./build
+	rm -rvf ./docs/_build ./*.egg-info ./build .coverage
 	rm -f $(MANPAGES)
 	rm -rf debian/man
 
