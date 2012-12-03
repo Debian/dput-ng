@@ -1,6 +1,6 @@
 Source: dput-ng
 Section: devel
-Priority: optional
+Priority: extra
 Maintainer: Arno Töll <arno@debian.org>
 Uploaders: Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 9),
@@ -46,14 +46,13 @@ Description: next generation Debian package upload tool
 Package: python-dput
 Architecture: all
 Section: python
-Multi-Arch: foreign
 Depends: ${misc:Depends}, ${python:Depends},
  python-debian,
- python-paramiko,
  gnupg,
  python-validictory,
 Recommends:
  lintian,
+ python-paramiko,
  openssh-client,
  debian-keyring
 Description: next generation Debian package upload tool (Python library)
