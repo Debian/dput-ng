@@ -5,8 +5,7 @@ from dput import __appname__
 from setuptools import setup
 
 long_description = open('README.md').read()
-cur = open('debian/changelog', 'r').readlines()[0].strip()
-rgx = r"(?<src>.+) \((?<version>.+)\) (?<suite>.*); .*"
+cur = open('debian/changelog', 'r').readline().strip()
 pobj = re.findall(
     r'(?P<src>.*) \((?P<version>.*)\) (?P<suite>.*); .*',
     cur
