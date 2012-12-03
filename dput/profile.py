@@ -171,7 +171,7 @@ _multi_config = None
 def load_profile(host):
     """
     Load a profile, for a given host ``host``. In the case where
-    ``host`` has a ":", that'll be treated as an expantion for
+    ``host`` has a ":", that'll be treated as an expansion for
     config strings. For instance:
 
     ``ppa:paultag/fluxbox`` will expand any ``%(ppa)s`` strings to

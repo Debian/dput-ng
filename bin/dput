@@ -31,7 +31,7 @@ import dput.changes
 import dput.exceptions
 from dput import upload_package
 
-parser = argparse.ArgumentParser(description=' Debian package upload tool')
+parser = argparse.ArgumentParser(description='Debian package upload tool')
 parser.add_argument('-d', '--debug', action='count', default=False,
                     help="Enable debug messages. Repeat twice to increase the"
                     "verbosity level")

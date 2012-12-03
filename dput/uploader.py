@@ -165,7 +165,7 @@ def uploader(uploader_method, profile, run_hooks=True):
 def determine_logfile(changes, conf, args):
     """
     Figure out what logfile to write to. This is mostly an internal
-    implementaiton. Returns the file to log to, given a changes and
+    implementation. Returns the file to log to, given a changes and
     profile.
     """
     # dak requires '<package>_<version>_<[a-zA-Z0-9+-]+>.changes'

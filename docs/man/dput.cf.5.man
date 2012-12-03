@@ -24,7 +24,7 @@ FILES AND FORMAT
  2. '~/.dput.cf'
  3. The file supplied via command line argument
 
-By default *all* configuration file locations are parsed, and overlayed in a
+By default *all* configuration file locations are parsed, and overlaid in a
 additive manner. This way both, entire profiles and actual settings within a
 profile is inherited from any parent location defining a key within the current
 scope.

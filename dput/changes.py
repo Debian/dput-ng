@@ -94,7 +94,7 @@ class Changes(object):
         """
         Returns the filename from which the changes file was generated from.
         Please do note this is just the basename, not the entire full path, or
-        even a relitive path. For the absolute path to the changes file, please
+        even a relative path. For the absolute path to the changes file, please
         see :meth:`get_changes_file`.
         """
         return self.basename

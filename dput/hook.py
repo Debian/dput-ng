@@ -56,13 +56,13 @@ def run_hook(name, hook, changes, profile):
     the name of ``changes``), with the upload profile (named ``profile``).
 
     args:
-        ``hook`` (str) string of the hook (which is the name of the
-            the JSON file which contains the hook def)
+        ``hook`` (str) string of the hook (which is the name of
+        the JSON file which contains the hook def)
 
         ``changes`` (:class:`dput.changes.Changes`) changes file that the
             hook should be run against.
 
-        ``profile`` (dict) dictonary of the profile that will help guide
+        ``profile`` (dict) dictionary of the profile that will help guide
             the hook's runtime.
     """
     logger.info("running %s: %s" % (name, hook['description']))

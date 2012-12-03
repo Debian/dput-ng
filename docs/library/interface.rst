@@ -1,5 +1,5 @@
-User Interface Implemtation
-===========================
+User Interface Implementation
+=============================
 
 .. automodule:: dput.interface
    :members:

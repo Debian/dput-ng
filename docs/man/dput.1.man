@@ -45,11 +45,11 @@ OPTIONS
 
 *-D, --dinstall*::
 	Ignored silently for compatibility with old-style dput command lines.
-    Please use a post-upload hook or similar to reproduce this functionality.
+	Please use a post-upload hook or similar to reproduce this functionality.
 
 *-e, --delayed*=DAYS::
 	Upload to the delayed queue, instead of the usual incoming directory.
-	This option takes an argument from 0 to 15 correspinding to the respective
+	This option takes an argument from 0 to 15 corresponding to the respective
 	DELAYED queue.
 
 *-F, --full-upload-log*'
@@ -62,12 +62,12 @@ OPTIONS
 *-l, --lintian*::
 	Run Lintian before uploading the package. Note, this option is deprecated.
 	Profile targets have the ability to properly handle invoking lintian
-    before pushing it to the remote host, such as the *run_lintian* key.
+	before pushing it to the remote host, such as the *run_lintian* key.
 
 *-o, --check-only*::
 	Only run pre-upload checks for the package, do not actually upload. This
-    is useful to help in testing new checks, or verifying the profile will
-    work as expected.
+	is useful to help in testing new checks, or verifying the profile will
+	work as expected.
 
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
@@ -76,14 +76,14 @@ OPTIONS
 *-s, --simulate*::
 	Simulate the upload only. This runs all pre-upload checks, initializes
 	the upload handler but does not actually push any files to the remote
-    host.
+	host.
 
 *-U, --no-upload-log*::
 	Do not write a .upload log file after uploading.
 
 *-u, --unchecked*::
 	Do not check GnuPG signature. You may also set this in your profile with
-    the *allow_unsigned_uploads* key.
+	the *allow_unsigned_uploads* key.
 
 *-v, --version*::
 	Ignored silently for compatibility with old-style dput command lines.
@@ -95,11 +95,11 @@ OPTIONS
 	Target host to upload a package. This refers to any existing upload site,
 	which either can be a section in old-style *dput.cf* files, or
 	alternatively any profile in a read *dput.d* directory.
-	If *HOST* was not supplied, the (first) profile having the the
+	If *HOST* was not supplied, the (first) profile having the
 	+default_host_main+ flag set to a non-empty string will be selected.
-    If neither, 'HOST' was present, nor any profile setting the upload host,
-    dput-ng scans for a profile called 'ftp-master' which will be used on a
-    successful look-up.
+	If neither, 'HOST' was present, nor any profile setting the upload host,
+	dput-ng scans for a profile called 'ftp-master' which will be used on a
+	successful look-up.
 
 *CHANGES-FILE*::
 	A Debian +package.changes+ file
@@ -122,14 +122,14 @@ configuration files. When both types of files are present,
 EXIT STATUS
 -----------
 *0*::
-    Success
+	Success
 
 *1*::
-    A runtime check returned an error
+	A runtime check returned an error
 
 *2*::
-    An internal error was detected, for example while loading configuration
-    files
+	An internal error was detected, for example while loading configuration
+	files
 
 *3*::
 	An upload error was detected, for example a permission or authentication

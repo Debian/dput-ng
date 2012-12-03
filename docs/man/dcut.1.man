@@ -140,8 +140,8 @@ or revoke them package upload permissions using this command. Takes the Debian
 Maintainer and the action to perform as argument.
 
 Note, dcut will not perform any validation for conflicting arguments within
-*--alow* and *--deny* below. This handling is left to the archive software,
-which is currently processing *--alow* before *--deny* as an implementation
+*--allow* and *--deny* below. This handling is left to the archive software,
+which is currently processing *--allow* before *--deny* as an implementation
 detail.
 
 OPTIONS
@@ -151,7 +151,7 @@ OPTIONS
 
 Any searchable, unique identity to identify an existing Debian Maintainer. This
 can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
-Debian Maintainer. Note, the identity must be known the the DM keyring. This
+Debian Maintainer. Note, the identity must be known in the DM keyring. This
 command validates the supplied argument and makes sure the identity hint
 supplied matches a *single* DM only.
 

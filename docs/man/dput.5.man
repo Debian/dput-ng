@@ -70,7 +70,7 @@ are developing or customizing existing plug-ins to *dput* or *dcut*
    registered for use with *dput* and *dcut*. They are responsible to retrieve
    data from the user.
 
-By default *all* configuration file locations are parsed, and overlayed in a
+By default *all* configuration file locations are parsed, and overlaid in a
 additive manner. This way both, entire profiles and actual settings within a
 profile is inherited from any parent location defining a key within the current
 scope. Details are explained in the *INHERITANCE OF KEYS* section.

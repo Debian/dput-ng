@@ -51,7 +51,7 @@ class AbstractConfig(object):
     @abc.abstractmethod
     def get_defaults(self):
         """
-        Get the defaults that concrete configs get overlayed ontop of. In
+        Get the defaults that concrete configs get overlaid on top of. In
         theory, this is set during the bootstrapping process.
         """
         pass
@@ -61,7 +61,7 @@ class AbstractConfig(object):
         """
         Get a configuration block. What this means is generally up to the
         implementation. However, please keep things sane and only return
-        senable upload target blocks.
+        sensual upload target blocks.
         """
         pass
 

@@ -29,7 +29,7 @@ import os.path
 class LocalUploader(AbstractUploader):
     """
     Provides an interface to "upload" files to the local filesystem. This
-    is helpful when you're dputing to the same system you're currently on,
+    is helpful when you're dputting to the same system you're currently on,
     and do not wish to use `scp` or `sftp` as the transport (which is totally
     understandable).
     """

@@ -59,6 +59,6 @@ Both are merged into a single list, sorted by list, and used by
 Schema Directory
 ----------------
 
-This is the path to seach for validictory schemas. By default, this is
+This is the path to search for validictory schemas. By default, this is
 set to ``/usr/share/dput-ng/schemas``. These are not treated as normal
 conf-files.

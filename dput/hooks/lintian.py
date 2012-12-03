@@ -135,7 +135,7 @@ def lintian(changes, profile, interface):
         print "  - %s: %s" % (tags["E"][tag]['severity'], tag)
 
     inp = interface.boolean('Lintian Checker',
-                            'Do you consent to these lintian tags?',
+                            'Upload despite of Lintian finding issues?',
                             default=BUTTON_NO)
     if not inp:
         raise LintianHookException(

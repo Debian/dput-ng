@@ -23,6 +23,8 @@ SFTP Uploader implementation
 
 import paramiko
 import socket
+import os
+import pwd
 import os.path
 from binascii import hexlify
 
@@ -42,11 +44,11 @@ class SftpUploadException(UploadException):
 
 def find_username(conf):
     """
-    Given a profile (``conf``), return the prefered username to login
+    Given a profile (``conf``), return the preferred username to login
     with. It falls back to getting the logged in user's name.
     """
     user = None
-    user = os.getlogin()  # XXX: This needs a controlling terminal
+    user = pwd.getpwuid(os.getuid()**).pw_name
     if 'login' in conf:
         new_user = conf['login']
         if new_user != "*":
