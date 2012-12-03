@@ -136,9 +136,9 @@ def uploader(uploader_method, profile, run_hooks=True):
     pre-hook, yield the object, call the post hook and invoke it's
     :meth:`dput.uploader.AbstractUploader.shutdown`.
     """
-    klass = get_obj('uploaders', uploader_method)
+    cls = get_obj('uploaders', uploader_method)
 
-    if not klass:
+    if not cls:
         logger.error(
             "Failed to resolve method %s to an uploader class" % (
                 uploader_method
@@ -150,7 +150,7 @@ def uploader(uploader_method, profile, run_hooks=True):
             )
         )
 
-    obj = klass(profile)
+    obj = cls(profile)
     obj.initialize()
     if run_hooks:
         obj._pre_hook()

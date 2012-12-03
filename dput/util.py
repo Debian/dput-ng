@@ -54,21 +54,21 @@ def load_obj(obj_path):
     return fltr
 
 
-def get_obj(klass, checker_method):  # checker_method is a bad name.
+def get_obj(cls, checker_method):  # checker_method is a bad name.
     """
-    Get an object by plugin def (``checker_method``) in class ``klass`` (such
+    Get an object by plugin def (``checker_method``) in class ``cls`` (such
     as ``hooks``).
     """
-    logger.trace("Attempting to resolve %s %s" % (klass, checker_method))
+    logger.trace("Attempting to resolve %s %s" % (cls, checker_method))
     try:
-        config = load_config(klass, checker_method, schema='plugin')
+        config = load_config(cls, checker_method, schema='plugin')
         if config is None or config == {}:
             raise NoSuchConfigError("No such config")
     except NoSuchConfigError:
         logger.debug("failed to resolve config %s" % (checker_method))
         return None
     path = config['path']
-    logger.trace("loading %s %s" % (klass, path))
+    logger.trace("loading %s %s" % (cls, path))
     try:
         return load_obj(path)
     except ImportError as e:
@@ -100,13 +100,13 @@ def run_command(command):
     return (output, stderr, pipe.returncode)
 
 
-def get_configs(klass):
+def get_configs(cls):
     """
-    Get all valid config targets for class ``klass``.
+    Get all valid config targets for class ``cls``.
     """
     configs = set()
     for path in dput.core.CONFIG_LOCATIONS:
-        path = "%s/%s" % (path, klass)
+        path = "%s/%s" % (path, cls)
         if os.path.exists(path):
             for fil in os.listdir(path):
                 xtn = ".json"
@@ -311,11 +311,11 @@ def load_config(config_class, config_name,
     raise nsce
 
 
-def obj_docs(klass, ostr):
+def obj_docs(cls, ostr):
     """
     Get an object's docstring by name / class def.
     """
-    obj = get_obj(klass, ostr)
+    obj = get_obj(cls, ostr)
     if obj is None:
         raise DputConfigurationError("No such object: `%s'" % (
             ostr
@@ -324,12 +324,12 @@ def obj_docs(klass, ostr):
 
 
 @contextmanager
-def get_obj_by_name(klass, name, profile):
+def get_obj_by_name(cls, name, profile):
     """
-    Run a function, defined by ``name``, filed in class ``klass``
+    Run a function, defined by ``name``, filed in class ``cls``
     """
-    logger.trace("running %s: %s" % (klass, name))
-    obj = get_obj(klass, name)
+    logger.trace("running %s: %s" % (cls, name))
+    obj = get_obj(cls, name)
     if obj is None:
         raise DputConfigurationError("No such obj: `%s'" % (
             name
@@ -355,13 +355,13 @@ def get_obj_by_name(klass, name, profile):
     interface.shutdown()
 
 
-def run_func_by_name(klass, name, changes, profile):
+def run_func_by_name(cls, name, changes, profile):
     """
-    Run a function, defined by ``name``, filed in class ``klass``,
+    Run a function, defined by ``name``, filed in class ``cls``,
     with a :class:`dput.changes.Changes` (``changes``), and profile
     ``profile``.
 
     This is used to run the hooks, internally.
     """
-    with get_obj_by_name(klass, name, profile) as(obj, interface):
+    with get_obj_by_name(cls, name, profile) as(obj, interface):
         obj(changes, profile, interface)
