@@ -1,6 +1,7 @@
 dput-ng (1.1) UNRELEASED; urgency=low
 
   * debian/control: Add Vcs-{Browser,Git} fields.
+  * debian/control: Conflicts: dput instead of Breaks.
 
  -- Ansgar Burchardt <ansgar@debian.org>  Mon, 03 Dec 2012 14:02:29 +0100
 
