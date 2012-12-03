@@ -15,6 +15,7 @@ Build-Depends: debhelper (>= 9),
  asciidoc,
  libxml2-utils,
  docbook-xml,
+ docbook-xsl,
  xsltproc
 Standards-Version: 3.9.4
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/dputng.git
