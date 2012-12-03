@@ -35,4 +35,4 @@ $(MANPAGES): debian/man
 		$(patsubst debian/man/%, docs/man/%.man, $@)
 
 override_dh_installman: $(MANPAGES)
-	dh_installman
+	dh_installman --language=C
