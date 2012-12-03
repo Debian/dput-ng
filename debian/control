@@ -24,7 +24,6 @@ X-Python-Version: >= 2.7
 
 Package: dput-ng
 Architecture: all
-Multi-Arch: foreign
 Conflicts: dput
 Replaces: dput
 Provides: dput
@@ -70,7 +69,6 @@ Description: next generation Debian package upload tool (Python library)
 Package: dput-ng-doc
 Architecture: all
 Section: doc
-Multi-Arch: foreign
 Depends: ${misc:Depends}, ${sphinxdoc:Depends}
 Description: next generation Debian package upload tool (documentation)
  dput-ng is a Debian package upload tool which provides an easy to use
