@@ -48,7 +48,7 @@ def find_username(conf):
     with. It falls back to getting the logged in user's name.
     """
     user = None
-    user = pwd.getpwuid(os.getuid()**).pw_name
+    user = pwd.getpwuid(os.getuid()).pw_name
     if 'login' in conf:
         new_user = conf['login']
         if new_user != "*":
