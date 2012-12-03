@@ -46,10 +46,7 @@ def find_username(conf):
     with. It falls back to getting the logged in user's name.
     """
     user = None
-    try:
-        user = os.getlogin()  # XXX: This needs a controlling terminal
-    except:
-        pass
+    user = os.getlogin()  # XXX: This needs a controlling terminal
     if 'login' in conf:
         new_user = conf['login']
         if new_user != "*":
