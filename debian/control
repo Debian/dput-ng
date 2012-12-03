@@ -17,6 +17,8 @@ Build-Depends: debhelper (>= 9),
  docbook-xml,
  xsltproc
 Standards-Version: 3.9.4
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/dputng.git
+Vcs-Git: git://git.debian.org/collab-maint/dputng.git
 X-Python-Version: >= 2.7
 
 Package: dput-ng
