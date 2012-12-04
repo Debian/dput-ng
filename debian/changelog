@@ -1,6 +1,6 @@
 dput-ng (1.1) UNRELEASED; urgency=low
 
-  * The "WTF two releases in one week" release
+  * The "monday afternoon's a rather awkward day to get so drunk" release
 
   [ Arno Töll ]
   * Clarify copyight for dput/changes.py: It's MIT, not GPL
@@ -27,7 +27,7 @@ dput-ng (1.1) UNRELEASED; urgency=low
      + clean the .coverage file
      + remove the except:\n\tpass
 
- -- Arno Töll <arno@debian.org>  Tue, 04 Dec 2012 00:42:11 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Tue, 04 Dec 2012 09:09:49 -0500
 
 dput-ng (1.0) unstable; urgency=low
 
