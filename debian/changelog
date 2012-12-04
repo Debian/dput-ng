@@ -1,4 +1,4 @@
-dput-ng (1.1) UNRELEASED; urgency=low
+dput-ng (1.1) unstable; urgency=low
 
   * The "monday afternoon's a rather awkward day to get so drunk" release
 
@@ -27,7 +27,7 @@ dput-ng (1.1) UNRELEASED; urgency=low
      + clean the .coverage file
      + remove the except:\n\tpass
 
- -- Paul Tagliamonte <paultag@debian.org>  Tue, 04 Dec 2012 09:09:49 -0500
+ -- Paul Tagliamonte <paultag@debian.org>  Tue, 04 Dec 2012 09:19:39 -0500
 
 dput-ng (1.0) unstable; urgency=low
 
