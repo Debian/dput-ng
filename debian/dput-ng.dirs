@@ -7,5 +7,7 @@ etc/dput.d/profiles
 etc/dput.d/uploaders
 usr/share/dput-ng/commands
 usr/share/dput-ng/interfaces
+usr/share/dput-ng/metas
+usr/share/dput-ng/hooks
 usr/share/dput-ng/profiles
 usr/share/dput-ng/uploaders
