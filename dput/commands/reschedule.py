@@ -39,7 +39,7 @@ class RescheduleCommand(AbstractCommand):
     def register(self, parser, **kwargs):
         parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
                             default=None, help="file name to be rescheduled",
-                            nargs=1)
+                            nargs=1, required=True)
         parser.add_argument('-d', '--days', metavar="DAYS", action='store',
                             default=None, help="reschedule for DAYS days."
                             " Takes an argument from 0 to 15", type=int,

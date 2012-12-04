@@ -50,7 +50,7 @@ class CancelCommand(AbstractCommand):
     def register(self, parser, **kwargs):
         parser.add_argument('-f', '--file', metavar="FILENAME", action='store',
                             default=None, help="file name to be removed",
-                            nargs="+")
+                            nargs="+", required=True)
 
     def produce(self, fh, args):
         fh.write("Commands:\n")

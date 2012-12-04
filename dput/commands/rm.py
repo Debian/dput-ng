@@ -44,7 +44,7 @@ class RmCommand(AbstractCommand):
                             default=None, help="file to be removed. "
                             "If the argument is a CHANGES file, a rm command "
                             "for all .deb packages in it is created",
-                            nargs="+")
+                            nargs="+", required=True)
         parser.add_argument('--searchdirs', action='store_true', default=None,
                             help="Search in all directories for the given"
                             " file. Only supported for files in the DELAYED"
