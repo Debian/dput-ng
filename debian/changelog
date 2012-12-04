@@ -1,7 +1,10 @@
 dput-ng (1.1) UNRELEASED; urgency=low
 
+  * The "WTF two releases in one week" release
+
+  [ Arno Töll ]
   * Clarify copyight for dput/changes.py: It's MIT, not GPL
-  * Install dput.cf(5) to the correct man page  directory.
+  * Install dput.cf(5) to the correct man page directory.
   * Fix a bunch of grammar and Python styling issues - thanks to Jakub Wilk
     for the pointers.
   * Fix "FTBFS: a2x call -> missing build dependency on docbook-xsl" add
@@ -12,6 +15,17 @@ dput-ng (1.1) UNRELEASED; urgency=low
   * debian/control: Add Vcs-{Browser,Git} fields.
   * debian/control: Conflicts: dput instead of Breaks.
   * debian/control: Don't use hyphens in the package description.
+
+  [ Paul Tagliamonte ]
+  * debian/copyright: move to DEP5.
+  * debian/control: remove senseless multiarch tags
+  * debian/control: add Homepage
+  * debian/control: since we conflict with dput-old, mark this as priority
+    extra.
+  * other random pythonic fixes pointed out by Jakub.
+     + pep8'd `klass' to `cls'
+     + clean the .coverage file
+     + remove the except:\n\tpass
 
  -- Arno Töll <arno@debian.org>  Tue, 04 Dec 2012 00:42:11 +0100
 
