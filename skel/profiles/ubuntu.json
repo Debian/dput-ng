@@ -1,0 +1,7 @@
+{
+    "fqdn": "upload.ubuntu.com",
+    "incoming": "/",
+    "login": "anonymous",
+    "meta": "ubuntu",
+    "method": "ftp"
+}
