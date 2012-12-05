@@ -240,6 +240,9 @@ def invoke_dput(changes, args):
             full_upload_log = args.full_upload_log
         _write_upload_log(tmp_logfile.name, full_upload_log)
 
+    if args.delayed:
+        make_delayed_upload(profile, args.delayed)
+
     logger.info("Uploading %s using %s to %s (host: %s; directory: %s)" % (
         changes.get_package_name(),
         profile['method'],
@@ -250,9 +253,6 @@ def invoke_dput(changes, args):
 
     if args.simulate:
         logger.warning("Not uploading for real - dry run")
-
-    if args.delayed:
-        make_delayed_upload(profile, args.delayed)
 
     if args.passive:
         force_passive_ftp_upload(profile)
