@@ -237,7 +237,7 @@ EXAMPLES
 
   $ dcut rm --searchdirs -f udj-desktop-client_0.5.1-2_amd64.deb
 
-  $ dcut ftp-master rm 'linux*.deb'
+  $ dcut ftp-master rm -f 'linux*.deb'
 
 
 AUTHOR
