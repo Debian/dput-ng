@@ -1,3 +1,22 @@
+dput-ng (1.2) UNRELEASED; urgency=low
+
+  [ Paul Tagliamonte ]
+  * Add in a script to set the default profile depending on the building
+    distro. (debian/rules, debian/bin/adjust-vendor)
+  * Fix a bug where meta-class info won't be loaded if the config file has the
+    same name.
+  * Add an Ubuntu upload target. Thanks to Benjamin Drung for the
+    suggestion.
+
+  [ Arno Töll ]
+  * Catch the correct exception falling out of bin/dcut
+  * Fix the dput manpages to use --uid rather then the old --dm flag.
+  * Fix the CLI flag registration by setting required=True
+    in cancel and upload.
+  * Move make_delayed_upload above the logging call for sanity's sake.
+
+ -- Paul Tagliamonte <paultag@debian.org>  Wed, 05 Dec 2012 21:07:48 -0500
+
 dput-ng (1.1) unstable; urgency=low
 
   * The "monday afternoon's a rather awkward day to get so drunk" release
