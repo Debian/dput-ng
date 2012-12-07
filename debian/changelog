@@ -15,6 +15,14 @@ dput-ng (1.2) UNRELEASED; urgency=low
     in cancel and upload.
   * Move make_delayed_upload above the logging call for sanity's sake.
 
+  [ Salvatore Bonaccorso ]
+  * Add bash completions for dput-ng (Closes: #695412).
+    + Add bash completions for dput-ng based on traditional dput
+      package.
+    + Add bash-completion to Build-Depends and Recommends.
+    + Use bash-completion Debhelper addon to install the bash
+      completions.
+
  -- Paul Tagliamonte <paultag@debian.org>  Wed, 05 Dec 2012 21:07:48 -0500
 
 dput-ng (1.1) unstable; urgency=low
