@@ -23,9 +23,9 @@ dput-ng (1.2) UNRELEASED; urgency=low
     in cancel and upload.
   * Move make_delayed_upload above the logging call for sanity's sake.
   * Fix "connects to the host even with -s" (Closes: #695347)
-   Arguably we did so as a design decision, but I can see how this confuses
-   people. Hence, do not establish a network connection anymore using the
-   -s(imulation) mode, unless -s was specified twice (-ss)
+    Arguably we did so as a design decision, but I can see how this confuses
+    people. Hence, do not establish a network connection anymore using the
+    -s(imulation) mode, unless -s was specified twice (-ss)
   * While I was on it, do so for -o (check-only) uploads as well
 
  -- Paul Tagliamonte <paultag@debian.org>  Wed, 05 Dec 2012 21:07:48 -0500
