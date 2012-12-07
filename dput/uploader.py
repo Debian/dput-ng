@@ -152,7 +152,7 @@ def uploader(uploader_method, profile, simulate=True):
 
 
     obj = cls(profile)
-    if not simulate or simulate == 2:
+    if not simulate or simulate >= 2:
         obj.initialize()
     obj._pre_hook()
     try:
@@ -160,7 +160,7 @@ def uploader(uploader_method, profile, simulate=True):
     finally:
         if not simulate:
             obj._post_hook()
-        if not simulate or simulate == 2:
+        if not simulate or simulate >= 2:
             obj.shutdown()
 
 
