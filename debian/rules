@@ -5,7 +5,7 @@ VENDOR = $(shell dpkg-vendor --query vendor)
 
 
 %:
-	dh $@ --with python2,sphinxdoc
+	dh $@ --with bash-completion,python2,sphinxdoc
 
 
 override_dh_auto_clean:
