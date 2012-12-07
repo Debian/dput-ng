@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# Copyright (c) Paul Tagliamonte <paultag@debian.org>, 2012 under the terms
+# and conditions of the dput-ng project it's self.
+
+import json
+import sys
+
+PROFILE_PATH = "./debian/dput-ng/etc/dput.d/profiles"
+
+distrib = sys.argv[1]
+default_target_vendor_table = {
+    "Debian": "ftp-master",
+    "Ubuntu": "ubuntu"
+}
+
+target = default_target_vendor_table[distrib]
+fp = "%s/%s.json" % (PROFILE_PATH, target)
+
+
+print """I: === Adjusting Vendor ===
+I:
+I:  Hi there, log viewer.
+I:
+I:  This simple script takes the argument (which should come from dpkg-vendor),
+I:  and uses it to modify the default profile to add an entry (default_host_main)
+I:  to the default profile, so that dput correctly sets the default host.
+I:
+I:  Vendor:          {vendor}
+I:  Profile default: {target}
+I:  Path:            {fp}
+I:
+I: If you're currently debugging why the default target is wonky, check
+I: me out (debian/bin/adjust-vendor)
+I:
+I:  Fondly,
+I:    -- the dput-ng team""".format(vendor=distrib, target=target, fp=fp)
+
+obj = {}
+with open(fp, 'r') as fd:
+    obj = json.load(fd)
+    obj['default_host_main'] = target
+
+json.dump(obj, open(fp, 'w'), sort_keys=True, indent=4)

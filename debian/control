@@ -4,6 +4,7 @@ Priority: extra
 Maintainer: Arno Töll <arno@debian.org>
 Uploaders: Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 9),
+ bash-completion,
  python-all (>= 2.7~),
  python-setuptools,
  python-coverage,
@@ -29,6 +30,7 @@ Conflicts: dput
 Replaces: dput
 Provides: dput
 Depends: ${misc:Depends}, ${python:Depends}, python-dput
+Recommends: bash-completion
 Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use
  interface to Debian (like) package archive hosting facilities. It allows

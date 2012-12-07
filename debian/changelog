@@ -1,12 +1,34 @@
 dput-ng (1.2) UNRELEASED; urgency=low
 
+  [ Salvatore Bonaccorso ]
+  * Add bash completions for dput-ng (Closes: #695412).
+    + Add bash completions for dput-ng based on traditional dput
+      package.
+    + Add bash-completion to Build-Depends and Recommends.
+    + Use bash-completion Debhelper addon to install the bash
+      completions.
+
+  [ Paul Tagliamonte ]
+  * Add in a script to set the default profile depending on the building
+    distro. (debian/rules, debian/bin/adjust-vendor)
+  * Fix a bug where meta-class info won't be loaded if the config file has the
+    same name.
+  * Add an Ubuntu upload target. Thanks to Benjamin Drung for the
+    suggestion.
+
+  [ Arno Töll ]
+  * Catch the correct exception falling out of bin/dcut
+  * Fix the dput manpages to use --uid rather then the old --dm flag.
+  * Fix the CLI flag registration by setting required=True
+    in cancel and upload.
+  * Move make_delayed_upload above the logging call for sanity's sake.
   * Fix "connects to the host even with -s" (Closes: #695347)
    Arguably we did so as a design decision, but I can see how this confuses
    people. Hence, do not establish a network connection anymore using the
    -s(imulation) mode, unless -s was specified twice (-ss)
   * While I was on it, do so for -o (check-only) uploads as well
 
- -- Arno Töll <arno@debian.org>  Fri, 07 Dec 2012 23:42:43 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Wed, 05 Dec 2012 21:07:48 -0500
 
 dput-ng (1.1) unstable; urgency=low
 

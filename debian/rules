@@ -1,13 +1,19 @@
 #!/usr/bin/make -f
 
 MANPAGES := $(patsubst docs/man/%.man, debian/man/%, $(wildcard docs/man/*.man))
+VENDOR = $(shell dpkg-vendor --query vendor)
+
 
 %:
-	dh $@ --with python2,sphinxdoc
+	dh $@ --with bash-completion,python2,sphinxdoc
 
-override_dh_auto_install:
-	dh_auto_install
-	rm -vf ./debian/tmp/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rvf ./docs/_build ./*.egg-info ./build .coverage
+	rm -f $(MANPAGES)
+	rm -rf debian/man
+
 
 override_dh_auto_test:
 	# We don't test for all versions, because we don't support all versions.
@@ -17,22 +23,30 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	nosetests
 endif
 
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -rvf ./docs/_build ./*.egg-info ./build .coverage
-	rm -f $(MANPAGES)
-	rm -rf debian/man
 
 override_dh_auto_build:
 	dh_auto_build
 	make -C docs html
 
+
+override_dh_auto_install:
+	dh_auto_install
+	rm -vf ./debian/tmp/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
+
+
+override_dh_install:
+	dh_install
+	debian/bin/adjust-vendor $(VENDOR)
+
+
 debian/man:
 	mkdir $@
+
 
 $(MANPAGES): debian/man
 	a2x --doctype manpage --format manpage -D $(dir $@) \
 		$(patsubst debian/man/%, docs/man/%.man, $@)
+
 
 override_dh_installman: $(MANPAGES)
 	dh_installman --language=C

@@ -223,7 +223,10 @@ def load_config(config_class, config_name,
             config_name
         ))
 
-    if 'meta' in ret and ret['meta'] != config_name:
+    if 'meta' in ret and (
+        config_class != 'metas' or
+        ret['meta'] != config_name
+    ):
         metainfo = load_config(
             "metas",
             ret['meta'],
