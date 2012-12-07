@@ -77,6 +77,12 @@ OPTIONS
 	Simulate the upload only. This runs all pre-upload checks, initializes
 	the upload handler but does not actually push any files to the remote
 	host.
+	
+	This argument can be repeated twice in which case also the network
+	connection is set-up (for example logging in through the FTP or SFTP
+	protocol) and tested for its functionality. 
+
+parser.add_argument('-u', '--unchecked', action='store_true',
 
 *-U, --no-upload-log*::
 	Do not write a .upload log file after uploading.

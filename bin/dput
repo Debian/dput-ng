@@ -54,8 +54,11 @@ parser.add_argument('-o', '--check-only', action='store_true',
                     help='Only check the package')
 parser.add_argument('-P', '--passive', action='store_true',
                     help='Use passive mode for ftp uploads')
-parser.add_argument('-s', '--simulate', action='store_true',
-                    help='Simulate the upload only')
+parser.add_argument('-s', '--simulate', action='count', default=False,
+                    help="Simulate the upload only. Repeat twice to increase "
+                    "the level of simulation. Provided once runs pre-upload "
+                    "checks, provided twice runs pre-upload checks and network"
+                    " set-up without actually uploading files")
 parser.add_argument('-u', '--unchecked', action='store_true',
                     help='Don\'t check GnuPG signature')
 parser.add_argument('-v', '--version', action='store_true',

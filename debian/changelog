@@ -1,3 +1,13 @@
+dput-ng (1.2) UNRELEASED; urgency=low
+
+  * Fix "connects to the host even with -s" (Closes: #695347)
+   Arguably we did so as a design decision, but I can see how this confuses
+   people. Hence, do not establish a network connection anymore using the
+   -s(imulation) mode, unless -s was specified twice (-ss)
+  * While I was on it, do so for -o (check-only) uploads as well
+
+ -- Arno Töll <arno@debian.org>  Fri, 07 Dec 2012 23:42:43 +0100
+
 dput-ng (1.1) unstable; urgency=low
 
   * The "monday afternoon's a rather awkward day to get so drunk" release

@@ -122,7 +122,7 @@ No file was uploaded, however.""")
 
 
 @contextmanager
-def uploader(uploader_method, profile, run_hooks=True):
+def uploader(uploader_method, profile, simulate=True):
     """
     Context-managed uploader implementation.
 
@@ -150,16 +150,18 @@ def uploader(uploader_method, profile, run_hooks=True):
             )
         )
 
+
     obj = cls(profile)
-    obj.initialize()
-    if run_hooks:
-        obj._pre_hook()
+    if not simulate or simulate == 2:
+        obj.initialize()
+    obj._pre_hook()
     try:
         yield obj
     finally:
-        if run_hooks:
+        if not simulate:
             obj._post_hook()
-        obj.shutdown()
+        if not simulate or simulate == 2:
+            obj.shutdown()
 
 
 def determine_logfile(changes, conf, args):
@@ -243,6 +245,12 @@ def invoke_dput(changes, args):
     if args.delayed:
         make_delayed_upload(profile, args.delayed)
 
+    if args.simulate:
+        logger.warning("Not uploading for real - dry run")
+
+    if args.passive:
+        force_passive_ftp_upload(profile)
+
     logger.info("Uploading %s using %s to %s (host: %s; directory: %s)" % (
         changes.get_package_name(),
         profile['method'],
@@ -251,11 +259,6 @@ def invoke_dput(changes, args):
         profile['incoming']
     ))
 
-    if args.simulate:
-        logger.warning("Not uploading for real - dry run")
-
-    if args.passive:
-        force_passive_ftp_upload(profile)
 
     if 'hooks' in profile:
             run_pre_hooks(changes, profile)
@@ -264,8 +267,12 @@ def invoke_dput(changes, args):
         logger.warning("No hooks defined in the profile. "
                        "Not checking upload.")
 
+    # check only is a special case of -s
+    if args.check_only:
+        args.simulate = 1
+
     with uploader(profile['method'], profile,
-                  run_hooks=(not args.simulate)) as obj:
+                  simulate=args.simulate) as obj:
 
         if args.check_only:
             logger.info("Package %s passes all checks" % (
