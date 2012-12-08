@@ -1,5 +1,7 @@
 dput-ng (1.2) UNRELEASED; urgency=low
 
+  * The "Well you're smoking with the patch on." release
+
   [ Salvatore Bonaccorso ]
   * Add bash completions for dput-ng (Closes: #695412).
     + Add bash completions for dput-ng based on traditional dput
