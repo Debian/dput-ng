@@ -9,6 +9,7 @@ dput-ng (1.2) UNRELEASED; urgency=low
       completions.
 
   [ Paul Tagliamonte ]
+  * Hijacking the package.
   * Add in a script to set the default profile depending on the building
     distro. (debian/rules, debian/bin/adjust-vendor)
   * Fix a bug where meta-class info won't be loaded if the config file has the
