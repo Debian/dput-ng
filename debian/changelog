@@ -1,5 +1,7 @@
 dput-ng (1.2) UNRELEASED; urgency=low
 
+  * The "Well you're smoking with the patch on." release
+
   [ Salvatore Bonaccorso ]
   * Add bash completions for dput-ng (Closes: #695412).
     + Add bash completions for dput-ng based on traditional dput
@@ -9,12 +11,14 @@ dput-ng (1.2) UNRELEASED; urgency=low
       completions.
 
   [ Paul Tagliamonte ]
+  * Hijacking the package (set maintainer to our new alioth list. Thanks,
+    alioth maintainers!)
   * Add in a script to set the default profile depending on the building
     distro. (debian/rules, debian/bin/adjust-vendor)
   * Fix a bug where meta-class info won't be loaded if the config file has the
     same name.
   * Add an Ubuntu upload target. Thanks to Benjamin Drung for the
-    suggestion.
+    suggestion, and Jeremy for the bug. (Closes: #695490)
 
   [ Arno Töll ]
   * Catch the correct exception falling out of bin/dcut

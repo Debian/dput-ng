@@ -1,8 +1,9 @@
 Source: dput-ng
 Section: devel
 Priority: extra
-Maintainer: Arno Töll <arno@debian.org>
-Uploaders: Paul Tagliamonte <paultag@debian.org>
+Maintainer: dput-ng Maintainers <dput-ng-maint@lists.alioth.debian.org>
+Uploaders: Arno Töll <arno@debian.org>,
+ Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 9),
  bash-completion,
  python-all (>= 2.7~),
