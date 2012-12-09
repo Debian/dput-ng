@@ -19,6 +19,8 @@ dput-ng (1.2) UNRELEASED; urgency=low
     same name.
   * Add an Ubuntu upload target. Thanks to Benjamin Drung for the
     suggestion, and Jeremy for the bug. (Closes: #695490)
+  * Drop the hard dependency on validictory. Thanks to Jakub Wilk for
+    the patch. (Closes: #695516)
 
   [ Arno Töll ]
   * Catch the correct exception falling out of bin/dcut
