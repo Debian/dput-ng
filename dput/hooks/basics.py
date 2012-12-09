@@ -349,14 +349,16 @@ def check_protected_distributions(changes, profile, interface):
     #      to retrieve and share current code names.
     suite = changes['Distribution']
     query_user = False
-    release_team_suites = ["testing-proposed-updates", "proposed-updates"]
+    release_team_suites = ["testing-proposed-updates", "proposed-updates",
+                           "stable", "testing"]
     if suite in release_team_suites:
         msg = "Are you sure to upload to %s? Did you coordinate with the " \
             "Release Team before your upload?" % (suite)
         error_msg = "Aborting upload to Release Team managed suite upon " \
             "request"
         query_user = True
-    security_team_suites = ["stable-security", "oldstable-security"]
+    security_team_suites = ["stable-security", "oldstable-security",
+                            "testing-security"]
     if suite in security_team_suites:
         msg = "Are you sure to upload to %s? Did you coordinate with the " \
             "Security Team before your upload?" % (suite)

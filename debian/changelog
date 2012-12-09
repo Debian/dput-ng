@@ -26,7 +26,8 @@ dput-ng (1.2) UNRELEASED; urgency=low
     Arguably we did so as a design decision, but I can see how this confuses
     people. Hence, do not establish a network connection anymore using the
     -s(imulation) mode, unless -s was specified twice (-ss)
-  * While I was on it, do so for -o (check-only) uploads as well
+    + While I was on it, do so for -o (check-only) uploads as well
+  * More distro mappings for check_protected_distributions. 
 
  -- Paul Tagliamonte <paultag@debian.org>  Wed, 05 Dec 2012 21:07:48 -0500
 
