@@ -26,7 +26,6 @@ import json
 import shlex
 import importlib
 import subprocess
-import validictory
 from contextlib import contextmanager
 
 import dput.core
@@ -277,7 +276,10 @@ def load_config(config_class, config_name,
             raise DputConfigurationError("No such schema: %s" % (schema))
 
         try:
+            import validictory
             validictory.validate(obj, sobj)
+        except ImportError:
+            pass
         except validictory.validator.ValidationError as e:
             err = str(e)
             error = "Error with config file %s/%s - %s" % (
