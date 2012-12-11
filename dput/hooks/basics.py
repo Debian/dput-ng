@@ -223,9 +223,10 @@ def check_debs_in_upload(changes, profile, interface):
 
     has_debs = False
     for fil in changes.get_files():
-        xtn = '.deb'
-        if fil.endswith(xtn):
-            has_debs = True
+        xtns = ['.deb', '.udeb']
+        for xtn in xtns:
+            if fil.endswith(xtn):
+                has_debs = True
 
     if enforce_debs and not has_debs:
         raise BinaryUploadError(
