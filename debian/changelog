@@ -21,6 +21,7 @@ dput-ng (1.2) UNRELEASED; urgency=low
     suggestion, and Jeremy for the bug. (Closes: #695490)
   * Drop the hard dependency on validictory. Thanks to Jakub Wilk for
     the patch. (Closes: #695516)
+  * Added .udeb detection to the check debs hook.
 
   [ Arno Töll ]
   * Catch the correct exception falling out of bin/dcut
