@@ -23,6 +23,10 @@ Implementation of the interface to run a hook.
 
 from dput.util import obj_docs, run_func_by_name, load_config
 from dput.core import logger
+try:
+    import clojure.main
+except ImportError:
+    logger.trace("No clojure support :(")
 
 
 def hook_docs(hook):
