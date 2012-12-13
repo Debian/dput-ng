@@ -1,0 +1,5 @@
+{
+    "description": "Make sure Arno doesn't maintain anything",
+    "path": "clojtest.dput-checker",
+    "pre": true
+}
