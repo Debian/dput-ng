@@ -6,7 +6,8 @@ dput-ng (1.3) UNRELEASED; urgency=low
   * Adjust Homepage: to point to our spiffy debian.net alias, rather then
     my people.debian.
   * Add in experiemental clojure support via clojurepy hackery. It's
-    amazingly cool, really.
+    amazingly cool, really. Thanks to Paul Tagliamonte for the extremely
+    nice patch. Well done.
 
  -- Paul Tagliamonte <paultag@debian.org>  Thu, 13 Dec 2012 18:32:19 -0500
 
