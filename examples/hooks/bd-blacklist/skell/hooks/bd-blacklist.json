@@ -1,0 +1,5 @@
+{
+    "description": "Blacklist certain (configurable) build-dependencies",
+    "path": "bd-blacklist.blacklist-checker",
+    "pre": true
+}
