@@ -30,7 +30,7 @@ Architecture: all
 Conflicts: dput
 Replaces: dput
 Provides: dput
-Depends: ${misc:Depends}, ${python:Depends}, python-dput
+Depends: ${misc:Depends}, ${python:Depends}, python-dput (= ${binary:Version})
 Recommends: bash-completion
 Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use
