@@ -152,8 +152,8 @@ def sign_file(filename, keyid=None, name=None, email=None):
     shutil.move("%s.asc" % (filename), filename)
 
 
-def upload_commands_file(filename, upload_filename, profile):
-    with uploader(profile['method'], profile) as obj:
+def upload_commands_file(filename, upload_filename, profile, args):
+    with uploader(profile['method'], profile, simulate=args.simulate) as obj:
         logger.info("Uploading %s to %s" % (
             upload_filename,
             profile['name']
@@ -211,7 +211,7 @@ def invoke_dcut(args):
             upload_path = fh.name
 
         if not args.simulate and not args.output:
-            upload_commands_file(upload_path, upload_filename, profile)
+            upload_commands_file(upload_path, upload_filename, profile, args)
         elif args.output and not args.simulate:
             if os.access(args.output, os.R_OK):
                 logger.error("Not writing %s: File already exists" % (

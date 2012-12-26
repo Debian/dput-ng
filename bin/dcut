@@ -60,8 +60,11 @@ parser.add_argument('-O', '--output', metavar="FILENAME",
 parser.add_argument('-P', '--passive',
                     help="Use passive FTP instead of active",
                     action='store_true')
-parser.add_argument('-s', '--simulate',
-                    help="Simulate an upload only", action='store_true')
+parser.add_argument('-s', '--simulate', action='count', default=False,
+                    help="Simulate the upload only. Repeat twice to increase "
+                    "the level of simulation. Provided once runs pre-upload "
+                    "checks, provided twice runs pre-upload checks and network"
+                    " set-up without actually uploading files")
 parser.add_argument('-v', '--version',
                     help="Print version information and exit",
                     action='store_true')

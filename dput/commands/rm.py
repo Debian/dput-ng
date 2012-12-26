@@ -51,7 +51,6 @@ class RmCommand(AbstractCommand):
                             " queue.")
 
     def produce(self, fh, args):
-        print(args.searchdirs)
         fh.write("Commands:\n")
         for rm_file in args.file:
             fh.write("  %s %s %s\n" % (
