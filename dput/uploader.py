@@ -72,7 +72,7 @@ class AbstractUploader(object):
             (output, stderr, ret) = run_command(cmd)
             if ret == -1:
                 if not os.path.exists(cmd):
-                    logger.error(
+                    logger.warning(
                         "Error: You've set a hook (%s) to run (`%s`), "
                          "but it can't be found (and doesn't appear to exist). "
                          "Please verify the path and correct it." % (
