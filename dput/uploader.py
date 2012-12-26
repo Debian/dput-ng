@@ -68,7 +68,20 @@ class AbstractUploader(object):
 
     def _run_hook(self, hook):
         if hook in self._config and self._config[hook] != "":
-            (output, stderr, ret) = run_command(self._config[hook])
+            cmd = self._config[hook]
+            (output, stderr, ret) = run_command(cmd)
+            if ret == -1:
+                if not os.path.exists(cmd):
+                    logger.error(
+                        "Error: You've set a hook (%s) to run (`%s`), "
+                         "but it can't be found (and doesn't appear to exist). "
+                         "Please verify the path and correct it." % (
+                             hook,
+                             self._config[hook]
+                         )
+                    )
+                    return
+
             sys.stdout.write(output)  # XXX: Fixme
             if ret != 0:
                 raise DputError(
