@@ -1,5 +1,8 @@
 dput-ng (1.4) UNRELEASED; urgency=low
 
+  Mind note to you, dear uploader of this version. Please make sure the issue
+  marked with "MARK" in TODO is fixed before uploading this release.
+
   [ Arno Töll ]
   * Really fix #696659 by making sure the command line tool uses the most recent
     version of the library.

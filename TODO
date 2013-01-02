@@ -56,11 +56,18 @@ bin/dput
 config loader
 -------------
 
-make sure schema, scripts and other non-configs won't be attempted to be
-loaded :)
+* make sure schema, scripts and other non-configs won't be attempted to be
+  loaded :)
 
-Make it possible to pass dcut commands our profile. That's a bit of a tricky
-situation, see the comment in dput/command.py for details.
+* Make it possible to pass dcut commands our profile. That's a bit of a tricky
+  situation, see the comment in dput/command.py for details. Once that's done
+  refactor the command classes which currently load the profile in their
+  validate() methods.
+
+* **MARK** Implement something similar to dput meta profiles for dcut. We need a dcut
+  "profile" which enableѕ or disables the command registries of actual dcut
+  sub-commands at runtime, depending on a configurable key. Then we could define
+  sub-commands which should (not) be enabled by default.
 
 tests/*
 -------
