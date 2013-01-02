@@ -221,7 +221,7 @@ def invoke_dcut(args):
                     args.output
                 ))
                 # ... but intentionally do nothing
-                # TODO: or rais exception?
+                # TODO: or raise exception?
                 return
             shutil.move(fh.name, args.output)
         elif args.simulate:
