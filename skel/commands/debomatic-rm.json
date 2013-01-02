@@ -1,0 +1,4 @@
+{
+    "description": "Deb-o-Matic rm command",
+    "path": "dput.commands.contrib.debomatic.RmCommand"
+}

@@ -1,7 +1,11 @@
 dput-ng (1.4) UNRELEASED; urgency=low
 
+  [ Arno Töll ]
   * Really fix #696659 by making sure the command line tool uses the most recent
     version of the library.
+
+  [ Luca Falavigna ]
+  * Implement dcut commands for Deb-o-Matic.
 
  -- Arno Töll <arno@debian.org>  Wed, 26 Dec 2012 16:31:39 +0100
 

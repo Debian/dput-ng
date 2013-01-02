@@ -1,0 +1,4 @@
+{
+    "description": "Deb-o-Matic rebuild command",
+    "path": "dput.commands.contrib.debomatic.RebuildCommand"
+}
