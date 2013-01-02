@@ -8,8 +8,8 @@ fully understand the changes.
 
 The :doc:`reference/migrating` might be helpful for new users.
 
-Motiviation
-===========
+Motivation
+==========
 
 Many have asked "why rewrite dput", or "why not work with dput"?
 
