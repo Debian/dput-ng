@@ -59,6 +59,9 @@ config loader
 make sure schema, scripts and other non-configs won't be attempted to be
 loaded :)
 
+Make it possible to pass dcut commands our profile. That's a bit of a tricky
+situation, see the comment in dput/command.py for details.
+
 tests/*
 -------
 
