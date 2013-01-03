@@ -115,7 +115,7 @@ def write_header(fh, profile, args):
     return (name, email_address)
 
 
-def sign_file(filename, keyid=None, name=None, email=None):
+def sign_file(filename, keyid=None, profile=None, name=None, email=None):
     logger.debug("Signing file %s - signature hints are key: %s, "
                  "name: %s, email: %s" % (filename, keyid, name, email))
 
@@ -123,10 +123,14 @@ def sign_file(filename, keyid=None, name=None, email=None):
     if keyid:
         identity_hint = keyid
     else:
-        if name:
-            identity_hint = name
-        if email:
-            identity_hint += " <%s>" % (email)
+        if profile:
+            if "default_keyid" in profile:
+                identity_hint = profile["default_keyid"]
+        else:
+            if name:
+                identity_hint = name
+            if email:
+                identity_hint += " <%s>" % (email)
 
     logger.trace("GPG identity hint: %s" % (identity_hint))
 
@@ -210,7 +214,7 @@ def invoke_dcut(args):
             #print fh.name
             fh.close()
 
-            sign_file(fh.name, args.keyid, name, email)
+            sign_file(fh.name, args.keyid, profile, name, email)
             upload_path = fh.name
 
         if not args.simulate and not args.output:

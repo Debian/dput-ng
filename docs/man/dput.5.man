@@ -125,6 +125,11 @@ must match or dput will refuse the upload.
 This defines the default host for packages that are allowed to be uploaded to
 the main archive. This variable is used when guessing the host to upload to.
 
+*default_keyid* (string)::
+
+This defines the default GPG key ID to be used to sign dcut commands. This
+option can be overridden by -k parameter.
+
 *full_upload_log* (boolean)::
 
 This defines the verbosity of upload logs. When set to *true*, logs will

@@ -46,9 +46,9 @@ These keys are supported in dput.cf files. For their meaning refer to
 *dput(5)*.
 
 *allow_dcut*, *allow_unsigned_uploads*, *allowed_distributions*,
-*default_host_main*, *fqdn*, *distributions*, *hash*, *incoming*, *method*,
-*login*, *passive_ftp*, *post_upload_command*, *pre_upload_command*,
-*run_lintian*. 
+*default_host_main*, *default_keyid*, *fqdn*, *distributions*, *hash*,
+*incoming*, *method*, *login*, *passive_ftp*, *post_upload_command*,
+*pre_upload_command*, *run_lintian*. 
 
 
 UNSUPPORTED LEGACY KEYS
@@ -99,7 +99,7 @@ UNSUPPORTED KEYS
 These keys are not supported in old-style configuration files. However, their
 values are inherited from their new-style defaults. See *dput(5)* for details:
 
-*hooks*, *interface*, *meta*, *full_upload_log*.
+*default_keyid*, *hooks*, *interface*, *meta*, *full_upload_log*.
 
 
 BUGS

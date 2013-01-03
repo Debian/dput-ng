@@ -9,6 +9,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
+  * Implement default_keyid option. This is particularly useful with multiple
+    GPG keys, so dcut is aware of which one to use.
 
  -- Arno Töll <arno@debian.org>  Wed, 26 Dec 2012 16:31:39 +0100
 
