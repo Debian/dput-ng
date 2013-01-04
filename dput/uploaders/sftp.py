@@ -99,8 +99,11 @@ class SFTPUploader(AbstractUploader):
         fqdn = self._config['fqdn']
         incoming = self._config['incoming']
 
-        if incoming[0] == '~':
-            raise SftpUploadException("SFTP doesn't support ~path or ~/path. "
+        if incoming[0:2] == '~/':
+            logger.warning("SFTP does not support ~/path, continuing with relative directory name instead...")
+            incoming = incoming[2:]
+        elif incoming[0] == '~':
+            raise SftpUploadException("SFTP doesn't support ~path. "
                                       "if you need $HOME paths, use SCP.")
 
         ssh_kwargs = {
