@@ -184,7 +184,7 @@ are supported:
 	* 'scp':: Use scp to upload files. *This method is deprecated*, use 'sftp'
 		instead when possible.
 	* 'sftp':: Use the sftp protocol (a secured file transfer via SSH).
-	* 'launchpad':: Use the sftp protocol with special handling for Launchpad
+	* 'lp-sftp':: Use the sftp protocol with special handling for Launchpad
 	  remote hosts. Use this method when uploading to Ubuntu.
 
 	* *dput-ng* does not support 'rsync'.
