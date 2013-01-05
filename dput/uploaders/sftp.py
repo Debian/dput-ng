@@ -118,11 +118,11 @@ class SFTPUploader(AbstractUploader):
         if "confirm_upload" in self.sftp_config:
             self.putargs['confirm'] = self.sftp_config['confirm_upload']
 
-        if incoming[0:2] == '~/':
+        if incoming.startswith('~/'):
             logger.warning("SFTP does not support ~/path, continuing with"
                            "relative directory name instead.")
             incoming = incoming[2:]
-        elif incoming[0] == '~' and not self.host_is_launchpad:
+        elif incoming.startswith('~') and not self.host_is_launchpad:
             raise SftpUploadException("SFTP doesn't support ~path. "
                                       "if you need $HOME paths, use SCP.")
 
@@ -239,7 +239,8 @@ class SFTPUploader(AbstractUploader):
         if not upload_filename:
             upload_filename = os.path.basename(filename)
 
-        upload_filename = "%s/%s" % (self.incoming, upload_filename)
+
+        upload_filename = os.path.join(self.incoming, upload_filename)
         logger.debug("Writing to: %s" % (upload_filename))
 
         try:
