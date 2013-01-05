@@ -98,12 +98,20 @@ class SFTPUploader(AbstractUploader):
         """
         fqdn = self._config['fqdn']
         incoming = self._config['incoming']
+
+        self.sftp_config = {}
+        if "sftp" in self._config:
+            self.sftp_config = self._config['sftp']
+
         host_is_launchpad = ('host_is_launchpad' in self._config
                              and self._config['host_is_launchpad'])
 
         self.putargs = {}
         if host_is_launchpad:
             self.putargs['confirm'] = False
+
+        if "confirm_upload" in self.sftp_config:
+            self.putargs['confirm'] = self.sftp_config['confirm_upload']
 
         if incoming[0:2] == '~/':
             logger.warning("SFTP does not support ~/path, continuing with"
