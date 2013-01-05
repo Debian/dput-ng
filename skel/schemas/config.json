@@ -43,7 +43,7 @@
         }, 
         "incoming": {
             "blank": true, 
-            "required": false, 
+            "required": true, 
             "type": "string"
         }, 
         "interface": {
