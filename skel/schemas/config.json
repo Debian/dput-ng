@@ -42,6 +42,7 @@
             "type": "string"
         }, 
         "incoming": {
+            "blank": true, 
             "required": false, 
             "type": "string"
         }, 
