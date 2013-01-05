@@ -92,6 +92,13 @@ class SFTPUploader(AbstractUploader):
     This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
 
+    def __init__(self, *args):
+        """
+        Override the default constructor to branch off Launchpad handling
+        """
+        super(SFTPUploader, self).__init__(*args)
+        self.host_is_launchpad = False
+
     def initialize(self, **kwargs):
         """
         See :meth:`dput.uploader.AbstractUploader.initialize`
@@ -103,11 +110,9 @@ class SFTPUploader(AbstractUploader):
         if "sftp" in self._config:
             self.sftp_config = self._config['sftp']
 
-        host_is_launchpad = ('host_is_launchpad' in self._config
-                             and self._config['host_is_launchpad'])
 
         self.putargs = {}
-        if host_is_launchpad:
+        if self.host_is_launchpad:
             self.putargs['confirm'] = False
 
         if "confirm_upload" in self.sftp_config:
@@ -117,7 +122,7 @@ class SFTPUploader(AbstractUploader):
             logger.warning("SFTP does not support ~/path, continuing with"
                            "relative directory name instead.")
             incoming = incoming[2:]
-        elif incoming[0] == '~' and not host_is_launchpad:
+        elif incoming[0] == '~' and not self.host_is_launchpad:
             raise SftpUploadException("SFTP doesn't support ~path. "
                                       "if you need $HOME paths, use SCP.")
 
@@ -254,3 +259,12 @@ class SFTPUploader(AbstractUploader):
         """
         self._sshclient.close()
         self._sftp.close()
+
+
+class LaunchpadUploader(SFTPUploader):
+    def __init__(self, *args):
+        """
+        Override the default constructor to branch off Launchpad handling
+        """
+        super(SFTPUploader, self).__init__(*args)
+        self.host_is_launchpad = True
