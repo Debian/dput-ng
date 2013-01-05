@@ -98,12 +98,18 @@ class SFTPUploader(AbstractUploader):
         """
         fqdn = self._config['fqdn']
         incoming = self._config['incoming']
+        host_is_launchpad = ('host_is_launchpad' in self._config
+                             and self._config['host_is_launchpad'])
+
+        self.putargs = {}
+        if host_is_launchpad:
+            self.putargs['confirm'] = False
 
         if incoming[0:2] == '~/':
             logger.warning("SFTP does not support ~/path, continuing with"
                            "relative directory name instead.")
             incoming = incoming[2:]
-        elif incoming[0] == '~':
+        elif incoming[0] == '~' and not host_is_launchpad:
             raise SftpUploadException("SFTP doesn't support ~path. "
                                       "if you need $HOME paths, use SCP.")
 
@@ -180,8 +186,9 @@ class SFTPUploader(AbstractUploader):
                 )
             )
 
-        logger.debug("Changing directory to %s" % (incoming))
-        self._sftp.chdir(incoming)
+        #logger.debug("Changing directory to %s" % (incoming))
+        #self._sftp.chdir(incoming)
+        self.incoming = incoming
 
     def _auth(self, fqdn, ssh_kwargs, _first=0):
         if _first == 3:
@@ -219,8 +226,11 @@ class SFTPUploader(AbstractUploader):
         if not upload_filename:
             upload_filename = os.path.basename(filename)
 
+        upload_filename = "%s/%s" % (self.incoming, upload_filename)
+        logger.debug("Writing to: %s" % (upload_filename))
+
         try:
-            self._sftp.put(filename, upload_filename)
+            self._sftp.put(filename, upload_filename, **self.putargs)
         except IOError as e:
             if e.errno == 13:
                 self.upload_write_error(e)

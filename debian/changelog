@@ -1,5 +1,7 @@
 dput-ng (1.4) UNRELEASED; urgency=low
 
+  * The "Wait, what was so bad about SCP, again?" release
+
   Mind note to you, dear uploader of this version. Please make sure the issue
   marked with "MARK" in TODO is fixed before uploading this release.
 
