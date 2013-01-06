@@ -101,6 +101,11 @@ dput-info
 
   - Implement various switches (/-p/-v/-V) (from dput originally)
 
+schema validation
+-----------------
+
+   - make fqdn a required key again, once we can ignore schema validation for
+     DEFAULT.json
 
 Paul's Wishlist
 ---------------

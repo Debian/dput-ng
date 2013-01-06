@@ -34,7 +34,6 @@
             "type": "boolean"
         },
         "fqdn": {
-            "required": true,
             "type": "string"
         },
         "hash": {

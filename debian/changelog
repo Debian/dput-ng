@@ -8,7 +8,7 @@ dput-ng (1.4) UNRELEASED; urgency=low
   [ Arno Töll ]
   * Really fix #696659 by making sure the command line tool uses the most recent
     version of the library.
-  * Mark several fields to be required in profiles (fqdn, incoming, method)
+  * Mark several fields to be required in profiles (incoming, method)
   * Fix broken tests
 
   [ Luca Falavigna ]
