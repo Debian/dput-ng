@@ -1,4 +1,0 @@
-{
-    "description": "launchpad uploader",
-    "path": "dput.uploaders.sftp.LaunchpadUploader"
-}
