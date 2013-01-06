@@ -51,7 +51,7 @@ class LocalUploader(AbstractUploader):
         whereto = self._config['incoming']
         whereto = os.path.expanduser(whereto)
         if "HOME" in os.environ:
-		    whereto = os.path.join(os.environ["HOME"], whereto)
+            whereto = os.path.join(os.environ["HOME"], whereto)
         dput.util.run_command([
             "install",
             filename,
