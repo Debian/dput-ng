@@ -103,7 +103,6 @@ class SFTPUploader(AbstractUploader):
         if "sftp" in self._config:
             self.sftp_config = self._config['sftp']
 
-
         self.putargs = {'confirm': False}
 
         if "confirm_upload" in self.sftp_config:
@@ -230,7 +229,6 @@ class SFTPUploader(AbstractUploader):
 
         if not upload_filename:
             upload_filename = os.path.basename(filename)
-
 
         upload_filename = os.path.join(self.incoming, upload_filename)
         logger.debug("Writing to: %s" % (upload_filename))

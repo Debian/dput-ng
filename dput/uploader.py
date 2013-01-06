@@ -74,11 +74,11 @@ class AbstractUploader(object):
                 if not os.path.exists(cmd):
                     logger.warning(
                         "Error: You've set a hook (%s) to run (`%s`), "
-                         "but it can't be found (and doesn't appear to exist). "
-                         "Please verify the path and correct it." % (
-                             hook,
-                             self._config[hook]
-                         )
+                        "but it can't be found (and doesn't appear to exist)."
+                        " Please verify the path and correct it." % (
+                            hook,
+                            self._config[hook]
+                        )
                     )
                     return
 
@@ -162,7 +162,6 @@ def uploader(uploader_method, profile, simulate=True):
                 uploader_method
             )
         )
-
 
     obj = cls(profile)
     if not simulate or simulate >= 2:
@@ -271,7 +270,6 @@ def invoke_dput(changes, args):
         fqdn,
         profile['incoming']
     ))
-
 
     if 'hooks' in profile:
             run_pre_hooks(changes, profile)
