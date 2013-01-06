@@ -1,4 +1,7 @@
 {
     "asfasf": "asfasf",
-    "safasf": "asfasf"
+    "safasf": "asfasf",
+    "fqdn": "required_fqdn",
+    "incoming": "",
+    "method": "ftp"
 }

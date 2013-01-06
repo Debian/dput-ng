@@ -21,3 +21,6 @@ def test_default_klob():
     profile = dput.profile.load_profile("test")
     assert profile['name'] == 'test'
     assert profile['key1'] == 'foo'
+    assert profile["fqdn"] == "required_fqdn"
+    assert profile["incoming"] == ""
+    assert profile["method"] == "ftp"

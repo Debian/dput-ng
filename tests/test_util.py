@@ -37,7 +37,10 @@ def test_config_loader():
     obj1 = load_config('class-g', test)
     assert obj1 == {
         "foo": "bar",
-        "bar": "baz"
+        "bar": "baz",
+        "incoming": "",
+        "fqdn": "required_fqdn",
+        "method": "ftp"
     }
     obj2 = load_config('class-l', test)
     assert obj2 == {
