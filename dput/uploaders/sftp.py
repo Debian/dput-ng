@@ -104,7 +104,7 @@ class SFTPUploader(AbstractUploader):
             self.sftp_config = self._config['sftp']
 
 
-        self.putargs['confirm'] = False
+        self.putargs = {'confirm': False}
 
         if "confirm_upload" in self.sftp_config:
             self.putargs['confirm'] = self.sftp_config['confirm_upload']
