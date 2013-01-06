@@ -4,6 +4,7 @@
     "allowed_distributions": "(?!UNRELEASED)", 
     "default_host_main": "", 
     "hash": "sha1", 
+    "incoming": "",
     "interface": "cli", 
     "login": "*", 
     "meta": "debian", 
