@@ -50,3 +50,7 @@ $(MANPAGES): debian/man
 
 override_dh_installman: $(MANPAGES)
 	dh_installman --language=C
+
+
+override_dh_installexamples:
+	dh_installexamples examples/*
