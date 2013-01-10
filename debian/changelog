@@ -15,6 +15,7 @@ dput-ng (1.4) UNRELEASED; urgency=low
   * Implement dcut commands for Deb-o-Matic.
   * Implement default_keyid option. This is particularly useful with multiple
     GPG keys, so dcut is aware of which one to use.
+  * Make scp uploader aware of "port" configuration option.
 
   [ Paul Tagliamonte ]
   * Hack around Launchpad's SFTP implementation. We musn't stat *anything*.
