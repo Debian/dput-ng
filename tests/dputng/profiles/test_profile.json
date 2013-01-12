@@ -1,0 +1,5 @@
+{
+    "meta": "ubuntu",
+    "method": "local",
+    "incoming": "/dev/null"
+}
