@@ -21,14 +21,16 @@ dput-ng (1.4) UNRELEASED; urgency=low
   [ Paul Tagliamonte ]
   * Hack around Launchpad's SFTP implementation. We musn't stat *anything*.
     "Be vewy vewy quiet, I'm hunting wabbits" (Closes: #696558).
+  * Rewrote the test suite to actually test the majority of the codepaths we
+    take during an upload. Back up to 60%.
 
   [ Bernhard R. Link ]
   * allow empty incoming dir to upload directly to the home directory
 
   [ Sandro Tosi ]
-  * Install example hooks; Closes: #697767
+  * Install example hooks (Closes: #697767).
 
- -- Sandro Tosi <morph@debian.org>  Thu, 10 Jan 2013 16:47:57 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Sat, 12 Jan 2013 18:04:41 -0500
 
 dput-ng (1.3) unstable; urgency=low
 
