@@ -73,9 +73,9 @@ class DputProfileConfig(AbstractConfig):
         See :meth:`dput.config.AbstractConfig.get_config`
         """
         kwargs = {
-            "default": {},
-            "schema": "config"
+            "default": {}
         }
+
         configs = self.configs
         if configs is not None:
             kwargs['configs'] = configs
@@ -97,6 +97,7 @@ class DputProfileConfig(AbstractConfig):
                 if repl in val:
                     val = val.replace("%%(%s)s" % (repl), repls[repl])
             profile[thing] = val
+
         ret = {}
         ret.update(profile)
         ret['name'] = name
@@ -111,5 +112,4 @@ class DputProfileConfig(AbstractConfig):
                             val
                         )
                     )
-
         return ret

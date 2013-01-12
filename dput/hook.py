@@ -21,7 +21,7 @@
 Implementation of the interface to run a hook.
 """
 
-from dput.util import obj_docs, run_func_by_name, load_config
+from dput.util import obj_docs, run_func_by_name, load_config, validate_object
 from dput.core import logger
 try:
     import clojure.main  # NOQA
@@ -35,7 +35,9 @@ def hook_docs(hook):
 
 def get_hooks(profile):
     for hook in profile['hooks']:
-        yield (hook, load_config('hooks', hook, schema='plugin'))
+        conf = load_config('hooks', hook)
+        validate_object('plugin', conf, 'hooks/%s' % (hook))
+        yield (hook, load_config('hooks', hook))
 
 
 def run_pre_hooks(changes, profile):

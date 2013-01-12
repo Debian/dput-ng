@@ -60,7 +60,9 @@ def get_obj(cls, checker_method):  # checker_method is a bad name.
     """
     logger.trace("Attempting to resolve %s %s" % (cls, checker_method))
     try:
-        config = load_config(cls, checker_method, schema='plugin')
+        config = load_config(cls, checker_method)
+        validate_object('plugin', config, "%s/%s" % (cls, checker_method))
+
         if config is None or config == {}:
             raise NoSuchConfigError("No such config")
     except NoSuchConfigError:
@@ -163,9 +165,55 @@ def _config_cleanup(obj):
     return ret
 
 
+def validate_object(schema, obj, name):
+    sobj = None
+    for root in dput.core.SCHEMA_DIRS:
+        if sobj is not None:
+            logger.debug("Skipping %s" % (root))
+            continue
+
+        logger.debug("Loading schema %s from %s" % (schema, root))
+        spath = "%s/%s.json" % (
+            root,
+            schema
+        )
+        try:
+            if os.path.exists(spath):
+                sobj = json.load(open(spath, 'r'))
+            else:
+                logger.debug("No such config: %s" % (spath))
+        except ValueError as e:
+            raise DputConfigurationError("syntax error in %s: %s" % (
+                spath,
+                e
+            ))
+
+    if sobj is None:
+        logger.critical("Schema not found: %s" % (schema))
+        raise DputConfigurationError("No such schema: %s" % (schema))
+
+    try:
+        import validictory
+        validictory.validate(obj, sobj)
+    except ImportError:
+        pass
+    except validictory.validator.ValidationError as e:
+        err = str(e)
+        error = "Error with config file %s - %s" % (
+            name,
+            err
+        )
+        ex = InvalidConfigError(error)
+        ex.obj = obj
+        ex.root = e
+        ex.config_name = name
+        ex.sdir = dput.core.SCHEMA_DIRS
+        ex.schema = schema
+        raise ex
+
+
 def load_config(config_class, config_name,
-                default=None, schema=None,
-                configs=None, config_cleanup=True):
+                default=None, configs=None, config_cleanup=True):
     """
     Load any dput configuration given a ``config_class`` (such as
     ``hooks``), and a ``config_name`` (such as
@@ -176,11 +224,6 @@ def load_config(config_class, config_name,
         ``default`` is a default to return, in case the config file
         isn't found. If this isn't provided, this function will
         raise a :class:`dput.exceptions.NoSuchConfigError`.
-
-        ``schema`` is a schema to check the return value against,
-        before returning it. This reads validictory syntax. If it's
-        violated, this will raise a
-        :class:`dput.exceptions.InvalidConfigError`.
 
         ``configs`` is a list of config files to check. When this
         isn't provided, we check dput.core.CONFIG_LOCATIONS.
@@ -247,55 +290,6 @@ def load_config(config_class, config_name,
     obj = ret
     if config_cleanup:
         obj = _config_cleanup(ret)
-
-    if schema is not None:
-        sobj = None
-        for root in dput.core.SCHEMA_DIRS:
-            if sobj is not None:
-                logger.debug("Skipping %s" % (root))
-                continue
-
-            logger.debug("Loading schema %s from %s" % (schema, root))
-            spath = "%s/%s.json" % (
-                root,
-                schema
-            )
-            try:
-                if os.path.exists(spath):
-                    sobj = json.load(open(spath, 'r'))
-                else:
-                    logger.debug("No such config: %s" % (spath))
-            except ValueError as e:
-                raise DputConfigurationError("syntax error in %s: %s" % (
-                    spath,
-                    e
-                ))
-
-        if sobj is None:
-            logger.critical("Schema not found: %s" % (schema))
-            raise DputConfigurationError("No such schema: %s" % (schema))
-
-        try:
-            import validictory
-            validictory.validate(obj, sobj)
-        except ImportError:
-            pass
-        except validictory.validator.ValidationError as e:
-            err = str(e)
-            error = "Error with config file %s/%s - %s" % (
-                config_class,
-                config_name,
-                err
-            )
-            ex = InvalidConfigError(error)
-            ex.obj = obj
-            ex.root = e
-            ex.config_class = config_class
-            ex.config_name = config_name
-            ex.sdir = dput.core.SCHEMA_DIRS
-            ex.schema = schema
-            ex.roots = roots
-            raise ex
 
     if obj != {}:
         return obj

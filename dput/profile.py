@@ -26,11 +26,11 @@ import logging
 
 import dput.core
 from dput.core import logger
-from dput.util import _config_cleanup
 from dput.config import AbstractConfig
 from dput.configs.dputcf import DputCfConfig
 from dput.configs.dputng import DputProfileConfig
 from dput.exceptions import DputConfigurationError
+from dput.util import _config_cleanup, validate_object
 
 
 classes = {
@@ -142,6 +142,8 @@ class MultiConfig(AbstractConfig):
             logger.debug("Got configuration: %s" % (name))
             for key in ret:
                 logger.debug("\t%s: %s" % (key, ret[key]))
+
+        validate_object('config', ret, 'profiles/%s' % (name))
         return ret
 
     def get_blame(self, name):
