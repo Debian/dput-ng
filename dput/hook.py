@@ -37,7 +37,7 @@ def get_hooks(profile):
     for hook in profile['hooks']:
         conf = load_config('hooks', hook)
         validate_object('plugin', conf, 'hooks/%s' % (hook))
-        yield (hook, load_config('hooks', hook))
+        yield (hook, conf)
 
 
 def run_pre_hooks(changes, profile):
