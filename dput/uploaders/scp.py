@@ -55,6 +55,8 @@ class ScpUploader(AbstractUploader):
         """
         login = find_username(self._config)
         self._scp_base = ["scp", "-p", "-C"]
+        if 'port' in self._config:
+            self._scp_base += ("-P", "%s" % self._config['port'])
         self._scp_host = "%s@%s" % (login, self._config['fqdn'])
         logger.debug("Using scp to upload to %s" % (self._scp_host))
         logger.warning("SCP is deprecated. Please consider upgrading to SFTP.")

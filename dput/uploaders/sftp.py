@@ -92,13 +92,6 @@ class SFTPUploader(AbstractUploader):
     This is a subclass of :class:`dput.uploader.AbstractUploader`
     """
 
-    def __init__(self, *args):
-        """
-        Override the default constructor to branch off Launchpad handling
-        """
-        super(SFTPUploader, self).__init__(*args)
-        self.host_is_launchpad = False
-
     def initialize(self, **kwargs):
         """
         See :meth:`dput.uploader.AbstractUploader.initialize`
@@ -110,10 +103,7 @@ class SFTPUploader(AbstractUploader):
         if "sftp" in self._config:
             self.sftp_config = self._config['sftp']
 
-
-        self.putargs = {}
-        if self.host_is_launchpad:
-            self.putargs['confirm'] = False
+        self.putargs = {'confirm': False}
 
         if "confirm_upload" in self.sftp_config:
             self.putargs['confirm'] = self.sftp_config['confirm_upload']
@@ -122,9 +112,10 @@ class SFTPUploader(AbstractUploader):
             logger.warning("SFTP does not support ~/path, continuing with"
                            "relative directory name instead.")
             incoming = incoming[2:]
-        elif incoming.startswith('~') and not self.host_is_launchpad:
-            raise SftpUploadException("SFTP doesn't support ~path. "
-                                      "if you need $HOME paths, use SCP.")
+        #elif incoming.startswith('~') and not self.host_is_launchpad:
+        #    raise SftpUploadException("SFTP doesn't support ~path. "
+        #                              "if you need $HOME paths, use SCP.")
+        #  XXX: What to do here?? - PRT
 
         ssh_kwargs = {
             "port": 22,
@@ -239,7 +230,6 @@ class SFTPUploader(AbstractUploader):
         if not upload_filename:
             upload_filename = os.path.basename(filename)
 
-
         upload_filename = os.path.join(self.incoming, upload_filename)
         logger.debug("Writing to: %s" % (upload_filename))
 
@@ -260,12 +250,3 @@ class SFTPUploader(AbstractUploader):
         """
         self._sshclient.close()
         self._sftp.close()
-
-
-class LaunchpadUploader(SFTPUploader):
-    def __init__(self, *args):
-        """
-        Override the default constructor to branch off Launchpad handling
-        """
-        super(SFTPUploader, self).__init__(*args)
-        self.host_is_launchpad = True
