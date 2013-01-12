@@ -78,7 +78,7 @@ class Changes(object):
 
         if filename:
             self._absfile = os.path.abspath(filename)
-            self._data = deb822.Changes(file(filename))
+            self._data = deb822.Changes(open(filename))
         else:
             self._data = deb822.Changes(string)
 
@@ -245,13 +245,13 @@ class Changes(object):
         # contains verbose human readable GPG information
         print(gpg_output_stderr)  # XXX: Don't depend on stdout
 
-        if gpg_output.count('[GNUPG:] GOODSIG'):
+        if gpg_output.count(b'[GNUPG:] GOODSIG'):
             pass
-        elif gpg_output.count('[GNUPG:] BADSIG'):
+        elif gpg_output.count(b'[GNUPG:] BADSIG'):
             raise ChangesFileException("Bad signature")
-        elif gpg_output.count('[GNUPG:] ERRSIG'):
+        elif gpg_output.count(b'[GNUPG:] ERRSIG'):
             raise ChangesFileException("Error verifying signature")
-        elif gpg_output.count('[GNUPG:] NODATA'):
+        elif gpg_output.count(b'[GNUPG:] NODATA'):
             raise ChangesFileException("No signature on")
         else:
             raise ChangesFileException(
@@ -299,7 +299,7 @@ class Changes(object):
                 assert(
                     "get_files() returns different files than Files: knows?!")
 
-            with open(filename, "r") as fc:
+            with open(filename, "rb") as fc:
                 while True:
                     chunk = fc.read(131072)
                     if not chunk:

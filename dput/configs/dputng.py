@@ -21,6 +21,8 @@
 dput-ng native configuration file implementation.
 """
 
+import sys
+
 from dput.util import load_config, get_configs
 from dput.core import logger
 from dput.config import AbstractConfig
@@ -33,6 +35,10 @@ def get_sections():
     """
     return get_configs('profiles')
 
+if sys.version_info[0] >= 3:
+    _basestr_type = str
+else:
+    _basestr_type = basestring
 
 class DputProfileConfig(AbstractConfig):
     """
@@ -91,7 +97,7 @@ class DputProfileConfig(AbstractConfig):
         repls = self.replacements
         for thing in profile:
             val = profile[thing]
-            if not isinstance(val, basestring):
+            if not isinstance(val, _basestr_type):
                 continue
             for repl in repls:
                 if repl in val:
@@ -104,7 +110,7 @@ class DputProfileConfig(AbstractConfig):
 
         for key in ret:
             val = ret[key]
-            if isinstance(val, basestring):
+            if isinstance(val, _basestr_type):
                 if "%(" in val and ")s" in val:
                     raise DputConfigurationError(
                         "Half-converted block: %s --> %s" % (

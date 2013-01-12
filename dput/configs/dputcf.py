@@ -21,8 +21,11 @@
 Old dput config file implementation
 """
 
-import os
-import ConfigParser
+import os, sys
+if sys.version_info[0] >= 3:
+    import configparser
+else:
+    import ConfigParser as configparser
 
 import dput.core
 from dput.config import AbstractConfig
@@ -40,7 +43,7 @@ class DputCfConfig(AbstractConfig):
         """
         See :meth:`dput.config.AbstractConfig.preload`
         """
-        parser = ConfigParser.ConfigParser()
+        parser = configparser.ConfigParser()
         if configs is None:
             configs = dput.core.DPUT_CONFIG_LOCATIONS
 
@@ -59,7 +62,7 @@ class DputCfConfig(AbstractConfig):
                     e
                 ))
                 continue
-            except ConfigParser.ParsingError as e:
+            except configparser.ParsingError as e:
                 raise DputConfigurationError("Error parsing file %s: %s" % (
                     config,
                     e
@@ -130,7 +133,7 @@ class DputCfConfig(AbstractConfig):
         ret = {}
         try:
             items = self.parser.items(name)
-        except ConfigParser.NoSectionError:
+        except configparser.NoSectionError:
             return {}
         for key, val in items:
             ret[key] = val
