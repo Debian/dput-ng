@@ -1,5 +1,6 @@
 {
     "incoming": "/dev/null",
     "meta": "ubuntu",
-    "method": "local"
+    "method": "local",
+    "-hooks": ["gpg"]
 }
