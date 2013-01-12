@@ -17,7 +17,6 @@ def test_config_load():
         "meta": "ubuntu"
     }
     for key in comp:
-        print key, obj[key], comp[key]
         assert obj[key] == comp[key]
 
 
