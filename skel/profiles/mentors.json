@@ -3,5 +3,6 @@
     "incoming": ".",
     "login": "anonymous",
     "meta": "debian",
-    "method": "ftp"
+    "method": "ftp",
+    "-hooks": [ "check-debs" ]
 }

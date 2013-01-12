@@ -9,7 +9,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
   * Really fix #696659 by making sure the command line tool uses the most recent
     version of the library.
   * Mark several fields to be required in profiles (incoming, method)
-  * Fix broken tests
+  * Fix broken tests.
+  * Do not run the check-debs hook in our mentors.d.n profile
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
