@@ -14,7 +14,8 @@ def _build_fnord():
     popdir = os.path.abspath(os.getcwd())
     os.chdir("tests/fake_package/fake-package-1.0")
     stdout, stederr, ret = run_command("dpkg-buildpackage -us -uc -S")
-    os.unlink("../fnord_1.0_source.test.upload")
+    if os.path.exists("../fnord_1.0_source.test.upload"):
+        os.unlink("../fnord_1.0_source.test.upload")
     os.chdir(popdir)
     return os.path.abspath("tests/fake_package/fnord_1.0_source.changes")
 
