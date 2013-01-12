@@ -25,6 +25,7 @@ __authors__ = [
     "Paul Tagliamonte <paultag@debian.org>"
 ]
 
+from dput.uploader import invoke_dput_simple as upload
 from dput.uploader import invoke_dput as upload_package  # NOQA
 """
 See :func:`dput.uploader.invoke_dput`.

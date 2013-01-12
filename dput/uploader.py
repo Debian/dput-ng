@@ -31,6 +31,7 @@ import shutil
 from contextlib import contextmanager
 
 import dput.profile
+from dput.changes import parse_changes_file
 from dput.core import logger, _write_upload_log
 from dput.hook import run_pre_hooks, run_post_hooks
 from dput.util import (run_command, get_obj)
@@ -225,6 +226,35 @@ def check_modules(profile):
                         hook
                     )
                 )
+
+
+class DputNamespace(dict):
+    def __getattr__(self, key):
+        return self[key]
+
+    def __setattr__(self, key, val):
+        self[key] = val
+
+
+def invoke_dput_simple(changes, host, **kwargs):
+    changes = parse_changes_file(changes, os.path.dirname(changes))
+    # XXX: Abspath???
+    config = {
+        "host": host,
+        "debug": False,
+        "config": None,
+        "force": False,
+        "simulate": False,
+        "check_only": None,
+        "no_upload_log": None,
+        "full_upload_log": None,
+        "delayed": None,
+        "passive": None,
+    }
+    config.update(kwargs)
+    config = DputNamespace(config)
+
+    return invoke_dput(changes, config)
 
 
 def invoke_dput(changes, args):
