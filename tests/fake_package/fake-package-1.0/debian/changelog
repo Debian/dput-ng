@@ -1,0 +1,5 @@
+fnord (1.0) experimental; urgency=low
+
+  * Initial release (Closes: #691624)
+
+ -- Winston Smith <wsmith@bigbrother.com>  Mon, 26 Nov 2012 17:41:41 +0100

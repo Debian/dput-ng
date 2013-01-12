@@ -1,0 +1,19 @@
+Source: fnord
+Section: misc
+Priority: optional
+Maintainer: Winston Smith <wsmith@bigbrother.com>
+Build-Depends: debhelper (>= 9),
+Standards-Version: 3.9.4
+
+Package: fnord
+Depends: ${misc:Depends}
+Description: beard labore +1 chillwave esse pour-over sartorial
+ organic sriracha et 3 wolf moon helvetica mixtape. Biodiesel master cleanse
+ magna, seitan ea banh mi hoodie ullamco odio incididunt viral nisi bicycle
+ rights hella laboris. Ut placeat artisan incididunt, high life YOLO odio.
+ .
+ Velit you probably haven't heard of them craft beer. Terry richardson
+ quis kogi, nihil synth truffaut banjo consequat fixie. Street art cray
+ lo-fi messenger bag mixtape gastropub, nulla cardigan mustache eu tousled
+ keytar. Cillum hashtag nesciunt, fashion axe dolor ex selvage DIY meggings
+ pug direct trade food truck small batch.
