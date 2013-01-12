@@ -1,5 +1,5 @@
 {
-    "description": "dput-ng configuration file", 
+    "description": "dput-ng configuration file",
     "properties": {
         "allow_dcut": {
             "required": false,
@@ -13,13 +13,6 @@
             "required": false,
             "type": "string"
         },
-        "hooks": {
-            "items": {
-                "type": "string"
-            },
-            "required": false,
-            "type": "array"
-        },
         "default_host_main": {
             "blank": true,
             "required": false,
@@ -29,20 +22,26 @@
             "required": false,
             "type": "string"
         },
-        "full_upload_log": {
-            "required": false,
-            "type": "boolean"
-        },
         "fqdn": {
             "required": false,
             "type": "string"
+        },
+        "full_upload_log": {
+            "required": false,
+            "type": "boolean"
         },
         "hash": {
             "required": false,
             "type": "string"
         },
+        "hooks": {
+            "items": {
+                "type": "string"
+            },
+            "required": false,
+            "type": "array"
+        },
         "incoming": {
-            "blank": true,
             "required": true,
             "type": "string"
         },
