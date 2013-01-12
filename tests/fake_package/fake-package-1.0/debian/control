@@ -7,6 +7,7 @@ Standards-Version: 3.9.4
 
 Package: fnord
 Depends: ${misc:Depends}
+Architecture: all
 Description: beard labore +1 chillwave esse pour-over sartorial
  organic sriracha et 3 wolf moon helvetica mixtape. Biodiesel master cleanse
  magna, seitan ea banh mi hoodie ullamco odio incididunt viral nisi bicycle
