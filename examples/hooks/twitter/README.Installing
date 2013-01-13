@@ -1,6 +1,18 @@
 How to install dput-ng's twitter bits:
 ======================================
 
+Before we begin, you should be sure to install the twitter dput-ng
+plugin. Here's the quick version for 1.4+ (versions before this didn't include
+the script in examples, please fetch the files from git if you're unable to
+use a recent dput-ng version)
+
+
+mkdir -p ~/.dput.d/{scripts,hooks}
+ln -s /usr/share/doc/dput-ng/examples/hooks/twitter/code/tweet.py \
+   ~/.dput.d/scripts/tweet.py
+ln -s /usr/share/doc/dput-ng/examples/hooks/twitter/skel/tweet.json \
+   ~/.dput.d/hooks/tweet.json
+
 
 So, right now, setting this plugin up is a *bit* of a pain for two reasons.
 
