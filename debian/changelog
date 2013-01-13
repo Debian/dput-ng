@@ -23,6 +23,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
     "Be vewy vewy quiet, I'm hunting wabbits" (Closes: #696558).
   * Rewrote the test suite to actually test the majority of the codepaths we
     take during an upload. Back up to 60%.
+  * Added a README for the twitter hook, Thanks to Sandro Tosi for the bug,
+    and Gergely Nagy for poking me about it. (Closes: #697768).
 
   [ Bernhard R. Link ]
   * allow empty incoming dir to upload directly to the home directory
