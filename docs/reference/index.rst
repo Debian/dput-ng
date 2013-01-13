@@ -13,4 +13,5 @@ Contents:
    migrating
    configs
    contributing
+   hookinstall
    hooks
