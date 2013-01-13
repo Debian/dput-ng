@@ -1,0 +1,93 @@
+How to install dput-ng's twitter bits:
+======================================
+
+
+So, right now, setting this plugin up is a *bit* of a pain for two reasons.
+
+ 1) Twitter refuses to allow apps to ship secret key / id, which means that
+    Twitter expects you (yes you, the end user) to register for an Application.
+    They insist (otherwise) on a "best-effort" to hide the keys, so in the
+    future, I may include something like:
+
+    key = "FCi6UeIMwXxAIiZVkd19t".decode('rot-13')
+    secret = "4m8LFfivMlVeqCzQNLIhj2EgqjkAAg3e49KbUIeZ".decode('rot-13')
+
+ 2) We don't have a script to get a user token (etc), so even if we did ship
+    a script to generate the oath_secret / oath_token. Contributions to this
+    are uber welcome.
+
+HowTo:
+======
+
+We need to register for a twitter app. Go to:
+
+   https://dev.twitter.com/apps/new
+
+
+name:         paultag-dput-ng             # replace paultag with your name
+description:  dput: The Next Generation
+website:      http://dput-ng.debian.net
+
+[x] Yes, I agree!
+
+   > nonsense CAPtCHA1
+
+[Create your Twitter Application]
+
+
+Now that the app is created, you should be on the /apps/show screen.
+
+Go to the [Settings] tab, and go to the "Application Type" pane. Change
+"Read-only" to "Read and Write", then click on:
+
+[Update this Twitter application's settings]
+
+Go back to the [Details] tab, go to the bottom and click on:
+
+[Create my Access Token]
+
+You should now see "Your access token"
+
+It'll have the following in the table:
+
+Access token:        [token]
+Access token secret: [secret]
+Access level:        Read and write
+
+OK, now that we have all the information:
+
+Now, let's drop down the config:
+
+cat <<EOF > ~/.twitter.json
+{
+    "consumer_key": "",
+    "consumer_secret": "",
+    "oath_secret": "",
+    "oath_token": ""
+}
+EOF
+
+Now:
+
+$ sensible-editor ~/.twitter.json
+
+Edit and add your information.
+
+Consumer Key / Secret --> consumer_key/secret
+
+Access token --> oauth_token
+Access secret --> oauth_secret
+
+
+Finally, we add the hook to targets we want:
+
+$ if [ ! -d ~/.dput.d/profiles/ ]; then mkdir -p ~/.dput.d/profiles/; fi
+$ cat <<EOF > ~/.dput.d/profiles/ftp-master.json
+{
+    "+hooks": [
+        "tweet"
+    ]
+}
+EOF
+
+And there we are! Sorry it's so painful! Fixes to come, I'm sure!
