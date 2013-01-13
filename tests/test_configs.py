@@ -10,6 +10,7 @@ dput.core.CONFIG_LOCATIONS = {
 
 
 def test_config_load():
+    """ Make sure we can cleanly load a config """
     obj = load_config('profiles', 'test_profile')
     comp = {
         "incoming": "/dev/null",
@@ -21,11 +22,13 @@ def test_config_load():
 
 
 def test_config_validate():
+    """ Make sure we can validate a good config """
     obj = load_config('profiles', 'test_profile')
     validate_object('config', obj, "profiles/test_profile")
 
 
 def test_config_invalidate():
+    """ Make sure a bad validation breaks """
     obj = load_config('profiles', 'test_profile_bad')
     try:
         validate_object('config', obj, "profiles/test_profile_bad")

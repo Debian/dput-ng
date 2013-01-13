@@ -21,11 +21,13 @@ def _build_fnord():
 
 
 def test_upload():
+    """ Test the upload of a package """
     path = _build_fnord()
     upload(path, 'test')
 
 
 def test_double_upload():
+    """ Test a double-upload (and force block) """
     path = _build_fnord()
     upload(path, 'test')
     try:
