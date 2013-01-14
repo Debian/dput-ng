@@ -53,7 +53,7 @@ Let's do a simple checker -- one that fails out if Arno is the maintainer::
         """
         maintainer = changes['Maintainer']
         if "arno@debian.org" in maintainer:
-            raise HookException("Arno's not alowed to Upload.")
+            raise HookException("Arno's not allowed to Upload.")
 
 I've saved this file to ``~/.dput.d/scripts/arno.py``. It should be noted that
 dput-ng can now import this file as ``arno``, and the command (from inside
@@ -111,7 +111,7 @@ So, let's try uploading::
     running checksum: verify checksums before uploading
     running suite-mismatch: check the target distribution for common errors
     running arno: Blow up if Arno's maintaining this package.
-    Arno's not alowed to Upload.
+    Arno's not allowed to Upload.
     $ echo $?
     1
 
