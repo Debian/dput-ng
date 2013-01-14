@@ -1,4 +1,5 @@
 {
-    "name": "Tweet after an upload.",
-    "path": "tweet.tweet"
+    "description": "Tweet after an upload.",
+    "path": "tweet.tweet",
+    "post": true
 }
