@@ -164,6 +164,8 @@ class MultiConfig(AbstractConfig):
         for config in self.configs:
             for block in config.get_config_blocks():
                 ret.add(block)
+        if "DEFAULT" in ret:
+            ret.remove("DEFAULT")
         return ret
 
 

@@ -302,7 +302,7 @@ def invoke_dput(changes, args):
     ))
 
     if 'hooks' in profile:
-            run_pre_hooks(changes, profile)
+        run_pre_hooks(changes, profile)
     else:
         logger.trace(profile)
         logger.warning("No hooks defined in the profile. "

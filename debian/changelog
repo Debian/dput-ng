@@ -25,8 +25,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
     take during an upload. Back up to 60%.
   * Added a README for the twitter hook, Thanks to Sandro Tosi for the bug,
     and Gergely Nagy for poking me about it. (Closes: #697768).
-  * Added a doc for helping hackers install hooks into dput-ng
-    (Closes: #697862).
+  * Added a doc for helping folks install hooks into dput-ng (Closes: #697862).
+  * Properly remove DEFAULT from loadable config blocks. (Closes: #698157).
 
   [ Bernhard R. Link ]
   * allow empty incoming dir to upload directly to the home directory
