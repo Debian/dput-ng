@@ -122,6 +122,8 @@ class SFTPUploader(AbstractUploader):
             "compress": True
         }
 
+        # XXX: Timeout override
+
         if 'port' in self._config:
             ssh_kwargs['port'] = self._config['port']
 

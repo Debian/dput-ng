@@ -54,12 +54,16 @@ class FtpUploader(AbstractUploader):
             self._config["fqdn"],
             self._config["login"]
         ))
+
+        conf = self._config['ftp'] if 'ftp' in self._config else {}
+        timeout = conf['timeout'] if 'timeout' in conf else 10
+
         try:
             self._ftp = ftplib.FTP(
                 self._config["fqdn"],
                 self._config["login"],
                 None,
-                timeout=10
+                timeout=timeout
             )
         except Exception as e:
             raise FtpUploadException(

@@ -78,6 +78,8 @@ class HTTPUploader(AbstractUploader):
         self._username = self._baseurl.username
         self._password = self._baseurl.password
 
+        # XXX: Timeout, please.
+
         self._baseurl = urlparse.urlunparse((self._baseurl.scheme,
                                              self._baseurl.netloc, _path,
                                              _query, self._username,
