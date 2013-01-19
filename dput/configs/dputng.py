@@ -35,10 +35,12 @@ def get_sections():
     """
     return get_configs('profiles')
 
+
 if sys.version_info[0] >= 3:
     _basestr_type = str
 else:
     _basestr_type = basestring
+
 
 class DputProfileConfig(AbstractConfig):
     """
