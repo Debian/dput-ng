@@ -21,7 +21,9 @@
 Old dput config file implementation
 """
 
-import os, sys
+import os
+import sys
+
 if sys.version_info[0] >= 3:
     import configparser
 else:
