@@ -130,14 +130,10 @@ def sign_file(filename, keyid=None, profile=None, name=None, email=None):
     if keyid:
         identity_hint = keyid
     else:
-        if profile and keyid:
-            if "default_keyid" in profile:
-                identity_hint = profile["default_keyid"]
-        else:
-            if name:
-                identity_hint = name
-            if email:
-                identity_hint += " <%s>" % (email)
+        if name:
+            identity_hint = name
+        if email:
+            identity_hint += " <%s>" % (email)
 
     logger.trace("GPG identity hint: %s" % (identity_hint))
 
@@ -221,7 +217,13 @@ def invoke_dcut(args):
             #print fh.name
             fh.close()
 
-            sign_file(fh.name, args.keyid, profile, name, email)
+            signing_key = None
+            if "default_keyid" in profile:
+                signing_key = profile["default_keyid"]
+            if args.keyid:
+                signing_key = args.keyid
+
+            sign_file(fh.name, signing_key, profile, name, email)
             upload_path = fh.name
 
         if not args.simulate and not args.output:
