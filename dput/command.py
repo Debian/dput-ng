@@ -24,6 +24,8 @@ import os
 import tempfile
 import email.utils
 import shutil
+import pwd
+import socket
 
 import dput.profile
 from dput.util import get_obj_by_name, get_configs, run_command
@@ -94,11 +96,16 @@ def write_header(fh, profile, args):
     email_address = os.environ.get("DEBEMAIL", None)
     if email_address is None:
         email_address = os.environ.get("EMAIL", None)
-    # XXX: if None, set to "{username}@{host}".format(...)
 
     name = os.environ.get("DEBFULLNAME", None)
 
-    # TODO: parse gecos?
+    if not name:
+        pwd_entry = pwd.getpwnam(os.getlogin())
+        gecos_name = pwd_entry.pw_gecos.split(",", 1)
+        if len(gecos_name) > 1:
+            name = gecos_name[0]
+    if not email_address:
+        email_address = socket.getfqdn(socket.gethostname())
 
     if args.maintainer:
         (name, email_address) = email.utils.parseaddr(args.maintainer)
@@ -123,7 +130,7 @@ def sign_file(filename, keyid=None, profile=None, name=None, email=None):
     if keyid:
         identity_hint = keyid
     else:
-        if profile:
+        if profile and keyid:
             if "default_keyid" in profile:
                 identity_hint = profile["default_keyid"]
         else:

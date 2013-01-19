@@ -11,6 +11,10 @@ dput-ng (1.4) UNRELEASED; urgency=low
   * Mark several fields to be required in profiles (incoming, method)
   * Fix broken tests.
   * Do not run the check-debs hook in our mentors.d.n profile
+  * Fix "[dcut] dm bombed out" by using the profile key only when defined
+    (Closes: #698232)
+  * Parse the gecos field to obtain the user name / email adress from the local
+    system when DEBFULLNAME and DEBEMAIL are not set.
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
