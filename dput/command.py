@@ -130,6 +130,8 @@ def sign_file(filename, keyid=None, profile=None, name=None, email=None):
     if keyid:
         identity_hint = keyid
     else:
+        # hard to see here, but name and email is  guaranteed to be set in
+        # write_header()
         if name:
             identity_hint = name
         if email:
