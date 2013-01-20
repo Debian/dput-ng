@@ -91,6 +91,10 @@ class Changes(object):
             self.basename = None
         self._directory = ""
 
+        self.is_python3 = False
+        if sys.version_info[0] >= 3:
+            self.is_python3 = True
+
     def get_filename(self):
         """
         Returns the filename from which the changes file was generated from.
@@ -244,9 +248,11 @@ class Changes(object):
                 "Unknown problem while verifying signature")
 
         # contains verbose human readable GPG information
-        print(gpg_output_stderr)  # XXX: Don't depend on stdout
+        if self.is_python3:
+            gpg_output_stderr = str(gpg_output_stderr, encoding='utf8')
+        print(gpg_output_stderr)
 
-        if sys.version_info[0] >= 3:
+        if self.is_python3:
             gpg_output = gpg_output.decode(encoding='UTF-8')
 
         if gpg_output.count('[GNUPG:] GOODSIG'):
