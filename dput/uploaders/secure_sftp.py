@@ -693,7 +693,7 @@ class SFTPUploader(AbstractUploader):
         if 'port' in self._config:
             ssh_options.append("-oPort=%d" % self._config['port'])
         username = None
-        if 'login' in self._config:
+        if 'login' in self._config and self._config['login'] != "*":
             username = self._config['login']
 
         if incoming.startswith('~/'):
