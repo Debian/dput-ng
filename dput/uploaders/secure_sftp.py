@@ -562,9 +562,8 @@ class Sftp:
             if isinstance(job, self.Request):
                 job.task = gen
             else:
-                # XXX: request is not defined here! 
                 raise SftpUploadException("Unexpected data from task: %s" %
-                                          repr(request))
+                                          repr(gen))
         self.queue.extend(joblist)
 
     def start(self, task):
@@ -585,13 +584,13 @@ class Sftp:
         t, m = self.getpacket()
         for answer in self.Answer.__subclasses__():
             if t == answer.id:
-                user_id, m = ssh_getu32(m)
+                request_id, m = ssh_getu32(m)
                 a = answer(m)
-                if not user_id in self.requests:
+                if not request_id in self.requests:
                     raise SftpUnexpectedAnswerException(a,
-                                                    "unknown-id-%d" % user_id)
+                                                    "unknown-id-%d" % request_id)
                 else:
-                    a.forr = self.requests[user_id]
+                    a.forr = self.requests[request_id]
                     self.dispatchanswer(a)
                 break
         else:
