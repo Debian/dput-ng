@@ -693,8 +693,8 @@ class SFTPUploader(AbstractUploader):
         if 'port' in self._config:
             ssh_options.append("-oPort=%d" % self._config['port'])
         username = None
-        if 'user' in self._config:
-            username = self._config['user']
+        if 'login' in self._config:
+            username = self._config['login']
 
         if incoming.startswith('~/'):
             logger.warning("SFTP does not support ~/path, continuing with"
