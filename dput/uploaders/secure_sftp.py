@@ -22,12 +22,9 @@ SFTP Uploader implementation
 still EXPERIMENTAL, and only working with python >= 3.2
 """
 
-import socket
-import os
-import pwd
 import os.path
-import sys, subprocess, select
-from binascii import hexlify
+import subprocess
+import select
 
 from dput.core import logger
 from dput.uploader import AbstractUploader
@@ -54,10 +51,13 @@ class Enum:
             for n in name:
                 type(self).byname[n] = self
                 setattr(type(self), n, self)
+
     def __int__(self):
         return self.value
+
     def __str__(self):
         return self.name
+
     @classmethod
     def intern(cls, l):
         try:
@@ -69,57 +69,70 @@ class Enum:
                 return cls.byname[l]
             else:
                 raise EnumInternException(repr(l))
-        except KeyError as e:
+        except KeyError:
             raise EnumInternException(repr(l))
+
     @classmethod
     def create(cls, name, values):
         class enum(Enum):
             __name__ = name
             byvalue = dict()
-            byname  = dict()
-        for (k,v) in values.items():
+            byname = dict()
+        for (k, v) in values.items():
             e = enum(k, v)
         return enum
 
 class Bitmask(set):
     byname = dict()
     byvalue = dict()
+
     def __init__(self, l):
         if isinstance(l, int):
-            super().__init__([i for (k,i) in self.Values.byvalue.items() if (l & i.mask) == k])
+            super().__init__(
+                             [i for (k, i) in self.Values.byvalue.items() if
+                              (l & i.mask) == k])
             if l != int(self):
-                raise Exception("Unrepresentable number %d (got parsed as %s = %d)" % (l, str(self), int(self)))
+                raise Exception(
+                    "Unrepresentable number %d (got parsed as %s = %d)" %
+                    (l, str(self), int(self))
+                    )
         elif isinstance(l, str):
             try:
                 super().__init__([self.Values.intern(i) for i in l.split("|")])
                 # test for inconsistencies:
                 type(self)(int(self))
             except EnumInternException as e:
-                raise Exception("Invalid value '%s' in value '%s' for %s" %(e.value, str(l),type(self).__name__))
+                raise Exception("Invalid value '%s' in value '%s' for %s" %
+                                (e.value, str(l), type(self).__name__))
         else:
             try:
                 super().__init__([self.Values.intern(i) for i in l])
                 # test for inconsistencies:
                 type(self)(int(self))
             except EnumInternException as e:
-                raise Exception("Invalid value '%s' in value '%s' for %s" %(e.value, str(l),type(self).__name__))
+                raise Exception("Invalid value '%s' in value '%s' for %s" %
+                                (e.value, str(l), type(self).__name__))
+
     def __int__(self):
         v = 0
         for i in self:
             v = v | int(i)
         return v
+
     def __str__(self):
         return "|".join([str(i) for i in self])
+
     @classmethod
     def create(cls, name, values):
         class bitmask(Bitmask):
             __name__ = "Bitmask of " + name
+
             class Values(Enum):
                 __name__ = name
                 byvalue = dict()
-                byname  = dict()
+                byname = dict()
         bitmask.__name__ = "Bitmask of " + name
-        for (k,v) in values.items():
+        for (k, v) in values.items():
             if isinstance(v, int):
                 e = bitmask.Values(k, v)
                 e.mask = v
@@ -135,12 +148,14 @@ class SftpUploadException(UploadException):
     a subclass of :class:`dput.exceptions.UploadException`.
     """
     pass
+
 # Unparseable stuff from server:
 class SftpStrangeException(SftpUploadException):
     pass
 class SftpUnexpectedAnswerException(SftpStrangeException):
     def __init__(self, answer, request):
-        super().__init__("Unexpected answer '%s' to request '%s'" % (str(answer),str(request)))
+        super().__init__("Unexpected answer '%s' to request '%s'" %
+                         (str(answer), str(request)))
 class SftpTooManyRequestsException(SftpUploadException):
     def __init__(self):
         super().__init__("Too many concurrent requests (out of request ids)")
@@ -166,143 +181,185 @@ def ssh_getu32(m):
     return v, m[4:]
 def ssh_getstring(m):
     l = int.from_bytes(m[:4], byteorder='big')
-    return (m[4:4+l].decode(encoding='utf-8'), m[4+l:])
+    return (m[4:4 + l].decode(encoding='utf-8'), m[4 + l:])
 def ssh_getdata(m):
     l = int.from_bytes(m[:4], byteorder='big')
-    return (m[4:4+l], m[4+l:])
+    return (m[4:4 + l], m[4 + l:])
 
 
 class Sftp:
     class Request:
         def __init__(self):
             pass
+
         def __int__(self):
             return self.requestid
+
         @classmethod
         def bin(cls, req, *payload):
-            if isinstance(req,int):
+            if isinstance(req, int):
                 r = req
             else:
                 r = req.requestid
             s = 5
             for b in payload:
                 s = s + len(b)
-            bin = ssh_u32(s) + ssh_u8(cls.typeid) + ssh_u32(r)
+            binary = ssh_u32(s) + ssh_u8(cls.typeid) + ssh_u32(r)
             for b in payload:
-                bin = bin + b
-            return bin
+                binary = binary + b
+            return binary
+
         def done(self):
             if self.requestid != None:
                 del self.conn.requests[self.requestid]
                 self.requestid = None
+
     class INIT(Request):
         typeid = 1
+
         @classmethod
         def bin(cls, version):
             # INIT has no request id but instead sends a protocol version
             return super().bin(int(version))
     VERSION = 2
+
     class OPEN(Request):
         typeid = 3
         Flags = Bitmask.create("SSH_FXF", {
-            "READ":    0x00000001,
-            "WRITE":   0x00000002,
-            "APPEND":  0x00000004,
-            "CREAT":   0x00000008,
-            "TRUNC":   0x00000010,
-            "EXCL":    0x00000020,
+                                           "READ": 0x00000001,
+                                           "WRITE": 0x00000002,
+                                           "APPEND": 0x00000004,
+                                           "CREAT": 0x00000008,
+                                           "TRUNC": 0x00000010,
+                                           "EXCL": 0x00000020,
         })
+
         def __init__(self, name, flags, **attributes):
             super().__init__()
             self.name = name
             self.flags = self.Flags(flags)
             self.attrs = attributes
+
         @classmethod
         def bin(cls, req, name, flags, attrs):
-            return super().bin(req, ssh_string(name), ssh_u32(flags), ssh_attrs(**attrs))
+            return super().bin(req, ssh_string(name), ssh_u32(flags),
+                               ssh_attrs(**attrs))
+
         def send(self, conn):
             conn.send(self.bin(self, self.name, self.flags, self.attrs))
+
         def __str__(self):
             return "OPEN '%s' %s=%d" % (self.name, self.flags, self.flags)
+
     class CLOSE(Request):
         typeid = 4
+
         def __init__(self, handle):
             super().__init__()
             self.handle = handle
+
         @classmethod
         def bin(cls, req, handle):
             return super().bin(req, ssh_data(handle))
+
         def send(self, conn):
             conn.send(self.bin(self, self.handle))
+
         def __str__(self):
             return "close %s" % (self.handle)
     READ = 5
+
     class WRITE(Request):
         typeid = 6
+
         def __init__(self, handle, start, data):
             super().__init__()
             self.handle = handle
             self.start = start
             self.data = data
+
         @classmethod
         def bin(cls, req, handle, start, data):
-            return super().bin(req, ssh_data(handle), ssh_u64(start), ssh_data(bytes(data)))
+            return super().bin(req, ssh_data(handle), ssh_u64(start),
+                               ssh_data(bytes(data)))
+
         def send(self, conn):
             conn.send(self.bin(self, self.handle, self.start, self.data))
+
         def __str__(self):
-            return "write %s,%d,%s" % (repr(self.handle), self.start, repr(self.data))
+            return "write %s,%d,%s" % (repr(self.handle), self.start,
+                                       repr(self.data))
+
     LSTAT = 7
     FSTAT = 8
     SETSTAT = 9
     FSETSTAT = 10
     OPENDIR = 11
     READDIR = 12
+
     class REMOVE(Request):
         typeid = 13
+
         def __init__(self, name):
             super().__init__()
             self.name = name
+
         @classmethod
         def bin(cls, req, name):
             return super().bin(req, ssh_string(name))
+
         def send(self, conn):
             conn.send(self.bin(self, self.name))
+
         def __str__(self):
             return "rm '%s'" % self.name
+
     class MKDIR(Request):
         typeid = 14
-        def __init__(self, dir, **attrs):
+
+        def __init__(self, directory, **attrs):
             super().__init__()
-            self.dir = dir
+            self.dir = directory
             self.attrs = attrs
+
         @classmethod
-        def bin(cls, req, dir, attrs):
-            return super().bin(req, ssh_string(dir),
+        def bin(cls, req, directory, attrs):
+            return super().bin(req, ssh_string(directory),
                 ssh_attrs(**attrs))
+
         def send(self, conn):
             conn.send(self.bin(self, self.dir, self.attrs))
+
         def __str__(self):
             return "mkdir '%s'" % self.dir
+
     class RMDIR(Request):
         typeid = 15
-        def __init__(self, dir):
+
+        def __init__(self, directory):
             super().__init__()
-            self.dir = dir
+            self.dir = directory
+
         @classmethod
-        def bin(cls, req, dir):
-            return super().bin(req, ssh_string(dir))
+        def bin(cls, req, directory):
+            return super().bin(req, ssh_string(directory))
+
         def send(self, conn):
             conn.send(self.bin(self, self.dir))
+
         def __str__(self):
             return "rmdir '%s'" % self.dir
     REALPATH = 16
     STAT = 17
+
+
     class RENAME(Request):
         typeid = 18
         Flags = Bitmask.create("SSH_FXF_RENAME", {
-            'OVERWRITE': 0x00000001,
-            'ATOMIC':    0x00000002,
-            'NATIVE':    0x00000004})
+                                                  'OVERWRITE': 0x00000001,
+                                                  'ATOMIC': 0x00000002,
+                                                  'NATIVE': 0x00000004})
+
         def __init__(self, src, dst, flags):
             super().__init__()
             self.src = src
@@ -311,14 +368,18 @@ class Sftp:
                 self.flags = flags
             else:
                 self.flags = self.Flags(flags)
+
         @classmethod
         def bin(cls, req, src, dst, flags):
             return super().bin(req, ssh_string(src),
                 ssh_string(dst), ssh_u32(flags))
+
         def send(self, conn):
             conn.send(self.bin(self, self.src, self.dst, self.flags))
+
         def __str__(self):
-            return "rename '%s' into '%s' (%s)" % (self.src, self.dst, str(self.flags))
+            return "rename '%s' into '%s' (%s)" % (
+                                        self.src, self.dst, str(self.flags))
     READLINK = 19
     SYMLINK = 20
     EXTENDED = 200
@@ -327,76 +388,98 @@ class Sftp:
     class Answer:
         def __int__(self):
             return self.typeid
+
     class STATUS(Answer):
         Status = Enum.create("SSH_FX", {
-             "OK":                   0,
-             "EOF":                  1,
-             "NO_SUCH_FILE":         2,
-             "PERMISSION_DENIED":    3,
-             "FAILURE":              4,
-             "BAD_MESSAGE":          5,
-             "NO_CONNECTION":        6,
-             "CONNECTION_LOST":      7,
-             "OP_UNSUPPORTED":       8,
-             "INVALID_HANDLE":       9,
-             "NO_SUCH_PATH":        10,
-             "FILE_ALREADY_EXISTS": 11,
-             "WRITE_PROTECT":       12,
-             "NO_MEDIA":            13})
+                                        "OK": 0,
+                                        "EOF": 1,
+                                        "NO_SUCH_FILE": 2,
+                                        "PERMISSION_DENIED": 3,
+                                        "FAILURE": 4,
+                                        "BAD_MESSAGE": 5,
+                                        "NO_CONNECTION": 6,
+                                        "CONNECTION_LOST": 7,
+                                        "OP_UNSUPPORTED": 8,
+                                        "INVALID_HANDLE": 9,
+                                        "NO_SUCH_PATH": 10,
+                                        "FILE_ALREADY_EXISTS": 11,
+                                        "WRITE_PROTECT": 12,
+                                        "NO_MEDIA": 13})
         id = 101
+
         def __init__(self, m):
             s, m = ssh_getu32(m)
             self.status = self.Status.intern(s)
             self.message, m = ssh_getstring(m)
             self.lang, m = ssh_getstring(m)
+
         def __str__(self):
             return "STATUS %s: %s[%s]" % (
                 str(self.status),
                 self.message,
                 self.lang)
+
     class HANDLE(Answer):
         id = 102
+
         def __init__(self, m):
             self.handle, m = ssh_getdata(m)
+
         def __str__(self):
             return "HANDLE %s" % repr(self.handle)
+
     class DATA(Answer):
         id = 103
+
         def __init__(self, m):
             self.data, m = ssh_getdata(m)
+
         def __str__(self):
             return "DATA %s" % repr(self.data)
+
+
     class NAME(Answer):
         id = 104
+
         def __init__(self, m):
             # TODO
             pass
+
         def __str__(self):
             return "NAME"
+
     class ATTRS(Answer):
         id = 105
+
         def __init__(self, m):
             # TODO
             pass
+
         def __str__(self):
             return "ATTRS"
 
     class Task:
         def start(self, connection):
             self.connection = connection
+
         def enqueuejobs(self, jobs):
             self.connection.enqueue(jobs, self)
+
     class TaskFromGenerator(Task):
         def __init__(self, gen):
             super().__init__()
             self.gen = gen
+
         def start(self, connection):
             super().start(connection)
             self.enqueuejobs(next(self.gen))
+
         def parentinfo(self, command):
             self.enqueuejobs(self.gen.send(command))
+
         def sftpanswer(self, answer):
             self.enqueuejobs(self.gen.send(answer))
+
         def __str__(self):
             return "Task(by %s)" % self.gen
 
@@ -418,7 +501,7 @@ class Sftp:
             commandline.extend(options["ssh_options"])
         # those defaults are after the user-supplied ones so they can be overriden.
         # (earlier ones win with ssh).
-        commandline.extend(["-oProtocol 2", #"-oLogLevel DEBUG",
+        commandline.extend(["-oProtocol 2", # "-oLogLevel DEBUG",
             "-oForwardX11 no", "-oForwardAgent no",
             "-oPermitLocalCommand no", "-oClearAllForwardings yes"])
         if "username" in options and options["username"]:
@@ -426,19 +509,21 @@ class Sftp:
         commandline.extend(["-s", "--", options["servername"], "sftp"])
         print(commandline)
         self.connection = subprocess.Popen(commandline,
-            close_fds = True,
-            stdin = subprocess.PIPE,
-            stdout = subprocess.PIPE)
+                                           close_fds=True,
+                                           stdin=subprocess.PIPE,
+                                           stdout=subprocess.PIPE)
         self.poll = select.poll()
         self.poll.register(self.connection.stdout, select.POLLIN)
         self.inbuffer = bytes()
         self.send(self.INIT.bin(3))
-        t,b = self.getpacket()
+        t, b = self.getpacket()
         if t != self.VERSION:
             raise SftpUnexpectedAnswerException(b, "INIT")
         # TODO: parse answer data (including available extensions)
+
     def close(self):
         self.connection.send_signal(15)
+
     def getmoreinput(self, minlen):
         while len(self.inbuffer) < minlen:
             o = self.connection.stdout.read(minlen - len(self.inbuffer))
@@ -447,6 +532,7 @@ class Sftp:
             if len(o) == 0:
                 raise SftpStrangeException("unexpected EOF")
             self.inbuffer = self.inbuffer + o
+
     def getpacket(self):
         self.getmoreinput(5)
         s = int.from_bytes(self.inbuffer[:4], byteorder='big')
@@ -460,11 +546,13 @@ class Sftp:
         self.inbuffer = self.inbuffer[s:]
         #print("got: ", t, d)
         return (t, d)
+
     def send(self, b):
         if not isinstance(b, bytes):
             raise SftpInternalException("send not given byte sequence")
         #print(b)
         self.connection.stdin.write(b)
+
     def enqueue(self, joblist, gen):
         if len(joblist) == 0:
             return
@@ -474,40 +562,50 @@ class Sftp:
             if isinstance(job, self.Request):
                 job.task = gen
             else:
-                raise SftpUploadException("Unexpected data from task: %s" % repr(request))
+                # XXX: request is not defined here! 
+                raise SftpUploadException("Unexpected data from task: %s" %
+                                          repr(request))
         self.queue.extend(joblist)
+
     def start(self, task):
         task.start(self)
+
 
     def dispatchanswer(self, answer):
         task = answer.forr.task
         try:
             task.sftpanswer(answer)
         except StopIteration:
-            orphanreqs = [ r for r in self.requests.values() if r.task == task ]
+            orphanreqs = [r for r in self.requests.values() if
+                          r.task == task]
             for r in orphanreqs:
                 r.done()
+
     def readdata(self):
-        t,m = self.getpacket()
+        t, m = self.getpacket()
         for answer in self.Answer.__subclasses__():
             if t == answer.id:
-                id, m = ssh_getu32(m)
+                user_id, m = ssh_getu32(m)
                 a = answer(m)
-                if not id in self.requests:
-                    raise SftpUnexpectedAnswerException(a, "unknown-id-%d" % id)
+                if not user_id in self.requests:
+                    raise SftpUnexpectedAnswerException(a,
+                                                    "unknown-id-%d" % user_id)
                 else:
-                    a.forr = self.requests[id]
+                    a.forr = self.requests[user_id]
                     self.dispatchanswer(a)
                 break
         else:
-            raise SftpUnexpectedAnswerException("Unknown answer type %d" % t, "")
+            raise SftpUnexpectedAnswerException("Unknown answer type %d" %
+                                                t, "")
+
     def dispatch(self):
         while self.requests or self.queue:
-            for (fd,event) in self.poll.poll():
+            for (_, event) in self.poll.poll():
                 if event == select.POLLIN:
                     self.readdata()
                 elif event == select.POLLHUP:
-                    raise SftpStrangeException("Server disconnected unexpectedly")
+                    raise SftpStrangeException(
+                                            "Server disconnected unexpectedly")
                 elif event == select.POLLOUT:
                     request = self.queue.pop(0)
                     request.requestid = self.next_request_id()
@@ -517,16 +615,20 @@ class Sftp:
                     if len(self.queue) == 0:
                         self.poll.unregister(self.connection.stdin)
                 else:
-                    raise SftpUploadException("Unexpected event %d from poll" % event)
+                    raise SftpUploadException(
+                                    "Unexpected event %d from poll" % event)
+
     def put(self, filename, localfilename):
         self.start(Sftp.TaskFromGenerator(writefile(filename, localfilename)))
         self.dispatch()
 
 class filepart:
-    def __init__(self, fh, start, len):
+
+    def __init__(self, fh, start, length):
         self.fh = fh
         self.start = start
-        self.len = len
+        self.len = length
+
     def __bytes__(self):
         self.fh.seek(self.start, 0)
         b = self.fh.read(self.len)
@@ -550,8 +652,8 @@ def writefile(filename, localfile):
     a.forr.done()
     ranges = list(range(0, size, 32600))
     if ranges:
-        requests = [ Sftp.WRITE(h, r, filepart(localf, r, 32600))
-                     for r in ranges[:-1] ]
+        requests = [Sftp.WRITE(h, r, filepart(localf, r, 32600))
+                     for r in ranges[:-1]]
         requests.append(Sftp.WRITE(h, ranges[-1],
                             filepart(localf, ranges[-1], size - ranges[-1])))
         a = yield requests
@@ -561,7 +663,7 @@ def writefile(filename, localfile):
                 raise SftpUnexpectedAnswerException(a, a.forr)
             elif a.status != a.Status.OK:
                 raise SftpUploadException("Error writing to %s: %s: %s" % (
-                                                  filename,a.forr,a))
+                                                  filename, a.forr, a))
             requests.remove(a.forr)
             a = yield []
     a = yield [Sftp.CLOSE(h)]
@@ -570,7 +672,7 @@ def writefile(filename, localfile):
         raise SftpUnexpectedAnswerException(a, a.forr)
     elif a.status != a.Status.OK:
         raise SftpUploadException("Error writing to %s: %s: %s" % (
-                                          filename,a.forr,a))
+                                          filename, a.forr, a))
 
 class SFTPUploader(AbstractUploader):
     """
