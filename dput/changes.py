@@ -40,6 +40,7 @@ __author__ = 'Jonny Lamb'
 __copyright__ = 'Copyright © 2008 Jonny Lamb, Copyright © 2010 Jan Dittberner'
 __license__ = 'MIT'
 
+import sys
 import os.path
 import hashlib
 from debian import deb822
@@ -245,13 +246,16 @@ class Changes(object):
         # contains verbose human readable GPG information
         print(gpg_output_stderr)  # XXX: Don't depend on stdout
 
-        if gpg_output.count(b'[GNUPG:] GOODSIG'):
+        if sys.version_info[0] >= 3:
+            gpg_output = gpg_output.decode(encoding='UTF-8')
+
+        if gpg_output.count('[GNUPG:] GOODSIG'):
             pass
-        elif gpg_output.count(b'[GNUPG:] BADSIG'):
+        elif gpg_output.count('[GNUPG:] BADSIG'):
             raise ChangesFileException("Bad signature")
-        elif gpg_output.count(b'[GNUPG:] ERRSIG'):
+        elif gpg_output.count('[GNUPG:] ERRSIG'):
             raise ChangesFileException("Error verifying signature")
-        elif gpg_output.count(b'[GNUPG:] NODATA'):
+        elif gpg_output.count('[GNUPG:] NODATA'):
             raise ChangesFileException("No signature on")
         else:
             raise ChangesFileException(
