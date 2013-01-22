@@ -43,7 +43,7 @@ class RescheduleCommand(AbstractCommand):
         parser.add_argument('-d', '--days', metavar="DAYS", action='store',
                             default=None, help="reschedule for DAYS days."
                             " Takes an argument from 0 to 15", type=int,
-                            choices=range(0, 16))
+                            choices=range(0, 16), required=True)
 
     def produce(self, fh, args):
         fh.write("Commands:\n")

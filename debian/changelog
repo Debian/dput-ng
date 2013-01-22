@@ -15,6 +15,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
     (Closes: #698232)
   * Parse the gecos field to obtain the user name / email adress from the local
     system when DEBFULLNAME and DEBEMAIL are not set.
+  * Fix "dcut reschedule sends "None-day" to ftp-master if the delay is
+    not specified" by forcing the corresponding parameter (Closes: #698719)
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
