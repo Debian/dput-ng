@@ -68,7 +68,7 @@ parser.add_argument('-V', '--check-version', action='store_true',
 parser.add_argument('host', metavar="HOST", action='store', default=None,
                     help="Target host to upload a package", nargs="?")
 parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
-                    default=None, help="A Debian .changes file")
+                    default=None, nargs='+', help="A Debian .changes file")
 args = parser.parse_args()
 
 
@@ -80,11 +80,14 @@ if args.debug:
 
 
 try:
-    changes = dput.changes.parse_changes_file(
-        args.changes,
-        os.path.dirname(args.changes)
-    )
-    upload_package(changes, args)
+    for changes in args.changes:
+        changes = dput.changes.parse_changes_file(
+            changes,
+            os.path.dirname(changes)
+        )
+        upload_package(changes, args)
+        # XXX: avoid only uploading one and breaking due to an UploadException?
+
 except dput.exceptions.DputConfigurationError as e:
     dput.core.logger.critical(str(e))
     dput.core.maybe_print_traceback(args.debug, sys.exc_info())

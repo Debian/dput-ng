@@ -33,6 +33,8 @@ dput-ng (1.4) UNRELEASED; urgency=low
     and Gergely Nagy for poking me about it. (Closes: #697768).
   * Added a doc for helping folks install hooks into dput-ng (Closes: #697862).
   * Properly remove DEFAULT from loadable config blocks. (Closes: #698157).
+  * Allow upload of more then one file. Thanks to Iain Lane for the
+    suggestion. (Closes: #698855).
 
   [ Bernhard R. Link ]
   * allow empty incoming dir to upload directly to the home directory
