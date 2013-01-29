@@ -1,4 +1,0 @@
-{
-    "description": "secure sftp uploader",
-    "path": "dput.uploaders.secure_sftp.SFTPUploader"
-}
