@@ -1,18 +1,3 @@
-dput-ng (1.5) UNRELEASED; urgency=low
-
-  * The "Wait, what was so bad about SCP, again?" release
-
-  Mind note to you, dear uploader of this version. Please make sure the issue
-  marked with "MARK" in TODO is fixed before uploading this release.
-
-  [ Luca Falavigna ]
-  * Implement dcut commands for Deb-o-Matic.
-
-  [ Bernhard R. Link ]
-  * Reimplement the SFTP uploader <explain details here>
-
- -- Paul Tagliamonte <paultag@debian.org>  Sat, 12 Jan 2013 18:04:41 -0500
-
 dput-ng (1.4) unstable; urgency=low
 
   [ Arno Töll ]
