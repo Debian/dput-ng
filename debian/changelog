@@ -1,9 +1,19 @@
-dput-ng (1.4) UNRELEASED; urgency=low
+dput-ng (1.5) UNRELEASED; urgency=low
 
   * The "Wait, what was so bad about SCP, again?" release
 
   Mind note to you, dear uploader of this version. Please make sure the issue
   marked with "MARK" in TODO is fixed before uploading this release.
+
+  [ Luca Falavigna ]
+  * Implement dcut commands for Deb-o-Matic.
+
+  [ Bernhard R. Link ]
+  * Reimplement the SFTP uploader <explain details here>
+
+ -- Paul Tagliamonte <paultag@debian.org>  Sat, 12 Jan 2013 18:04:41 -0500
+
+dput-ng (1.4) unstable; urgency=low
 
   [ Arno Töll ]
   * Really fix #696659 by making sure the command line tool uses the most recent
@@ -19,7 +29,6 @@ dput-ng (1.4) UNRELEASED; urgency=low
     not specified" by forcing the corresponding parameter (Closes: #698719)
 
   [ Luca Falavigna ]
-  * Implement dcut commands for Deb-o-Matic.
   * Implement default_keyid option. This is particularly useful with multiple
     GPG keys, so dcut is aware of which one to use.
   * Make scp uploader aware of "port" configuration option.
@@ -42,7 +51,7 @@ dput-ng (1.4) UNRELEASED; urgency=low
   [ Sandro Tosi ]
   * Install example hooks (Closes: #697767).
 
- -- Paul Tagliamonte <paultag@debian.org>  Sat, 12 Jan 2013 18:04:41 -0500
+ -- Arno Töll <arno@debian.org>  Tue, 29 Jan 2013 21:37:21 +0100
 
 dput-ng (1.3) unstable; urgency=low
 
