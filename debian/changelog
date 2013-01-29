@@ -23,7 +23,7 @@ dput-ng (1.4) unstable; urgency=low
   * Do not run the check-debs hook in our mentors.d.n profile
   * Fix "[dcut] dm bombed out" by using the profile key only when defined
     (Closes: #698232)
-  * Parse the gecos field to obtain the user name / email adress from the local
+  * Parse the gecos field to obtain the user name / email address from the local
     system when DEBFULLNAME and DEBEMAIL are not set.
   * Fix "dcut reschedule sends "None-day" to ftp-master if the delay is
     not specified" by forcing the corresponding parameter (Closes: #698719)
@@ -51,7 +51,7 @@ dput-ng (1.4) unstable; urgency=low
   [ Sandro Tosi ]
   * Install example hooks (Closes: #697767).
 
- -- Arno Töll <arno@debian.org>  Tue, 29 Jan 2013 21:37:21 +0100
+ -- Arno Töll <arno@debian.org>  Tue, 29 Jan 2013 21:50:13 +0100
 
 dput-ng (1.3) unstable; urgency=low
 
