@@ -91,7 +91,7 @@ try:
     if args.override:
         for arg in args.override:
             overrides.append(arg)
-        args.override = parse_overrides(overrides)
+    args.override = parse_overrides(overrides)
 
     for changes in args.changes:
         changes = dput.changes.parse_changes_file(
