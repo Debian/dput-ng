@@ -23,6 +23,8 @@ of the Profile data.
 """
 
 import logging
+import re
+import shlex
 
 import dput.core
 from dput.core import logger
@@ -235,3 +237,58 @@ def get_blame_map(name):
     config = _multi_config
     configs = config.get_blame(name)
     return configs
+
+
+def parse_overrides(overrides):
+    """
+    Translate a complex string structure into a JSON like object. For example
+    this function would translate foo.bar=baz like strings into objects
+    overriding the JSON profile.
+
+    Basically this function function will take any object separated by a dot on
+    the left side as a dict object, whereas the terminal value on the right
+    side is taken literally.
+    """
+    # This function involves lots of black magic.
+    # Generally we expect a foo.bar=value format, with foo.bar being a profile
+    # key and value being $anything.
+    # However, people might provide that in weird combinations such as
+    # 'foo.bar      =     "value value"'
+    override_obj = {}
+    for override in overrides:
+        parent_obj = override_obj
+        if override.find("=") > 0 or override.startswith("-") > 0:
+            (profile_key, profile_value) = (None, None)
+            if override.startswith("-"):
+                profile_key = override[1:]
+                profile_value = None
+            else:
+                (profile_key, profile_value) = override.split("=", 1)
+                profile_value = shlex.split(profile_value)
+            profile_key = re.sub('\s', '', profile_key)
+            profile_key = profile_key.split(".")
+            last_item = profile_key.pop()
+
+            for key in profile_key:
+                if not key in parent_obj:
+                    parent_obj[key] = {}
+                parent_obj = parent_obj[key]
+
+            if isinstance(parent_obj, list):
+                raise DputConfigurationError("Ambiguous override: object %s "
+                    "can either be a composite type or a terminal, not both" %
+                    (last_item))
+
+            if not last_item in parent_obj:
+                parent_obj[last_item] = []
+            if last_item in parent_obj and not (
+                                    isinstance(parent_obj[last_item], list)):
+                raise DputConfigurationError("Ambiguous override: object %s "
+                    "can either be a composite type or a terminal, not both" %
+                    (last_item))
+            parent_obj[last_item].append(profile_value)
+        else:
+            raise DputConfigurationError(
+                           "Profile override %s does not seem to match the "
+                           "expected format" % override)
+    return override_obj

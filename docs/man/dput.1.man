@@ -9,9 +9,9 @@ dput - Debian package upload tool
 
 SYNOPSIS
 --------
-*dput* [-h] [-d] [-c 'FILE'] [-D] [-e 'DAYS'] [-f] [-F] [-l] [-U] [-o]
-            [-P] [-s] [-u] [-v] [-V]
-            ['HOST'] 'CHANGES-FILE'
+*dput* [-h] [-d] [-c FILE] [-D] [-e DAYS] [-F] [-f] [-l] [-U] [-o]
+            [-O OVERRIDE] [-S UNSET] [-P] [-s] [-u] [-v] [-V]
+            [HOST] CHANGES-FILE [CHANGES-FILE ...]
 
 
 DESCRIPTION
@@ -64,14 +64,45 @@ OPTIONS
 	Profile targets have the ability to properly handle invoking lintian
 	before pushing it to the remote host, such as the *run_lintian* key.
 
+	This option is a shortcut for --override "run_lintian=true"
+
 *-o, --check-only*::
 	Only run pre-upload checks for the package, do not actually upload. This
 	is useful to help in testing new checks, or verifying the profile will
 	work as expected.
 
+*-O, --override*=OVERRIDE::
+	Override profile key. This option takes the highest precedence and
+	replaces any profile setting. Use this switch if you want to change a
+	configured profile value without changing the profile itself.
+
+	This option accepts any key which can be configured in a profile (see
+	*dput(5)*). Sub keys are addressed using a dot notation. Keys are separated
+	using a equals sign ("=").
+
+	For example, to override the 'allow_dcut' you may do:
+
+		--override "allow_dcut=true"
+	
+	The '--override' option may be repeated:
+
+		--override "check-debs.enforce=debs" --override "check-debs.skip=false"
+	
+	Providing the same key on the command line several times will be additive.
+
+	Un-setting a key entirely can be achieved using the '-S' option. Such
+	overrides take no argument. Thus, the command line
+
+		--override "allow_dcut=true" --unset "run_lintian"
+	
+	will set 'allow_dcut' to 'TRUE' and revert the 'run_lintian' key to
+	whatever the internal default value is set.
+
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
 	This option is deprecated - please declare this in the target profile.
+	
+	This option is a shortcut for --override "passive_ftp=true"
 
 *-s, --simulate*::
 	Simulate the upload only. This runs all pre-upload checks, initializes
@@ -82,7 +113,10 @@ OPTIONS
 	connection is set-up (for example logging in through the FTP or SFTP
 	protocol) and tested for its functionality. 
 
-parser.add_argument('-u', '--unchecked', action='store_true',
+*-S,--unset*=OVERRIDE::
+	Override the configured profile key by unsetting its value. See *-O* for a
+	full explanation of the behavior.
+
 
 *-U, --no-upload-log*::
 	Do not write a .upload log file after uploading.
@@ -108,7 +142,8 @@ parser.add_argument('-u', '--unchecked', action='store_true',
 	successful look-up.
 
 *CHANGES-FILE*::
-	A Debian +package.changes+ file
+	A Debian +package.changes+ file. Arguments may be repeated several times to
+	upload more than one package at once.
 
 PROFILES
 --------
