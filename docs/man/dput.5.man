@@ -39,11 +39,12 @@ as square brackets surrounding zero or more values, separated by commas.
  3. '~/.dput.d/'
  4. The directory supplied via command line argument
 
-In general, packages are installing pre-defined defaults for popular upload
-targets to '/usr/share/dput-ng/profiles/'. System administrators who wish to
-override or create a new system-wide and shared target for many users may
-choose '/etc/dput.d/profiles'. Finally, local targets may be written to
-'~/.dput.d/profiles' for personal upload targets.
+Moreover, old-style configuration files are parsed and read. See *READING
+TRADITIONAL CONFIGURATION FILES* below. In general, packages are installing
+pre-defined defaults for popular upload targets to '/usr/share/dput-ng/profiles/'. 
+System administrators who wish to override or create a new system-wide and
+shared target for many users may choose '/etc/dput.d/profiles'. Finally, local
+targets may be written to '~/.dput.d/profiles' for personal upload targets.
 
 
 Within each configuration directory, there may be another tier of
@@ -228,6 +229,27 @@ This option defines if lintian should be run before the package will be
 uploaded or not.  *This setting is deprecated* but works as a fallback to the
 corresponding *HOOK*. The Lintian hook allows much more fine grained
 control over the Lintian invocation.
+
+READING TRADITIONAL CONFIGURATION FILES
+---------------------------------------
+
+As outlined initially, *dput* reads and parses traditional INI style
+configuration files. It's format is documented in *dput.cf(5)*. These files
+are deprecated, but for the time being read and parsed. We encourage the
+removal of these global and local configuration files entirely.
+
+Having that said, when in place old-style configuration files will overrule
+new style files, to preserve a possibly modified legacy behavior. That means,
+in order configuration values are inherited and keys are successively
+overwritten in this order:
+
+ 1. '/etc/dput.d/profiles'
+ 2. '/etc/dput.cf'
+ 3. '~/.dput.d/profiles'
+ 4. '~/.dput.cf'
+
+This means, old-style configuration files always take relative precedence when
+installed. Use them with caution.
 
 INHERITANCE OF KEYS
 -------------------
