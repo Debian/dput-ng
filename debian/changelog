@@ -14,6 +14,7 @@ dput-ng (1.6) UNRELEASED; urgency=low
   [ Arno Töll ]
   * Add an --override and a --unset option to dput which overrules any
     profile key. This is an experimental option.
+  * Be more update about our configuration file inheritance in dput(5).
 
  -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
 
