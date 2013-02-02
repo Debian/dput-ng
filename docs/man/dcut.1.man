@@ -231,7 +231,7 @@ Report bugs to <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dput-ng>
 EXAMPLES
 --------
 
-  $ dcut dm --uid "Paul Tagliamonte" --allow "glibc"
+  $ dcut dm --uid "Paul Tagliamonte" --allow glibc
 
   $ dcut dm --uid 0x0DEFACED --allow glibc linux --deny kfreebsd9
 
