@@ -18,6 +18,9 @@ dput-ng (1.6) UNRELEASED; urgency=low
   * Fix "dcut: manpage and --help talk about -U and --upload" by replacing those
     parts in the text by the 'upload' command (Closes: #699812)
 
+  [ Wolodja Wentland ]
+  * Allow uploads to mentors to target every distribution
+
  -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
 
 dput-ng (1.4) unstable; urgency=low
