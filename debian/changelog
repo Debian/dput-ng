@@ -14,7 +14,7 @@ dput-ng (1.6) UNRELEASED; urgency=low
   [ Arno Töll ]
   * Add an --override and a --unset option to dput which overrules any
     profile key. This is an experimental option.
-  * Be more update about our configuration file inheritance in dput(5).
+  * Be more precise about our configuration file inheritance in dput(5).
   * Fix "dcut: manpage and --help talk about -U and --upload" by replacing those
     parts in the text by the 'upload' command (Closes: #699812)
 
