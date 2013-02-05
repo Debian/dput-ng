@@ -46,17 +46,17 @@ parser.add_argument('host', metavar="HOST", action='store', default=None,
 parser.add_argument('-m', '--maintainer', metavar="MAINTAINER",
                     help="Use MAINTAINER (full name and email) for the "
                     "uploader field and gpg key selection. This has no effect"
-                    " when --upload is used", action='store')
+                    " when the 'upload' command is used", action='store')
 parser.add_argument('-k', '--keyid', metavar="KEYID",
                     help="Use KEYID for signing. Default is to use DEBEMAIL "
                     " and DEBNAME, or whatever was provided with --maintainer."
-                    " This has no effect when --upload is used",
+                    " This has no effect when the 'upload' command is used",
                     action='store')
 parser.add_argument('-O', '--output', metavar="FILENAME",
                     help="Write  commands  file to FILENAME  instead of "
                     "uploading.  This option should not be used with "
-                    "--upload.  FILENAME won't be overwritten if it exists",
-                    action='store')
+                    "the 'upload' command.  FILENAME won't be overwritten if it "
+                    "exists", action='store')
 parser.add_argument('-P', '--passive',
                     help="Use passive FTP instead of active",
                     action='store_true')

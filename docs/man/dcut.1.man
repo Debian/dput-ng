@@ -46,18 +46,18 @@ OPTIONS
 	Use 'MAINTAINER' for the uploader field and GnuPG key
 	selection. Provide it as a full identity, that is in
 	"+J Uploader <yourid@example.com>+" format. This has no effect when
-	*--upload* is used.
+	the *upload* command is used.
 
 *-k, --keyid*=KEYID::
 	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and DEBNAME,
 	or whatever identity was provided with *--maintainer*. This has no effect
-	when --upload is used.
+	when the *upload* command is used.
 
 *-O, --output*=FILENAME::
 	Write the resulting commands file to 'FILENAME' instead of uploading it.
-	This option should not be used with *--upload*.  The selected 'FILENAME'
-	wont be overwritten if it exists already. This is very helpful for testing
-    that things work correctly.
+    This option should not be used with the *upload* command.  The selected
+    'FILENAME' wont be overwritten if it exists already. This is very helpful for
+    testing that things work correctly.
 
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
