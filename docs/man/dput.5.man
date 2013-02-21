@@ -190,9 +190,9 @@ are supported:
 
 *login* (string)::
 
-Your login on the machine named before. A single asterisk '*' will cause the
-'scp', 'sftp' and uploaders to not use supply a login name when calling trying
-to authenticate.
+Your login on the machine named before. A single asterisk ('*') will cause the
+'scp', 'sftp' and uploaders to not supply a login name when calling trying to
+authenticate.
 
 
 *meta* (list of string)::
