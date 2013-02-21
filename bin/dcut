@@ -35,7 +35,7 @@ from dput import upload_command
 parser = argparse.ArgumentParser(description=' Debian archive command file'
                                  'upload tool')
 parser.add_argument('-d', '--debug', action='count', default=False,
-                    help="Enable debug messages. Repeat twice to increase the"
+                    help="Enable debug messages. Repeat twice to increase the "
                     "verbosity level")
 parser.add_argument('-f', '--force', action='store_true',
                     help='Force an upload')

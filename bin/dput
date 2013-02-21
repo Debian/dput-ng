@@ -34,7 +34,7 @@ from dput.profile import parse_overrides
 
 parser = argparse.ArgumentParser(description='Debian package upload tool')
 parser.add_argument('-d', '--debug', action='count', default=False,
-                    help="Enable debug messages. Repeat twice to increase the"
+                    help="Enable debug messages. Repeat twice to increase the "
                     "verbosity level")
 parser.add_argument('-c', '--config', metavar="FILE", action='store',
                     default=None, help='Configuration file to parse')

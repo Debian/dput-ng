@@ -21,6 +21,9 @@ dput-ng (1.6) UNRELEASED; urgency=low
   [ Wolodja Wentland ]
   * Allow uploads to mentors to target every distribution
 
+  [ Sebastian Ramacher ]
+  * Add a space in --debug's help message.
+
  -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
 
 dput-ng (1.4) unstable; urgency=low
