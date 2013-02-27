@@ -104,6 +104,8 @@ def write_header(fh, profile, args):
         gecos_name = pwd_entry.pw_gecos.split(",", 1)
         if len(gecos_name) > 1:
             name = gecos_name[0]
+        else:
+            name = pwd_entry.pw_gecos
     if not email_address:
         email_address = socket.getfqdn(socket.gethostname())
 
@@ -118,7 +120,8 @@ def write_header(fh, profile, args):
                         " a full identity through --maintainer")
 
     fh.write("Archive: %s\n" % (profile['fqdn']))
-    fh.write("Uploader: %s <%s>\n" % (name, email_address))
+    if name and email_address:
+        fh.write("Uploader: %s <%s>\n" % (name, email_address))
     return (name, email_address)
 
 
