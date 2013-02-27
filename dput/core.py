@@ -25,7 +25,7 @@ import sys
 import os.path
 import logging
 import traceback
-
+import getpass
 
 import dput.logger
 from logging.handlers import RotatingFileHandler
@@ -121,3 +121,11 @@ def maybe_print_traceback(debug_level, stack):
         for level in tb:
             for tier in level.split("\n"):
                 logger.trace(tier)
+
+def get_local_username():
+    try:
+        local_user = getpass.getuser()
+    except Exception as e:
+        logger.warn("Could not determine local username: %s" % e)
+        local_user = None
+    return local_user

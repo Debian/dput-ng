@@ -19,11 +19,10 @@
 # 02110-1301, USA.
 
 import time
-import os
 import os.path
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
-from dput.core import logger
+from dput.core import logger, get_local_username
 from dput.util import run_command
 
 DM_KEYRING = "/usr/share/keyrings/debian-maintainers.gpg"
@@ -36,7 +35,7 @@ class DmCommandError(DcutError):
 def generate_dak_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
-    the_file = "%s-%s.dak-commands" % (os.getlogin(), int(time.time()))
+    the_file = "%s-%s.dak-commands" % (get_local_username(), int(time.time()))
     # XXX: override w/ DEBEMAIL (if DEBEMAIL is @debian.org?)
     logger.trace("Commands file will be named %s" % (the_file))
     return the_file
@@ -119,7 +118,7 @@ class DmCommand(AbstractCommand):
             if next_line_contains_fpr:
                 assert(line.startswith("fpr"))
                 parsed_fingerprint = line.split(":")
-                #fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
+                # fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
                 possible_fingerprints.append((current_uid,
                                               parsed_fingerprint[9],))
                 next_line_contains_fpr = False

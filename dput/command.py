@@ -29,7 +29,7 @@ import socket
 
 import dput.profile
 from dput.util import get_obj_by_name, get_configs, run_command
-from dput.core import logger
+from dput.core import logger, get_local_username
 from dput.exceptions import (UploadException, DputConfigurationError,
                              DcutError, NoSuchConfigError)
 from dput.overrides import force_passive_ftp_upload
@@ -100,7 +100,7 @@ def write_header(fh, profile, args):
     name = os.environ.get("DEBFULLNAME", None)
 
     if not name:
-        pwd_entry = pwd.getpwnam(os.getlogin())
+        pwd_entry = pwd.getpwnam(get_local_username())
         gecos_name = pwd_entry.pw_gecos.split(",", 1)
         if len(gecos_name) > 1:
             name = gecos_name[0]

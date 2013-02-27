@@ -19,11 +19,10 @@
 # 02110-1301, USA.
 
 import time
-import os
 
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
-from dput.core import logger
+from dput.core import logger, get_local_username
 
 
 class CancelCommandError(DcutError):
@@ -33,7 +32,7 @@ class CancelCommandError(DcutError):
 def generate_debianqueued_commands_name(profile):
     # for debianqueued: $login-$timestamp.commands
     # for dak: $login-$timestamp.dak-commands
-    the_file = "%s-%s.commands" % (os.getlogin(), int(time.time()))
+    the_file = "%s-%s.commands" % (get_local_username(), int(time.time()))
     logger.trace("Commands file will be named %s" % (the_file))
     return the_file
 
