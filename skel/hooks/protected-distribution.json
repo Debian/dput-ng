@@ -1,5 +1,5 @@
 {
     "description": "warn before uploading to distributions where a special policy applies", 
-    "path": "dput.hooks.basics.check_protected_distributions", 
+    "path": "dput.hooks.distribution.check_protected_distributions", 
     "pre": true
 }

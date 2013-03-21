@@ -1,5 +1,5 @@
 {
     "description": "check the target distribution for common errors", 
-    "path": "dput.hooks.basics.check_distribution_matches", 
+    "path": "dput.hooks.distribution.check_distribution_matches", 
     "pre": true
 }

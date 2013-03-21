@@ -112,7 +112,7 @@ class SFTPUploader(AbstractUploader):
             logger.warning("SFTP does not support ~/path, continuing with"
                            "relative directory name instead.")
             incoming = incoming[2:]
-        #elif incoming.startswith('~') and not self.host_is_launchpad:
+        # elif incoming.startswith('~') and not self.host_is_launchpad:
         #    raise SftpUploadException("SFTP doesn't support ~path. "
         #                              "if you need $HOME paths, use SCP.")
         #  XXX: What to do here?? - PRT
@@ -192,8 +192,8 @@ class SFTPUploader(AbstractUploader):
                 )
             )
 
-        #logger.debug("Changing directory to %s" % (incoming))
-        #self._sftp.chdir(incoming)
+        # logger.debug("Changing directory to %s" % (incoming))
+        # self._sftp.chdir(incoming)
         self.incoming = incoming
 
     def _auth(self, fqdn, ssh_kwargs, _first=0):

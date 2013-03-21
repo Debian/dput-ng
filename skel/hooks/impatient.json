@@ -1,5 +1,5 @@
 {
     "description": "Tell me when dinstall will pick this up",
-    "path": "dput.hooks.contrib.impatient.check_next_install",
+    "path": "dput.hooks.impatient.check_next_install",
     "post": true
 }

@@ -1,5 +1,5 @@
 {
     "description": "makes sure the upload contains a binary package", 
-    "path": "dput.hooks.basics.check_debs_in_upload", 
+    "path": "dput.hooks.deb.check_debs_in_upload", 
     "pre": true
 }

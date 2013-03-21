@@ -1,5 +1,5 @@
 {
     "description": "check GnuPG signatures before the upload", 
-    "path": "dput.hooks.basics.check_gpg_signature", 
+    "path": "dput.hooks.gpg.check_gpg_signature", 
     "pre": true
 }
