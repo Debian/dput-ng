@@ -4,3 +4,4 @@ paramiko
 sphinx
 coverage
 # You also need python-debian, which isn't in pypi.
+# You also need to be awesome. Just sayin'
