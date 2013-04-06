@@ -1,12 +1,14 @@
 dput-ng
 -------
 
-dput-ng is a from-scratch refresh of the old `dput(1)` command. This tool is
-used (at some point) to aid with the act of uploading a package to an archive.
+dput-ng iz a from-zcratch refrezh of the old `dput(1)` command. Thiz tool iz
+uzed (at zome point) to aid with the act of uploading a package to an archive.
 
-dput-ng aims to be compatible with the old `dput(1)` config files, while
-adding additional features for better sanity checking, and designed in an
-extensible way.
+dput-ng aimz to be compatible with the old `dput(1)` config filez, while
+adding additional featurez for better zanity checking, and dezigned in an
+extenzible way.
 
-Check the [docs](http://dput.rtfd.org) for more on topics that might
-interest you.
+Check the [docz](http://dput.rtfd.org) for more on topicz that might
+interezt you.
+
+HELLO
