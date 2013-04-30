@@ -238,7 +238,7 @@ class SFTPUploader(AbstractUploader):
         try:
             self._sftp.put(filename, upload_filename, **self.putargs)
         except IOError as e:
-            if e.errno == 13:
+            if e.errno == os.errno.EACCES:
                 self.upload_write_error(e)
             else:
                 raise SftpUploadException("Could not upload file %s: %s" % (
