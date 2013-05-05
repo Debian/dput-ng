@@ -107,13 +107,13 @@ to delete a filename from a deferred queue, refer to it by using the full path
 
 For example, to delete a broken upload in the DELAYED queue, use the command
 
-  dcut rm DELAYED/X-day/foobar.deb
+  dcut rm -f DELAYED/X-day/foobar.deb
 
 Alternatively, the '--searchdirs' argument instructs the archive software to
 search for a file name in all directory. Hence, this command is equivalent to
 the command before:
 
-  dcut rm --searchdirs foobar.deb
+  dcut rm --searchdirs -f foobar.deb
 
 
 OPTIONS
