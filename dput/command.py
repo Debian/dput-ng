@@ -73,9 +73,9 @@ def find_commands():
     return get_configs('commands')
 
 
-def load_commands():
+def load_commands(profile):
     commands = []
-    for command in find_commands():
+    for command in profile['valid_commands']:
         logger.debug("importing command: %s" % (command))
         try:
             # XXX: Stubbed the profile for now. That ignores any user choice

@@ -1,15 +1,23 @@
 {
-    "allow_dcut": true, 
+    "allow_dcut": true,
     "check-debs": {
-        "enforce": "debs", 
+        "enforce": "debs",
         "skip": false
-    }, 
+    },
     "hooks": [
-        "allowed-distribution", 
-        "protected-distribution", 
-        "checksum", 
-        "suite-mismatch", 
-        "check-debs", 
+        "allowed-distribution",
+        "protected-distribution",
+        "checksum",
+        "suite-mismatch",
+        "check-debs",
         "gpg"
+    ],
+    "valid_commands": [
+        "break-the-archive",
+        "cancel",
+        "dm",
+        "reschedule",
+        "rm",
+        "upload"
     ]
 }

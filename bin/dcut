@@ -28,6 +28,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import dput.core
 import dput.exceptions
+import dput.profile
 import dput.command
 
 from dput import upload_command
@@ -69,10 +70,20 @@ parser.add_argument('-v', '--version',
                     help="Print version information and exit",
                     action='store_true')
 
+args = parser.parse_known_args()
+known = args[0]
+
+if known.host in dput.command.find_commands():
+    known.host = None  # likely a target, not a profile
+
+if known.host:
+    profile = dput.profile.load_profile(known.host)
+else:
+    profile = dput.profile.load_profile(None)
 
 subparsers = parser.add_subparsers(help='Supported commands')
 
-command_registry = dput.command.load_commands()
+command_registry = dput.command.load_commands(profile)
 
 for command in command_registry:
     (cmd_name, cmd_purpose) = command.name_and_purpose()

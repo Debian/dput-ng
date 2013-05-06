@@ -26,8 +26,6 @@ from dput.profile import get_blame_map, profiles, load_profile
 
 parser = argparse.ArgumentParser()
 
-
-
 parser = argparse.ArgumentParser(description='dput information retrieval tool')
 subparsers = parser.add_subparsers(help='sub-command help')
 

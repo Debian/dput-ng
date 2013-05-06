@@ -1,9 +1,14 @@
 {
-    "allow_dcut": true, 
+    "allow_dcut": true,
     "allow_debomatic_commands": true,
     "hooks": [
-        "allowed-distribution", 
-        "checksum", 
+        "allowed-distribution",
+        "checksum",
         "suite-mismatch"
+    ],
+    "valid_commands": [
+        "debomatic-porter",
+        "debomatic-rebuild",
+        "debomatic-rm"
     ]
 }
