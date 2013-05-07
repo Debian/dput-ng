@@ -23,10 +23,18 @@ Implementation of the interface to run a hook.
 
 from dput.util import obj_docs, run_func_by_name, load_config, validate_object
 from dput.core import logger
+
 try:
+    # Optional clojure-py integration.
     import clojure.main  # NOQA
 except ImportError:
     logger.trace("No clojure support :(")
+
+try:
+    # Optional hy integration.
+    import hy  # NOQA
+except ImportError:
+    logger.trace("No hython support :(")
 
 
 def hook_docs(hook):
