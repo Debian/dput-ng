@@ -40,7 +40,7 @@ How a Hook Is Invoked
 ------------------------
 
 Throughout this overview, we'll be looking at the
-:func:`dput.hooks.basics.validate_checksums` pre-upload hook. It's one of the
+:func:`dput.hooks.checksum.validate_checksums` pre-upload hook. It's one of the
 most simple hooks, and demonstrates the concept very clearly.
 
 To start to understand how this all works, let's take a step back and
@@ -56,7 +56,7 @@ something like the following::
 
     {
         "description": "checksum pre-upload hook",
-        "path": "dput.hooks.basics.validate_checksums",
+        "path": "dput.hooks.checksum.validate_checksums",
         "pre": true
     }
 
@@ -71,7 +71,7 @@ Nextly, let's take a look at the ``path`` key. ``path`` is a
 python-importable path to the function to invoke. Let's take a look
 at it a bit more closely::
 
-    >>> from dput.hooks.basics import validate_checksums
+    >>> from dput.hooks.checksum import validate_checksums
     >>> validate_checksums
     <function validate_checksums at 0x7f9be15e1e60>
 
@@ -82,7 +82,7 @@ that we care about.
               be put somewhere dput cares about?
 
 Now that we're clear on how we got here, let's check back with the
-implementation of :func:`dput.hooks.basics.validate_checksums`::
+implementation of :func:`dput.hooks.checksum.validate_checksums`::
 
     def validate_checksums(changes, profile, interface):
 
@@ -119,7 +119,7 @@ Let's take a look at our reference implementation again::
 
 As you can see, the checker verifies the hashsums, catches any Exceptions
 thrown by the code it uses, and raises sane error text. The Exception
-raised (:class:`dput.hooks.basics.HashValidationError`) is a subclass
+raised (:class:`dput.hooks.checksum.HashValidationError`) is a subclass
 of the expected :class:`dput.exceptions.HookException`.
 
 

@@ -10,5 +10,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   basics
    lintian
+   archive
+   checksum
+   deb
+   distribution
+   gpg
+   impatient
