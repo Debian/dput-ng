@@ -4,15 +4,6 @@
         "enforce": "debs",
         "skip": false
     },
-    "distributions": [
-        "wheezy-backports",
-        "jessie-backports",
-        "experimental",
-        "unstable",
-        "testing-proposed-updates",
-        "stable-proposed-updates",
-        "oldstable-proposed-updates"
-    ],
     "hooks": [
         "allowed-distribution",
         "protected-distribution",

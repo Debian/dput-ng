@@ -5,6 +5,12 @@ dput-ng (1.5) UNRELEASED; urgency=low
   Mind note to you, dear uploader of this version. Please make sure the issue
   marked with "MARK" in TODO is fixed before uploading this release.
 
+  [ Paul Tagliamonte ]
+  * Add per-host loading of command files by partially parsing command
+    line arguments.
+  * Add disallowed_distributions.
+  * Add security targets to default ftp-master target. (Closes: #708575).
+
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
 

@@ -22,8 +22,8 @@ import re
 
 from dput.core import logger
 from dput.exceptions import HookException
-
 from dput.interface import BUTTON_NO
+
 
 class BadDistributionError(HookException):
     """
@@ -32,6 +32,7 @@ class BadDistributionError(HookException):
     Thrown if the ``allowed-distribution`` checker encounters an issue.
     """
     pass
+
 
 class SuiteMismatchError(HookException):
     """
@@ -54,7 +55,8 @@ def check_allowed_distribution(changes, profile, interface):
         {
             ...
             "allowed_distributions": "(?!UNRELEASED)",
-            "distributions": ["unstable", "testing"]
+            "distributions": ["unstable", "testing"],
+            "disallowed_distributions": []
             ...
         }
 
@@ -81,6 +83,13 @@ def check_allowed_distribution(changes, profile, interface):
                     suite,
                     profile['distributions']
                 ))
+
+    if 'disallowed_distributions' in profile:
+        disallowed_dists = profile['disallowed_distributions']
+        if suite in disallowed_dists:
+            raise BadDistributionError("'%s' is in '%s'" % (
+                suite, disallowed_dists))
+
 
 
 def check_protected_distributions(changes, profile, interface):
