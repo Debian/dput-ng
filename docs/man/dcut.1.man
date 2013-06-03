@@ -49,9 +49,9 @@ OPTIONS
 	the *upload* command is used.
 
 *-k, --keyid*=KEYID::
-	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and DEBNAME,
-	or whatever identity was provided with *--maintainer*. This has no effect
-	when the *upload* command is used.
+	Use 'KEYID' as a key for signing. Default is to use DEBEMAIL and
+	DEBFULLNAME, or whatever identity was provided with *--maintainer*.
+	This has no effect when the *upload* command is used.
 
 *-O, --output*=FILENAME::
 	Write the resulting commands file to 'FILENAME' instead of uploading it.
