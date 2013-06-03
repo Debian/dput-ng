@@ -31,6 +31,9 @@ dput-ng (1.5) UNRELEASED; urgency=low
   [ Sebastian Ramacher ]
   * Add a space in --debug's help message.
 
+  [ Thomas Preud'homme ]
+  * Fixed a typo (DEBNAME → DEBFULLNAME) in the dcut(1) manpage.
+
  -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
 
 dput-ng (1.4) unstable; urgency=low
