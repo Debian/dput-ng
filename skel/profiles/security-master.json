@@ -1,9 +1,4 @@
 {
-    "distributions": [
-        "squeeze-security",
-        "wheezy-security",
-        "jessie-security"
-    ],
     "fqdn": "security-master.debian.org",
     "incoming": "/pub/SecurityUploadQueue",
     "login": "anonymous",

@@ -1,7 +1,4 @@
 {
-    "distributions": [
-        "squeeze-backports"
-    ],
     "fqdn": "backports-master.debian.org",
     "incoming": "/pub/UploadQueue/",
     "login": "anonymous",

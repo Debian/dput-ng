@@ -183,7 +183,7 @@ class SFTPUploader(AbstractUploader):
         self._auth(fqdn, ssh_kwargs)
         try:
             self._sftp = self._sshclient.open_sftp()
-        except paramiko.SSHException, e:
+        except paramiko.SSHException as e:
             raise SftpUploadException(
                 "Error opening SFTP channel to %s (perhaps sftp is "
                 "disabled there?): %s" % (
@@ -202,7 +202,7 @@ class SFTPUploader(AbstractUploader):
         try:
             self._sshclient.connect(fqdn, **ssh_kwargs)
             logger.debug("Logged in!")
-        except socket.error, e:
+        except socket.error as e:
             raise SftpUploadException("SFTP error uploading to %s: %s" % (
                 fqdn,
                 repr(e)
@@ -218,7 +218,7 @@ class SFTPUploader(AbstractUploader):
                 ssh_kwargs['username'] = user
             ssh_kwargs['password'] = pw
             self._auth(fqdn, ssh_kwargs, _first=_first + 1)
-        except paramiko.SSHException, e:
+        except paramiko.SSHException as e:
             raise SftpUploadException("SFTP error uploading to %s: %s" % (
                 fqdn,
                 repr(e)

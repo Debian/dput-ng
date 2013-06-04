@@ -1,4 +1,10 @@
 {
+    "disallowed_distributions": [
+        "oldstable-security",
+        "stable-security",
+        "squeeze-security",
+        "wheezy-security"
+    ],
     "fqdn": "ssh.upload.debian.org",
     "incoming": "/srv/upload.debian.org/UploadQueue/",
     "login": "*",
