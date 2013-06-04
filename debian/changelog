@@ -18,6 +18,8 @@ dput-ng (1.5) UNRELEASED; urgency=low
   * Fix "dcut: manpage and --help talk about -U and --upload" by replacing those
     parts in the text by the 'upload' command (Closes: #699812)
   * Make the login name determination more portable (Closes: #709831)
+  * Fix "Allow to give out dm permissions without using local keyring" by
+  * documenting the --force option in the man page (Closes: #711057)
 
   [ Wolodja Wentland ]
   * Allow uploads to mentors to target every distribution

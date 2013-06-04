@@ -42,6 +42,9 @@ OPTIONS
 *-d, --debug*::
 	Enable debug messages. Repeat twice to increase the verbosity level.
 
+*-f, --force*::
+    Bypass all sanity checks and upload the commands file as is. Use with caution.
+
 *-m, --maintainer*=MAINTAINER::
 	Use 'MAINTAINER' for the uploader field and GnuPG key
 	selection. Provide it as a full identity, that is in
@@ -153,7 +156,8 @@ Any searchable, unique identity to identify an existing Debian Maintainer. This
 can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
 Debian Maintainer. Note, the identity must be known in the DM keyring. This
 command validates the supplied argument and makes sure the identity hint
-supplied matches a *single* DM only.
+supplied matches a *single* DM only. To override this behavior use --force, which
+passes the provided UID argument literally to the archive.
 
 *--allow*=PACKAGES::
 
