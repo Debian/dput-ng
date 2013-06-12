@@ -38,7 +38,7 @@ dput-ng (1.5) UNRELEASED; urgency=low
   [ Thomas Preud'homme ]
   * Fixed a typo (DEBNAME → DEBFULLNAME) in the dcut(1) manpage.
 
- -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Tue, 11 Jun 2013 21:28:16 -0400
 
 dput-ng (1.4) unstable; urgency=low
 
