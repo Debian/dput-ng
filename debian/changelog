@@ -9,7 +9,9 @@ dput-ng (1.5) UNRELEASED; urgency=low
   * Add per-host loading of command files by partially parsing command
     line arguments.
   * Add disallowed_distributions.
-  * Add security targets to default ftp-master target. (Closes: #708575).
+  * Add codename groupping support.
+  * Add codename groups to vital targets, limit security uploads
+    to the right servers (Closes: #708575).
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
