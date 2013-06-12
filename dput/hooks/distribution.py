@@ -21,6 +21,7 @@
 import re
 
 from dput.core import logger
+from dput.util import load_config
 from dput.exceptions import HookException
 from dput.interface import BUTTON_NO
 
@@ -62,6 +63,7 @@ def check_allowed_distribution(changes, profile, interface):
 
     The allowed_distributions key is in Python ``re`` syntax.
     """
+    allowed_block = profile.get('allowed-distribution', {})
     suite = changes['Distribution']
     if 'allowed_distributions' in profile:
         srgx = profile['allowed_distributions']
@@ -90,7 +92,20 @@ def check_allowed_distribution(changes, profile, interface):
             raise BadDistributionError("'%s' is in '%s'" % (
                 suite, disallowed_dists))
 
+    if 'codenames' in profile:
+        codenames = load_config('codenames', profile['codenames'])
+        blocks = allowed_block.get('codename-groups', [])
+        if blocks != []:
+            failed = True
+            for block in blocks:
+                names = codenames.get(block, [])
+                if suite in names:
+                    failed = False
 
+            if failed:
+                raise BadDistributionError("`%s' not in the codename group" % (
+                    suite
+                ))
 
 def check_protected_distributions(changes, profile, interface):
     """

@@ -1,0 +1,31 @@
+{
+    "backport": [
+        "stable-backports",
+        "oldstable-backports",
+        "wheezy-backports",
+        "squeeze-backports"
+    ],
+    "general": [
+        "unstable",
+        "experimental",
+        "rc-buggy",
+        "sid"
+    ],
+    "rm-managed": [
+        "stable",
+        "oldstable",
+        "wheezy",
+        "squeeze",
+        "testing-proposed-updates",
+        "stable-proposed-updates",
+        "oldstable-proposed-updates"
+    ],
+    "security": [
+        "testing-security",
+        "stable-security",
+        "oldstable-security",
+        "squeeze-security",
+        "wheezy-security",
+        "jessie-security"
+    ]
+}

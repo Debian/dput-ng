@@ -6,5 +6,6 @@ skel/commands               usr/share/dput-ng/
 skel/interfaces             usr/share/dput-ng/
 skel/uploaders              usr/share/dput-ng/
 skel/schemas                usr/share/dput-ng/
+skel/codenames              usr/share/dput-ng/
 skel/README                 usr/share/dput-ng/
 README.md                   usr/share/doc/dput-ng/
