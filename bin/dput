@@ -77,7 +77,7 @@ parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
 args = parser.parse_args()
 
 
-if args.host.endswith(".changes"):  # Mega-hack.
+if args.host.endswith(".changes") and os.path.isfile(args.host):
     args.changes.insert(0, args.host)
     args.host = None
 
