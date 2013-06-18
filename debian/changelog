@@ -10,6 +10,8 @@ dput-ng (1.5) UNRELEASED; urgency=low
     line arguments.
   * Add disallowed_distributions.
   * Add security targets to default ftp-master target. (Closes: #708575).
+  * Apply a file name heuristic to tell whether a positional is a host or a
+  * target (Closes: #710150).
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
