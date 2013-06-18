@@ -1,6 +1,7 @@
 {
     "-hooks": [
-        "check-debs"
+        "check-debs",
+        "allowed-distribution"
     ],
     "allowed_distributions": ".*",
     "fqdn": "mentors.debian.net",

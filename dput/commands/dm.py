@@ -106,7 +106,7 @@ class DmCommand(AbstractCommand):
             "--keyring", DM_KEYRING, args.dm
         ])
         if exit_status != 0:
-            raise DmCommandError("DM fingerprint lookup"
+            raise DmCommandError("DM fingerprint lookup "
                                  "for argument %s failed. "
                                  "GnuPG returned error: %s" %
                                  (args.dm, err))

@@ -1,9 +1,15 @@
 {
     "allow_dcut": true,
+    "allowed-distribution": {
+        "codename-groups": [
+            "general", "backport", "rm-managed"
+        ]
+    },
     "check-debs": {
         "enforce": "debs",
         "skip": false
     },
+    "codenames": "debian",
     "hooks": [
         "allowed-distribution",
         "protected-distribution",

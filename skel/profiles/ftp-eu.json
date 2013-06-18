@@ -1,10 +1,4 @@
 {
-    "disallowed_distributions": [
-        "oldstable-security",
-        "stable-security",
-        "squeeze-security",
-        "wheezy-security"
-    ],
     "fqdn": "ftp.eu.upload.debian.org",
     "incoming": "/pub/UploadQueue/",
     "login": "anonymous",

@@ -9,9 +9,10 @@ dput-ng (1.5) UNRELEASED; urgency=low
   * Add per-host loading of command files by partially parsing command
     line arguments.
   * Add disallowed_distributions.
-  * Add security targets to default ftp-master target. (Closes: #708575).
   * Apply a file name heuristic to tell whether a positional is a host or a
-  * target (Closes: #710150).
+    target (Closes: #710150).
+  * Add codename groups to vital targets, limit security uploads
+    to the right servers (Closes: #708575).
 
   [ Luca Falavigna ]
   * Implement dcut commands for Deb-o-Matic.
@@ -38,7 +39,7 @@ dput-ng (1.5) UNRELEASED; urgency=low
   [ Thomas Preud'homme ]
   * Fixed a typo (DEBNAME → DEBFULLNAME) in the dcut(1) manpage.
 
- -- Arno Töll <arno@debian.org>  Thu, 31 Jan 2013 03:27:51 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Tue, 11 Jun 2013 21:28:16 -0400
 
 dput-ng (1.4) unstable; urgency=low
 

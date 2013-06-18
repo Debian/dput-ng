@@ -77,6 +77,11 @@ parser.add_argument('changes', metavar="CHANGES-FILE", action='store',
 args = parser.parse_args()
 
 
+if args.host.endswith(".changes") and os.path.isfile(args.host):
+    args.changes.insert(0, args.host)
+    args.host = None
+
+
 if args.config:
     dput.core.DPUT_CONFIG_LOCATIONS[args.config] = 1
 

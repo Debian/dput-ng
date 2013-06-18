@@ -1,4 +1,9 @@
 {
+    "allowed-distribution": {
+        "codename-groups": [
+            "backport"
+        ]
+    },
     "fqdn": "backports-master.debian.org",
     "incoming": "/pub/UploadQueue/",
     "login": "anonymous",

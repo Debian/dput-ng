@@ -14,6 +14,7 @@ Boring stuff:
   - commands:   where dcut routines register themselves.
   - interfaces: where user interface routines register themselves.
   - uploaders:  where upload routines register themselves.
+  - codenames:  list of codenames for things.
   - schemas:    where the schemas for the conffiles are loaded (/usr/share
                 only)
 
