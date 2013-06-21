@@ -30,7 +30,6 @@ import dput.core
 import dput.changes
 import dput.exceptions
 from dput import upload_package
-from dput.profile import parse_overrides
 
 parser = argparse.ArgumentParser(description='Debian package upload tool')
 parser.add_argument('-d', '--debug', action='count', default=False,
@@ -53,10 +52,6 @@ parser.add_argument('-U', '--no-upload-log', action='store_true',
                     help='Do not write an .upload log after uploading')
 parser.add_argument('-o', '--check-only', action='store_true',
                     help='Only check the package')
-parser.add_argument('-O', '--override', action='append',
-                    help='override profile key')
-parser.add_argument('-S', '--unset', action='append',
-                    help='override profile key by unsetting its value')
 parser.add_argument('-P', '--passive', action='store_true',
                     help='Use passive mode for ftp uploads')
 parser.add_argument('-s', '--simulate', action='count', default=False,
@@ -89,15 +84,6 @@ if args.debug:
     dput.core._enable_debugging(args.debug)
 
 try:
-    overrides = []
-    if args.unset:
-        for arg in args.unset:
-            overrides.append("-%s" % (arg))
-    if args.override:
-        for arg in args.override:
-            overrides.append(arg)
-    args.override = parse_overrides(overrides)
-
     for changes in args.changes:
         changes = dput.changes.parse_changes_file(
             changes,
