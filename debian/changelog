@@ -1,4 +1,4 @@
-dput-ng (1.5) UNRELEASED; urgency=low
+dput-ng (1.5) unstable; urgency=low
 
   * The "Command line flags are hard" release
 
@@ -37,7 +37,7 @@ dput-ng (1.5) UNRELEASED; urgency=low
   [ Thomas Preud'homme ]
   * Fixed a typo (DEBNAME → DEBFULLNAME) in the dcut(1) manpage.
 
- -- Paul Tagliamonte <paultag@debian.org>  Tue, 11 Jun 2013 21:28:16 -0400
+ -- Paul Tagliamonte <paultag@debian.org>  Thu, 20 Jun 2013 21:10:33 -0400
 
 dput-ng (1.4) unstable; urgency=low
 
