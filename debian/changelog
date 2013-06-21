@@ -2,9 +2,6 @@ dput-ng (1.5) unstable; urgency=low
 
   * The "Command line flags are hard" release
 
-  Mind note to you, dear uploader of this version. Please make sure the issue
-  marked with "MARK" in TODO is fixed before uploading this release.
-
   [ Paul Tagliamonte ]
   * Add per-host loading of command files by partially parsing command
     line arguments.
