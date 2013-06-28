@@ -1,9 +1,6 @@
-dput-ng (1.5) UNRELEASED; urgency=low
+dput-ng (1.5) unstable; urgency=low
 
   * The "Command line flags are hard" release
-
-  Mind note to you, dear uploader of this version. Please make sure the issue
-  marked with "MARK" in TODO is fixed before uploading this release.
 
   [ Paul Tagliamonte ]
   * Add per-host loading of command files by partially parsing command
@@ -21,8 +18,6 @@ dput-ng (1.5) UNRELEASED; urgency=low
   * Reimplement the SFTP uploader <explain details here>
 
   [ Arno Töll ]
-  * Add an --override and a --unset option to dput which overrules any
-    profile key. This is an experimental option.
   * Be more precise about our configuration file inheritance in dput(5).
   * Fix "dcut: manpage and --help talk about -U and --upload" by replacing those
     parts in the text by the 'upload' command (Closes: #699812)
@@ -39,7 +34,7 @@ dput-ng (1.5) UNRELEASED; urgency=low
   [ Thomas Preud'homme ]
   * Fixed a typo (DEBNAME → DEBFULLNAME) in the dcut(1) manpage.
 
- -- Paul Tagliamonte <paultag@debian.org>  Tue, 11 Jun 2013 21:28:16 -0400
+ -- Paul Tagliamonte <paultag@debian.org>  Thu, 20 Jun 2013 21:10:33 -0400
 
 dput-ng (1.4) unstable; urgency=low
 
