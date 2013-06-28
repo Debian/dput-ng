@@ -237,7 +237,9 @@ EXAMPLES
 
   $ dcut dm --uid "Paul Tagliamonte" --allow glibc
 
-  $ dcut dm --uid 0x0DEFACED --allow glibc linux --deny kfreebsd9
+  $ dcut dm --uid 0x0DEFACED --allow linux --deny kfreebsd9
+
+  $ dcut dm --uid paul@example.com --allow eglibc linux
 
   $ dcut rm --searchdirs -f udj-desktop-client_0.5.1-2_amd64.deb
 
