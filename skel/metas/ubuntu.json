@@ -5,7 +5,6 @@
         "skip": false
     },
     "hooks": [
-        "allowed-distribution",
         "checksum",
         "suite-mismatch",
         "check-debs",
