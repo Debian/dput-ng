@@ -1,3 +1,14 @@
+dput-ng (1.6) UNRELEASED; urgency=low
+
+  * The "Well, shit, release names are hard too" release
+
+  [ Paul Tagliamonte ]
+  * Disable checking of Ubuntu suites until we figure out a better solution.
+    This likely means Launchpad ought to grow something to help us here.
+    Thanks to Jeremy Bicha (Closes: #714103).
+
+ -- Paul Tagliamonte <paultag@debian.org>  Sat, 29 Jun 2013 21:23:56 -0400
+
 dput-ng (1.5) unstable; urgency=low
 
   * The "Command line flags are hard" release
