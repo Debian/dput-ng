@@ -3,6 +3,7 @@
 # Debian dput(1) completion
 # Copyright 2002 Roland Mas <lolando@debian.org>
 # Copyright 2012 Salvatore Bonaccorso <carnil@debian.org>
+# Copyright 2013 Luca Falavigna <dktrkranz@debian.org>
 
 have dput &&
 _dput()
@@ -56,3 +57,60 @@ _dput()
 
 }
 [ "$have" ] && complete -F _dput -o filenames -o plusdirs dput
+
+have dcut &&
+_dcut()
+{
+    local cur prev options paroptions hosts
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    options='-c --config -d --debug -f --force -k --keyid -m --maintainer \
+             -O --output -P --passive -s --simulate -v --version'
+
+    hosts=$(
+    {
+        grep "^\[.*\]" $HOME/.dput.cf 2> /dev/null | tr -d [] || /bin/true
+        grep "^\[.*\]" /etc/dput.cf 2> /dev/null | tr -d [] || /bin/true
+        for file in $(ls $HOME/.dput.d/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+        for file in $(ls /etc/dput.d/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+        for file in $(ls /usr/share/dput-ng/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+    } | grep -v '^DEFAULT$' | sort -u)
+
+    commands=$(
+    {
+        cmd="import dput\n"
+        cmd=$cmd"try:\n"
+        cmd=$cmd"    profile = dput.profile.load_profile('$prev')\n"
+        cmd=$cmd"    cmds = dput.command.load_commands(profile)\n"
+        cmd=$cmd"except dput.exceptions.DputConfigurationError:\n"
+        cmd=$cmd"    cmds = []\n"
+        cmd=$cmd"print ' '.join([x.name_and_purpose()[0] for x in cmds])"
+        echo $cmd | sed 's/\\n/\'$'\n/g' | python
+    } | sort -u)
+
+    paroptions="$options $hosts $commands"
+
+    case $prev in
+    --config|-c)
+        COMPREPLY=( $( compgen -o filenames -G "$cur*" ) )
+        ;;
+    *)
+        COMPREPLY=( $(
+            compgen -G "${cur}*.changes"
+            compgen -W "$paroptions" | grep "^$cur"
+        ) )
+        ;;
+    esac
+
+    return 0
+
+}
+[ "$have" ] && complete -F _dcut -o filenames -o plusdirs dcut
