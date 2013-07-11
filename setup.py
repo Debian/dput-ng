@@ -21,6 +21,7 @@ setup(
         'dput.hooks',
         'dput.configs',
         'dput.commands',
+        'dput.commands.contrib',
         'dput.uploaders',
         'dput.interfaces',
     ],
