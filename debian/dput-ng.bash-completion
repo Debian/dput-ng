@@ -21,7 +21,7 @@ _dput()
     {
         grep "^\[.*\]" $HOME/.dput.cf 2> /dev/null | tr -d [] || /bin/true
         grep "^\[.*\]" /etc/dput.cf 2> /dev/null | tr -d [] || /bin/true
-        for file in $(ls $HOME/dput.d/profiles/*.json 2> /dev/null); do \
+        for file in $(ls $HOME/.dput.d/profiles/*.json 2> /dev/null); do \
             basename $file .json; \
         done || /bin/true
         for file in $(ls /etc/dput.d/profiles/*.json 2> /dev/null); do \

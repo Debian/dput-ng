@@ -7,6 +7,9 @@ dput-ng (1.6) UNRELEASED; urgency=low
     This likely means Launchpad ought to grow something to help us here.
     Thanks to Jeremy Bicha (Closes: #714103).
 
+  [ Luca Falavigna ]
+  * Fix path of local profiles in bash-completion script.
+
  -- Paul Tagliamonte <paultag@debian.org>  Sat, 29 Jun 2013 21:23:56 -0400
 
 dput-ng (1.5) unstable; urgency=low
