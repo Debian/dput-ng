@@ -27,6 +27,46 @@ from dput.profile import load_profile
 class DebomaticCommandError(DcutError):
     pass
 
+class BuilddepCommand(AbstractCommand):
+    def __init__(self, interface):
+        super(BuilddepCommand, self).__init__(interface)
+        self.cmd_name = "debomatic-builddep"
+        self.cmd_purpose = ("rebuild a source package with Deb-o-Matic adding "
+                            "specific build-dependencies")
+
+    def generate_commands_name(self, profile):
+        return generate_debianqueued_commands_name(profile)
+
+    def register(self, parser, **kwargs):
+        parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
+                            default=None, help="source pacakge to rebuild. ",
+                            required=True)
+        parser.add_argument('-v', '--version', metavar="VERSION",
+                            action='store', default=None, help="version of "
+                            "the source package to rebuild. ", required=True)
+        parser.add_argument('-d', '--distribution', metavar="DISTRIBUTION",
+                            action='store', default=None, help="distribution "
+                            "which rebuild the package for. ", required=True)
+        parser.add_argument('-p', '--packages', metavar="PACKAGES",
+                            action='store', default=None, help="packages to "
+                            "be installed at compile time. ", required=True)
+
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        fh.write("  builddep %s_%s %s %s\n" % (args.source, args.version,
+                                               args.distribution,
+                                               args.packages))
+
+    def validate(self, args):
+        profile = load_profile(args.host)
+        if (not 'allow_debomatic_commands' in profile
+                or not profile['allow_debomatic_commands']):
+            raise DebomaticCommandError(
+                "Deb-o-Matic commands not supported for this profile"
+            )
+
+    def name_and_purpose(self):
+        return (self.cmd_name, self.cmd_purpose)
 
 class PorterCommand(AbstractCommand):
     def __init__(self, interface):

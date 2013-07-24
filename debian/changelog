@@ -11,6 +11,7 @@ dput-ng (1.6) UNRELEASED; urgency=low
   * Fix path of local profiles in bash-completion script.
   * Install dput.commands.contrib package.
   * Add bash completion for dcut.
+  * Add support for Deb-o-Matic builddep command.
 
  -- Paul Tagliamonte <paultag@debian.org>  Sat, 29 Jun 2013 21:23:56 -0400
 
