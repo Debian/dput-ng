@@ -2,10 +2,8 @@ dput-ng (1.6) UNRELEASED; urgency=low
 
   * The "Well, shit, release names are hard too" release
 
-  [ Paul Tagliamonte ]
-  * Disable checking of Ubuntu suites until we figure out a better solution.
-    This likely means Launchpad ought to grow something to help us here.
-    Thanks to Jeremy Bicha (Closes: #714103).
+  [ James Page ]
+  * Add in codenames for Ubuntu. (Closes: #714103)
 
   [ Luca Falavigna ]
   * Fix path of local profiles in bash-completion script.
