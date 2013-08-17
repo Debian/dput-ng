@@ -1,20 +1,24 @@
 {
     "allow_dcut": false,
+    "allowed-distribution": {
+        "codename-groups": [
+            "release",
+            "proposed",
+            "backports",
+            "security"
+        ]
+    },
     "check-debs": {
         "enforce": "source",
         "skip": false
     },
+    "codenames": "ubuntu",
     "hooks": [
+        "allowed-distribution",
         "checksum",
         "suite-mismatch",
         "check-debs",
         "gpg"
     ],
-    "valid_commands": [],
-    "codenames": "ubuntu",
-    "allowed-distribution": {
-        "codename-groups": [
-            "release", "proposed", "backports", "security"
-        ]
-    }
+    "valid_commands": []
 }
