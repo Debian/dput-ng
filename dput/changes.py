@@ -163,6 +163,12 @@ class Changes(object):
         """
         return self._parse_section(self._data['Files'][0]['priority'])[1]
 
+    def get_section(self):
+        """
+        Returns the section of the package.
+        """
+        return self._parse_section(self._data['Files'][0]['section'])[1]
+
     def get_dsc(self):
         """
         Returns the name of the .dsc file.

@@ -57,6 +57,12 @@ def check_debs_in_upload(changes, profile, interface):
     if 'check-debs' in profile:
         debs = profile['check-debs']
 
+    section = changes.get_section()
+    BYHAND = (section == "byhand")
+
+    logger.debug("Is BYHAND: %s" % (BYHAND))
+    logger.debug("   section value: %s" % (section))
+
     if 'skip' in debs and debs['skip']:
         logger.debug("Skipping deb checker.")
         return
@@ -84,7 +90,7 @@ def check_debs_in_upload(changes, profile, interface):
             if fil.endswith(xtn):
                 has_debs = True
 
-    if enforce_debs and not has_debs:
+    if enforce_debs and not has_debs and not BYHAND:
         raise BinaryUploadError(
             "There are no .debs in this upload, and we're enforcing them."
         )
