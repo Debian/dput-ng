@@ -2,6 +2,9 @@ dput-ng (1.6) UNRELEASED; urgency=low
 
   * The "Well, shit, release names are hard too" release
 
+  [ Paul Tagliamonte ]
+  * Add BYHAND handling. (Closes: #719975)
+
   [ James Page ]
   * Add in codenames for Ubuntu. (Closes: #714103)
 
