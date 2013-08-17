@@ -10,5 +10,11 @@
         "check-debs",
         "gpg"
     ],
-    "valid_commands": []
+    "valid_commands": [],
+    "codenames": "ubuntu",
+    "allowed-distribution": {
+        "codename-groups": [
+            "release", "proposed", "backports", "security"
+        ]
+    }
 }
