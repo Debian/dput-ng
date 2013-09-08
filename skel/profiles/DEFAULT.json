@@ -7,7 +7,7 @@
     "hash": "sha1",
     "interface": "cli",
     "login": "*",
-    "meta": "debian",
+    "meta": "boring",
     "method": "ftp",
     "passive_ftp": true,
     "post_upload_command": "",

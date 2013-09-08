@@ -92,7 +92,7 @@ def check_allowed_distribution(changes, profile, interface):
             raise BadDistributionError("'%s' is in '%s'" % (
                 suite, disallowed_dists))
 
-    if 'codenames' in profile:
+    if 'codenames' in profile and profile['codenames']:
         codenames = load_config('codenames', profile['codenames'])
         blocks = allowed_block.get('codename-groups', [])
         if blocks != []:
