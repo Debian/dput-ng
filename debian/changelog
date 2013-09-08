@@ -1,11 +1,12 @@
-dput-ng (1.6) UNRELEASED; urgency=low
+dput-ng (1.6) unstable; urgency=low
 
   * The "Well, shit, release names are hard too" release
 
   [ Paul Tagliamonte ]
   * Add BYHAND handling. (Closes: #719975)
   * Change default profile to "boring" rather than "debian". This caused
-    non-Debian targets to target Debian codenames. Which sucks.
+    non-Debian targets to target Debian codenames.
+    Which sucks. (Closes: #718384)
 
   [ James Page ]
   * Add in codenames for Ubuntu. (Closes: #714103)
@@ -16,7 +17,7 @@ dput-ng (1.6) UNRELEASED; urgency=low
   * Add bash completion for dcut.
   * Add support for Deb-o-Matic builddep command.
 
- -- Paul Tagliamonte <paultag@debian.org>  Sat, 29 Jun 2013 21:23:56 -0400
+ -- Paul Tagliamonte <paultag@debian.org>  Sun, 08 Sep 2013 14:47:51 -0400
 
 dput-ng (1.5) unstable; urgency=low
 
