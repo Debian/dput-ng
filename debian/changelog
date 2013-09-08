@@ -4,6 +4,8 @@ dput-ng (1.6) UNRELEASED; urgency=low
 
   [ Paul Tagliamonte ]
   * Add BYHAND handling. (Closes: #719975)
+  * Change default profile to "boring" rather than "debian". This caused
+    non-Debian targets to target Debian codenames. Which sucks.
 
   [ James Page ]
   * Add in codenames for Ubuntu. (Closes: #714103)
