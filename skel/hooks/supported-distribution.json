@@ -1,0 +1,5 @@
+{
+    "description": "check whether the target distribution is currently supported (using distro-info)", 
+    "path": "dput.hooks.distro_info_checks.check_supported_distribution", 
+    "pre": true
+}

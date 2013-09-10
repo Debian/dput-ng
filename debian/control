@@ -55,6 +55,7 @@ Depends: ${misc:Depends}, ${python:Depends},
  gnupg,
 Recommends:
  lintian,
+ python-distro-info,
  python-paramiko,
  python-validictory,
  openssh-client,
