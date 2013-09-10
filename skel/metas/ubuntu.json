@@ -8,12 +8,6 @@
                 "updates",
                 "backports",
                 "security"
-            ],
-            "allowed": [
-                "release",
-                "proposed",
-                "backports",
-                "security"
             ]
         }
     },
