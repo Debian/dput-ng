@@ -3,5 +3,12 @@
     "incoming": "~%(ppa)s/ubuntu",
     "login": "anonymous",
     "meta": "ubuntu",
-    "method": "ftp"
+    "method": "ftp",
+    "supported-distribution": {
+        "pockets": {
+            "allowed": [
+                "release"
+            ]
+        }
+    }
 }

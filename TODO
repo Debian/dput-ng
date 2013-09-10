@@ -87,7 +87,6 @@ feature requests
      (also ensure local buffer checks for ftp don't throw it off)
   - ftp control connections die without a keepalive, ensure that's right
   - check for ppa for uploads to !(ppa)
-  - lack of ppa pockets, etc
   - upload to more then one ppa
   - sftp upload bar
 
