@@ -57,7 +57,7 @@ class AbstractConfig(object):
         pass
 
     @abc.abstractmethod
-    def get_config(self, name):
+    def get_config(self, name, ignore_errors=False):
         """
         Get a configuration block. What this means is generally up to the
         implementation. However, please keep things sane and only return

@@ -128,7 +128,7 @@ class DputCfConfig(AbstractConfig):
                 ret[key] = val
         return ret
 
-    def get_config(self, name):
+    def get_config(self, name, ignore_errors=False):
         """
         See :meth:`dput.config.AbstractConfig.get_config`
         """

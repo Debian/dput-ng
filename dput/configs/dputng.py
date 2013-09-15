@@ -76,7 +76,7 @@ class DputProfileConfig(AbstractConfig):
         """
         return self.defaults.copy()
 
-    def get_config(self, name):
+    def get_config(self, name, ignore_errors=False):
         """
         See :meth:`dput.config.AbstractConfig.get_config`
         """
@@ -113,11 +113,7 @@ class DputProfileConfig(AbstractConfig):
         for key in ret:
             val = ret[key]
             if isinstance(val, _basestr_type):
-                if "%(" in val and ")s" in val:
+                if "%(" in val and ")s" in val and not ignore_errors:
                     raise DputConfigurationError(
-                        "Half-converted block: %s --> %s" % (
-                            key,
-                            val
-                        )
-                    )
+                        "Half-converted block: %s --> %s" % (key, val))
         return ret
