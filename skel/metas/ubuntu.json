@@ -1,16 +1,5 @@
 {
     "allow_dcut": false,
-    "supported-distribution": {
-        "pockets": {
-            "known": [
-                "release",
-                "proposed",
-                "updates",
-                "backports",
-                "security"
-            ]
-        }
-    },
     "check-debs": {
         "enforce": "source",
         "skip": false

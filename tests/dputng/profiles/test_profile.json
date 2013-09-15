@@ -1,5 +1,10 @@
 {
+    "incoming": "/dev/null",
     "meta": "ubuntu",
     "method": "local",
-    "incoming": "/dev/null"
+    "supported-distribution": {
+        "allowed": [
+            "release"
+        ]
+    }
 }

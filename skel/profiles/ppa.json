@@ -5,10 +5,15 @@
     "meta": "ubuntu",
     "method": "ftp",
     "supported-distribution": {
-        "pockets": {
-            "allowed": [
-                "release"
-            ]
-        }
+        "allowed": [
+            "release"
+        ],
+        "known": [
+            "release",
+            "proposed",
+            "updates",
+            "backports",
+            "security"
+        ]
     }
 }

@@ -1,6 +1,13 @@
 {
+    "-hooks": [
+        "gpg"
+    ],
     "incoming": "/dev/null",
     "meta": "ubuntu",
     "method": "local",
-    "-hooks": ["gpg"]
+    "supported-distribution": {
+        "allowed": [
+            "release"
+        ]
+    }
 }

@@ -66,7 +66,8 @@ def check_supported_distribution(changes, profile, interface):
         codenames = profile['codenames']
         if codenames == 'ubuntu':
             distro_info = UbuntuDistroInfo()
-            pockets = profile['supported-distribution']['pockets']
+            pockets = profile['supported-distribution']
+            logger.critical(pockets)
             if pocket not in pockets['known']:
                 raise UnknownDistribution("Unkown pocket: %s" % pocket)
             if pocket not in pockets['allowed']:

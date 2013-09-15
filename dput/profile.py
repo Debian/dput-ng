@@ -151,11 +151,8 @@ class MultiConfig(AbstractConfig):
     def get_blame(self, name):
         ret = self.defaults_blame
         for config in self.configs:
-            obj = config.get_config(name)
-            ret.update(_blame_map(obj, "%s (%s)" % (
-                config.path,
-                name
-            )))
+            obj = config.get_config(name, ignore_errors=True)
+            ret.update(_blame_map(obj, "%s (%s)" % (config.path, name)))
         return ret
 
     def get_config_blocks(self):

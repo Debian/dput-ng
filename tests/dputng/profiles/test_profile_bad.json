@@ -1,3 +1,8 @@
 {
-    "incoming": "/dev/null"
+    "incoming": "/dev/null",
+    "supported-distribution": {
+        "allowed": [
+            "release"
+        ]
+    }
 }
