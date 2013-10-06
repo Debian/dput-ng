@@ -187,9 +187,12 @@ def determine_logfile(changes, conf, args):
 
     # XXX: Correct --force behavior
     logfile = changes.get_changes_file()  # XXX: Check for existing one
-    xtn = ".changes"
-    if logfile.endswith(xtn):
-        logfile = "%s.%s.upload" % (logfile[:-len(xtn)], conf['name'])
+    xtns = [".changes", ".dud"]
+
+    for xtn in xtns:
+        if logfile.endswith(xtn):
+            logfile = "%s.%s.upload" % (logfile[:-len(xtn)], conf['name'])
+            break
     else:
         raise UploadException("File %s does not look like a .changes file" % (
             changes.get_filename()
@@ -301,12 +304,13 @@ def invoke_dput(changes, args):
         profile['incoming']
     ))
 
-    if 'hooks' in profile:
-        run_pre_hooks(changes, profile)
-    else:
-        logger.trace(profile)
-        logger.warning("No hooks defined in the profile. "
-                       "Not checking upload.")
+    if changes.get_changes_file().endswith(".changes"):
+        if 'hooks' in profile:
+            run_pre_hooks(changes, profile)
+        else:
+            logger.trace(profile)
+            logger.warning("No hooks defined in the profile. "
+                           "Not checking upload.")
 
     # check only is a special case of -s
     if args.check_only:
@@ -337,12 +341,13 @@ def invoke_dput(changes, args):
         if args.simulate:
             return
 
-        if 'hooks' in profile:
-            run_post_hooks(changes, profile)
-        else:
-            logger.trace(profile)
-            logger.warning("No hooks defined in the profile. "
-                           "Not post-processing upload.")
+        if changes.get_changes_file().endswith(".changes"):
+            if 'hooks' in profile:
+                run_post_hooks(changes, profile)
+            else:
+                logger.trace(profile)
+                logger.warning("No hooks defined in the profile. "
+                               "Not post-processing upload.")
     if should_write_logfile(args):
         tmp_logfile.flush()
         shutil.copy(tmp_logfile.name, logfile)
