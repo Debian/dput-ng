@@ -154,10 +154,13 @@ OPTIONS
 
 Any searchable, unique identity to identify an existing Debian Maintainer. This
 can be a (full) name an e-mail address or a GnuPG fingerprint of any existing
-Debian Maintainer. Note, the identity must be known in the DM keyring. This
-command validates the supplied argument and makes sure the identity hint
-supplied matches a *single* DM only. To override this behavior use --force, which
-passes the provided UID argument literally to the archive.
+Debian Maintainer. Note, the identity provided must be known in the DM keyring
+installed on your local system. The keyring is used to validate the supplied
+argument and makes sure the identity hint supplied matches *exactly* one DM. If
+the user you want to change ACLs on is not known to the local DM keyring, you can
+provide the *full* GPG user ID as argument, and pass --force, to cause dcut to
+bypass any argument checking/translation. Please note, this will generate a
+commands file which will be uploaded literally as is. Use with caution.
 
 *--allow*=PACKAGES::
 

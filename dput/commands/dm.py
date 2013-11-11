@@ -53,7 +53,10 @@ class DmCommand(AbstractCommand):
     def register(self, parser, **kwargs):
         parser.add_argument('--uid', action='store', default=None, dest="dm",
                             help="Name, e-mail or fingerprint of an existing "
-                            "Debian Maintainer", required=True)
+                            "Debian Maintainer. Use a full fingerprint together "
+                            "with --force if you want to bypass any argument "
+                            "validation, causing dcut to take the argument "
+                            "literally as is.", required=True)
         parser.add_argument('--allow', metavar="PACKAGES",
                             action='store', default=None,
                             help="Source package(s) where permissions to "
