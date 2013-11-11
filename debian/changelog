@@ -1,3 +1,17 @@
+dput-ng (1.7) UNRELEASED; urgency=low
+
+  * The "Get two birds stoned at once." release
+
+  [ Paul Tagliamonte ]
+  * Fix up default host argument. This caused the first block with the
+    default_host_main argument set to be considered the default host, rather
+    than the value of default_host_main. (Closes: #729280)
+
+  [ Arno Töll ]
+  * Be more explicit how to override dcut dm's UID check
+
+ -- Paul Tagliamonte <paultag@debian.org>  Mon, 11 Nov 2013 11:50:42 -0500
+
 dput-ng (1.6) unstable; urgency=low
 
   * The "Well, shit, release names are hard too" release
