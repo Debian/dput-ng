@@ -206,7 +206,7 @@ def load_profile(host):
         except DputConfigurationError:
             continue  # We don't have fully converted blocks.
 
-        if "default_host_main" in obj and obj['default_host_main'] != "":
+        if obj.get('default_host_main') != "":
             # If we have a default_host_main, let's return that.
             return config.get_config(obj['default_host_main'])
     return config.get_config("ftp-master")
