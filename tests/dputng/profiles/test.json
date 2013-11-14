@@ -8,6 +8,9 @@
     "supported-distribution": {
         "allowed": [
             "release"
+        ],
+        "known": [
+            "release"
         ]
     }
 }
