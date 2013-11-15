@@ -1,4 +1,4 @@
-dput-ng (1.7) UNRELEASED; urgency=low
+dput-ng (1.7) unstable; urgency=low
 
   * The "Get two birds stoned at once." release
 
@@ -11,7 +11,7 @@ dput-ng (1.7) UNRELEASED; urgency=low
   [ Arno Töll ]
   * Be more explicit how to override dcut dm's UID check
 
- -- Paul Tagliamonte <paultag@debian.org>  Mon, 11 Nov 2013 11:50:42 -0500
+ -- Paul Tagliamonte <paultag@debian.org>  Thu, 14 Nov 2013 09:20:03 -0500
 
 dput-ng (1.6) unstable; urgency=low
 
