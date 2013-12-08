@@ -42,6 +42,20 @@ class SftpUploadException(UploadException):
     pass
 
 
+def check_paramiko_version(req):
+    """
+    Return whether paramiko satisfies the given a version requirement (``req``),
+    """
+    try:
+        # Prefer __version_info__ over parsing __version__ on our own although
+        # it is missing in some release of paramiko.
+        version_info = paramiko.__version_info__
+    except AttributeError:
+        version_info = tuple(int(value) for value in
+                             paramiko.__version__.split('.'))
+    return version_info >= req
+
+
 def find_username(conf):
     """
     Given a profile (``conf``), return the preferred username to login
@@ -144,7 +158,11 @@ class SFTPUploader(AbstractUploader):
         ssh_kwargs['username'] = user
 
         if 'identityfile' in o:
-            pkey = os.path.expanduser(o['identityfile'])
+            if check_paramiko_version((1, 10)):
+                # Starting with paramiko 1.10 identityfile is always a list.
+                pkey = [os.path.expanduser(path) for path in o['identityfile']]
+            else:
+                pkey = os.path.expanduser(o['identityfile'])
             ssh_kwargs['key_filename'] = pkey
 
         logger.info("Logging into host %s as %s" % (fqdn, user))
