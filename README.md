@@ -8,5 +8,8 @@ dput-ng aims to be compatible with the old `dput(1)` config files, while
 adding additional features for better sanity checking, and designed in an
 extensible way.
 
+In addition, dput-ng also provides a Python package that's totally usable
+from 3ed party apps that wish to integrate with dput-ng.
+
 Check the [docs](http://dput.rtfd.org) for more on topics that might
 interest you.
