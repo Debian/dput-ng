@@ -1,3 +1,9 @@
+dput-ng (1.7~bpo70+1) wheezy-backports; urgency=low
+
+  * Straight up backport. Thanks, KiBi.
+
+ -- Paul Tagliamonte <paultag@debian.org>  Sun, 12 Jan 2014 11:07:05 -0500
+
 dput-ng (1.7) unstable; urgency=low
 
   * The "Get two birds stoned at once." release
