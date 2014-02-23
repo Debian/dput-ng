@@ -23,7 +23,7 @@ Exceptions listed here.
 """
 
 
-class DputError(BaseException):
+class DputError(Exception):
     """
     Most basic dput error. All other Exceptions must inherit from this
     when it is sensable to do so.
@@ -31,7 +31,7 @@ class DputError(BaseException):
     pass
 
 
-class DcutError(BaseException):
+class DcutError(Exception):
     pass
 
 
