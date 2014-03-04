@@ -1,7 +1,17 @@
 dput-ng (1.8) UNRELEASED; urgency=low
 
+  * The "" release
+
+  [Sebastian Ramacher]
   * Fix handling of IdentiyFile in sftp uploader. paramiko 1.10 fixed the
     parsing of IdentityFile and now always gives a list. (Closes: #718011)
+
+  [Paul Tagliamonte]
+  * Add lots of spew to dcut when it fails to find the local DM key explaining
+    exactly why it might not be there, and a hint as to where to look.
+    (Closes: 740665), Thank you, mika!
+  * Add a new -S / --save flag to save the dcut output before we sent it to
+    ftp-master. (Closes: 740663). Thanks to (the one, the only!) Jakub Wilk.
 
  -- Sebastian Ramacher <sramacher@debian.org>  Sun, 08 Dec 2013 21:03:12 +0100
 
