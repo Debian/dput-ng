@@ -109,6 +109,22 @@ class DmCommand(AbstractCommand):
             "--keyring", DM_KEYRING, args.dm
         ])
         if exit_status != 0:
+            logger.warning("")
+            logger.warning("There was an error looking up the DM's key")
+            logger.warning("")
+            logger.warning(" dput-ng uses the DM keyring in /usr/share/keyrings/")
+            logger.warning(" as the keyring to pull full fingerprints from.")
+            logger.warning("")
+            logger.warning(" Please ensure your keyring is up to date:")
+            logger.warning("")
+            logger.warning("   sudo apt-get install debian-keyring")
+            logger.warning("")
+            logger.warning(" Or, if you can not get the keyring, you may use their")
+            logger.warning(" full fingerprint (without spaces) and pass the --force")
+            logger.warning(" argument in. This goes to dak directly, so try to")
+            logger.warning(" pay attention to formatting.")
+            logger.warning("")
+            logger.warning("")
             raise DmCommandError("DM fingerprint lookup "
                                  "for argument %s failed. "
                                  "GnuPG returned error: %s" %
