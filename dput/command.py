@@ -222,6 +222,9 @@ def invoke_dcut(args):
             #print fh.name
             fh.close()
 
+            if args.save:
+                shutil.copy2(fh.name, upload_filename)
+
             signing_key = None
             if "default_keyid" in profile:
                 signing_key = profile["default_keyid"]

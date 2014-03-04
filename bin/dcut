@@ -53,6 +53,9 @@ parser.add_argument('-k', '--keyid', metavar="KEYID",
                     " and DEBNAME, or whatever was provided with --maintainer."
                     " This has no effect when the 'upload' command is used",
                     action='store')
+parser.add_argument('-S', '--save',
+                    help="Copy the uploaded commands file to cwd before "
+                    "uploading.", action="store_true", default=False)
 parser.add_argument('-O', '--output', metavar="FILENAME",
                     help="Write  commands  file to FILENAME  instead of "
                     "uploading.  This option should not be used with "
