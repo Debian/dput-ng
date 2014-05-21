@@ -8,6 +8,7 @@
     "general": [
         "unstable",
         "experimental",
+        "squeeze-lts",
         "rc-buggy",
         "sid"
     ],
