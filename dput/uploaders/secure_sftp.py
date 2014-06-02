@@ -510,6 +510,7 @@ class Sftp:
         print(commandline)
         self.connection = subprocess.Popen(commandline,
                                            close_fds=True,
+                                           bufsize=0,
                                            stdin=subprocess.PIPE,
                                            stdout=subprocess.PIPE)
         self.poll = select.poll()
