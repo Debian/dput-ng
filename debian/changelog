@@ -5,6 +5,8 @@ dput-ng (1.8) UNRELEASED; urgency=low
   [Sebastian Ramacher]
   * Fix handling of IdentiyFile in sftp uploader. paramiko 1.10 fixed the
     parsing of IdentityFile and now always gives a list. (Closes: #718011)
+  * sftp: Check if incoming directory exists before uploading. (Closes:
+    #735784)
 
   [Paul Tagliamonte]
   * Add lots of spew to dcut when it fails to find the local DM key explaining
