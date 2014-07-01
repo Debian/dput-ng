@@ -212,6 +212,32 @@ class SFTPUploader(AbstractUploader):
 
         # logger.debug("Changing directory to %s" % (incoming))
         # self._sftp.chdir(incoming)
+        try:
+            self._sftp.stat(incoming)
+        except IOError as e:
+            # launchpad does not support any operations to check if a directory
+            # exists. stat will fail with an IOError with errno equal to None.
+            if e.errno is None:
+                logger.debug(
+                    "Failed to stat incoming directory %s on %s. This should "
+                    "only happen on launchpad." % (
+                        incoming,
+                        fqdn
+                    )
+                )
+            else:
+                raise SftpUploadException(
+                    "Failed to stat incoming directory %s on %s: %s" % (
+                        incoming,
+                        fqdn,
+                        e.strerror
+                    )
+            )
+        except paramiko.SSHException as e:
+            raise SftpUploadException("SFTP error uploading to %s: %s" % (
+                fqdn,
+                repr(e)
+            ))
         self.incoming = incoming
 
     def _auth(self, fqdn, ssh_kwargs, _first=0):
