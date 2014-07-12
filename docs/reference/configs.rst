@@ -161,7 +161,7 @@ profiles/ppa.json. It looks something like::
     {
         "meta": "ubuntu",
         "fqdn": "ppa.launchpad.net",
-        "incoming": "~%(ppa)s/ubuntu",
+        "incoming": "~%(ppa)s",
         "login": "anonymous",
         "method": "ftp"
     }

@@ -1,5 +1,6 @@
 dput-ng (1.8) UNRELEASED; urgency=low
 
+  [ Sebastian Ramacher ]
   * The "" release
 
   [Sebastian Ramacher]
@@ -14,6 +15,13 @@ dput-ng (1.8) UNRELEASED; urgency=low
     (Closes: 740665), Thank you, mika!
   * Add a new -S / --save flag to save the dcut output before we sent it to
     ftp-master. (Closes: 740663). Thanks to (the one, the only!) Jakub Wilk.
+
+  [ Scott Kitterman ]
+  * Drop trailing "/ubuntu" from ppa stanza, to support the new form of the
+    upload path needed for PPAs based on derived distributions.  Also switch
+    ubuntu stanza to upload to "/ubuntu" rather than "/" (Closes: #754527)
+    (LP: #1340130)
+    -  Changes shamelessly cribbed from Colin Watson's dput update
 
  -- Sebastian Ramacher <sramacher@debian.org>  Sun, 08 Dec 2013 21:03:12 +0100
 
