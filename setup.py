@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import re
+import codecs
 from dput import __appname__
 from setuptools import setup
 
 long_description = open('README.md').read()
-cur = open('debian/changelog', 'r').readline().strip()
+cur = codecs.open('debian/changelog', 'r', encoding='utf-8').readline().strip()
 pobj = re.findall(
     r'(?P<src>.*) \((?P<version>.*)\) (?P<suite>.*); .*',
     cur
