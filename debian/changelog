@@ -1,6 +1,6 @@
-dput-ng (1.8) UNRELEASED; urgency=low
+dput-ng (1.8) unstable; urgency=low
 
-  * The "" release
+  * The "There is no sin except stupidity" release
 
   [Sebastian Ramacher]
   * Fix handling of IdentiyFile in sftp uploader. paramiko 1.10 fixed the
@@ -22,7 +22,7 @@ dput-ng (1.8) UNRELEASED; urgency=low
     (LP: #1340130)
     -  Changes shamelessly cribbed from Colin Watson's dput update
 
- -- Sebastian Ramacher <sramacher@debian.org>  Sun, 08 Dec 2013 21:03:12 +0100
+ -- Paul Tagliamonte <paultag@debian.org>  Thu, 11 Sep 2014 15:58:10 -0400
 
 dput-ng (1.7) unstable; urgency=low
 
