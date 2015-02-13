@@ -1,7 +1,11 @@
 dput-ng (1.9) UNRELEASED; urgency=medium
 
+  [ Sebastian Ramacher ]
   * Remove obsolete conffile /etc/dput.d/profiles/backports.json. Thanks to
     Jakub Wilk for spotting the obsolete conffile.
+
+  [ Luca Falavigna ]
+  * Add support for Deb-o-Matic binnmu command.
 
  -- Sebastian Ramacher <sramacher@debian.org>  Sat, 08 Nov 2014 23:17:44 +0100
 

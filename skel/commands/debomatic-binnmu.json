@@ -1,0 +1,4 @@
+{
+    "description": "Deb-o-Matic binnmu command",
+    "path": "dput.commands.contrib.debomatic.BinNMUCommand"
+}

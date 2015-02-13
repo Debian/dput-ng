@@ -27,6 +27,55 @@ from dput.profile import load_profile
 class DebomaticCommandError(DcutError):
     pass
 
+class BinNMUCommand(AbstractCommand):
+    def __init__(self, interface):
+        super(BinNMUCommand, self).__init__(interface)
+        self.cmd_name = "debomatic-binnmu"
+        self.cmd_purpose = ("generate a binNMU upload with Deb-o-Matic")
+
+    def generate_commands_name(self, profile):
+        return generate_debianqueued_commands_name(profile)
+
+    def register(self, parser, **kwargs):
+        parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
+                            default=None, help="source pacakge to rebuild. ",
+                            required=True)
+        parser.add_argument('-v', '--version', metavar="VERSION",
+                            action='store', default=None, help="version of "
+                            "the source package to rebuild. ", required=True)
+        parser.add_argument('-d', '--distribution', metavar="DISTRIBUTION",
+                            action='store', default=None, help="distribution "
+                            "which rebuild the package for. ", required=True)
+        parser.add_argument('-b', '--binnmu-version', metavar="PACKAGES",
+                            action='store', default=None,
+                            help="binNMU version", required=True)
+        parser.add_argument('-c', '--changelog', metavar="PACKAGES",
+                            action='store', default=None,
+                            help="binNMU changelog entry", required=True)
+        parser.add_argument('-m', '--maintainer', metavar="MAINTAINER",
+                            action='store', default=None, help="contact to be "
+                            "listed in the  Maintainer field. ", required=True)
+
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        fh.write("  binnmu %s_%s %s %s \"%s\" %s\n" % (args.source,
+                                                       args.version,
+                                                       args.distribution,
+                                                       args.binnmu_version,
+                                                       args.changelog,
+                                                       args.maintainer))
+
+    def validate(self, args):
+        profile = load_profile(args.host)
+        if (not 'allow_debomatic_commands' in profile
+                or not profile['allow_debomatic_commands']):
+            raise DebomaticCommandError(
+                "Deb-o-Matic commands not supported for this profile"
+            )
+
+    def name_and_purpose(self):
+        return (self.cmd_name, self.cmd_purpose)
+
 class BuilddepCommand(AbstractCommand):
     def __init__(self, interface):
         super(BuilddepCommand, self).__init__(interface)
