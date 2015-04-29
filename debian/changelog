@@ -7,6 +7,9 @@ dput-ng (1.9) UNRELEASED; urgency=medium
   [ Luca Falavigna ]
   * Add support for Deb-o-Matic binnmu command.
 
+  [ Tristan Seligmann ]
+  * Add jessie-backports to list of Debian codenames (closes: #783746).
+
  -- Sebastian Ramacher <sramacher@debian.org>  Sat, 08 Nov 2014 23:17:44 +0100
 
 dput-ng (1.8) unstable; urgency=low
