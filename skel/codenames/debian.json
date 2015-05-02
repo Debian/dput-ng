@@ -4,7 +4,9 @@
         "oldstable-backports",
         "jessie-backports",
         "wheezy-backports",
-        "squeeze-backports"
+        "wheezy-backports-sloppy",
+        "squeeze-backports",
+        "squeeze-backports-sloppy"
     ],
     "general": [
         "unstable",
