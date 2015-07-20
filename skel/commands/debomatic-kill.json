@@ -1,0 +1,4 @@
+{
+    "description": "Deb-o-Matic kill command",
+    "path": "dput.commands.contrib.debomatic.KillCommand"
+}

@@ -117,6 +117,43 @@ class BuilddepCommand(AbstractCommand):
     def name_and_purpose(self):
         return (self.cmd_name, self.cmd_purpose)
 
+class KillCommand(AbstractCommand):
+    def __init__(self, interface):
+        super(KillCommand, self).__init__(interface)
+        self.cmd_name = "debomatic-kill"
+        self.cmd_purpose = ("kill a build in Deb-o-Matic")
+
+    def generate_commands_name(self, profile):
+        return generate_debianqueued_commands_name(profile)
+
+    def register(self, parser, **kwargs):
+        parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
+                            default=None, help="source pacakge to kill build for. ",
+                            required=True)
+        parser.add_argument('-v', '--version', metavar="VERSION",
+                            action='store', default=None, help="version of "
+                            "the source package to kill build for. ", required=True)
+        parser.add_argument('-d', '--distribution', metavar="DISTRIBUTION",
+                            action='store', default=None, help="distribution "
+                            "which kill buil for. ", required=True)
+
+    def produce(self, fh, args):
+        fh.write("Commands:\n")
+        fh.write("  kill %s_%s %s\n" % (args.source,
+                                        args.version,
+                                        args.distribution))
+
+    def validate(self, args):
+        profile = load_profile(args.host)
+        if (not 'allow_debomatic_commands' in profile
+                or not profile['allow_debomatic_commands']):
+            raise DebomaticCommandError(
+                "Deb-o-Matic commands not supported for this profile"
+            )
+
+    def name_and_purpose(self):
+        return (self.cmd_name, self.cmd_purpose)
+
 class PorterCommand(AbstractCommand):
     def __init__(self, interface):
         super(PorterCommand, self).__init__(interface)

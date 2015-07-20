@@ -9,6 +9,7 @@
     "valid_commands": [
         "debomatic-binnmu",
         "debomatic-builddep",
+        "debomatic-kill",
         "debomatic-porter",
         "debomatic-rebuild",
         "debomatic-rm"

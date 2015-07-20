@@ -1,6 +1,10 @@
 dput-ng (1.10) UNRELEASED; urgency=medium
 
+  [ Dr. Tobias Quathamer ]
   * Add jessie to list of Debian codenames (Closes: #788739).
+
+  [ Luca Falavigna ]
+  * Add support for Deb-o-Matic kill command.
 
  -- Dr. Tobias Quathamer <toddy@debian.org>  Fri, 10 Jul 2015 13:12:26 +0200
 
