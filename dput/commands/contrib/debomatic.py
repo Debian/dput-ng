@@ -46,10 +46,10 @@ class BinNMUCommand(AbstractCommand):
         parser.add_argument('-d', '--distribution', metavar="DISTRIBUTION",
                             action='store', default=None, help="distribution "
                             "which rebuild the package for. ", required=True)
-        parser.add_argument('-b', '--binnmu-version', metavar="PACKAGES",
+        parser.add_argument('-b', '--binnmu-version', metavar="VERSION",
                             action='store', default=None,
                             help="binNMU version", required=True)
-        parser.add_argument('-c', '--changelog', metavar="PACKAGES",
+        parser.add_argument('-c', '--changelog', metavar="CHANGELOG",
                             action='store', default=None,
                             help="binNMU changelog entry", required=True)
         parser.add_argument('-m', '--maintainer', metavar="MAINTAINER",

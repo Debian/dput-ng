@@ -5,6 +5,7 @@ dput-ng (1.10) UNRELEASED; urgency=medium
 
   [ Luca Falavigna ]
   * Add support for Deb-o-Matic kill command.
+  * Fix metavars for Deb-o-Matic binnmu command.
 
  -- Dr. Tobias Quathamer <toddy@debian.org>  Fri, 10 Jul 2015 13:12:26 +0200
 
