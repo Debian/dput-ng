@@ -5,17 +5,12 @@
             "general", "backport", "rm-managed"
         ]
     },
-    "check-debs": {
-        "enforce": "debs",
-        "skip": false
-    },
     "codenames": "debian",
     "hooks": [
         "allowed-distribution",
         "protected-distribution",
         "checksum",
         "suite-mismatch",
-        "check-debs",
         "gpg"
     ],
     "valid_commands": [
