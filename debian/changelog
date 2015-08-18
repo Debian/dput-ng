@@ -10,7 +10,7 @@ dput-ng (1.10) UNRELEASED; urgency=medium
   * Fix metavars for Deb-o-Matic binnmu command.
 
   [ Paul Tagliamonte]
-  * Remove the check-debs check from the Debian profiles.
+  * Remove the check-debs check from the Debian profiles. (Closes: #757931)
 
  -- Dr. Tobias Quathamer <toddy@debian.org>  Fri, 10 Jul 2015 13:12:26 +0200
 
