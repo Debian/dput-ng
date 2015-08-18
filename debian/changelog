@@ -1,11 +1,16 @@
 dput-ng (1.10) UNRELEASED; urgency=medium
 
+  * The "Goodbyte python-support" release
+
   [ Dr. Tobias Quathamer ]
   * Add jessie to list of Debian codenames (Closes: #788739).
 
   [ Luca Falavigna ]
   * Add support for Deb-o-Matic kill command.
   * Fix metavars for Deb-o-Matic binnmu command.
+
+  [ Paul Tagliamonte]
+  * Remove the check-debs check from the Debian profiles.
 
  -- Dr. Tobias Quathamer <toddy@debian.org>  Fri, 10 Jul 2015 13:12:26 +0200
 
