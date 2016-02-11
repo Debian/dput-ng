@@ -59,12 +59,10 @@ class FtpUploader(AbstractUploader):
         timeout = conf['timeout'] if 'timeout' in conf else 10
 
         try:
-            self._ftp = ftplib.FTP(
-                self._config["fqdn"],
-                self._config["login"],
-                None,
-                timeout=timeout
-            )
+            self._ftp = ftplib.FTP()
+            host, dummy, port = self._config["fqdn"].partition(":")
+            self._ftp.connect(host, None if port == "" else int(port), timeout)
+            self._ftp.login(self._config["login"])
         except Exception as e:
             raise FtpUploadException(
                 "Could not establish FTP connection to %s: %s" % (
