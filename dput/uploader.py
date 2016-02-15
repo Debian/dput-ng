@@ -287,6 +287,9 @@ def invoke_dput(changes, args):
             full_upload_log = args.full_upload_log
         _write_upload_log(tmp_logfile.name, full_upload_log)
 
+    if "unchecked" in args and args.unchecked:
+        profile['allow_unsigned_uploads'] = True
+
     if args.delayed:
         make_delayed_upload(profile, args.delayed)
 
