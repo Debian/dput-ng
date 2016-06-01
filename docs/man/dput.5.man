@@ -41,7 +41,7 @@ as square brackets surrounding zero or more values, separated by commas.
 
 Moreover, old-style configuration files are parsed and read. See *READING
 TRADITIONAL CONFIGURATION FILES* below. In general, packages are installing
-pre-defined defaults for popular upload targets to '/usr/share/dput-ng/profiles/'. 
+pre-defined defaults for popular upload targets to '/usr/share/dput-ng/profiles/'.
 System administrators who wish to override or create a new system-wide and
 shared target for many users may choose '/etc/dput.d/profiles'. Finally, local
 targets may be written to '~/.dput.d/profiles' for personal upload targets.
@@ -182,9 +182,10 @@ are supported:
 	* 'http' or 'https':: Use HTTP or HTTPS to upload files
 	* 'local':: Upload to a locally mounted location of the file system.
 	  Internally this calls *install(1)*.
-	* 'scp':: Use scp to upload files. *This method is deprecated*, use 'sftp'
-		instead when possible.
-	* 'sftp':: Use the sftp protocol (a secured file transfer via SSH).
+	* 'scp':: Use scp to upload files (requires python-paramiko).
+	  *This method is deprecated*, use 'sftp' instead when possible.
+	* 'sftp':: Use the sftp protocol (a secured file transfer via
+	  SSH, requires python-paramiko).
 
 	* *dput-ng* does not support 'rsync'.
 

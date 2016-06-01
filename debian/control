@@ -33,7 +33,7 @@ Conflicts: dput
 Replaces: dput
 Provides: dput
 Depends: ${misc:Depends}, ${python:Depends}, python-dput (= ${binary:Version})
-Recommends: bash-completion
+Recommends: bash-completion, python-paramiko
 Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use
  interface to Debian (like) package archive hosting facilities. It allows
@@ -47,6 +47,8 @@ Description: next generation Debian package upload tool
  .
  dput-ng aims to be backwards compatible with dput in command-line flags,
  configuration files, and expected behavior.
+ .
+ The recommended package python-paramiko is needed to upload via SSH.
 
 Package: python-dput
 Architecture: all
