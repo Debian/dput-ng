@@ -1,6 +1,7 @@
 dput-ng (1.11) UNRELEASED; urgency=medium
 
   * Add {wheezy,squeeze}-backports-sloppy suites. (Closes: #798688)
+  * Handle duplicate fingerprints in the DM keyring.
 
  -- Vincent Bernat <bernat@debian.org>  Sun, 11 Oct 2015 09:29:11 +0200
 

@@ -156,6 +156,7 @@ class DmCommand(AbstractCommand):
                 current_uid = parsed_fingerprint[9]
                 next_line_contains_fpr = True
 
+        possible_fingerprints = list(set(possible_fingerprints))
         if len(possible_fingerprints) > 1:
             raise DmCommandError("DM argument `%s' is ambiguous. "
                                  "Possible choices:\n%s" %
