@@ -1,7 +1,15 @@
 dput-ng (1.11) UNRELEASED; urgency=medium
 
+  [ Vincent Bernat ]
   * Add {wheezy,squeeze}-backports-sloppy suites. (Closes: #798688)
   * Handle duplicate fingerprints in the DM keyring.
+
+  [ Salvatore Bonaccorso ]
+  * Correct long form option for file to upload in various subcommands.
+    The manpage stated that --filename=FILENAME was the long form option for
+    various subcommands, whereas the code expected --file. Adjust the
+    documentation.
+    Thanks to Colin Tuckley <colint@debian.org> (Closes: #819582)
 
  -- Vincent Bernat <bernat@debian.org>  Sun, 11 Oct 2015 09:29:11 +0200
 
