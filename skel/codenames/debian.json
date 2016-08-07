@@ -18,6 +18,9 @@
     "rm-managed": [
         "stable",
         "oldstable",
+        "bullseye",
+        "buster",
+        "stretch",
         "jessie",
         "wheezy",
         "squeeze",
@@ -31,6 +34,9 @@
         "oldstable-security",
         "squeeze-security",
         "wheezy-security",
-        "jessie-security"
+        "jessie-security",
+        "stretch-security",
+        "buster-security",
+        "bullseye-security"
     ]
 }
