@@ -98,7 +98,7 @@ OPTIONS
 
 Takes one argument
 
-*-f*, *--filename*='FILENAME'::
+*-f*, *--file*='FILENAME'::
 	The changes file name which refers to the upload to be cancelled.
 
 rm
@@ -124,7 +124,7 @@ OPTIONS
 
 Takes at least one argument
 
-*-f*, *--filename*='FILENAME'::
+*-f*, *--file*='FILENAME'::
 	The file name to be removed. This argument can be repeated, and also knows
 	about the shell wildcards *, ?, and []. However, please keep your local
 	shell replacements in mind when supplying shell meta characters. You may
@@ -183,7 +183,7 @@ OPTIONS
 
 Takes two arguments
 
-*-f*, *--filename*='FILENAME'::
+*-f*, *--file*='FILENAME'::
 
 file name to be rescheduled
 
@@ -208,7 +208,7 @@ OPTIONS
 
 Takes one argument
 
-*-f*, *--filename*='FILENAME'::
+*-f*, *--file*='FILENAME'::
 	A local file name which is uploaded as is to the archive software.
 
 
