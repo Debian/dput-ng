@@ -52,7 +52,7 @@ OPTIONS
 	This option takes an argument from 0 to 15 corresponding to the respective
 	DELAYED queue.
 
-*-F, --full-upload-log*'
+*-F, --full-upload-log*::
 	Write more verbose .upload logs. When set to, upload logs will include more
 	details. This setting overrides profile defaults when provided. 
 
