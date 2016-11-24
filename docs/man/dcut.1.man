@@ -162,15 +162,23 @@ provide the *full* GPG user ID as argument, and pass --force, to cause dcut to
 bypass any argument checking/translation. Please note, this will generate a
 commands file which will be uploaded literally as is. Use with caution.
 
-*--allow*=PACKAGES::
+*--allow*=PACKAGE
 
-Source package(s) where permissions to upload should be granted. Repeat the
-argument to apply permissions to more than one package at once.
+*--allow* PACKAGE LIST::
 
-*--deny*=PACKAGES::
+Source package(s) where permissions to upload should be granted. Give
+a space-separated list of packages to apply permissions to more than
+one package at once. If multiple '--allow' options are given, the last
+one takes precedence.
 
-Source package(s) where permissions to upload should be denied. Repeat the
-argument to apply permissions to more than one package at once.
+*--deny*=PACKAGE
+
+*--deny* PACKAGE LIST::
+
+Source package(s) where permissions to upload should be denied. Give a
+space-separated list of packages to apply permissions to more than one
+package at once. If multiple '--deny' options are given, the last
+one takes precedence.
 
 reschedule
 ~~~~~~~~~~
