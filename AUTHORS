@@ -7,7 +7,7 @@ add yourself to this list, on the *first* commit.
 
 Git also has a nice way to view these same names:
 
- > git shortlog -sm | sed -r 's/[0-9]+//g' | sed 's/^[ \t]*//'
+ > git shortlog -sm -e | sed -r 's/^[ \t0-9]+//'
 
 Author List
 ===========
