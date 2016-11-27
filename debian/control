@@ -21,7 +21,7 @@ Build-Depends: debhelper (>= 10),
  docbook-xsl,
  docbook-xsl-ns,
  xsltproc
-Standards-Version: 3.9.4
+Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/dputng.git
 Vcs-Git: https://anonscm.debian.org/git/collab-maint/dputng.git
 Homepage: http://dput-ng.debian.net/
