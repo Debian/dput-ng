@@ -1,8 +1,25 @@
-dput-ng (1.11) UNRELEASED; urgency=medium
+dput-ng (1.11) unstable; urgency=medium
+
+  [ Dr. Tobias Quathamer ]
+  * Team upload.
+  * Use https for Vcs-Git
+  * Fix stray ' in dput manpage.
+    Thanks to Jakub Wilk <jwilk@debian.org> (Closes: #823926)
+  * Add {jessie,stretch,buster,bullseye}-proposed-updates (Closes: #724525)
+  * Fix manpage for dcut allow/deny syntax.
+    Thanks to Wookey <wookey@debian.org> (Closes: #741966)
+  * Simplify sed script and include emails
+  * Update list of authors
+  * Use debhelper v10
+  * Use Standards-Version 3.9.8, no changes needed
+  * Add dh-python to Build-Depends
 
   [ Vincent Bernat ]
   * Add {wheezy,squeeze}-backports-sloppy suites. (Closes: #798688)
   * Handle duplicate fingerprints in the DM keyring.
+
+  [ Mattia Rizzolo ]
+  * debian/control: use https and the cgit web frontend for Vcs-Browser
 
   [ Salvatore Bonaccorso ]
   * Correct long form option for file to upload in various subcommands.
@@ -12,7 +29,13 @@ dput-ng (1.11) UNRELEASED; urgency=medium
     Thanks to Colin Tuckley <colint@debian.org> (Closes: #819582)
   * Add support for future known codenames (stretch, buster, bullseye)
 
- -- Vincent Bernat <bernat@debian.org>  Sun, 11 Oct 2015 09:29:11 +0200
+  [ Luca Capello ]
+  * Add python-paramiko to Recommends for scp/sftp (Closes: #796868)
+
+  [ Stephan Sürken ]
+  * dput/uploader.py: Make -u/--unchecked switch work. (Closes: #808554)
+
+ -- Dr. Tobias Quathamer <toddy@debian.org>  Sun, 27 Nov 2016 14:04:24 +0100
 
 dput-ng (1.10) unstable; urgency=medium
 
@@ -243,7 +266,7 @@ dput-ng (1.2) unstable; urgency=low
     people. Hence, do not establish a network connection anymore using the
     -s(imulation) mode, unless -s was specified twice (-ss)
     + While I was on it, do so for -o (check-only) uploads as well
-  * More distro mappings for check_protected_distributions. 
+  * More distro mappings for check_protected_distributions.
 
  -- Arno Töll <arno@debian.org>  Thu, 13 Dec 2012 17:11:27 +0100
 
