@@ -1,3 +1,9 @@
+dput-ng (1.11~bpo8+1) jessie-backports; urgency=medium
+
+  * Rebuild for jessie-backports. Closes: #794608, #830316
+
+ -- Dr. Tobias Quathamer <toddy@debian.org>  Mon, 05 Dec 2016 18:02:20 +0100
+
 dput-ng (1.11) unstable; urgency=medium
 
   [ Dr. Tobias Quathamer ]
