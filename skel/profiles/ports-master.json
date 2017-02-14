@@ -1,0 +1,12 @@
+{
+    "fqdn": "ports-master.debian.org",
+    "incoming": "/incoming/",
+    "login": "anonymous",
+    "meta": "debian",
+    "method": "ftp",
+    "allowed-distribution": {
+        "codename-groups": [
+            "general", "ports"
+        ]
+    }
+}
