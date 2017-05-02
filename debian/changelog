@@ -1,3 +1,13 @@
+dput-ng (1.12) unstable; urgency=medium
+
+  * Team upload.
+  * Fix FTBFS.
+    The ubuntu release 'precise' had its EOL on 2017-04-26, therefore
+    this package FTBFS after this date. Now we're using the latest
+    LTS release 'xenial' with an EOL on 2021-04-21. (Closes: #861467)
+
+ -- Dr. Tobias Quathamer <toddy@debian.org>  Tue, 02 May 2017 23:02:26 +0200
+
 dput-ng (1.11) unstable; urgency=medium
 
   [ Dr. Tobias Quathamer ]
