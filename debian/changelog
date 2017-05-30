@@ -1,9 +1,12 @@
-dput-ng (1.13) UNRELEASED; urgency=medium
+dput-ng (1.13) unstable; urgency=medium
 
-  * Switch host for security uploads to ftp.security.upload.debian.org
-    (closes: #863349).
+  * Team upload.
 
- -- Julien Cristau <jcristau@debian.org>  Fri, 26 May 2017 22:39:58 +0200
+  [ Julien Cristau ]
+  * Switch host for security uploads to ftp.security.upload.debian.org.
+    (Closes: #863349)
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 30 May 2017 18:41:14 +0200
 
 dput-ng (1.12) unstable; urgency=medium
 
