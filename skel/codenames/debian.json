@@ -2,7 +2,9 @@
     "backport": [
         "stable-backports",
         "oldstable-backports",
+        "stretch-backports",
         "jessie-backports",
+        "jessie-backports-sloopy",
         "wheezy-backports",
         "wheezy-backports-sloppy",
         "squeeze-backports",
