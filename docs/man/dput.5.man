@@ -170,7 +170,7 @@ Not supported yet. This is a known limitation.
 *incoming* (string)::
 
 The directory that *dput* should upload files to. Most upload sites do not
-allow to write files in the log-in directory. Specify a path here, to which
+allow writes in the log-in directory. Specify a path here, to which
 *dput* should change the directory to, before starting to write files.
 
 *method* (string)::

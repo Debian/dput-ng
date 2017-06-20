@@ -59,8 +59,8 @@ OPTIONS
 *-O, --output*=FILENAME::
 	Write the resulting commands file to 'FILENAME' instead of uploading it.
     This option should not be used with the *upload* command.  The selected
-    'FILENAME' wont be overwritten if it exists already. This is very helpful for
-    testing that things work correctly.
+    'FILENAME' won't be overwritten if it exists already. This is very helpful
+    for testing that things work correctly.
 
 *-P, --passive*::
 	Force FTP passive mode when uploading the package through FTP.
