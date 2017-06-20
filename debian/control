@@ -24,8 +24,8 @@ Build-Depends:
  python-sphinx (>= 1.0.7+dfsg),
  python-validictory,
  xsltproc,
-Standards-Version: 3.9.8
-Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/dputng.git
+Standards-Version: 4.0.0
+Vcs-Browser: https://anonscm.debian.org/git/collab-maint/dputng.git
 Vcs-Git: https://anonscm.debian.org/git/collab-maint/dputng.git
 Homepage: http://dput-ng.debian.net/
 X-Python-Version: >= 2.7
