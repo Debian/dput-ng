@@ -1,3 +1,20 @@
+dput-ng (1.14) UNRELEASED; urgency=medium
+
+  * Team upload.
+
+  [ Mattia Rizzolo ]
+  * Add jessie-backports-sloppy and stretch-backports.
+  * Mark dput-ng-doc as Multi-Arch:foreign.
+
+  [ James Clarke ]
+  * Add ports-master profile. (Closes: #855154)
+
+  [ Stephan Sürken ]
+  * dput/uploaders/ftp.py: Parse and use optional [:port] part for fqdn.
+    (Closes: #814440)
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 20 Jun 2017 12:29:54 +0200
+
 dput-ng (1.13) unstable; urgency=medium
 
   * Team upload.
