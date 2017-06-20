@@ -2,26 +2,28 @@ Source: dput-ng
 Section: devel
 Priority: extra
 Maintainer: dput-ng Maintainers <dput-ng-maint@lists.alioth.debian.org>
-Uploaders: Arno Töll <arno@debian.org>,
- Paul Tagliamonte <paultag@debian.org>
-Build-Depends: debhelper (>= 10),
- dh-python,
- python-distro-info,
- bash-completion,
- python-all (>= 2.7~),
- python-setuptools,
- python-coverage,
- python-debian,
- python-nose,
- python-validictory,
- python-paramiko,
- python-sphinx (>= 1.0.7+dfsg),
+Uploaders:
+ Arno Töll <arno@debian.org>,
+ Paul Tagliamonte <paultag@debian.org>,
+Build-Depends:
  asciidoc,
- libxml2-utils,
+ bash-completion,
+ debhelper (>= 10),
+ dh-python,
  docbook-xml,
  docbook-xsl,
  docbook-xsl-ns,
- xsltproc
+ libxml2-utils,
+ python-all (>= 2.7~),
+ python-coverage,
+ python-debian,
+ python-distro-info,
+ python-nose,
+ python-paramiko,
+ python-setuptools,
+ python-sphinx (>= 1.0.7+dfsg),
+ python-validictory,
+ xsltproc,
 Standards-Version: 3.9.8
 Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/dputng.git
 Vcs-Git: https://anonscm.debian.org/git/collab-maint/dputng.git
@@ -30,11 +32,19 @@ X-Python-Version: >= 2.7
 
 Package: dput-ng
 Architecture: all
-Conflicts: dput
-Replaces: dput
-Provides: dput
-Depends: ${misc:Depends}, ${python:Depends}, python-dput (= ${binary:Version})
-Recommends: bash-completion, python-paramiko
+Conflicts:
+ dput,
+Replaces:
+ dput,
+Provides:
+ dput,
+Depends:
+ python-dput (= ${binary:Version}),
+ ${misc:Depends},
+ ${python:Depends},
+Recommends:
+ bash-completion,
+ python-paramiko,
 Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use
  interface to Debian (like) package archive hosting facilities. It allows
@@ -54,17 +64,18 @@ Description: next generation Debian package upload tool
 Package: python-dput
 Architecture: all
 Section: python
-Depends: ${misc:Depends}, ${python:Depends},
- python-debian,
+Depends:
  gnupg,
+ python-debian,
+ ${misc:Depends},
+ ${python:Depends},
 Recommends:
+ debian-keyring,
  lintian,
+ openssh-client,
  python-distro-info,
  python-paramiko,
  python-validictory,
- openssh-client,
- python-distro-info,
- debian-keyring
 Description: next generation Debian package upload tool (Python library)
  dput-ng is a Debian package upload tool which provides an easy to use
  interface to Debian (like) package archive hosting facilities. It allows
@@ -81,7 +92,9 @@ Package: dput-ng-doc
 Architecture: all
 Multi-Arch: foreign
 Section: doc
-Depends: ${misc:Depends}, ${sphinxdoc:Depends}
+Depends:
+ ${misc:Depends},
+ ${sphinxdoc:Depends},
 Description: next generation Debian package upload tool (documentation)
  dput-ng is a Debian package upload tool which provides an easy to use
  interface to Debian (like) package archive hosting facilities. It allows
