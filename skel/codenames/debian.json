@@ -4,7 +4,7 @@
         "oldstable-backports",
         "stretch-backports",
         "jessie-backports",
-        "jessie-backports-sloopy",
+        "jessie-backports-sloppy",
         "wheezy-backports",
         "wheezy-backports-sloppy",
         "squeeze-backports",
