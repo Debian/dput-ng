@@ -18,6 +18,7 @@
         "sid"
     ],
     "rm-managed": [
+        "testing",
         "stable",
         "oldstable",
         "bullseye",
