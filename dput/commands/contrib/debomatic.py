@@ -38,7 +38,7 @@ class BinNMUCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
-                            default=None, help="source pacakge to rebuild. ",
+                            default=None, help="source package to rebuild. ",
                             required=True)
         parser.add_argument('-v', '--version', metavar="VERSION",
                             action='store', default=None, help="version of "
@@ -88,7 +88,7 @@ class BuilddepCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
-                            default=None, help="source pacakge to rebuild. ",
+                            default=None, help="source package to rebuild. ",
                             required=True)
         parser.add_argument('-v', '--version', metavar="VERSION",
                             action='store', default=None, help="version of "
@@ -128,7 +128,7 @@ class KillCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
-                            default=None, help="source pacakge to kill build for. ",
+                            default=None, help="source package to kill build for. ",
                             required=True)
         parser.add_argument('-v', '--version', metavar="VERSION",
                             action='store', default=None, help="version of "
@@ -165,7 +165,7 @@ class PorterCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
-                            default=None, help="source pacakge to generate a "
+                            default=None, help="source package to generate a "
                             "porter upload for. ", required=True)
         parser.add_argument('-v', '--version', metavar="VERSION",
                             action='store', default=None, help="version of "
@@ -207,7 +207,7 @@ class RebuildCommand(AbstractCommand):
 
     def register(self, parser, **kwargs):
         parser.add_argument('-s', '--source', metavar="SOURCE", action='store',
-                            default=None, help="source pacakge to rebuild. ",
+                            default=None, help="source package to rebuild. ",
                             required=True)
         parser.add_argument('-v', '--version', metavar="VERSION",
                             action='store', default=None, help="version of "
