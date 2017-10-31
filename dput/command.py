@@ -78,13 +78,14 @@ def load_commands(profile):
     for command in profile['valid_commands']:
         logger.debug("importing command: %s" % (command))
         try:
-            # XXX: Stubbed the profile for now. That ignores any user choice
-            #      on the profile.
-            #      Reason being that the profile and the argument parser is a
-            #      transitive circular dependency. That should be fixed at some
-            #      point.
-            with get_obj_by_name('commands', command, {}) as(obj, interface):
-                commands.append(obj(interface))
+            with get_obj_by_name('commands', command) as obj:
+                # XXX: Stubbed the profile for now. That ignores any user choice
+                #      on the profile.
+                #      Reason being that the profile and the argument parser is a
+                #      transitive circular dependency. That should be fixed at some
+                #      point.
+                with get_interface({}) as interface:
+                    commands.append(obj(interface))
         except NoSuchConfigError:
             raise DputConfigurationError("No such command: `%s'" % (command))
 

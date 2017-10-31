@@ -323,7 +323,7 @@ def obj_docs(cls, ostr):
 
 
 @contextmanager
-def get_obj_by_name(cls, name, profile):
+def get_obj_by_name(cls, name):
     """
     Run a function, defined by ``name``, filed in class ``cls``
     """
@@ -333,7 +333,14 @@ def get_obj_by_name(cls, name, profile):
         raise DputConfigurationError("No such obj: `%s'" % (
             name
         ))
+    try:
+        yield obj
+    finally:
+        pass
 
+
+@contextmanager
+def get_interface(profile):
     interface = 'cli'
     if 'interface' in profile:
         interface = profile['interface']
@@ -347,7 +354,7 @@ def get_obj_by_name(cls, name, profile):
     interface.initialize()
 
     try:
-        yield (obj, interface)
+        yield interface
     finally:
         pass
 
@@ -362,5 +369,6 @@ def run_func_by_name(cls, name, changes, profile):
 
     This is used to run the hooks, internally.
     """
-    with get_obj_by_name(cls, name, profile) as(obj, interface):
-        obj(changes, profile, interface)
+    with get_obj_by_name(cls, name) as obj:
+        with get_interface(profile) as interface:
+            obj(changes, profile, interface)
