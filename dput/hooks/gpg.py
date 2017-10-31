@@ -18,6 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+import os
+import subprocess
+
+import dput.changes
 from dput.core import logger
 from dput.exceptions import (ChangesFileException, HookException)
 
@@ -65,25 +69,34 @@ def check_gpg_signature(changes, profile, interface):
 
     try:
         key = changes.validate_signature()
-        if 'allowed_keys' in gpg:
-            allowed_keys = gpg['allowed_keys']
-
-            found = False
-            for k in allowed_keys:
-                if k == key[-len(k):]:
-                    logger.info("Key %s is trusted to upload to this host." % (
-                        k
-                    ))
-                    found = True
-
-            if not found:
-                raise GPGCheckerError("Key %s is not in %s" % (
-                    key,
-                    allowed_keys
-                ))
-
     except ChangesFileException as e:
-        raise GPGCheckerError(
-            "No valid signature on %s: %s" % (changes.get_filename(),
-                                              e)
-        )
+        # Sign unsigned files using debsign:
+        changes_file = changes.get_changes_file()
+        if subprocess.call(['debsign', changes_file]) == 0:
+            changes = dput.changes.parse_changes_file(
+                changes_file,
+                os.path.dirname(changes_file)
+            )
+        try:
+            key = changes.validate_signature()
+        except ChangesFileException as e:
+            if e.gpg_stderr:
+                print e.gpg_stderr
+            raise e
+
+    if 'allowed_keys' in gpg:
+        allowed_keys = gpg['allowed_keys']
+
+        found = False
+        for k in allowed_keys:
+            if k == key[-len(k):]:
+                logger.info("Key %s is trusted to upload to this host." % (
+                    k
+                ))
+                found = True
+
+        if not found:
+            raise GPGCheckerError("Key %s is not in %s" % (
+                key,
+                allowed_keys
+            ))

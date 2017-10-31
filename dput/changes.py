@@ -256,7 +256,6 @@ class Changes(object):
         # contains verbose human readable GPG information
         if self.is_python3:
             gpg_output_stderr = str(gpg_output_stderr, encoding='utf8')
-        print(gpg_output_stderr)
 
         if self.is_python3:
             gpg_output = gpg_output.decode(encoding='UTF-8')
@@ -264,14 +263,15 @@ class Changes(object):
         if gpg_output.count('[GNUPG:] GOODSIG'):
             pass
         elif gpg_output.count('[GNUPG:] BADSIG'):
-            raise ChangesFileException("Bad signature")
+            raise ChangesFileException("Bad signature", gpg_output_stderr)
         elif gpg_output.count('[GNUPG:] ERRSIG'):
-            raise ChangesFileException("Error verifying signature")
+            raise ChangesFileException("Error verifying signature",
+                                       gpg_output_stderr)
         elif gpg_output.count('[GNUPG:] NODATA'):
-            raise ChangesFileException("No signature on")
+            raise ChangesFileException("No signature on", gpg_output_stderr)
         else:
             raise ChangesFileException(
-                "Unknown problem while verifying signature"
+                "Unknown problem while verifying signature", gpg_output_stderr
             )
 
         key = None

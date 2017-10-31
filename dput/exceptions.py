@@ -64,7 +64,10 @@ class ChangesFileException(DputError):
     Thrown when there's an error processing / verifying a .changes file
     (most often via the :class:`dput.changes.Changes` object)
     """
-    pass
+
+    def __init__(self, message, gpg_stderr=None):
+        super(ChangesFileException, self).__init__(message)
+        self.gpg_stderr = gpg_stderr
 
 
 class DscFileException(DputError):
