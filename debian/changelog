@@ -1,3 +1,17 @@
+dput-ng (1.16) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Matteo F. Vescovi ]
+  * Fix typos in Deb-o-Matic command descriptions
+
+  [ Michael Stapelberg ]
+  * dput: default to uploading the most recent changes file when none is specified
+    (Closes: #880461)
+  * gpg: run debsign on unsigned changes files (Closes: #880462)
+
+ -- Michael Stapelberg <stapelberg@debian.org>  Thu, 01 Feb 2018 22:33:26 +0100
+
 dput-ng (1.15) unstable; urgency=medium
 
   * Team upload.
