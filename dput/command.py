@@ -28,7 +28,7 @@ import pwd
 import socket
 
 import dput.profile
-from dput.util import get_obj_by_name, get_configs, run_command
+from dput.util import get_obj_by_name, get_configs, get_interface, run_command
 from dput.core import logger, get_local_username
 from dput.exceptions import (UploadException, DputConfigurationError,
                              DcutError, NoSuchConfigError)
