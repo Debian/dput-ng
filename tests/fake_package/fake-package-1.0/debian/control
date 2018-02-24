@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Winston Smith <wsmith@bigbrother.com>
 Build-Depends: debhelper (>= 9),
 Standards-Version: 3.9.4
+Rules-Requires-Root: no
 
 Package: fnord
 Depends: ${misc:Depends}
