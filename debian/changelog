@@ -1,3 +1,18 @@
+dput-ng (1.17) unstable; urgency=medium
+
+  * Team upload.
+  * Add missing import preventing all dcut commands to work.  Closes: #890188
+  * Change the mentors.debian.net upload queue to the new recommended one.
+  * Bump Standards-Version to 4.1.3:
+    + Use HTTPS in d/copyright's Format.
+    + Bump Priority from extra to optional.
+  * d/control:
+    + Move the git repository to salsa.debian.org.
+    + Set Rules-Requires-Root: no.
+  * Bump debhelper compat level to 11.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sat, 24 Feb 2018 09:58:18 +0100
+
 dput-ng (1.16) unstable; urgency=medium
 
   * Team upload.
@@ -6,8 +21,8 @@ dput-ng (1.16) unstable; urgency=medium
   * Fix typos in Deb-o-Matic command descriptions
 
   [ Michael Stapelberg ]
-  * dput: default to uploading the most recent changes file when none is specified
-    (Closes: #880461)
+  * dput: default to uploading the most recent changes file when none is
+    specified (Closes: #880461)
   * gpg: run debsign on unsigned changes files (Closes: #880462)
 
  -- Michael Stapelberg <stapelberg@debian.org>  Thu, 01 Feb 2018 22:33:26 +0100
