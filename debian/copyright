@@ -1,7 +1,6 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0
 Upstream-Name: dput-ng
 Upstream-Contact: Arno Töll <arno@debian.org>
-Source: http://anonscm.debian.org/gitweb/?p=collab-maint/dputng.git
 
 Files: *
 Copyright: 2012, Paul Tagliamonte <paultag@ubuntu.com>

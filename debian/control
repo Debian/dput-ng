@@ -1,6 +1,6 @@
 Source: dput-ng
 Section: devel
-Priority: extra
+Priority: optional
 Maintainer: dput-ng Maintainers <dput-ng-maint@lists.alioth.debian.org>
 Uploaders:
  Arno Töll <arno@debian.org>,
@@ -24,7 +24,7 @@ Build-Depends:
  python-sphinx (>= 1.0.7+dfsg),
  python-validictory,
  xsltproc,
-Standards-Version: 4.0.0
+Standards-Version: 4.1.3
 Vcs-Browser: https://anonscm.debian.org/git/collab-maint/dputng.git
 Vcs-Git: https://anonscm.debian.org/git/collab-maint/dputng.git
 Homepage: http://dput-ng.debian.net/
