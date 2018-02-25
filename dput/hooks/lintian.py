@@ -21,6 +21,8 @@
 Lintian checker implementation
 """
 
+from __future__ import print_function
+
 import subprocess
 
 from dput.core import logger
