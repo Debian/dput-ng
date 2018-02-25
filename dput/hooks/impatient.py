@@ -22,9 +22,11 @@ Tell you when dinstall is next
 """
 
 import datetime as dt
-import urllib2
 import time
 import re
+
+
+from six.moves import urllib
 
 
 URL_ROOT = "http://ftp-master.debian.org/dinstall.html"
@@ -33,7 +35,7 @@ URL_ROOT = "http://ftp-master.debian.org/dinstall.html"
 def check_next_install(changes, profile, interface):
     """
     """
-    #data = urllib2.urlopen(URL_ROOT).read()
+    #data = urllib.request.urlopen(URL_ROOT).read()
     #times = re.finditer(r"\d{2}:\d{2}", data)
     # XXX: Perhaps re-do it this way? Perhaps?
     times = ['01:52', '07:52', '13:52', '19:52']

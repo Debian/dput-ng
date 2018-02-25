@@ -25,11 +25,11 @@ from dput.exceptions import UploadException
 from dput.uploader import AbstractUploader
 from dput.core import logger
 
-import urllib2
 import mmap
 import mimetypes
 import os.path
-import urlparse
+
+from six.moves import urllib
 
 
 class HttpUploadException(UploadException):
@@ -60,7 +60,7 @@ class HTTPUploader(AbstractUploader):
         # reasonably sane
         if not self._config['fqdn'].lower().startswith("http"):
             self._config['fqdn'] = "http://" + self._config['fqdn']
-        self._baseurl = urlparse.urlparse(self._config['fqdn'])
+        self._baseurl = urllib.parse.urlparse(self._config['fqdn'])
 
         _incoming = self._config['incoming']
         if not _incoming.startswith("/"):
@@ -80,7 +80,7 @@ class HTTPUploader(AbstractUploader):
 
         # XXX: Timeout, please.
 
-        self._baseurl = urlparse.urlunparse((self._baseurl.scheme,
+        self._baseurl = urllib.parse.urlunparse((self._baseurl.scheme,
                                              self._baseurl.netloc, _path,
                                              _query, self._username,
                                              self._password
@@ -96,13 +96,13 @@ class HTTPUploader(AbstractUploader):
         (mime_type, _) = mimetypes.guess_type(filename)
         fh = open(filename, 'rb')
         mmaped_fh = mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)
-        req = urllib2.Request(url=upload_filename, data=mmaped_fh)
+        req = urllib.request.Request(url=upload_filename, data=mmaped_fh)
         req.add_header("Content-Type", mime_type)
         req.get_method = lambda: 'PUT'
 
         try:
-            urllib2.urlopen(req)
-        except urllib2.HTTPError as e:
+            urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
             if e.code == 403:
                 self.upload_write_error(e)
             else:

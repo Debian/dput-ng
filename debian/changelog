@@ -1,3 +1,9 @@
+dput-ng (1.18) UNRELEASED; urgency=medium
+
+  * Add Python 3 support. This still need a bit of testing before upload.
+
+ -- Thomas Goirand <zigo@debian.org>  Sun, 25 Feb 2018 10:08:54 +0100
+
 dput-ng (1.17) unstable; urgency=medium
 
   * Team upload.

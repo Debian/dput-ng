@@ -29,6 +29,9 @@ from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
 
+import six
+
+
 def get_sections():
     """
     Get all profiles we know about.
@@ -39,7 +42,7 @@ def get_sections():
 if sys.version_info[0] >= 3:
     _basestr_type = str
 else:
-    _basestr_type = basestring
+    _basestr_type = six.string_types
 
 
 class DputProfileConfig(AbstractConfig):

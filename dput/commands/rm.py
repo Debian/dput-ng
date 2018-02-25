@@ -23,6 +23,10 @@ from dput.exceptions import DcutError
 from dput.commands.cancel import generate_debianqueued_commands_name
 from dput.changes import Changes
 from dput.core import logger
+
+from six.moves import reduce
+
+
 # XXX: Generate rm from .changes?
 
 

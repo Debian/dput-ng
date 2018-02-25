@@ -220,7 +220,7 @@ def invoke_dcut(args):
             (name, email) = write_header(fh, profile, args)
             command.produce(fh, args)
             fh.flush()
-            #print fh.name
+            #print(fh.name)
             fh.close()
 
             if args.save:

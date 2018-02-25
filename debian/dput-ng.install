@@ -1,5 +1,4 @@
 README.md                   usr/share/doc/dput-ng/
-bin/*                       usr/bin/
 skel/README                 usr/share/dput-ng/
 skel/codenames              usr/share/dput-ng/
 skel/commands               usr/share/dput-ng/

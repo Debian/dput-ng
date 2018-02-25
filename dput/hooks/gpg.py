@@ -81,7 +81,7 @@ def check_gpg_signature(changes, profile, interface):
             key = changes.validate_signature()
         except ChangesFileException as e:
             if e.gpg_stderr:
-                print e.gpg_stderr
+                print(e.gpg_stderr)
             raise e
 
     if 'allowed_keys' in gpg:

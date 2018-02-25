@@ -3,13 +3,18 @@
 MANPAGES := $(patsubst docs/man/%.man, debian/man/%, $(wildcard docs/man/*.man))
 VENDOR = $(shell dpkg-vendor --query vendor)
 
+PYTHONS:=$(shell pyversions -vr)
+PYTHON3S:=$(shell py3versions -vr)
 
 %:
-	dh $@ --with bash-completion,python2,sphinxdoc
+	dh $@ --with bash-completion,python2,python3,sphinxdoc
 
 
 override_dh_auto_clean:
-	dh_auto_clean
+	for i in $(PYTHONs) $(PYTHON3S) ; do \
+		PYTHON=python$$i python$$i setup.py clean ; \
+	done
+		
 	rm -rvf ./docs/_build ./*.egg-info ./build .coverage
 	rm -f $(MANPAGES)
 	rm -rf debian/man
@@ -20,7 +25,9 @@ override_dh_auto_test:
 	# Die, python2.6, die! dput (oldschool) will work fine with 2.6, use that
 	# :)
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	nosetests
+	for i in $(PYTHONs) $(PYTHON3S) ; do \
+		PYTHON=python$$i python$$i -m nose ; \
+	done
 endif
 
 
@@ -30,9 +37,11 @@ override_dh_auto_build:
 
 
 override_dh_auto_install:
-	dh_auto_install
-	rm -vf ./debian/tmp/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
-
+	PYTHON=python2.7 python2.7 setup.py install --install-layout=deb --root $(CURDIR)/debian/python-dput ; \
+	for i in $(PYTHON3S) ; do \
+		PYTHON=python$$i python$$i setup.py install --install-layout=deb --root $(CURDIR)/debian/python3-dput ; \
+	done
+	rm -vf ./debian/python*dput-ng/usr/lib/*/dist-packages/dput*egg-info/SOURCES.txt
 
 override_dh_install:
 	dh_install
@@ -54,3 +63,6 @@ override_dh_installman: $(MANPAGES)
 
 override_dh_installexamples:
 	dh_installexamples examples/*
+
+override_dh_python3:
+	dh_python3 --shebang=/usr/bin/python3
