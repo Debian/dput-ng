@@ -83,6 +83,10 @@ Depends:
  ${python:Depends},
 Conflicts:
  python3-dput,
+Breaks:
+ dput-ng (<< 1.18~),
+Replaces:
+ dput-ng (<< 1.18~),
 Recommends:
  debian-keyring,
  lintian,
@@ -113,6 +117,10 @@ Depends:
  ${python3:Depends},
 Conflicts:
  python-dput,
+Breaks:
+ dput-ng (<< 1.18~),
+Replaces:
+ dput-ng (<< 1.18~),
 Recommends:
  debian-keyring,
  lintian,
