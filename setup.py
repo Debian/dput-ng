@@ -27,7 +27,7 @@ setup(
         'dput.interfaces',
     ],
     author="dput authors",
-    author_email="paultag@debian.org",
+    author_email="dput-ng@packages.debian.org",
     long_description=long_description,
     description='dput-ng -- like dput, but better',
     license="GPL-2+",
