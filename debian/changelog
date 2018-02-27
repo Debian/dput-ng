@@ -3,10 +3,13 @@ dput-ng (1.18) UNRELEASED; urgency=medium
   * Team upload.
 
   [ Thomas Goirand ]
-  * Add Python 3 support. This still need a bit of testing before upload.
+  * Add Python 3 support.
 
   [ Mattia Rizzolo ]
   * Use pybuild as a build system.
+  * Remove the Python 2 package.
+  * interfaces/cli: flush the output to stdout before asking for input.
+  * setup.py: change the author_email away from paultag to dput-ng@package.d.o.
 
  -- Thomas Goirand <zigo@debian.org>  Sun, 25 Feb 2018 10:08:54 +0100
 
