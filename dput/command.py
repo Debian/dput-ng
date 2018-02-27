@@ -158,7 +158,7 @@ def sign_file(filename, keyid=None, profile=None, name=None, email=None):
         raise DcutError("Failed to make cleartext signature "
                         "to commands file:\n%s" % (gpg_output_stderr))
 
-    if gpg_output.count('[GNUPG:] SIG_CREATED'):
+    if gpg_output.count(b'[GNUPG:] SIG_CREATED'):
         pass
     else:
         raise DcutError("Failed to make cleartext signature:\n%s" %
@@ -216,7 +216,7 @@ def invoke_dcut(args):
                 ))
             upload_path = args.upload_file
         else:
-            fh = tempfile.NamedTemporaryFile(mode='w+r', delete=False)
+            fh = tempfile.NamedTemporaryFile(mode='w+', delete=False)
             (name, email) = write_header(fh, profile, args)
             command.produce(fh, args)
             fh.flush()
