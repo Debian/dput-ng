@@ -131,6 +131,7 @@ class CLInterface(AbstractInterface):
             sys.stdout.write("%s: " % (title))
         if echo_input:
             sys.stdout.write(message)
+            sys.stdout.flush()
             return sys.stdin.readline().strip()
         else:
             return getpass.getpass(message)
