@@ -7,7 +7,7 @@ export PYBUILD_BEFORE_TEST = cp -r {dir}/skel {dir}/tests {build_dir}
 export PYBUILD_AFTER_TEST = rm -r {build_dir}/skel {build_dir}/tests
 
 %:
-	dh $@ --with bash-completion,python2,python3,sphinxdoc --buildsystem pybuild
+	dh $@ --with bash-completion,python3,sphinxdoc --buildsystem pybuild
 
 
 override_dh_auto_clean:

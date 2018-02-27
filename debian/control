@@ -14,18 +14,7 @@ Build-Depends:
  docbook-xsl,
  docbook-xsl-ns,
  libxml2-utils,
- python-all,
- python-coverage,
- python-debian,
- python-distro-info,
- python-nose,
- python-paramiko,
- python-six,
- python-setuptools,
- python-sphinx,
- python-validictory,
  python3-all,
- python3-coverage,
  python3-debian,
  python3-distro-info,
  python3-nose,
@@ -50,9 +39,9 @@ Replaces:
 Provides:
  dput,
 Depends:
- python-dput (= ${binary:Version}) | python3-dput (= ${binary:Version}),
+ python3-dput (= ${binary:Version}),
  ${misc:Depends},
- ${python:Depends},
+ ${python3:Depends},
 Recommends:
  bash-completion,
  python-paramiko,
@@ -72,40 +61,6 @@ Description: next generation Debian package upload tool
  .
  The recommended package python-paramiko is needed to upload via SSH.
 
-Package: python-dput
-Architecture: all
-Section: python
-Depends:
- gnupg,
- python-debian,
- python-six,
- ${misc:Depends},
- ${python:Depends},
-Conflicts:
- python3-dput,
-Breaks:
- dput-ng (<< 1.18~),
-Replaces:
- dput-ng (<< 1.18~),
-Recommends:
- debian-keyring,
- lintian,
- openssh-client,
- python-distro-info,
- python-paramiko,
- python-validictory,
-Description: next generation Debian package upload tool (Python library)
- dput-ng is a Debian package upload tool which provides an easy to use
- interface to Debian (like) package archive hosting facilities. It allows
- anyone who works with Debian packages to upload their work to a remote
- service, including Debian's ftp-master, mentors.debian.net, Launchpad or other
- package hosting facilities for Debian package maintainers.
- .
- This package provides Python library functions providing core functionality to
- dput-ng and tools building on top of that. This library provides upload
- classes, profile parser, sanity checks and helper functions required to build
- a dput service.
-
 Package: python3-dput
 Architecture: all
 Section: python
@@ -115,12 +70,6 @@ Depends:
  python3-six,
  ${misc:Depends},
  ${python3:Depends},
-Conflicts:
- python-dput,
-Breaks:
- dput-ng (<< 1.18~),
-Replaces:
- dput-ng (<< 1.18~),
 Recommends:
  debian-keyring,
  lintian,
