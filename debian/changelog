@@ -1,6 +1,12 @@
 dput-ng (1.18) UNRELEASED; urgency=medium
 
+  * Team upload.
+
+  [ Thomas Goirand ]
   * Add Python 3 support. This still need a bit of testing before upload.
+
+  [ Mattia Rizzolo ]
+  * Use pybuild as a build system.
 
  -- Thomas Goirand <zigo@debian.org>  Sun, 25 Feb 2018 10:08:54 +0100
 
