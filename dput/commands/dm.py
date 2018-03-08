@@ -18,8 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
-import six
-
 import time
 import os.path
 from dput.command import AbstractCommand
@@ -134,10 +132,7 @@ class DmCommand(AbstractCommand):
         possible_fingerprints = []
         current_uid = None
         next_line_contains_fpr = False
-        if six.PY2:
-            gpg_out = out.split("\n")
-        else:
-            gpg_out = out.decode().split("\n")
+        gpg_out = out.decode().split("\n")
         for line in gpg_out:
             if next_line_contains_fpr:
                 assert(line.startswith("fpr"))

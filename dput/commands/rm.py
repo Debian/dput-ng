@@ -18,13 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 # 02110-1301, USA.
 
+from functools import reduce
+
 from dput.command import AbstractCommand
 from dput.exceptions import DcutError
 from dput.commands.cancel import generate_debianqueued_commands_name
 from dput.changes import Changes
 from dput.core import logger
-
-from six.moves import reduce
 
 
 # XXX: Generate rm from .changes?

@@ -29,20 +29,11 @@ from dput.config import AbstractConfig
 from dput.exceptions import DputConfigurationError
 
 
-import six
-
-
 def get_sections():
     """
     Get all profiles we know about.
     """
     return get_configs('profiles')
-
-
-if sys.version_info[0] >= 3:
-    _basestr_type = str
-else:
-    _basestr_type = six.string_types
 
 
 class DputProfileConfig(AbstractConfig):
@@ -102,7 +93,7 @@ class DputProfileConfig(AbstractConfig):
         repls = self.replacements
         for thing in profile:
             val = profile[thing]
-            if not isinstance(val, _basestr_type):
+            if not isinstance(val, str):
                 continue
             for repl in repls:
                 if repl in val:
@@ -115,7 +106,7 @@ class DputProfileConfig(AbstractConfig):
 
         for key in ret:
             val = ret[key]
-            if isinstance(val, _basestr_type):
+            if isinstance(val, str):
                 if "%(" in val and ")s" in val and not ignore_errors:
                     raise DputConfigurationError(
                         "Half-converted block: %s --> %s" % (key, val))

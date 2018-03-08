@@ -19,7 +19,6 @@ Build-Depends:
  python3-distro-info,
  python3-nose,
  python3-paramiko,
- python3-six,
  python3-setuptools,
  python3-sphinx,
  python3-validictory,
@@ -67,7 +66,6 @@ Section: python
 Depends:
  gnupg,
  python3-debian,
- python3-six,
  ${misc:Depends},
  ${python3:Depends},
 Recommends:

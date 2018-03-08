@@ -26,10 +26,9 @@ from dput.uploader import AbstractUploader
 from dput.core import logger
 
 import mmap
-import mimetypes
+import urllib
 import os.path
-
-from six.moves import urllib
+import mimetypes
 
 
 class HttpUploadException(UploadException):

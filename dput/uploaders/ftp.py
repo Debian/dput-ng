@@ -21,8 +21,6 @@
 FTP Uploader implementation.
 """
 
-import six
-
 import ftplib
 import os.path
 
@@ -63,10 +61,7 @@ class FtpUploader(AbstractUploader):
         try:
             self._ftp = ftplib.FTP()
             host, dummy, port = self._config["fqdn"].partition(":")
-            if six.PY2:
-                self._ftp.connect(host, None if port == "" else int(port), timeout)
-            else:
-                self._ftp.connect(host, 0 if port == "" else int(port), timeout)
+            self._ftp.connect(host, 0 if port == "" else int(port), timeout)
             self._ftp.login(self._config["login"])
         except Exception as e:
             raise FtpUploadException(

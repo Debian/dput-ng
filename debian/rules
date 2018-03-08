@@ -42,6 +42,3 @@ override_dh_installman: $(MANPAGES)
 
 override_dh_installexamples:
 	dh_installexamples examples/*
-
-override_dh_python3:
-	dh_python3 --shebang=/usr/bin/python3

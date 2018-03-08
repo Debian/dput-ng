@@ -26,9 +26,6 @@ import time
 import re
 
 
-from six.moves import urllib
-
-
 URL_ROOT = "http://ftp-master.debian.org/dinstall.html"
 
 
