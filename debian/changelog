@@ -1,17 +1,17 @@
-dput-ng (1.18) UNRELEASED; urgency=medium
+dput-ng (1.18) unstable; urgency=medium
 
   * Team upload.
 
   [ Thomas Goirand ]
-  * Add Python 3 support.
+  * Add Python 3 support.  Closes: #883052
 
   [ Mattia Rizzolo ]
   * Use pybuild as a build system.
-  * Remove the Python 2 package.
+  * Remove the Python 2 package, and py2/py3 compatibility code.
   * interfaces/cli: flush the output to stdout before asking for input.
   * setup.py: change the author_email away from paultag to dput-ng@package.d.o.
 
- -- Thomas Goirand <zigo@debian.org>  Sun, 25 Feb 2018 10:08:54 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Thu, 08 Mar 2018 10:47:47 +0100
 
 dput-ng (1.17) unstable; urgency=medium
 
