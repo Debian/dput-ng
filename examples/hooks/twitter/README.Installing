@@ -5,7 +5,7 @@ Before we begin, you should be sure to install the twitter dput-ng
 plugin. Here's the quick version for 1.4+ (versions before this didn't include
 the script in examples, please fetch the files from git if you're unable to
 use a recent dput-ng version).
-If it's not, remember to even install the python-twitter package.
+If it's not, remember to even install the python3-twitter package.
 It's mandatory to have this hook working correctly.
 
 
