@@ -93,7 +93,7 @@ _dcut()
         cmd=$cmd"except dput.exceptions.DputConfigurationError:\n"
         cmd=$cmd"    cmds = []\n"
         cmd=$cmd"print ' '.join([x.name_and_purpose()[0] for x in cmds])"
-        echo $cmd | sed 's/\\n/\'$'\n/g' | python
+        echo $cmd | sed 's/\\n/\'$'\n/g' | python3
     } | sort -u)
 
     paroptions="$options $hosts $commands"
