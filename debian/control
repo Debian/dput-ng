@@ -43,7 +43,6 @@ Depends:
  ${python3:Depends},
 Recommends:
  bash-completion,
- python-paramiko,
 Suggests:
  python3-twitter,
 Description: next generation Debian package upload tool
