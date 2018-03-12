@@ -58,8 +58,6 @@ Description: next generation Debian package upload tool
  .
  dput-ng aims to be backwards compatible with dput in command-line flags,
  configuration files, and expected behavior.
- .
- The recommended package python-paramiko is needed to upload via SSH.
 
 Package: python3-dput
 Architecture: all
@@ -87,6 +85,8 @@ Description: next generation Debian package upload tool (Python 3 library)
  dput-ng and tools building on top of that. This library provides upload
  classes, profile parser, sanity checks and helper functions required to build
  a dput service.
+ .
+ The recommended package python3-paramiko is needed to upload via SSH.
 
 Package: dput-ng-doc
 Architecture: all
