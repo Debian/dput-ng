@@ -215,6 +215,7 @@ def invoke_dcut(args):
                     args.upload_file
                 ))
             upload_path = args.upload_file
+            upload_filename = os.path.basename(args.upload_file)
         else:
             fh = tempfile.NamedTemporaryFile(mode='w+', delete=False)
             (name, email) = write_header(fh, profile, args)
