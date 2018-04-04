@@ -7,7 +7,7 @@ dput-ng (1.19) UNRELEASED; urgency=medium
   * Fix dcut bash completion after the move from python2 to python3.
   * d/dput-ng.maintscript: Remove the old bash-completion file from /etc.
   * d/control:
-    + Tequire a new enough bash-completion to be sure to install the
+    + Require a new enough bash-completion to be sure to install the
       file under /usr.
     + Drop recommends on python-paramiko from dput-ng.  Closes: #893310
 
