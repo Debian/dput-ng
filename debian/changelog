@@ -1,4 +1,6 @@
-dput-ng (1.19) UNRELEASED; urgency=medium
+dput-ng (1.19) unstable; urgency=medium
+
+  * Team upload.
 
   [ Mattia Rizzolo ]
   * Fix dcut bash completion after the move from python2 to python3.
@@ -19,7 +21,7 @@ dput-ng (1.19) UNRELEASED; urgency=medium
   * debian/: finally fix bash-completion (Closes: #892694)
     Thanks to Salvo 'LtWorf' Tomaselli for both new dcut and dput scripts
 
- -- Matteo F. Vescovi <mfv@debian.org>  Tue, 01 May 2018 15:58:23 +0200
+ -- Matteo F. Vescovi <mfv@debian.org>  Tue, 01 May 2018 16:00:05 +0200
 
 dput-ng (1.18) unstable; urgency=medium
 
