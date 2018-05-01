@@ -1,0 +1,57 @@
+#-*- mode: shell-script;-*-
+
+# Debian dput(1) completion
+# Copyright 2002 Roland Mas <lolando@debian.org>
+# Copyright 2012 Salvatore Bonaccorso <carnil@debian.org>
+# Copyright 2013 Luca Falavigna <dktrkranz@debian.org>
+# Copyright 2018 Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
+
+_dput()
+{
+    local cur prev options paroptions delayed_options hosts
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    options='-c --config -d --debug -D --dinstall -e --delayed \
+             -F --full-upload-log -f --force -l --lintian -o --check-only \
+             -P --passive -s --simulate -U --no-upload-log -u --unchecked \
+             -v --version -V --check-version'
+
+    hosts=$(
+    {
+        grep "^\[.*\]" $HOME/.dput.cf 2> /dev/null | tr -d [] || /bin/true
+        grep "^\[.*\]" /etc/dput.cf 2> /dev/null | tr -d [] || /bin/true
+        for file in $(ls $HOME/.dput.d/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+        for file in $(ls /etc/dput.d/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+        for file in $(ls /usr/share/dput-ng/profiles/*.json 2> /dev/null); do \
+            basename $file .json; \
+        done || /bin/true
+    } | grep -v '^DEFAULT$' | sort -u)
+
+    paroptions="$options $hosts"
+
+    case $prev in
+    --delayed|-e)
+        delayed_options='0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15'
+        COMPREPLY=( $( compgen -W "$delayed_options" | grep ^$cur ) )
+        ;;
+    --config|-c)
+        COMPREPLY=( $( compgen -o filenames -G "$cur*" ) )
+        ;;
+    *)
+        COMPREPLY=( $(
+            compgen -G "${cur}*.changes"
+            compgen -W "$paroptions" | grep "^$cur"
+        ) )
+        ;;
+    esac
+
+    return 0
+
+}
+complete -F _dput -o plusdirs dput
