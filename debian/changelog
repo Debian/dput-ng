@@ -1,8 +1,5 @@
 dput-ng (1.19) UNRELEASED; urgency=medium
 
-  [ Matteo F. Vescovi ]
-  * Add python3-twitter to Suggests and update README.Installing accordingly.
-
   [ Mattia Rizzolo ]
   * Fix dcut bash completion after the move from python2 to python3.
   * d/dput-ng.maintscript: Remove the old bash-completion file from /etc.
@@ -14,7 +11,15 @@ dput-ng (1.19) UNRELEASED; urgency=medium
   [ Salvatore Bonaccorso ]
   * Move mentioning of paramiko for uploads via SSH to python3-dput.
 
- -- Salvatore Bonaccorso <carnil@debian.org>  Mon, 12 Mar 2018 22:40:06 +0100
+  [ Matteo F. Vescovi ]
+  * Add python3-twitter to Suggests and update README.Installing accordingly.
+  * debian/control: S-V bump 4.1.3 -> 4.1.4 (no changes needed)
+  * debian/control: python3-distutils b-dep added
+  * setup.py: move env to python3
+  * debian/: finally fix bash-completion (Closes: #892694)
+    Thanks to Salvo 'LtWorf' Tomaselli for both new dcut and dput scripts
+
+ -- Matteo F. Vescovi <mfv@debian.org>  Tue, 01 May 2018 15:58:23 +0200
 
 dput-ng (1.18) unstable; urgency=medium
 
