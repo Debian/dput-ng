@@ -1,3 +1,24 @@
+dput-ng (1.13+deb9u1) stretch; urgency=medium
+
+  [ Mattia Rizzolo ]
+  * Add jessie-backports-sloppy and stretch-backports targets.  Closes: #878665
+  * Include 'testing' in the rm-managed suites.
+  * Fix some spelling errors in the manpages.
+  * Change the mentors.debian.net upload queue to the new recommended one.
+  * Move the git repository to salsa.debian.org.
+  * Add "oldstable" to the "protected distributions".  Closes: #742136
+  * Change Maintainer email address to dput-ng@packages.debian.org.
+    Closes: #899487
+
+  [ James Clarke ]
+  * Add ports-master profile.  Closes: #855154
+
+  [ Stephan Sürken ]
+  * dput/uploaders/ftp.py: Parse and use optional [:port] part for fqdn.
+    Closes: #814440
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 03 Jul 2018 21:59:30 +0200
+
 dput-ng (1.13) unstable; urgency=medium
 
   * Team upload.
