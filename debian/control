@@ -42,8 +42,6 @@ Depends:
  python3-dput (= ${binary:Version}),
  ${misc:Depends},
  ${python3:Depends},
-Recommends:
- bash-completion,
 Suggests:
  python3-twitter,
 Description: next generation Debian package upload tool
