@@ -1,7 +1,7 @@
 Source: dput-ng
 Section: devel
 Priority: extra
-Maintainer: dput-ng Maintainers <dput-ng-maint@lists.alioth.debian.org>
+Maintainer: dput-ng Maintainers <dput-ng@packages.debian.org>
 Uploaders: Arno Töll <arno@debian.org>,
  Paul Tagliamonte <paultag@debian.org>
 Build-Depends: debhelper (>= 10),
