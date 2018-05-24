@@ -1,3 +1,17 @@
+dput-ng (1.20) unstable; urgency=medium
+
+  * Team upload.
+  * Fix post_upload_command output handling with Python3.  Closes: #893309
+    Thanks to Russ Allbery <rra@debian.org> for reporting and testing the
+    first patch.
+  * d/control:
+    + Change Maintainer email address to dput-ng@packages.debian.org.
+      Closes: #899487
+    + Drop Recommends on bash-completion.  Closes: #864354
+  * hooks: Add "olstable" to the "protected distributions".  Closes: #742136
+
+ -- Mattia Rizzolo <mattia@debian.org>  Thu, 24 May 2018 11:10:39 +0200
+
 dput-ng (1.19) unstable; urgency=medium
 
   * Team upload.
