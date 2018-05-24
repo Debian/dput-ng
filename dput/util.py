@@ -96,6 +96,8 @@ def run_command(command):
         logger.error("Could not execute %s: %s" % (" ".join(command), e))
         return (None, None, -1)
     (output, stderr) = pipe.communicate()
+    output = output.decode('utf-8', errors='replace')
+    stderr = stderr.decode('utf-8', errors='replace')
     #if pipe.returncode != 0:
     #   error("Command %s returned failure: %s" % (" ".join(command), stderr))
     return (output, stderr, pipe.returncode)

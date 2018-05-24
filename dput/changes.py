@@ -253,13 +253,6 @@ class Changes(object):
             raise ChangesFileException(
                 "Unknown problem while verifying signature")
 
-        # contains verbose human readable GPG information
-        if self.is_python3:
-            gpg_output_stderr = str(gpg_output_stderr, encoding='utf8')
-
-        if self.is_python3:
-            gpg_output = gpg_output.decode(encoding='UTF-8')
-
         if gpg_output.count('[GNUPG:] GOODSIG'):
             pass
         elif gpg_output.count('[GNUPG:] BADSIG'):

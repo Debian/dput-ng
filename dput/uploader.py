@@ -84,6 +84,7 @@ class AbstractUploader(object):
                     return
 
             sys.stdout.write(output)  # XXX: Fixme
+            sys.stdout.flush()
             if ret != 0:
                 raise DputError(
                     "Command `%s' returned an error: %s [err=%d]" % (
