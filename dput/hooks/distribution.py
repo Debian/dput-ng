@@ -122,7 +122,7 @@ def check_protected_distributions(changes, profile, interface):
     suite = changes['Distribution']
     query_user = False
     release_team_suites = ["testing-proposed-updates", "proposed-updates",
-                           "stable", "testing"]
+                           "oldstable", "stable", "testing"]
     if suite in release_team_suites:
         msg = "Are you sure to upload to %s? Did you coordinate with the " \
             "Release Team before your upload?" % (suite)
