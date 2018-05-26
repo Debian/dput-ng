@@ -102,12 +102,13 @@ class DmCommand(AbstractCommand):
             return fingerprints
 
         # TODO: Validate input. Packages must exist (i.e. be not NEW)
-        (out, err, exit_status) = run_command([
+        cmd =[
             "gpg", "--no-options",
             "--no-auto-check-trustdb", "--no-default-keyring",
             "--list-key", "--with-colons", "--fingerprint",
             "--keyring", DM_KEYRING, args.dm
-        ])
+        ]
+        (out, err, exit_status) = run_command(cmd)
         if exit_status != 0:
             logger.warning("")
             logger.warning("There was an error looking up the DM's key")
@@ -131,30 +132,34 @@ class DmCommand(AbstractCommand):
                                  (args.dm, err))
         possible_fingerprints = []
         current_uid = None
-        next_line_contains_fpr = False
+        current_fpr = None
+        waiting_for_pub = True
         gpg_out = out.split("\n")
+        # With GnuPG 2 output will be something like this:
+        # tru::1:1526653314:1527815734:3:1:5
+        # pub:u:4096:1:4B043FCDB9444540:1353241761:1830253453::u:::scESCA::::::23::0:
+        # fpr:::::::::66AE2B4AFCCF3F52DA184D184B043FCDB9444540:
+        # uid:u::::1502192653::C2DB9DA864342EDE417ABE122D8983D3BF051A22::Mattia Rizzolo <mattia@mapreri.org>::::::::::0:
         for line in gpg_out:
-            if next_line_contains_fpr:
-                assert(line.startswith("fpr"))
-                parsed_fingerprint = line.split(":")
-                # fpr:::::::::CACE80AE01512F9AE8AB80D61C01F443C9C93C5A:
-                possible_fingerprints.append((current_uid,
-                                              parsed_fingerprint[9],))
-                next_line_contains_fpr = False
+            if current_uid and current_fpr:
+                # if the previous iteration got us a useful key...
+                possible_fingerprints.append((current_uid, current_fpr))
+                current_uid = None
+                current_fpr = None
+                waiting_for_pub = True
+
+            if waiting_for_pub and not line.startswith("pub"):
                 continue
-
-            elif not line.startswith("pub"):
+            elif line.startswith("pub"):
+                waiting_for_pub = False
                 continue
-
-            else:
-                # will give a line like:
-                # pub:-:4096:1:7B585B30807C2A87:2011-08-18:::-:
-                # Paul Tagliamonte <tag@pault.ag>::scESC:
-                # without the newline
-                parsed_fingerprint = line.split(":")
-
-                current_uid = parsed_fingerprint[9]
-                next_line_contains_fpr = True
+            elif current_fpr is None and line.startswith("fpr"):
+                current_fpr = line.split(":")[9]
+                continue
+            elif current_uid is None and line.startswith("uid"):
+                # this only gets the first uid
+                current_uid = line.split(":")[9]
+                continue
 
         possible_fingerprints = list(set(possible_fingerprints))
         if len(possible_fingerprints) > 1:
