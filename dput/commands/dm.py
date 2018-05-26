@@ -132,7 +132,7 @@ class DmCommand(AbstractCommand):
         possible_fingerprints = []
         current_uid = None
         next_line_contains_fpr = False
-        gpg_out = out.decode().split("\n")
+        gpg_out = out.split("\n")
         for line in gpg_out:
             if next_line_contains_fpr:
                 assert(line.startswith("fpr"))
