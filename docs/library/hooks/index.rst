@@ -11,7 +11,6 @@ Contents:
    :maxdepth: 2
 
    lintian
-   archive
    checksum
    deb
    distribution
