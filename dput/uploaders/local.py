@@ -54,6 +54,8 @@ class LocalUploader(AbstractUploader):
             whereto = os.path.join(os.environ["HOME"], whereto)
         dput.util.run_command([
             "install",
+            "--mode",
+            "0644",
             filename,
             whereto
         ])
