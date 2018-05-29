@@ -1,0 +1,13 @@
+pages:
+  image: debian:unstable-slim
+  script:
+    - apt-get -q update
+    - env DEBIAN_FRONTEND=noninteractive apt-get -q -y --no-install-recommends install python3-sphinx make python3-dput python3-paramiko
+    - make -C docs html
+    - mv docs/_build/html/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
