@@ -1,3 +1,18 @@
+dput-ng (1.21) unstable; urgency=medium
+
+  * Team upload.
+  * Fix TypeErrors in dcut (and in particular dcut dm).
+  * commands/dm: Fix parsing of gpg2 to extract the uid of the key.
+  * uploaders/local: install files without the +x bit.  Closes: #813136
+    Thanks to Alexander Balderson <alexander.balderson@hpe.com> for the patch.
+  * Configure gitlab-ci to build our docs and serve them with gitlab pages.
+  * docs:
+    + Remove unused and deprecated sphinx.ext.pngmath module.
+    + Configure sphinx to error out on warnings.
+  * d/control: Set the Homepage field to debian.pages.debian.net/dput-ng.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 29 May 2018 12:38:45 +0200
+
 dput-ng (1.20) unstable; urgency=medium
 
   * Team upload.
