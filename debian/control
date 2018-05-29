@@ -28,7 +28,7 @@ Standards-Version: 4.1.4
 Rules-Requires-Root: no
 Vcs-Browser: https://salsa.debian.org/debian/dput-ng
 Vcs-Git: https://salsa.debian.org/debian/dput-ng.git
-Homepage: http://dput-ng.debian.net/
+Homepage: https://debian.pages.debian.net/dput-ng
 
 Package: dput-ng
 Architecture: all
