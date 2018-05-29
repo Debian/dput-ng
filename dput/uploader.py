@@ -291,7 +291,7 @@ def invoke_dput(changes, args):
     if "unchecked" in args and args.unchecked:
         profile['allow_unsigned_uploads'] = True
 
-    if args.delayed != None:
+    if args.delayed is not None:
         make_delayed_upload(profile, args.delayed)
 
     if args.simulate:
