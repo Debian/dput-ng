@@ -102,6 +102,9 @@ class HTTPUploader(AbstractUploader):
         try:
             urllib.request.urlopen(req)
         except urllib.error.HTTPError as e:
+            error_message = e.read()
+            if error_message:
+                logger.warning("HTTP error message: %s" % error_message)
             if e.code == 403:
                 self.upload_write_error(e)
             else:
