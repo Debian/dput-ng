@@ -25,7 +25,7 @@ try:
     from distro_info import (DebianDistroInfo, UbuntuDistroInfo,
                              DistroDataOutdated)
 except ImportError:
-    logger.warning('Uploading to Ubuntu requires python-distro-info to be '
+    logger.warning('Uploading to Ubuntu requires python3-distro-info to be '
                    'installed')
     raise
 
