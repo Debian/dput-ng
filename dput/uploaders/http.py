@@ -104,6 +104,7 @@ class HTTPUploader(AbstractUploader):
         except urllib.error.HTTPError as e:
             error_message = e.read()
             if error_message:
+                error_message = error_message.strip()
                 if "\n" in error_message:
                     error_message = "\n\t" + "\n\t".join(error_message.splitlines())
                 logger.warning("HTTP error message: %s" % error_message)
