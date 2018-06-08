@@ -59,7 +59,8 @@ class HTTPUploader(AbstractUploader):
         # urlparse library. Pretty please. Hopefully the mangling below is
         # reasonably sane
         if not self._config['fqdn'].lower().startswith("http"):
-            self._config['fqdn'] = "http://" + self._config['fqdn']
+            self._config['fqdn'] = "{}://{}".format(
+                self._config['method'], self._config['fqdn'])
         self._baseurl = urllib.parse.urlparse(self._config['fqdn'])
 
         _incoming = self._config['incoming']
