@@ -26,7 +26,8 @@ from dput.uploader import AbstractUploader
 from dput.core import logger
 
 import mmap
-import urllib
+import urllib.parse
+import urllib.request
 import os.path
 import mimetypes
 
@@ -95,9 +96,13 @@ class HTTPUploader(AbstractUploader):
         (mime_type, _) = mimetypes.guess_type(filename)
         fh = open(filename, 'rb')
         mmaped_fh = mmap.mmap(fh.fileno(), 0, access=mmap.ACCESS_READ)
-        req = urllib.request.Request(url=upload_filename, data=mmaped_fh)
-        req.add_header("Content-Type", mime_type)
-        req.get_method = lambda: 'PUT'
+        req = urllib.request.Request(
+            url=upload_filename,
+            data=fh.read(),
+            method='PUT',
+        )
+        if mime_type is not None:
+            req.add_header("Content-Type", mime_type)
 
         try:
             urllib.request.urlopen(req)
