@@ -43,6 +43,7 @@ Depends:
  ${misc:Depends},
  ${python3:Depends},
 Suggests:
+ dput-ng-doc,
  python3-twitter,
 Description: next generation Debian package upload tool
  dput-ng is a Debian package upload tool which provides an easy to use
