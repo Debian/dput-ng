@@ -1,3 +1,9 @@
+dput-ng (1.22) UNRELEASED; urgency=medium
+
+  * d/copyright: Change Format URL to correct one
+
+ -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:20:22 +0200
+
 dput-ng (1.21) unstable; urgency=medium
 
   * Team upload.
