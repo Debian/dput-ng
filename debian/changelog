@@ -1,8 +1,13 @@
 dput-ng (1.22) UNRELEASED; urgency=medium
 
+  [ Ondřej Nový ]
   * d/copyright: Change Format URL to correct one
 
- -- Ondřej Nový <onovy@debian.org>  Mon, 01 Oct 2018 10:20:22 +0200
+  [ Thomas Goirand ]
+  * Fixed manpage of dcut to correctly document passing a fingerprint to the
+    dcut dm command.
+
+ -- Thomas Goirand <zigo@debian.org>  Wed, 09 Jan 2019 12:55:34 +0000
 
 dput-ng (1.21) unstable; urgency=medium
 
