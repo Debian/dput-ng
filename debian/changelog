@@ -1,4 +1,4 @@
-dput-ng (1.22) UNRELEASED; urgency=medium
+dput-ng (1.22) unstable; urgency=medium
 
   [ Ondřej Nový ]
   * d/copyright: Change Format URL to correct one
