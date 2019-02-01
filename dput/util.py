@@ -77,7 +77,7 @@ def get_obj(cls, checker_method):  # checker_method is a bad name.
         return None
 
 
-def run_command(command):
+def run_command(command, env=None):
     """
     Run a synchronized command. The argument must be a list of arguments.
     Returns a triple (stdout, stderr, exit_status)
@@ -89,6 +89,7 @@ def run_command(command):
         command = shlex.split(command)
     try:
         pipe = subprocess.Popen(command,
+                                env=env,
                                 shell=False,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)

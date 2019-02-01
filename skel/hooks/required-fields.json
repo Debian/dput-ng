@@ -1,0 +1,5 @@
+{
+    "description": "check whether a field is present and non-empty in the changes file",
+    "path": "dput.hooks.distro_info_checks.required_fields",
+    "pre": true
+}
