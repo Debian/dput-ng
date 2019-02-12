@@ -1,9 +1,14 @@
 dput-ng (1.23) UNRELEASED; urgency=medium
 
   * Team upload.
-  * Basically rewrite the 1.22 changelog that missed a lot of changes.
 
- -- Mattia Rizzolo <mattia@debian.org>  Tue, 12 Feb 2019 17:56:50 +0100
+  [ Mattia Rizzolo ]
+  * Basically rewrite the 1.22 changelog that missed a lot of changes.
+  * d/control:
+    + Bump Standards-Version to 4.3.0, no changes needed.
+    + Use the new debhelper-compat notation and bump to 12.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 12 Feb 2019 18:08:03 +0100
 
 dput-ng (1.22) unstable; urgency=medium
 
@@ -15,11 +20,11 @@ dput-ng (1.22) unstable; urgency=medium
   * d/copyright: Change Format URL to correct one
 
   [ Reiner Herrmann ]
-  * Reference python3 distro-info package in import warning.
+  * Reference python3 distro-info package in import warning.  MR: !2
 
   [ aviau ]
-  * http.py: print error messages.
-  * http error logging: indent multi-lines errors.
+  * http.py: print error messages.  Closes: #900546; MR: !1
+  * http error logging: indent multi-lines errors.  MR: !3
   * Don't needlessly treat errors as multi-line.
 
   [ Mattia Rizzolo ]
