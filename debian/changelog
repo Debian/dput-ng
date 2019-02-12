@@ -1,7 +1,25 @@
 dput-ng (1.22) unstable; urgency=medium
 
+  * Team upload.
+
   [ Ondřej Nový ]
+  * Fix DELAYED/0 upload to actually go to DELAYED.
+  * Use is not None istead of != None, thanks to lamby.
   * d/copyright: Change Format URL to correct one
+
+  [ Reiner Herrmann ]
+  * Reference python3 distro-info package in import warning.
+
+  [ aviau ]
+  * http.py: print error messages.
+  * http error logging: indent multi-lines errors.
+  * Don't needlessly treat errors as multi-line.
+
+  [ Mattia Rizzolo ]
+  * uploaders/http:
+    + Fix uploader to work with Python 3.  Closes: #901025
+    + Fix uploader to properly work with method=https
+  * d/control: Add Suggests:dput-ng-doc to dput-ng.  Closes: #902687
 
   [ Thomas Goirand ]
   * Fixed manpage of dcut to correctly document passing a fingerprint to the
