@@ -1,3 +1,10 @@
+dput-ng (1.23) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Basically rewrite the 1.22 changelog that missed a lot of changes.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 12 Feb 2019 17:56:50 +0100
+
 dput-ng (1.22) unstable; urgency=medium
 
   * Team upload.
