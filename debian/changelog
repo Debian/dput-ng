@@ -1,4 +1,4 @@
-dput-ng (1.23) UNRELEASED; urgency=medium
+dput-ng (1.23) unstable; urgency=medium
 
   * Team upload.
 
@@ -7,8 +7,15 @@ dput-ng (1.23) UNRELEASED; urgency=medium
   * d/control:
     + Bump Standards-Version to 4.3.0, no changes needed.
     + Use the new debhelper-compat notation and bump to 12.
+  * Add an autopkgtest running the testsuite.
+  * Run the tests in gitlab ci.
 
- -- Mattia Rizzolo <mattia@debian.org>  Tue, 12 Feb 2019 18:08:03 +0100
+  [ Iain Lane ]
+  * Add a new 'required-fields' hook.  MR: !4
+    And also an user to block uploads to Ubuntu's stable releaase that don't
+    include a Launchpad-Bugs-Fixed field in the changes file.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 12 Feb 2019 20:23:20 +0100
 
 dput-ng (1.22) unstable; urgency=medium
 
