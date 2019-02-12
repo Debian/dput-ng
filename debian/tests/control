@@ -1,0 +1,2 @@
+Test-Command: cp -rv setup.cfg skel tests "$AUTOPKGTEST_TMP" && cd "$AUTOPKGTEST_TMP" && nosetests3 -v
+Depends: @, python3-nose
