@@ -13,7 +13,9 @@ dput.core.CONFIG_LOCATIONS = {
 def _build_fnord():
     popdir = os.path.abspath(os.getcwd())
     os.chdir("tests/fake_package/fake-package-1.0")
-    stdout, stederr, ret = run_command("dpkg-buildpackage -us -uc -S")
+    stdout, stederr, ret = run_command("dpkg-buildpackage -us -uc -S",
+                                       env={"DEB_VENDOR": "Ubuntu",
+                                            "DPKG_ORIGINS_DIR": "../../dpkg-origins"})
     if os.path.exists("../fnord_1.0_source.test.upload"):
         os.unlink("../fnord_1.0_source.test.upload")
     os.chdir(popdir)

@@ -4,9 +4,17 @@
         "enforce": "source",
         "skip": false
     },
+    "required-fields": {
+        "skip" : false,
+        "fields" : [
+            "Launchpad-Bugs-Fixed"
+        ],
+        "suites": [ "any-stable" ]
+    },
     "codenames": "ubuntu",
     "hooks": [
         "supported-distribution",
+        "required-fields",
         "checksum",
         "suite-mismatch",
         "check-debs",
