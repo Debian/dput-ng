@@ -1,2 +1,2 @@
-rm_conffile /etc/dput.d/profiles/backports.json 1.9~
 rm_conffile /etc/bash_completion.d/dput-ng 1.19~
+rm_conffile /etc/dput.d/profiles/backports.json 1.9~
