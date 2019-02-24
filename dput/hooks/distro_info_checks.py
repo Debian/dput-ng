@@ -134,9 +134,11 @@ def required_fields(changes, profile, interface):
     """
     required_fields = profile.get('required-fields')
     if required_fields is None:
+        logger.debug('Not running required-fields: empty')
         return
 
     if required_fields.get('skip', True):
+        logger.debug('Not running required-fields: skipped')
         return
 
     applicable_distributions = set(required_fields.get('suites', []))
