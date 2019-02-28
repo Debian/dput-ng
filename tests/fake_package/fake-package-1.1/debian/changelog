@@ -1,0 +1,11 @@
+fnord (1.1) bionic; urgency=medium
+
+  * Do some maintenance..
+
+ -- Winston Smith <wsmith@bigbrother.com>  Mon, 26 Nov 2012 17:41:41 +0100
+
+fnord (1.0) xenial; urgency=low
+
+  * Initial release (Closes: #691624) (LP: #12345)
+
+ -- Winston Smith <wsmith@bigbrother.com>  Mon, 26 Nov 2012 17:41:41 +0100

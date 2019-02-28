@@ -1,22 +1,20 @@
 {
+    "-hooks": [
+        "gpg"
+    ],
     "fqdn": "ppa.launchpad.net",
     "incoming": "~%(ppa)s",
-    "login": "anonymous",
     "meta": "ubuntu",
-    "method": "ftp",
+    "method": "local",
     "required-fields" : {
-        "skip" : true
+        "skip": true
     },
     "supported-distribution": {
         "allowed": [
             "release"
         ],
         "known": [
-            "release",
-            "proposed",
-            "updates",
-            "backports",
-            "security"
+            "release"
         ]
     }
 }

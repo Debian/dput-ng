@@ -2,6 +2,7 @@ from dput.util import run_command
 from dput import upload
 from dput.exceptions import UploadException
 import dput.core
+import glob
 import os.path
 import os
 
@@ -10,16 +11,18 @@ dput.core.CONFIG_LOCATIONS = {
 }  # Isolate.
 
 
-def _build_fnord():
+def _build_fnord(version='1.0'):
     popdir = os.path.abspath(os.getcwd())
-    os.chdir("tests/fake_package/fake-package-1.0")
+    os.chdir("tests/fake_package/fake-package-%s" % version)
     stdout, stederr, ret = run_command("dpkg-buildpackage -us -uc -S",
                                        env={"DEB_VENDOR": "Ubuntu",
                                             "DPKG_ORIGINS_DIR": "../../dpkg-origins"})
-    if os.path.exists("../fnord_1.0_source.test.upload"):
-        os.unlink("../fnord_1.0_source.test.upload")
+    upload_files = glob.glob("../fnord_%s_source.*.upload" % version)
+    for fn in upload_files:
+        os.unlink(fn)
     os.chdir(popdir)
-    return os.path.abspath("tests/fake_package/fnord_1.0_source.changes")
+    return os.path.abspath("tests/fake_package/fnord_%s_source.changes"
+                           % version)
 
 
 def test_upload():
@@ -37,3 +40,9 @@ def test_double_upload():
         assert True is False
     except UploadException:
         pass
+
+
+def test_ppa_upload():
+    """ Test the upload of a package to a PPA (no Launchpad-Bugs-Fixed) """
+    path = _build_fnord(version='1.1')
+    upload(path, 'ppa:foo/bar')
