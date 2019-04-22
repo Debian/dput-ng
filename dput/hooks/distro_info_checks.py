@@ -157,7 +157,12 @@ def required_fields(changes, profile, interface):
 
         supported = set(distro_info.supported())
         if 'devel' not in applicable_distributions:
-            supported -= set([distro_info.devel(), 'experimental'])
+            try:
+                supported -= set([distro_info.devel(), 'experimental'])
+            # if there is no devel distro, just ignore it
+            except DistroDataOutdated:
+                supported -= set(['experimental'])
+
 
         applicable_distributions |= supported
 
