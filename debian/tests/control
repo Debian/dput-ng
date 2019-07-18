@@ -6,3 +6,4 @@ Depends:
  python3-nose,
  python3-validictory,
  @,
+Restrictions: allow-stderr
