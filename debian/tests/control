@@ -1,4 +1,7 @@
 Test-Command: cp -rv setup.cfg skel tests "$AUTOPKGTEST_TMP" && cd "$AUTOPKGTEST_TMP" && nosetests3 -v
 Depends:
+ debhelper,
+ python3-distro-info,
  python3-nose,
+ python3-validictory,
  @,
