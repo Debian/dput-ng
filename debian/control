@@ -14,6 +14,7 @@ Build-Depends:
  docbook-xsl,
  docbook-xsl-ns,
  libxml2-utils,
+ python3-coverage,
  python3-all,
  python3-debian,
  python3-distro-info,
