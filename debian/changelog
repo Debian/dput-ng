@@ -1,3 +1,12 @@
+dput-ng (1.27) unstable; urgency=medium
+
+  * Team upload.
+  * tests: Log dpkg-buildpackage output in case of failure.
+  * autopkgtest: Allow stderr in the output.
+  * Build-Depends and Test-Depends on python3-coverage.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 19 Jul 2019 01:51:51 +0200
+
 dput-ng (1.26) unstable; urgency=medium
 
   * Team upload.
