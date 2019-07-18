@@ -1,3 +1,16 @@
+dput-ng (1.26) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Mattia Rizzolo ]
+  * autopkgtest: Add missing test dependencies.
+  * d/control: Bump Standards-Version to 4.4.0, no changes needed.
+
+  [ Kunal Mehta ]
+  * Add buster-backports and stretch-backports-sloppy.  MR: !7
+
+ -- Mattia Rizzolo <mattia@debian.org>  Thu, 18 Jul 2019 16:09:25 +0200
+
 dput-ng (1.25) unstable; urgency=medium
 
   * Team upload.
