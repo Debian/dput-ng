@@ -1,3 +1,13 @@
+dput-ng (1.25+deb10u1) buster; urgency=medium
+
+  [ Kunal Mehta ]
+  * Add buster-backports and stretch-backports-sloppy codenames.  MR: !7
+
+  [ Mattia Rizzolo ]
+  * autopkgtest: add missing test dependencies and restrictions.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 19 Jul 2019 08:15:00 +0200
+
 dput-ng (1.25) unstable; urgency=medium
 
   * Team upload.
