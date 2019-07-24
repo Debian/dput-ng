@@ -254,6 +254,8 @@ EXAMPLES
 
   $ dcut rm --searchdirs -f udj-desktop-client_0.5.1-2_amd64.deb
 
+  $ dcut cancel -f foo_1.0-2.1_amd64.changes
+  
   $ dcut ftp-master rm -f 'linux*.deb'
 
 
