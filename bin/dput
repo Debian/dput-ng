@@ -104,7 +104,7 @@ try:
 
     if not args.changes:
         changes_files = glob.glob('*.changes')
-        most_recent_changes_file = max(changes_files, key=os.path.getctime)
+        most_recent_changes_file = max(changes_files, key=os.path.getmtime)
         profile = dput.profile.load_profile(args.host)
         with dput.util.get_interface(profile) as interface:
             if interface.boolean(
