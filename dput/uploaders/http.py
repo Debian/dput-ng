@@ -108,7 +108,8 @@ class HTTPUploader(AbstractUploader):
         try:
             urllib.request.urlopen(req)
         except urllib.error.HTTPError as e:
-            error_message = e.read()
+            error_message = e.read().decode(
+                e.headers.get_content_charset(failobj='utf-8'))
             if error_message:
                 error_message = error_message.strip()
                 if "\n" in error_message:
