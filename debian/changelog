@@ -5,6 +5,9 @@ dput-ng (1.29) UNRELEASED; urgency=medium
   [ Joao Eriberto Mota Filho ]
   * Added an example of 'dcut cancel' command to the manpage.  MR: !8
 
+  [ Mattia Rizzolo ]
+  * Use the mtime instead of the ctime to decide on the latest .changes file.
+
  -- Mattia Rizzolo <mattia@debian.org>  Wed, 24 Jul 2019 22:06:00 +0200
 
 dput-ng (1.28) unstable; urgency=medium
