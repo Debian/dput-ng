@@ -103,10 +103,10 @@ try:
     args.override = parse_overrides(overrides)
 
     if not args.changes:
-        changes_files = glob.glob('*.changes')
-        most_recent_changes_file = max(changes_files, key=os.path.getmtime)
         profile = dput.profile.load_profile(args.host)
+        changes_files = glob.glob('*.changes')
         with dput.util.get_interface(profile) as interface:
+            most_recent_changes_file = max(changes_files, key=os.path.getmtime)
             if interface.boolean(
                     'dput',
                     ('No CHANGES-FILE specified. '
