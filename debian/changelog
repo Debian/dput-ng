@@ -7,6 +7,8 @@ dput-ng (1.29) UNRELEASED; urgency=medium
 
   [ Mattia Rizzolo ]
   * Use the mtime instead of the ctime to decide on the latest .changes file.
+  * Properly error out if running without any argument but no .changes is
+    found in the current directory.
 
   [ Philippe Pepiot ]
   * Fix a TypeError in http upload exception handling.  MR: !9
