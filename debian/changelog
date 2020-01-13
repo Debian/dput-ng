@@ -1,4 +1,4 @@
-dput-ng (1.29) UNRELEASED; urgency=medium
+dput-ng (1.29) unstable; urgency=medium
 
   * Team upload
 
@@ -15,7 +15,7 @@ dput-ng (1.29) UNRELEASED; urgency=medium
   [ Philippe Pepiot ]
   * Fix a TypeError in http upload exception handling.  MR: !9
 
- -- Mattia Rizzolo <mattia@debian.org>  Wed, 24 Jul 2019 22:06:00 +0200
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 13 Jan 2020 10:58:47 +0100
 
 dput-ng (1.28) unstable; urgency=medium
 
