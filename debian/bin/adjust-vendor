@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (c) Paul Tagliamonte <paultag@debian.org>, 2012 under the terms
 # and conditions of the dput-ng project it's self.
 
@@ -17,7 +17,7 @@ target = default_target_vendor_table[distrib]
 fp = "%s/%s.json" % (PROFILE_PATH, target)
 
 
-print """I: === Adjusting Vendor ===
+print("""I: === Adjusting Vendor ===
 I:
 I:  Hi there, log viewer.
 I:
@@ -33,7 +33,7 @@ I: If you're currently debugging why the default target is wonky, check
 I: me out (debian/bin/adjust-vendor)
 I:
 I:  Fondly,
-I:    -- the dput-ng team""".format(vendor=distrib, target=target, fp=fp)
+I:    -- the dput-ng team""".format(vendor=distrib, target=target, fp=fp))
 
 obj = {}
 with open(fp, 'r') as fd:
