@@ -24,6 +24,7 @@ SFTP Uploader implementation
 import paramiko
 import socket
 import os
+import errno
 import pwd
 import os.path
 from binascii import hexlify
@@ -232,7 +233,7 @@ class SFTPUploader(AbstractUploader):
                         fqdn,
                         e.strerror
                     )
-            )
+                )
         except paramiko.SSHException as e:
             raise SftpUploadException("SFTP error uploading to %s: %s" % (
                 fqdn,
@@ -282,7 +283,7 @@ class SFTPUploader(AbstractUploader):
         try:
             self._sftp.put(filename, upload_filename, **self.putargs)
         except IOError as e:
-            if e.errno == os.errno.EACCES:
+            if e.errno == errno.EACCES:
                 self.upload_write_error(e)
             else:
                 raise SftpUploadException("Could not upload file %s: %s" % (
