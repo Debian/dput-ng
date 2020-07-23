@@ -8,7 +8,7 @@ Uploaders:
 Build-Depends:
  asciidoc,
  bash-completion (>= 1:2.1-4.2),
- debhelper-compat (= 12),
+ debhelper-compat (= 13),
  dh-python,
  docbook-xml,
  docbook-xsl,
