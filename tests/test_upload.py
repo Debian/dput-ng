@@ -14,9 +14,12 @@ dput.core.CONFIG_LOCATIONS = {
 def _build_fnord(version='1.0'):
     popdir = os.path.abspath(os.getcwd())
     os.chdir("tests/fake_package/fake-package-%s" % version)
-    stdout, stderr, ret = run_command("dpkg-buildpackage -us -uc -S",
-                                      env={"DEB_VENDOR": "Ubuntu",
-                                           "DPKG_ORIGINS_DIR": "../../dpkg-origins"})
+    cmd = "dpkg-buildpackage -us -uc -S"
+    env = {
+        "DEB_VENDOR": "Ubuntu",
+        "DPKG_ORIGINS_DIR": "../../dpkg-origins",
+    }
+    stdout, stderr, ret = run_command(cmd, env=env)
     upload_files = glob.glob("../fnord_%s_source.*.upload" % version)
     for fn in upload_files:
         os.unlink(fn)
