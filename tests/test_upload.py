@@ -26,11 +26,14 @@ def _build_fnord(version='1.0'):
     os.chdir(popdir)
     if ret != 0:
         print('Package build failed.')
+        print(f'cmd: {cmd}')
+        print(f'env: {env}')
         print('###### stdout:')
         print(stdout)
         print('###### stderr:')
         print(stderr)
         print('###### - end log')
+        assert False
     return os.path.abspath("tests/fake_package/fnord_%s_source.changes"
                            % version)
 
