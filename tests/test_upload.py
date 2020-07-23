@@ -18,6 +18,7 @@ def _build_fnord(version='1.0'):
     env = {
         "DEB_VENDOR": "Ubuntu",
         "DPKG_ORIGINS_DIR": "../../dpkg-origins",
+        "PATH": os.environ["PATH"],
     }
     stdout, stderr, ret = run_command(cmd, env=env)
     upload_files = glob.glob("../fnord_%s_source.*.upload" % version)
