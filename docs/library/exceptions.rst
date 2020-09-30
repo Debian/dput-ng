@@ -22,8 +22,6 @@ Configuration File Errors
 
 .. autoexception:: dput.exceptions.InvalidConfigError
 
-.. autoexception:: dput.exceptions.NoSuchConfigError
-
 Misc Errors
 -----------
 
