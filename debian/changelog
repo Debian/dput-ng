@@ -1,3 +1,11 @@
+dput-ng (1.31) unstable; urgency=medium
+
+  * Team upload.
+  * Drop duplicated NoSuchConfigError object in the sphinx config.
+    Closes: #971220
+
+ -- Mattia Rizzolo <mattia@debian.org>  Wed, 30 Sep 2020 15:23:55 +0200
+
 dput-ng (1.30) unstable; urgency=medium
 
   * Team upload.
