@@ -193,5 +193,5 @@ def required_fields(changes, profile, interface):
                         "but it is empty." % (field, distribution))
         except KeyError:
             raise FieldEmptyException(
-                    "The field '%s' is required for uplaods to '%s', "
+                    "The field '%s' is required for uploads to '%s', "
                     "but it is missing." % (field, distribution))
