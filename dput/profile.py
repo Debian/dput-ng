@@ -262,7 +262,7 @@ def parse_overrides(overrides):
             else:
                 (profile_key, profile_value) = override.split("=", 1)
                 profile_value = shlex.split(profile_value)
-            profile_key = re.sub('\s', '', profile_key)
+            profile_key = re.sub(r'\s', '', profile_key)
             profile_key = profile_key.split(".")
             last_item = profile_key.pop()
 
