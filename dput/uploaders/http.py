@@ -63,6 +63,10 @@ class HTTPUploader(AbstractUploader):
                 self._config['method'], self._config['fqdn'])
         self._baseurl = urllib.parse.urlparse(self._config['fqdn'])
 
+        _netloc = self._baseurl.hostname
+        if self._baseurl.port:
+            _netloc += ":" + str(self._baseurl.port)
+
         _incoming = self._config['incoming']
         if not _incoming.startswith("/"):
             _incoming = "/" + _incoming
@@ -75,17 +79,18 @@ class HTTPUploader(AbstractUploader):
         else:
             _path = _path + _incoming
 
+        _params = self._baseurl.params
         _query = self._baseurl.query
+        _fragment = self._baseurl.fragment
+
         self._username = self._baseurl.username
         self._password = self._baseurl.password
 
         # XXX: Timeout, please.
 
         self._baseurl = urllib.parse.urlunparse((self._baseurl.scheme,
-                                             self._baseurl.netloc, _path,
-                                             _query, self._username,
-                                             self._password
-                                             ))
+                                             _netloc, _path,
+                                             _params, _query, _fragment))
 
     def upload_file(self, filename, upload_filename=None):
         """
@@ -105,8 +110,16 @@ class HTTPUploader(AbstractUploader):
         if mime_type is not None:
             req.add_header("Content-Type", mime_type)
 
+        if self._username is not None:
+            password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+            password_mgr.add_password(None, self._baseurl, self._username, self._password)
+            handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
+            opener = urllib.request.build_opener(handler)
+        else:
+            opener = urllib.request.build_opener()
+
         try:
-            urllib.request.urlopen(req)
+            opener.open(req)
         except urllib.error.HTTPError as e:
             error_message = e.read().decode(
                 e.headers.get_content_charset(failobj='utf-8'))
