@@ -111,8 +111,12 @@ class HTTPUploader(AbstractUploader):
             req.add_header("Content-Type", mime_type)
 
         if self._username is not None:
-            password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-            password_mgr.add_password(None, self._baseurl, self._username, self._password)
+            try:
+                password_mgr = urllib.request.HTTPPasswordMgrWithPriorAuth()
+                password_mgr.add_password(None, self._baseurl, self._username, self._password, is_authenticated=True)
+            except AttributeError:
+                password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+                password_mgr.add_password(None, self._baseurl, self._username, self._password)
             handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
             opener = urllib.request.build_opener(handler)
         else:
