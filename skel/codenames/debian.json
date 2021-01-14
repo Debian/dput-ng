@@ -2,7 +2,9 @@
     "backport": [
         "stable-backports",
         "oldstable-backports",
+        "bullseye-backports",
         "buster-backports",
+        "buster-backports-sloppy",
         "stretch-backports",
         "stretch-backports-sloppy"
     ],
@@ -16,6 +18,8 @@
         "testing",
         "stable",
         "oldstable",
+        "bookworm",
+        "bookworm-proposed-updates",
         "bullseye",
         "bullseye-proposed-updates",
         "buster",
@@ -35,7 +39,8 @@
         "jessie-security",
         "stretch-security",
         "buster-security",
-        "bullseye-security"
+        "bullseye-security",
+        "bookworm-security"
     ],
     "ports": [
         "unreleased"
