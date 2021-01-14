@@ -1,4 +1,4 @@
-fnord (1.0) xenial; urgency=low
+fnord (1.0) focal; urgency=low
 
   * Initial release (Closes: #691624) (LP: #12345)
 
