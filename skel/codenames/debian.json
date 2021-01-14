@@ -4,13 +4,7 @@
         "oldstable-backports",
         "buster-backports",
         "stretch-backports",
-        "stretch-backports-sloppy",
-        "jessie-backports",
-        "jessie-backports-sloppy",
-        "wheezy-backports",
-        "wheezy-backports-sloppy",
-        "squeeze-backports",
-        "squeeze-backports-sloppy"
+        "stretch-backports-sloppy"
     ],
     "general": [
         "unstable",
