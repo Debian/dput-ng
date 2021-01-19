@@ -57,11 +57,15 @@ class FtpUploader(AbstractUploader):
 
         conf = self._config['ftp'] if 'ftp' in self._config else {}
         timeout = conf['timeout'] if 'timeout' in conf else 10
+        use_tls = kwargs.get("use_tls")
 
         try:
-            self._ftp = ftplib.FTP()
+            self._ftp = ftplib.FTP_TLS() if use_tls else ftplib.FTP()
             host, dummy, port = self._config["fqdn"].partition(":")
             self._ftp.connect(host, 0 if port == "" else int(port), timeout)
+            if use_tls:
+                self._ftp.auth()
+                self._ftp.prot_p()
             self._ftp.login(self._config["login"])
         except Exception as e:
             raise FtpUploadException(
