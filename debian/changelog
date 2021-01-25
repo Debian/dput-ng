@@ -1,15 +1,16 @@
-dput-ng (1.32) UNRELEASED; urgency=medium
+dput-ng (1.32) unstable; urgency=medium
 
   * Team upload.
 
   [ Reiner Herrmann ]
-  * Fix typo in an error message.
+  * Fix typo in an error message.  MR: !10
 
   [ Ansgar ]
-  * profile.py: use raw string for regular expression, fixes DeprecationWarning.
+  * profile.py:
+    + Use raw string for regular expression, fixes DeprecationWarning.  MR: !11
 
   [ Mathieu Parent ]
-  * Fix HTTP username/password handling.
+  * Fix HTTP username/password handling.  MR: !12; MR: !13
 
   [ Mattia Rizzolo ]
   * Update codenames:
@@ -19,9 +20,9 @@ dput-ng (1.32) UNRELEASED; urgency=medium
   * Bump Standards-Version to 4.5.1, no changes needed.
 
   [ Stephan Sürken ]
-  * Add a new "ftps" (!= "sftp"!) uploader.  Closes: #980735
+  * Add a new "ftps" (!= "sftp"!) uploader.  Closes: #980735; MR: !14
 
- -- Mattia Rizzolo <mattia@debian.org>  Thu, 14 Jan 2021 17:44:05 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 25 Jan 2021 13:01:08 +0100
 
 dput-ng (1.31) unstable; urgency=medium
 
