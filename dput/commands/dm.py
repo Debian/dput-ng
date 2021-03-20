@@ -25,8 +25,10 @@ from dput.exceptions import DcutError
 from dput.core import logger, get_local_username
 from dput.util import run_command
 
-DM_KEYRING = "/usr/share/keyrings/debian-maintainers.gpg"
-
+KEYRINGS = [
+    "/usr/share/keyrings/debian-maintainers.gpg",
+    "/usr/share/keyrings/debian-nonupload.gpg"
+]
 
 class DmCommandError(DcutError):
     pass
@@ -85,13 +87,11 @@ class DmCommand(AbstractCommand):
         if args.force:
             return
 
-        if not os.path.exists(DM_KEYRING):
+        if not all((os.path.exists(keyring) for keyring in KEYRINGS)):
             raise DmCommandError(
                 "To manage DM permissions, the `debian-keyring' "
-                "keyring package must be installed. "
-                "File %s does not exist" % (DM_KEYRING)
+                "keyring package must be installed."
             )
-            return
 
         # I HATE embedded functions. But OTOH this function is not usable
         # somewhere else, so...
@@ -101,13 +101,17 @@ class DmCommand(AbstractCommand):
                 fingerprints += "\n- %s (%s)" % entry
             return fingerprints
 
+        # I don't mind embedded functions  ;3
+        def flatten(it):
+            return [ item for nested in it for item in nested ]
+
         # TODO: Validate input. Packages must exist (i.e. be not NEW)
         cmd =[
             "gpg", "--no-options",
             "--no-auto-check-trustdb", "--no-default-keyring",
-            "--list-key", "--with-colons", "--fingerprint",
-            "--keyring", DM_KEYRING, args.dm
-        ]
+            "--list-key", "--with-colons", "--fingerprint"
+        ] + flatten(([ "--keyring", keyring] for keyring in KEYRINGS)) + [ args.dm ]
+
         (out, err, exit_status) = run_command(cmd)
         if exit_status != 0:
             logger.warning("")
