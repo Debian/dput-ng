@@ -107,15 +107,13 @@ def write_header(fh, profile, args):
             name = gecos_name[0]
         else:
             name = pwd_entry.pw_gecos
-    if not email_address:
-        email_address = socket.getfqdn(socket.gethostname())
 
     if args.maintainer:
         (name, email_address) = email.utils.parseaddr(args.maintainer)
 
     logger.debug("Using %s <%s> as uploader identity" % (name, email_address))
 
-    if not name or not email_address:
+    if not (name or email_address):
         raise DcutError("Your name or email could not be retrieved."
                         "Please set DEBEMAIL and DEBFULLNAME or provide"
                         " a full identity through --maintainer")
@@ -134,12 +132,14 @@ def sign_file(filename, keyid=None, profile=None, name=None, email=None):
     if keyid:
         identity_hint = keyid
     else:
-        # hard to see here, but name and email is  guaranteed to be set in
+        # at least one of name or email is guaranteed to be set in
         # write_header()
         if name:
             identity_hint = name
-        if email:
-            identity_hint += " <%s>" % (email)
+            if email:
+                identity_hint += " <%s>" % (email)
+        else:
+            identity_hint = email
 
     logger.trace("GPG identity hint: %s" % (identity_hint))
 
@@ -221,7 +221,6 @@ def invoke_dcut(args):
             (name, email) = write_header(fh, profile, args)
             command.produce(fh, args)
             fh.flush()
-            #print(fh.name)
             fh.close()
 
             if args.save:

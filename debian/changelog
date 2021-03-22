@@ -5,6 +5,11 @@ dput-ng (1.33) UNRELEASED; urgency=medium
     treated the same as DMs when concerning upload permissions.
     Closes: #985618; MR: !16
 
+  [ Dominic Hargreaves ]
+  * In dak-commands files, don't try and construct uploader email from system
+    hostname, instead skip the whole Uploader field, since it's optional
+    anyway.  Closes: #984466; MR: !15
+
  -- Mattia Rizzolo <mattia@debian.org>  Mon, 22 Mar 2021 15:16:19 +0100
 
 dput-ng (1.32) unstable; urgency=medium
