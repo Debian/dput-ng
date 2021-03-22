@@ -1,3 +1,12 @@
+dput-ng (1.33) UNRELEASED; urgency=medium
+
+  [ nicoo ]
+  * Make `dcut dm` also accept non-uploading DDs, since they are nowadays
+    treated the same as DMs when concerning upload permissions.
+    Closes: #985618; MR: !16
+
+ -- Mattia Rizzolo <mattia@debian.org>  Mon, 22 Mar 2021 15:16:19 +0100
+
 dput-ng (1.32) unstable; urgency=medium
 
   * Team upload.
