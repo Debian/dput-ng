@@ -1,4 +1,6 @@
-dput-ng (1.33) UNRELEASED; urgency=medium
+dput-ng (1.33) unstable; urgency=medium
+
+  * Team upload.
 
   [ nicoo ]
   * Make `dcut dm` also accept non-uploading DDs, since they are nowadays
@@ -10,7 +12,7 @@ dput-ng (1.33) UNRELEASED; urgency=medium
     hostname, instead skip the whole Uploader field, since it's optional
     anyway.  Closes: #984466; MR: !15
 
- -- Mattia Rizzolo <mattia@debian.org>  Mon, 22 Mar 2021 15:16:19 +0100
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 23 Mar 2021 18:40:01 +0100
 
 dput-ng (1.32) unstable; urgency=medium
 
