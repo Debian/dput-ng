@@ -1,5 +1,5 @@
 test:
-  image: debian:unstable-slim
+  image: debian:buster-slim
   before_script:
     - apt-get -q update
     - env DEBIAN_FRONTEND=noninteractive apt-get -q -y install --no-install-recommends aspcud apt-cudf
