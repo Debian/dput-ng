@@ -1,3 +1,28 @@
+dput-ng (1.25+deb10u2) buster; urgency=medium
+
+  [ Philippe Pepiot ]
+  * Fix a TypeError in http upload exception handling.  MR: !9
+
+  [ Mattia Rizzolo ]
+  * Fix crash in the sftp uploader in case of EACCES from the server.
+    Closes: #953357
+  * Update codenames:
+    + Drop squeeze*, wheezy* and jessie-backports*.
+    + Add bullseye-backports, buster-backports-sloppy.
+    + Add bookworm, bookworm-proposed-updates, bookworm-security.
+
+  [ nicoo ]
+  * Make `dcut dm` also accept non-uploading DDs, since they are nowadays
+    treated the same as DMs when concerning upload permissions.
+    Closes: #985618; MR: !16
+
+  [ Dominic Hargreaves ]
+  * In dak-commands files, don't try and construct uploader email from system
+    hostname, instead skip the whole Uploader field, since it's optional
+    anyway.  Closes: #984466; MR: !15
+
+ -- Mattia Rizzolo <mattia@debian.org>  Tue, 23 Mar 2021 19:20:55 +0100
+
 dput-ng (1.25+deb10u1) buster; urgency=medium
 
   [ Kunal Mehta ]
